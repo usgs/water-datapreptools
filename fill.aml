@@ -1,0 +1,190 @@
+/* @(#)fill.aml	1.14 9/25/95 18:05:07
+/*
+/* FILL.AML
+/*
+/* . Purpose:
+/*    This AML command fills sinks or peaks in a specified surface
+/*    grid and outputs a filled surface grid and, optionally, its
+/*    flow direction grid.  If output filled grid already exists,
+/*    it will be removed first
+/*
+/* . Author(s):
+/*    Gao, Peng        Dec 20, 1991  Original coding
+/*    Laguna, Juan     Nov  1, 2000  Fix to prevent failure on large FP grids
+/*    Ajit M. George   Jul 31, 2001  Use force option for iterative flowdirection.
+/*                                   calculation, and normal option for direction output.
+
+&arg dem filled option zlimit direction
+&severity &error &routine error
+&s msgsave
+&s vrfsave
+/*
+/*  Where are we ?
+/*
+&if [show program] ne GRID &then
+  &return FILL only runs in GRID.
+/*
+/* validate args
+/*
+&if [null %dem%] OR [null %filled%] &then &do
+  &goto USAGE
+&end
+&s frmdir [show &workspace]
+&s todir  [dir [pathname %filled%]]
+&s filled [entryname %filled%]
+&s dem    [pathname %dem%]
+&s dm     [substr [entryname %dem%] 1 6]
+&if not [null %zlimit%] and [type %zlimit%] gt 0 ~
+    and %zlimit%_ ne #_ &then &do
+  &type Z-limit is not a number
+  &goto USAGE
+&end
+&if [null %option%] or %option% eq # &then
+  &s option sink
+/*
+/* prepare the grid for filling
+/*
+&workspace %todir%
+&s msgsave [show &message]
+/*&message &off
+&if [locase %option%] eq 'sink' &then
+  %filled% = %dem%
+&else &do
+  &if [locase %option%] eq 'peak' &then &do
+    &describe %dem%
+    &s maxvalue %GRD$ZMAX%
+    %filled% = %maxvalue% - %dem%
+  &end
+  &else &do
+    &workspace %frmdir%
+    &message %msgsave%
+    &type Unknown keyword: %option%
+    &goto USAGE
+  &end
+&end
+&s vrfsave [show verify]
+verify off
+/*
+/* fill in one cell sinks (peaks)
+/*
+&s window = [show setwindow]
+&s cell = [show setcell]
+&describe %filled%
+setwindow [calc %grd$xmin% - %grd$dx%] %grd$ymin% ~
+          [calc %grd$xmax% + %grd$dx%] %grd$ymax%
+setcell %filled%
+z00%dm%ff = focalflow(%filled%)
+if (z00%dm%ff eq 255) then
+  z00%dm%tmp = min(%filled%(1,1), %filled%(1,0), %filled%(1,-1), ~
+                   %filled%(0,1), %filled%(0,-1), ~
+                   %filled%(-1,1),%filled%(-1,0),%filled%(-1,-1))
+else
+  z00%dm%tmp = %filled%
+endif
+setwindow %filled%
+%filled% = z00%dm%tmp
+Arc kill z00%dm%ff all
+Arc kill z00%dm%tmp all
+setwindow %window%
+setcell %cell%
+
+&type Filling...
+/*
+/* loop until no sink in the surface grid
+/*
+&s finished = .FALSE.
+&s sinkcnt = 0
+&s numsink = 0
+&do &until %finished%
+  &if [exists z00%dm%dir -grid] &then Arc kill z00%dm%dir all
+  z00%dm%dir = flowdirection (%filled%, #, force)
+  z00%dm%snk = sink (z00%dm%dir)
+  &if not [exists z00%dm%snk -VAT] &then
+    buildvat z00%dm%snk
+  &describe z00%dm%snk
+  &if [exists z00%dm%snk -VAT] &then &do
+    cursor sinkvat declare [joinfile z00%dm%snk vat -ext] info ro
+    cursor sinkvat open
+    &s newsinkcnt = %:sinkvat.count%
+    cursor sinkvat close
+    cursor sinkvat remove
+  &end
+  &else
+    &s newsinkcnt = 0
+  &type Number of %option%(s): %GRD$NCLASS%
+  &if %GRD$NCLASS% < 1 &then
+    &s finished = .TRUE.
+  &else &do
+    &if %numsink% = %GRD$NCLASS% and %sinkcnt% = %newsinkcnt% &then
+      &s finished = .TRUE.
+  &end
+  &if not %finished% &then &do
+    &s sinkcnt = %newsinkcnt%
+    &s numsink = %GRD$NCLASS%
+    &describe %filled%
+    z00%dm%sub = watershed (z00%dm%dir, z00%dm%snk)
+    &if not [exists z00%dm%sub -VAT] &then
+      buildvat z00%dm%sub
+    Arc kill z00%dm%snk
+    z00%dm%zfl = zonalfill (z00%dm%sub, %filled%)
+    z00%dm%zf1 = con (isnull (z00%dm%zfl), %GRD$ZMIN%, z00%dm%zfl)
+    Arc kill z00%dm%zfl
+    &if [null %zlimit%] OR [QUOTE %zlimit%] EQ # &then &do
+      z00%dm%zf2 = con (%filled% < z00%dm%zf1, z00%dm%zf1, %filled%)
+    &end
+    &else &do
+      z00%dm%zm1 = zonalmin (z00%dm%sub, %filled%)
+      z00%dm%zmm = con (isnull (z00%dm%zm1), %GRD$ZMIN%, z00%dm%zm1)
+      z00%dm%zf2 = con (%filled% < z00%dm%zf1 AND ~
+                         z00%dm%zf1 - z00%dm%zmm < %zlimit%, ~
+                         z00%dm%zf1, %filled%)
+      Arc kill z00%dm%zm1
+      Arc kill z00%dm%zmm
+    &end
+    Arc kill z00%dm%sub
+    Arc kill z00%dm%zf1
+    Arc kill %filled%
+    rename z00%dm%zf2 %filled%
+  &end
+&end
+
+/*
+/* Done, finish up
+/*
+&if [locase %option%] eq peak &then &do
+  z00%dm%zf2 = %maxvalue% - %filled%
+  Arc kill %filled%
+  rename z00%dm%zf2 %filled%
+&end
+
+&if [exists z00%dm%dir -grid] &then Arc kill z00%dm%dir all
+&if not [null %direction%] and %direction%_ ne #_ &then
+&do
+  %direction% = flowdirection (%filled%)
+&end
+
+Arc kill z00%dm%snk
+verify %vrfsave%
+&workspace %frmdir%
+&message %msgsave%
+&return
+
+/*
+/* Usage
+/*
+&label USAGE
+  &return &warning ~
+  Usage: FILL <in_grid> <out_grid> {SINK | PEAK} {z_limit} {out_dir_grid}
+
+/*
+/* Error handling
+/*
+&routine error
+  &severity &error &fail
+  &if not [null %msgsave%] &then
+    &message %msgsave%
+  &if not [null %vrfsave%] &then
+    verify %vrfsave%
+  &if not [null %frmdir%] &then
+    &workspace %frmdir%
+&return &error

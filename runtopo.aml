@@ -1,0 +1,62 @@
+/* runtopo.aml
+
+/* This AML sets up and runs the TOPOGRID command to make
+/* a DEM from input points and streams. This AML designed to
+/* simplify the process of running TOPOGRID.
+/*
+/* History: Pete Steeves, USGS, psteeves@usgs.gov - original coding
+/*      8/27/03: Re-coded by Curtis Price, cprice@usgs.gov, for
+/*               Raster Modeling course
+/* 
+/* Usage:
+/* Arc: &run runtopo <point_cover> <stream_cover> <clip_poly>
+/*            <cellsize> <out_grid>
+/*
+/* Arguments:
+/* <point_cov> - a point coverage with number column SPOT in point table
+/* <stream_cov> - a line coverage containing a directed stream network
+/*                  used by topogrid for drainage enforcement
+/* <clip_cov> - a polygon clip cover - this could be a simple box coverage
+/*             or a drainage basin. If the polygon represents a drainage
+/*             basin, it should include the entire possible drainage area
+/*             based on contours (a buffer operation to include some 
+/*             extra area is recommended).
+/* <cellsize> - output DEM cell size
+/* <outgrid> - output DEM data set name
+/*
+&args point_cov stream_cov clip_cov cellsize outgrid
+&echo &on
+&messages &on
+
+/* If no arguments entered, return usage line
+&if [null %clip_cov%] &then &return   Usage:~
+ &r runtopo <point_cov> <stream_cov> <clip_cov> <cellsize> <outgrid>
+
+/* commented out to test cell alignment issue
+/*&s half [calc %cellsize% * .5]
+
+/* determine bounding box from clip polygon
+/* (round lower left coordinates so output grid extent
+/* values are evenly divisible by the cell size)
+&describe %clip_cov%
+
+/* commented out to test cell alignment issue
+/*&s xx1 [calc [calc [trunc [calc %dsc$xmin% / %cellsize%]] * %cellsize%] + %half%]
+/*&s yy1 [calc [calc [trunc [calc %dsc$ymin% / %cellsize%]] * %cellsize%] + %half%]
+
+&s xx1 [calc [trunc [calc %dsc$xmin% / %cellsize%]] * %cellsize%]
+&s yy1 [calc [trunc [calc %dsc$ymin% / %cellsize%]] * %cellsize%]
+&s xx2 %dsc$xmax%
+&s yy2 %dsc$ymax%
+
+/* create DEM using ArcInfo TOPOGRID command 
+topogrid %outgrid% %cellsize%
+  boundary %clip_cov%
+  point %point_cov% spot
+  stream %stream_cov%
+  enforce on
+  datatype spot
+  xyzlimits %xx1% %yy1% %xx2% %yy2%
+  end
+
+&return

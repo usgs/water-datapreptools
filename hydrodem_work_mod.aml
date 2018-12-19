@@ -1,0 +1,590 @@
+/* hydrodem.aml -- This aml is used by the National StreamStats Team as the optimal
+/* approach for preparing a state's physiographic datasets for watershed delineations.
+/* It takes as input, a 10-meter (or 30-foot) DEM, and enforces this data to recognize
+/* NHD hydrography as truth.  WBD can also be recognized as truth if avaialable for a
+/* given state/region. This aml assumes that the DEM has first been projected to a
+/* state's projection of choice. This aml prepares data to be used in the Archydro
+/* data model (the GIS database environment for National StreamStats).
+
+/* A document describing how to prepare NHD, WBD and dem data for input into this aml
+/* can be found on the NHD web site: http://nhd.usgs.gov/watershed/watershed_tool_inst_TOC.html
+
+/* hydrodem.aml supports dem input with either of the following 2 sets of projection parameters:
+/* 1. units = meters, cellsize = 10, zunits = 100
+/* 2. units = feet, cellsize = 30, zunits = 328.08399
+/* hydrodem.aml will reject any other options unless, of course, users modify the aml.
+/* zunits is an optional parameter in projection files, but needs to be specified in the input dem before running this aml.
+/* zunits represents a value 100 times the 'units' value of the input dataset (if dem input is in meters,
+/* the zunits would therefore be centimeters... if dem input is in feet, the zunits values represent 1/100th of a foot.
+
+/*This aml works with DEMUtilities version 17.1
+/*Updates
+/*20061129 - added a check to insure grid origin coord ends in 0.
+/*20070813 - changed ZUNITS for the DEM, vert. units 1/100 of a foot, horiz. units feet = 328.08333,
+/*           previous this was 30.48
+/*20100501 - Removed code putting status text in ArcMap GUI, revamped to run from GP tool; Removed creation of str, str900,  
+/*           lnk, cat grids. These are now done with ArcHydro Tools; Added code to replace drain_plugs with zeros in fdr. ahrea@usgs.gov
+
+/* this aml calls agree.aml 
+/*&echo &on
+&args outdir huc8cov origdem dendrite snap_grid bowl_polys bowl_lines inwall drainplug start_path ~
+buffdist inwallbuffdist inwallht outwallht agreebuf agreesmooth agreesharp bowldepth copylayers cellsz bowling in_wall drain_plugs
+
+/*&call bailout
+
+&severity &error &routine Bailout
+&type [date -full]
+
+&type 'HydroDEM.aml is running '
+&if [quote %outdir%] = '#' &then &do
+  &type 'Please Specify Output Directory'
+  &call bailout
+&end
+&if ^ [exists %outdir% -workspace] &then
+  arc createworkspace %outdir%
+&wo %outdir%
+
+&call check_args
+
+/* ****  LOCAL INSTALLATION CUSTOMIZATIONS below this line ******
+
+/*&sv outdir = d:\streamstats\vt_stuff\am_hydro\01080102 /* this will be the workspace where all 'local' Archydro
+                                      /* workspaces reside.
+/*&sv huc8cov = %work%/huc8  /* the name of the single polygon huc8 coverage
+/*&sv inwall = %work%/inwall /* the name of the coverage of basin boundaries inside the huc8 used for walling
+/*                                        /* this coverage could include gage boundaries and other
+/*                                        /* non-WBD-12-digit boundaries
+/*&sv dendrite = %work%/nhdrch /* the name of the modified nhd reach coverage
+/*&sv origdem = %work%/topogr_gr  /* the name of the input dem
+/*&sv bowl_polys = %work%/nhd_wbg /* pre-processed NHD water bodies for bowling
+/*&sv bowl_lines = %work%/wb_srcg /* pre-processed NHD centerlines in water bodies
+/*&sv snap_grid = %work%/snap_grid
+
+/* ****  LOCAL INSTALLATION CUSTOMIZATIONS above this line ******
+
+
+/* set some default names and settings--these are similar to prototype EDNA and ArcHydro
+/*&setvar cellsz = 10             /* NED cell size is 1/3 arc second, approx. 10 meters
+/*                                /* this variable is changed to 30 below if the units are in feet
+/*
+/*&setvar thresh = 150000         /* cell-number threshold for stream initiation and catchments
+/*
+/*&setvar thresh2 = 900           /* used to create a stream grid which is later merged with all
+                                /* other huc900 grids in the state and coverted to shape.  This
+                                /* shapefile is used in the StreamStats interface for viewing
+                                /* and selecting locations on streams.
+
+&setvar filldem = fil           /* final fill grid
+&setvar fdirg = fdr             /* final flow direction grid
+&setvar faccg = fac             /* final flow accumulation grid
+
+&setvar fsinkg = sinks          /* for QA error check on filled sinks (grid)
+&setvar fsinkc = sinks_poly     /* for QA error check on filled sinks (poly)
+
+/*&setvar buffdist = 50          /* value used to buffer the huc8 boundary
+/*&setvar inwallbuffdist = 15    /* value used to buffer the inner walls
+/*&setvar inwallht = 50000      /* inner wall (huc12) height... this variable changed to 150000 (below)
+/*                              /* if units are in feet
+/*&setvar outwallht = 100000    /* outer wall (huc8) height (cm)... this variable changed to 300000 (below)
+/*                              /* if units are in feet
+/*
+/*&sv agreebuf = 60             /* agree.aml default value for buffer (when in meters)
+/*&sv agreesmooth = -500           /* agree.aml default value for smooth depth (when in units meters and zunits = cm)
+/*&sv agreesharp = -50000          /* agree.aml default value for sharp depth (when in meters)
+
+/* ******** PROJECTION PARAMETER CHECKS BELOW THIS LINE *************
+&describe %origdem%
+
+/*&if %PRJ$UNITS% = METERS &then &DO
+/*  &if %GRD$DX% = 10 &then &do
+/*    &sv cellsz = 10
+    /*&sv inwallht = 50000   /*   (zunits = cm)
+    /*&sv outwallht = 100000 /*   (zunits = cm)
+    /*&sv agreebuf = 60
+    /*&sv agreesmooth = -500   /* (zunits = cm)
+    /*&sv agreesharp = -50000  /* (zunits = cm)
+    /*&sv buffdist = 50
+    /*&sv inwallbuffdist = 15
+/*  &end
+/*  &else &do
+    /* &type ' DEM Units are Meters, but cellsize is NOT 10'
+    /* &return if the units are in meters, the cellsize must be 10
+    &sv cellsz = 30
+    /*&sv inwallht = 150000  /* (zunits of 1/100th of a foot)    
+    /*&sv outwallht = 300000 /* (zunits of 1/100th of a foot) 
+    /*&sv agreebuf = 180
+    /*&sv agreesmooth = -1500   /* (zunits of 1/100th of a foot)
+    /*&sv agreesharp = -150000  /* (zunits of 1/100th of a foot)
+    /*&sv buffdist = 150
+    /*&sv inwallbuffdist = 45
+/*  &end
+/*&end
+
+/*&if %PRJ$UNITS% = FEET &then &DO
+/*  &if %GRD$DX% = 30 &then &do
+/*    &sv cellsz = 30
+    /*&sv inwallht = 150000  /* (zunits of 1/100th of a foot)    
+    /*&sv outwallht = 300000 /* (zunits of 1/100th of a foot) 
+    /*&sv agreebuf = 180
+    /*&sv agreesmooth = -1500   /* (zunits of 1/100th of a foot)
+    /*&sv agreesharp = -150000  /* (zunits of 1/100th of a foot)
+    /*&sv buffdist = 150
+    /*&sv inwallbuffdist = 45
+/*  &end
+/*  &else &do
+/*    &type 'Dem Units are Feet, but cellsize is NOT 30'
+/*    &return if the units are in feet, the cellsize must be 30
+/*  &end
+/* &end
+
+/* &if %PRJ$UNITS% ne FEET and %PRJ$UNITS% ne METERS &then &do
+/*  &type 'DEM units must be in FEET or METERS'
+/*  &return units must be in feet or meters
+/* &end
+
+/*&sv zunits = [quote %PRJ$ZUNITS%]
+/*&if %zunits% ne [quote 100] and %zunits% ne [quote 328.08333] &then &do
+/*  &type 'DEM zunits must be 100 or 328.08333'
+/*  &return zunits must be 100 for meteric vert. and horiz. or 328.08333 for feet vert. and horiz.
+/* &end
+
+/* ******** PROJECTION PARAMETER CHECKS ABOVE THIS LINE *************
+
+/* Clean up grids and coverages from previous runs if they exist
+
+&call cleanup1
+
+/* Buffer HUC
+&type 'Buffering HUC ' 
+&type %buffdist% 
+&type ' ' 
+&type [locase %PRJ$UNITS%]
+arc buffer %huc8cov% hucbuff # # %buffdist% 1 poly
+&type ' ran OK '
+
+verify off
+setcell %cellsz%
+setwindow hucbuff %snap_grid%
+buffg = polygrid (hucbuff)
+setmask buffg
+
+/*Agree.aml
+&type 'Starting AGREE.aml '
+&r %start_path%agree.aml %origdem% %dendrite% %agreebuf% %agreesmooth% %agreesharp%  /* creates a new elevation grid -- elevgrid
+/*units page
+&type ' ran OK'
+
+&type 'Start LINEGRID creation using NHD '
+nhdgrd = linegrid(%dendrite%, #, #, #, %cellsz%)
+&type ' ran OK '
+
+/* "burning & ridging"
+&type 'Start Ridging '
+/* Creates the ridged DEM at a height of the DEM + %outwallht%
+ridge_nl = polygrid(%huc8cov%, #, #, #, %cellsz%)         /* creates a grid of the huc boundaries
+ridge_exp = expand(ridge_nl, 2, list, 2)       /* expands the present huc grid by 2 cells
+/* The next function basically subtracts the previous 2 grids resulting in just the
+/* expanded cells representing the wall.
+ridge_w = setnull((not isnull(ridge_nl) and not isnull(ridge_exp)), ridge_exp)
+dem_ridge8 = elevgrid + con(( not isnull(ridge_w) and isnull(nhdgrd)), %outwallht%, 0)
+/* The above statement adds the wall to the original dem except for where streams cross
+&type ' ran OK '
+
+/* if drain plugs, create a grid of them
+&if %dp_bypass% = 'N' &then &do
+  dpg = polygrid (%drainplug%)
+&end
+
+/* NHD water body 'bowling'
+/* NHD streams intersected with water bodies to be used as a source grid.
+/* use preexisting water body grid (%bowl_polys%) and source grid (%bowl_lines%).
+&if %bowl_bypass% = N &then &do
+  &type 'Start Bowling '
+  /* if drain plugs, merge them with bowl_lines
+  &if %dp_bypass% = 'N' &then &do
+    bldp = merge (%bowl_lines%, dpg)
+    &if [exists %bowl_lines% -grid] &then
+      arc kill %bowl_lines%
+    rename bldp %bowl_lines%
+  &end
+  eucd = setnull(isnull(%bowl_polys%), eucdistance(%bowl_lines%))
+  dem_ridge8wb = dem_ridge8 - con( not isnull(eucd), (%bowldepth% / (eucd + 1)), 0)
+  /* The value 2000 may need to be increased for very wide water bodies.
+  &type ' ran OK '
+&end
+&else &do
+  arc copy dem_ridge8 dem_ridge8wb
+  &type 'Bowling step skipped'
+&end
+
+/* inner wall processing below
+&if %iw_bypass% = N &then &do
+  &type 'Start Walling '
+  arc buffer %inwall% inwallbuf # # %inwallbuffdist% 1 line
+  inwallg_tmp = polygrid(inwallbuf,inside,#,#,%cellsz%)
+  inwallg = con(inwallg_tmp == 100,0) /* needed to remove trapped polys inside buffer areas ("1" values)
+  dem_enforced = dem_ridge8wb + con(( not isnull(inwallg) and isnull(nhdgrd)), %inwallht%, 0)
+  /* end of inner wall processing
+  &type ' ran OK '
+&end
+&else &do
+  &if [exists dem_enforced -grid] &then
+    arc kill dem_enforced
+  arc copy dem_ridge8wb dem_enforced
+  &type 'Walling step skipped'
+&end
+
+/* Make drain plugs NODATA in the DEM
+&if %dp_bypass% = 'N' &then &do
+  detmp = con(isnull(dpg),dem_enforced)
+  &if [exists dem_enforced -grid] &then
+    arc kill dem_enforced
+  rename detmp dem_enforced
+&end
+
+
+/*FILL
+setwindow hucbuff %snap_grid%
+setcell %origdem%
+&type 'Start Fill '
+&r %start_path%fill dem_enforced %filldem% sink # %fdirg%
+&type ' FILL ran OK'
+
+/* if drain plugs are used, re-do flowdirection
+&if %dp_bypass% = 'N' &then &do
+  %fdirg%2 = flowdirection (%filldem%, #, FORCE)
+  %fdirg% = con (isnull(dpg), %fdirg%2, 0)  /* put a 0 into fdr where the drain plugs were
+&end
+
+setmask ridge_nl                              /* mask back to huc only
+%fdirg%msk = %fdirg%
+arc kill %fdirg% all 
+rename %fdirg%msk %fdirg%
+
+/* Do flowdirection, flowaccumulation
+&type 'Start FAC '
+%faccg% = int( flowaccumulation ( %fdirg% ))
+&type ' ran OK '
+
+/*Sinks
+&type 'Create Sinks '
+/* Identify filled sinks -- look at filled sinks for QA
+%fsinkg% = con ( (%filldem% - %origdem%) gt 1, 1) 
+%fsinkc% = gridpoly( %fsinkg%)
+arc kill %fsinkg% all
+&type ' ran OK '
+
+/*All done
+&type 'HydroDEM.aml finished and Ran OK'
+
+&wo %start_path%
+
+&return  /* end of main routine
+
+&ROUTINE CLEANUP1
+&do covs &list %fsinkc% hucbuff inwallbuf
+  &if [exists %outdir%/%covs% -cover] &then 
+    arc kill %outdir%/%covs% all
+&end
+
+&do grds &list %fdirg% %faccg% %fsinkg% ~
+      buffg cat dem_ridge8 dem_ridge8wb elevgrid nhdgrd ridge_w ~
+      str str400 ridge_nl ridge_exp eucd lnk ~
+      inwallg dem_enforced inwallg_tmp dem_ridge12 dpg str900
+  &if [exists %outdir%/%grds% -grid] &then 
+    arc kill %outdir%/%grds% all
+&end
+&return /* end of cleanup1 routine
+
+&ROUTINE USAGE
+  &type USAGE: hydrodem <8-digit HUC> <snap_grid>
+  &type   
+  &type hydrodem.aml -- This aml is used by the National StreamStats Team as the optimal
+  &type approach for preparing a state's physiographic datasets for watershed delineations.
+  &type It takes as input, a 10-meter (or 30-foot) DEM, and enforces this data to recognize
+  &type NHD hydrography as truth.  WBD can also be recognized as truth if avaialable for a
+  &type given state/region. This aml assumes that the DEM has first been projected to a
+  &type state's projection of choice. This aml prepares data to be used in the Archydro
+  &type data model (the GIS database environment for National StreamStats). 
+  &type
+  &type The specified <8-digit HUC> should have a path associated with it in the variable 
+  &type settings section near the top of this aml.  The value entered will create a workspace
+  &type with this HUC id as it's name, and copy all output datasets into the new workspace.
+  &type If the workspace already exists, it should be empty before running this aml.
+  &type 
+  &type The snap_grid is used to orient the origin coordinate of the output grids to align 
+  &type with neighboring HUC grids that have already been processed.  
+  &type Typically, this value is rounded to the nearest value
+  &type divisible by 10 (in cases where datsets are in units meters) or 30 (in cases where
+  &type datasets are in units feet).  The snap grid could be your input dem, if that grid
+  &type has already been rounded out (if topogrid was used and steps were followed on the 
+  &type nhd web page referenced above, then the input dem could be used).
+&echo &off
+&return  /* end of usage routine
+
+&ROUTINE BAILOUT
+&severity &error &ignore
+/*move .1 .1
+&type ' SOMETHING WENT WRONG.'
+&lv
+&return &error Bailing out of HydroDEM.aml
+
+&ROUTINE CHECK_ARGS
+
+/*&s x = .1
+/*&s y = 2.0
+/*textfont 94023
+/*textquality proportional
+/*textsi .13
+/*units page
+/*move %x% %y%
+/*&if [quote %outdir%] = '#' &then &do
+/*  &type 'Please Specify Output Directory'
+/*  &call bailout
+/*&end
+
+/*make sure HUC cover exists
+&if [quote %huc8cov%] = 'huc8' &then &do
+  &if  ^ [exists %outdir%\huc8 -cover] &then &do
+    &type 'HUC Cover Does NOT Exist'
+    &call bailout
+  &end
+  &else
+    &s huc8cov = %outdir%\huc8
+&end
+&else &do
+  &if ^ [exists %huc8cov% -cover] &then &do
+    &type 'HUC Cover Does NOT Exist.'
+    &call bailout
+  &end
+  &if %copylayers% = 1 &then &do
+    &if [exists %outdir%\huc8 -directory] &then
+      arc kill %outdir%\huc8
+    arc copy %huc8cov% %outdir%\huc8
+    &s huc8cov = %outdir%\huc8
+  &end
+&end
+
+/*make sure DEM Grid exists
+&if [quote %origdem%] = 'dem' &then &do
+  &if  ^ [exists %outdir%\dem -grid] &then &do
+    &type 'DEM Grid Does NOT Exist'
+    &call bailout
+  &end
+  &else
+    &s origdem = %outdir%\dem
+&end
+&else &do
+  &if ^ [exists %origdem% -grid] &then &do
+    &type 'DEM Grid Does NOT Exist. '
+    &call bailout
+  &end
+  &if %copylayers% = 1 &then &do
+    &if [exists %outdir%\dem -directory] &then
+      arc kill %outdir%\dem
+    arc  copy %origdem% %outdir%\dem
+    &s origdem = %outdir%\dem
+  &end
+&end
+
+
+
+/*make sure NHD/dendrite cover exists
+&if [quote %dendrite%] = 'nhdrch' &then &do
+  &if  ^ [exists %outdir%\nhdrch -cover] &then &do
+    &type 'NHD Cover Does NOT Exist'
+    &call bailout
+  &end
+  &else
+    &s dendrite = %outdir%\nhdrch
+&end
+&else &do
+  &if ^ [exists %dendrite% -cover] &then &do
+    &type 'NHD Cover Does NOT Exist.'
+    &call bailout
+  &end
+  &if %copylayers% = 1 &then &do
+    &if [exists %outdir%\nhdrch -directory] &then
+      arc kill %outdir%\nhdrch
+    arc copy %dendrite% %outdir%\nhdrch
+    &s dendrite = %outdir%\nhdrch
+  &end
+&end
+
+/*make sure WB Grid exists
+&if %bowling% = 0 &then &do
+  &s bowl_bypass = Y
+&end
+&else &do
+  &if [quote %bowl_polys%] = '#' &then &do
+    &if  ^ [exists %outdir%\nhd_wbg -grid] &then
+      &s bowl_bypass = Y
+    &else &do
+      &s bowl_bypass = N
+      &s bowl_polys = %outdir%\nhd_wbg
+    &end
+  &end
+  &else &do
+    &if ^ [exists %bowl_polys% -grid] &then &do
+      &type 'WB Grid Cover Does NOT Exist.'
+      &call bailout
+    &end
+    &else
+      &s bowl_bypass = N
+    &if %copylayers% = 1 &then &do
+      &if [exists %outdir%\nhd_wbg -directory] &then
+        arc kill %outdir%\nhd_wbg
+      arc copy %bowl_polys% %outdir%\nhd_wbg
+      &s bowl_polys = %outdir%\nhd_wbg
+    &end
+  &end
+&end
+
+/*make sure WB flowline grid exists
+&if %bowling% = 0 &then &do
+  &s bowl_bypass = Y
+&end
+&else &do
+  &if [quote %bowl_lines%] = '#' &then &do
+    &if  ^ [exists %outdir%\wb_srcg -grid] &then
+      &s bowl_bypass = Y
+    &else &do
+      &s bowl_bypass = N
+      &s bowl_lines = %outdir%\wb_srcg
+    &end
+  &end
+  &else &do
+    &if ^ [exists %bowl_lines% -grid] &then &do
+      &type 'WB arc grid Does NOT Exist.'
+      &call bailout
+    &end
+    &else
+      &s bowl_bypass = N
+    &if %copylayers% = 1 &then &do
+      &if [exists %outdir%\wb_srcg -directory] &then
+        arc kill %outdir%\wb_srcg
+      arc copy %bowl_lines% %outdir%\wb_srcg
+      &s bowl_lines = %outdir%\nhd_wbg
+    &end
+  &end
+&end
+
+/*make sure Snap grid exists
+&if [quote %snap_grid%] = 'snap_grid' &then &do
+  &if  ^ [exists %outdir%\snap_grid -grid] &then &do
+    &type 'Snap Grid Does NOT Exist'
+    &call bailout
+  &end
+    &else
+    &s snap_grid = %outdir%\snap_grid
+&end
+&else &do
+  &if ^ [exists %snap_grid% -grid] &then &do
+    &type 'Snap grid Does NOT Exist.'
+    &call bailout
+  &end
+  &if %copylayers% = 1 &then &do
+    &if [exists %outdir%\snap_grid -directory] &then
+      arc kill %outdir%\snap_grid
+    arc copy %snap_grid% %outdir%\snap_grid
+    &s snap_grid = %outdir%\snap_grid
+  &end
+&end
+
+&des %snap_grid%
+&if [mod [before %grd$xmin% .] 5] <> 0 &then &do
+   &type 'SnapGrid origin not divisible by 5'
+   &call bailout
+&end
+
+/*make sure inner wall cover exists
+&if %in_wall% = 0 &then &do
+  &s iw_bypass = Y
+&end
+&else &do
+  &if [quote %inwall%] = '#' &then &do
+    &if  ^ [exists %outdir%\inwall -cover] &then
+      &s iw_bypass = Y
+    &else &do
+      &s iw_bypass = N
+      &s inwall = %outdir%\inwall
+    &end
+  &end
+  &else &do
+    &if ^ [exists %inwall% -cover] &then &do
+      &type 'Inner Wall Cover Does NOT Exist.'
+      &call bailout
+    &end
+    &else
+      &s iw_bypass = N
+    &if %copylayers% = 1 &then &do
+      &if [exists %outdir%\inwall -directory] &then
+        arc kill %outdir%\inwall
+      arc copy %inwall% %outdir%\inwall
+      &s inwall = %outdir%\inwall
+    &end
+  &end
+&end
+
+/*check to see if Drain Plug cover exists
+&if %drain_plugs% = 0 &then &do
+  &s dp_bypass = Y
+&end
+&else &do
+  &if [quote %drainplug%] = '#' &then &do
+    &if  ^ [exists %outdir%\drain_plugs -cover] &then &do
+      &s dp_bypass = Y
+    &end
+    &else &do
+      &s dp_bypass = N
+      &s drainplug = %outdir%\drain_plugs
+    &end
+  &end
+  &else &do
+    &if ^ [exists %drainplug% -cover] &then &do
+      &type 'Drain Plug Cover Does NOT Exist.'
+      &call bailout
+    &end
+    &else
+      &s dp_bypass = N
+    &if %copylayers% = 1 &then &do
+      &if [exists %outdir%\drain_plugs -directory] &then
+        arc kill %outdir%\drain_plugs
+      arc copy %drainplug% %outdir%\drain_plugs
+      &s drainplug = %outdir%\drain_plugs
+    &end
+  &end
+&end
+
+/*check projections and make sure all layers match the DEM projection
+&des %origdem%
+&s prjnm = %prj$name%
+&s dat = %prj$datum%
+&s xy_units = %prj$units%
+
+&do layer &list %huc8cov% %dendrite% %bowl_polys% %bowl_lines% %snap_grid% %inwall%
+  &des %layer%
+  &if %prj$name%_ <> %prjnm%_ &then &do
+    &type [entryname %layer%]
+    &type ' - projection NAME not the same as the DEM'
+    call bailout
+  &end
+  &if %prj$datum% <> %dat% &then &do
+    &type [entryname %layer%]
+    &type ' - Projection DATUM not the same as the DEM'
+    call bailout
+  &end
+  &if %prj$units% <> %xy_units% &then &do
+    &type [entryname %layer%]
+    &type ' - projection UNITS not the same as the DEM'
+    call bailout
+  &end
+&end
+
+/*check to see how many polys are in the HUC cover
+&des %huc8cov%
+&if %dsc$polygons% > 2 &then &do
+  &type 'HUC cover contains more then 1 polygon'
+  call bailout
+&end
+&return
