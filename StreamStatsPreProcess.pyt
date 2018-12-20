@@ -11,6 +11,7 @@ class Toolbox(object):
 
 
 # template for new tools within this toolbox.
+# outside packages could be wrapped in this to shorten this script...
 class Tool(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
