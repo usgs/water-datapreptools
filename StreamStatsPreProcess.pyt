@@ -1,22 +1,18 @@
 import arcpy
 
-class ELEVDATAtools(object):
+class Toolbox(object):
     def __init__(self):
         """Toolbox for preprocessing data for creating or refreshing a StreamStats project."""
         self.label = "ELEVDATAtools"
         self.alias = "ELEVDATA processing tools"
 
         # List of tool classes associated with this toolbox
-        self.tools = [makeELEVDATAIndex]
+        self.tools = [makeELEVDATAIndex,ExtractPoly]
 
-
-# template for new tools within this toolbox.
-# outside packages could be wrapped in this to shorten this script...
-
-class makeELEVDATAIndex(object): # keeping this as a template
+class makeELEVDATAIndex(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Make ELEVDATA Index"
+        self.label = "2.A Make ELEVDATA Index"
         self.description = "Function to make ELEVDATA into a raster catalog for clipping to the basin polygons."
         self.canRunInBackground = False
 
@@ -141,30 +137,30 @@ class makeELEVDATAIndex(object): # keeping this as a template
        
 
         # handle errors and report using GPMsg function
-        except MsgError, xmsg:
-          arcpy.AddError(str(xmsg))
-        except arcgisscripting.ExecuteError:
-          line, file, err = TraceInfo()
-          arcpy.AddError("Geoprocessing error on %s of %s:" % (line,file))
-          for imsg in range(0, arcpy.MessageCount):
-            if arcpy.GetSeverity(imsg) == 2:     
-              arcpy.AddError(imsg) # AddReturnMessage
-        except:  
-          line, file, err = TraceInfo()
-          arcpy.AddError("Python error on %s of %s" % (line,file))
-          arcpy.AddError(err)
-        finally:
+        #except xmsg:
+        #  arcpy.AddError(str(xmsg))
+        #except arcgisscripting.ExecuteError:
+        #  line, file, err = TraceInfo()
+        #  arcpy.AddError("Geoprocessing error on %s of %s:" % (line,file))
+        #  for imsg in range(0, arcpy.MessageCount):
+        #    if arcpy.GetSeverity(imsg) == 2:     
+        #      arcpy.AddError(imsg) # AddReturnMessage
+        #except:  
+        #  line, file, err = TraceInfo()
+        #  arcpy.AddError("Python error on %s of %s" % (line,file))
+        #  arcpy.AddError(err)
+        #finally:
           # Clean up here (delete cursors, temp files)
         #  arcpy.Delete_management(out_table)
-          pass # you need *something* here 
+        #  pass # you need *something* here 
 
         return
 
-class Setup(object):
+class ExtractPoly(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Setup"
-        self.description = "Generate the file structure for Stream Stats Data Preprocessing."
+        self.label = "2.B Extract Polygons"
+        self.description = "Extract polygon area from ELEVDATA."
         self.canRunInBackground = False
 
     def getParameterInfo(self):
@@ -249,11 +245,11 @@ class Setup(object):
 
         pth = str(row.GetValue("Path"))
         arcpy.AddMessage("Setting raster snap and coordinate system to match first input grid " + pth )
-        try
+        try:
           assert arcpy.Exists(pth) == True
           arcpy.env.SnapRaster = pth
           arcpy.env.OutputCoordinateSystem = pth
-        except
+        except:
           arcpy.AddError("First input grid does not exist: " + pth)
           arcpy.AddMessage("Stopping... ")
         
@@ -292,25 +288,23 @@ class Setup(object):
 
         del rows
          
-      # handle errors and report using GPMsg function
-      except MsgError, xmsg:
-        GPMsg("Error",str(xmsg))
-      except arcgisscripting.ExecuteError:
-        line, file, err = TraceInfo()
-        GPMsg("Error","Geoprocessing error on %s of %s:" % (line,file))
-        for imsg in range(0, arcpy.MessageCount):
-          if arcpy.GetSeverity(imsg) == 2:     
-            GPMsg("Return",imsg) # AddReturnMessage
-      except:  
-        line, file, err = TraceInfo()
-        GPMsg("Error","Python error on %s of %s" % (line,file))
-        GPMsg("Error",err)
-      finally:
-        # Clean up here (delete cursors, temp files)
-        arcpy.Delete_management(intersectout) # remove the intersect data
-        pass # you need *something* here 
-
-
+        # handle errors and report using GPMsg function
+        #except MsgError, xmsg:
+        #  GPMsg("Error",str(xmsg))
+        #except arcgisscripting.ExecuteError:
+        #  line, file, err = TraceInfo()
+        #  GPMsg("Error","Geoprocessing error on %s of %s:" % (line,file))
+        #  for imsg in range(0, arcpy.MessageCount):
+        #    if arcpy.GetSeverity(imsg) == 2:     
+        #      GPMsg("Return",imsg) # AddReturnMessage
+        #except:  
+        #  line, file, err = TraceInfo()
+        #  GPMsg("Error","Python error on %s of %s" % (line,file))
+        #  GPMsg("Error",err)
+        #finally:
+        #  # Clean up here (delete cursors, temp files)
+        #  arcpy.Delete_management(intersectout) # remove the intersect data
+        #  pass # you need *something* here 
         return
 
 class Setup(object):
