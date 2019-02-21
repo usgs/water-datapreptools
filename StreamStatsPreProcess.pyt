@@ -84,23 +84,23 @@ class makeELEVDATAIndex(object):
         # Theodore Barnhart, tbarnhart@usgs.gov, 20190220, moved to code.usgs.gov for version control.
         #   Updated for arcpy.
 
-        OutLoc = parameters[0].valueAsText
-        rcName = parameters[1].valueAsText
-        coordsysRaster = parameters[2].valueAsText
-        InputELEVDATAws = parameters[3].valueAsText
-        OutFC = parameters[4].valueAsText
+        OutLoc = parameters[0].valueAsText # output geodatabase
+        rcName = parameters[1].valueAsText # raster catalogue name
+        coordsysRaster = parameters[2].valueAsText # raster coordinate system
+        InputELEVDATAws = parameters[3].valueAsText # geodatabase of elevation data
+        OutFC = parameters[4].valueAsText # output polygon feature class
 
         Output_Raster_Catalog = OutLoc + "\\" + rcName
-        Raster_Management_Type = "Unmanaged"
+        Raster_Management_Type = "UNMANAGED"
         coordsysPolys = coordsysRaster     # Coordinate system for polygon footprints. Use same NED grid to specify. (type Spatial Reference)
 
         if arcpy.Exists(OutLoc): 
           DSType = arcpy.Describe(arcpy.Describe(OutLoc).CatalogPath).WorkspaceType
           arcpy.AddMessage("Dataset type =" + DSType)
           if DSType == "FileSystem":
-            raise MsgError, "Output " + OutLoc + " is not a Geodatabase. Output location must be a Geodatabase."
+            arcpy.AddError("Output " + OutLoc + " is not a Geodatabase. Output location must be a Geodatabase.")
         else:
-          raise MsgError, "Output " + OutLoc + "does not exist"
+          arcpy.AddError("Output " + OutLoc + "does not exist")
         
         # Now that we're sure the geodb exists, make it the active workspace
         arcpy.Workspace = OutLoc
@@ -108,10 +108,12 @@ class makeELEVDATAIndex(object):
         arcpy.AddMessage("Working geodatabase is " + OutLoc)
 
         if arcpy.Exists(OutFC): 
-          raise MsgError, "Output feature class" + OutFC + "Already exists"
+          arcpy.AddError("Output feature class" + OutFC + "Already exists")
+          sys.exit(0) # end script
 
         if arcpy.Exists(Output_Raster_Catalog): 
-          raise MsgError, "Output raster catalog" + Output_Raster_Catalog + "Already exists"
+          arcpy.AddError("Output raster catalog" + Output_Raster_Catalog + "Already exists")
+          sys.exit(0) # end script
 
         # Process: Create Raster Catalog...
         arcpy.AddMessage("Creating output raster catalog " + Output_Raster_Catalog)
@@ -119,21 +121,29 @@ class makeELEVDATAIndex(object):
         
         # Process: Workspace To Raster Catalog...
         arcpy.AddMessage("Loading all rasters under workspace " + InputNEDWs + " into raster catalog...")
-        arcpy.WorkspaceToRasterCatalog_management(InputNEDWs, Output_Raster_Catalog, "INCLUDE_SUBDIRECTORIES", "NONE")
+        arcpy.WorkspaceToRasterCatalog_management(InputNEDWs, Output_Raster_Catalog, "INCLUDE_SUBDIRECTORIES", "NONE") 
         
+        tabName = "tmp.dbf" # maybe strip off the .dbf since the table should be inside a geodatabase.
+        tmpTablePath = "%s\\%s"%(OutLoc,tabName) # generate path to temp table
+
+        if arcpy.Exists(tmpTablePath): # if the temp table exists, delete it.
+          arcpy.AddMessage("Temp table exits, deleting...")
+          arcpy.Delete_management(tmpTablePath)
+
+        arcpy.CreateTable_management(OutLoc,tabName) # create empty table
         # Process: Export Raster Catalog paths, then join paths to raster catalog
         arcpy.AddMessage("Getting full pathnames into raster catalog")
-        out_table = ScratchName("tmp","tbl","table")
-        arcpy.exportrastercatalogpaths_management (Output_Raster_Catalog, "ALL", out_table)
-        arcpy.joinfield (rcName, "OBJECTID", out_table, "SourceOID", "Path")
+        #out_table = ScratchName("tmp","tbl","table") # create blank table
+        arcpy.ExportRasterCatalogPaths_management(Output_Raster_Catalog, "ALL", tmpTablePath)
+        arcpy.JoinField_management(rcName, "OBJECTID", tmpTablePath, "SourceOID", "Path")
         
         # Process: Use Copy Features to make a polygon feature class out of the raster catalog footprints 
         arcpy.AddMessage("Making polygon index of raster catalog...")
-        arcpy.CopyFeatures(rcName, OutFC)
+        arcpy.CopyFeatures_management(rcName, OutFC)
         
         # remove temporary table 
         arcpy.AddMessage("Removing temporary table ... ")
-        arcpy.Delete_management(out_table)
+        arcpy.Delete_management(tmpTablePath)
        
 
         # handle errors and report using GPMsg function
@@ -305,6 +315,22 @@ class ExtractPoly(object):
         #  # Clean up here (delete cursors, temp files)
         #  arcpy.Delete_management(intersectout) # remove the intersect data
         #  pass # you need *something* here 
+        return
+
+class Setup(object):
+    def __init__(self):
+        """Define the tool (tool name is the name of the class)."""
+        self.label = "Setup"
+        self.description = "Generate the file structure for Stream Stats Data Preprocessing."
+        self.canRunInBackground = False
+
+    def getParameterInfo(self):
+        """Define parameter definitions"""
+        params = None
+        return params
+
+    def execute(self, parameters, messages):
+        """The source code of the tool."""
         return
 
 class Setup(object):
