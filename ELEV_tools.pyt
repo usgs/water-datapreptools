@@ -1,5 +1,7 @@
 import arcpy
 import sys
+import os
+
 #import ELEVDATA_tools as ET # import each toolset here...
 
 class Toolbox(object):
@@ -320,6 +322,11 @@ class ExtractPoly(object):
         return
 
 class CheckNoData(object):
+    ##################################
+    #
+    # Converted from model builder to arcpy, Theodore Barnhart, tbarnhart@usgs.gov, 20190222
+    #
+    ##################################
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
         self.label = "2.C CheckNoData"
@@ -416,12 +423,13 @@ class FillNoData(object):
         # Usage: 2D_Fill_NoData_Cells <InGrid> <OutGrid> 
         # Description: 
         # Replaces NODATA values in a grid with mean values within 3x3 window. May be run repeatedly to fill in areas wider than 2 cells. Note the output is floating point, even if the input is integer. Note this will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid.
+        # 
+        # Converted from model builder to arcpy, Theodore Barnhart, tbarnhart@usgs.gov, 20190222
         # ---------------------------------------------------------------------------
 
-        # Import arcpy module
         import arcpy
 
-        # Script arguments
+        # load parameters
         InGrid = parameters[0].valueAsText
         OutGrid = parameters[1].valueAsText
         
@@ -511,6 +519,8 @@ class ProjScale(object):
         #
         # Alan Rea, ahrea@usgs.gov, 20091216, original coding
         #    ahrea, 20091231 updated comments
+        # Theodore Barnhart, tbarnhart@usgs.gov, 20190222
+        #       Converted original code to arcpy
 
         import sys, os, arcgisscripting, re
 
@@ -519,53 +529,52 @@ class ProjScale(object):
           
         #try: 
         # set up geoprocessor
-        gp = arcgisscripting.create(9.3)
+        #gp = arcgisscripting.create(9.3)
 
         # set up GPMsg messaging. If this line is omitted, default is "gp"
-        GPMode("both") # valid values: "gp","print","both"
+        #GPMode("both") # valid values: "gp","print","both"
           
-        # <get arguments from the command line here>
-        Input_Workspace = sys.argv[1] # Input workspace. (type Workspace)
-        # Input grid name
-        InGrd = sys.argv[2]           # Input grid name. (type String)
-        # name of output grid
-        OutGrd = sys.argv[3]          # Output grid name. (type String)
-        # output grid coord system
-        OutCoordsys = sys.argv[4]     # Coordinate system for output grid. (type Coordinate System)
-        # output cell size
-        OutCellSize = sys.argv[5]     # Cell size for output grid. (type Analysis cell size)
-        # grid registration point
-        RegistrationPoint = sys.argv[6]  # Registration point. Space separated coordinates. (type String)
-         
-        # set working folder
-        gp.Workspace = Input_Workspace
-        gp.ScratchWorkspace = gp.Workspace
+        try:
+            # get parameters from tools
+            Input_Workspace = parameters[0].valueAsText # Input workspace. (type Workspace)
+            InGrd = parameters[1].valueAsText           # Input grid name. (type String)
+            OutGrd = parameters[2].valueAsText          # Output grid name. (type String)
+            OutCoordsys = parameters[3].valueAsText     # Coordinate system for output grid. (type Coordinate System)
+            OutCellSize = parameters[4].valueAsText     # Cell size for output grid. (type Analysis cell size)
+            RegistrationPoint = parameters[5].valueAsText  # Registration point. Space separated coordinates. (type String)
+             
+            # set working folder
+            arcpy.Workspace = Input_Workspace
+            arcpy.ScratchWorkspace = arcpy.Workspace
+            tmpDEM = "tmpdemprj"
+            # clear the processing extent
+            arcpy.Extent = ""
+            arcpy.OutputCoordinateSystem = ""
+            arcpy.SnapRaster = ""
+            arcpy.AddMessage("Projecting " + InGrd + " to create " + tmpDEM)
+            arcpy.ProjectRaster_management(InGrd, tmpDEM, OutCoordsys, "BILINEAR", OutCellSize, "#", RegistrationPoint)
 
-        gp.Extent = ""
-        gp.OutputCoordinateSystem = ""
-        gp.SnapRaster = ""
-        GPMsg("","Projecting " + InGrd + " to create " + "tmpdemprj")
-        gp.ProjectRaster_management(InGrd, "tmpdemprj", OutCoordsys, "BILINEAR", OutCellSize, "#", RegistrationPoint)
+            arcpy.Extent = tmpDEM
+            arcpy.OutputCoordinateSystem = OutCoordsys
+            arcpy.SnapRaster = tmpDEM
+            arcpy.CellSize = tmpDEM
+            InExpression = "int ((\'%s\' * 100) + 0.5)"%(tmpDEM) # expression to convert raster units.
+            arcpy.AddMessage("Converting to integer centimeter elevations and producing final output grid " + OutGrd)
+            arcpy.SingleOutputMapAlgebra_sa(InExpression, OutGrd)
 
-        gp.Extent = "tmpdemprj"
-        gp.OutputCoordinateSystem = OutCoordsys
-        gp.SnapRaster = "tmpdemprj"
-        gp.CellSize = "tmpdemprj"
-        InExpression = "int (('tmpdemprj' * 100) + 0.5)"
-        GPMsg("","Converting to integer centimeter elevations and producing final output grid " + OutGrd)
-        gp.SingleOutputMapAlgebra_sa(InExpression, OutGrd)
+            arcpy.AddMessage("Removing temporary grid tmpdemprj... ")
+            arcpy.Delete_management(tmpDEM)
 
-        GPMsg("","Removing temporary grid tmpdemprj... ")
-        gp.delete_management("tmpdemprj")
-
-        #If process completed successfully, open prj.adf file and assign z units
-        if gp.exists(Input_Workspace + "\\" + OutGrd):
-            o = open(Input_Workspace + "\\" + OutGrd + "\\prj_new.adf","w")
-            data = open(Input_Workspace + "\\" + OutGrd + "\\prj.adf").read()
-            o.write(re.sub("Zunits        NO","Zunits        100",data))
-            o.close()
-            os.rename(Input_Workspace + "\\" + OutGrd + "\\prj.adf", Input_Workspace + "\\" + OutGrd + "\\prj_backup.adf")
-            os.rename(Input_Workspace + "\\" + OutGrd + "\\prj_new.adf", Input_Workspace + "\\" + OutGrd + "\\prj.adf")    
+            #If process completed successfully, open prj.adf file and assign z units
+            if arcpy.exists(Input_Workspace + "\\" + OutGrd):
+                o = open(Input_Workspace + "\\" + OutGrd + "\\prj_new.adf","w")
+                data = open(Input_Workspace + "\\" + OutGrd + "\\prj.adf").read()
+                o.write(re.sub("Zunits        NO","Zunits        100",data))
+                o.close()
+                os.rename(Input_Workspace + "\\" + OutGrd + "\\prj.adf", Input_Workspace + "\\" + OutGrd + "\\prj_backup.adf")
+                os.rename(Input_Workspace + "\\" + OutGrd + "\\prj_new.adf", Input_Workspace + "\\" + OutGrd + "\\prj.adf")
+        except:
+            raise  
 
             # # handle errors and report using GPMsg function
             # except MsgError, xmsg:
@@ -573,7 +582,7 @@ class ProjScale(object):
             # except arcgisscripting.ExecuteError:
             #   line, file, err = TraceInfo()
             #   GPMsg("Error","Geoprocessing error on %s of %s:" % (line,file))
-            #   for imsg in range(0, gp.MessageCount):
+            #   for imsg in range(0, arcpy.MessageCount):
             #     if gp.GetSeverity(imsg) == 2:     
             #       GPMsg("Return",imsg) # AddReturnMessage
             # except:  
@@ -584,22 +593,6 @@ class ProjScale(object):
             #   # Clean up here (delete cursors, temp files)
             #   pass # you need *something* here 
             #     return
-
-class Setup(object):
-    def __init__(self):
-        """Define the tool (tool name is the name of the class)."""
-        self.label = "Setup"
-        self.description = "Generate the file structure for Stream Stats Data Preprocessing."
-        self.canRunInBackground = False
-
-    def getParameterInfo(self):
-        """Define parameter definitions"""
-        params = None
-        return params
-
-    def execute(self, parameters, messages):
-        """The source code of the tool."""
-        return
 
 # class Setup(object):
 #     def __init__(self):
