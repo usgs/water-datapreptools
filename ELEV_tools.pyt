@@ -497,12 +497,16 @@ class ProjScale(object):
             parameterType = "Required",
             direction = "Input")
 
+        param4.value = 10
+
         param5 = arcpy.Parameter(
             displayName = "registration Point",
             name = "RegPt",
             datatype = "GPString",
             parameterType = "Required",
             direction = "Input")
+
+        param5.value = "0 0"
 
         params = [param0,param1,param2,param3,param4,param5]
 
