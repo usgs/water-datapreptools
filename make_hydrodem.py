@@ -372,31 +372,13 @@ def fill(dem, option, zlimit):
                 zonalfill2 = Con(filled < zonalfill1, zonalfill1, filled)
 
             else:
-                zm1 = ZonalStatistics()
-                zmm = Con()
-                zf2 = Con()
+                zm1 = ZonalStatistics(sub, "VALUE", filled, "MINIMUM")
+                zmm = Con(IsNull(zm1),Minimum(filled),zm1)
+                zf2 = Con((filled < zf1) & ((zf1 - zmm) < zlimit), zf1, filled)
+        
+        del filldem
+        filldem = zf2 # (L147 in fill.aml)
 
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-    
-
-	
-	 
-
-
-    
     return filldem
 
     ##########################################
@@ -597,7 +579,7 @@ def fill(dem, option, zlimit):
 	# &return &error
 
 
-def agree(origdem,dendrite,agreebuf, agreesmooth, agreesharp):
+def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
     '''Agree function from AGREE.aml
 
     Original function by Ferdi Hellweger, http://www.ce.utexas.edu/prof/maidment/gishydro/ferdi/research/agree/agree.html
@@ -720,7 +702,6 @@ def agree(origdem,dendrite,agreebuf, agreesmooth, agreesharp):
     # /*--- Get Input Data ---
     # /*
     # &args oelevgrid vectcov buffer smoothdist sharpdist
-
 
     # /*
     # &if ( [ length %oelevgrid% ] = 0 ) &then &do
@@ -958,15 +939,3 @@ def agree(origdem,dendrite,agreebuf, agreesmooth, agreesharp):
     # &type AGREE: NOTE: Modified elevation grid is saved as elevgrid in current workspace.
     # &type AGREE: 
     # &return
-
-
-
-
-
-    
-
-
-
-
-
-
