@@ -103,12 +103,16 @@ def hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lin
     ## put some checks here about the _bypass variables
     dp_bypass = False
     iw_bypass = False
+    bowl_bypass = False
 
     if in_wall is None:
         iw_bypass == True
 
     if drain_plugs is None:
         dp_bypass == True
+
+    if (bowl_polys is None) or (bowl_lines is None):
+        bowl_bypass == True
 
     # set working directory and environment
     arcpy.env.Workspace = outdir
@@ -577,7 +581,6 @@ def fill(dem, option, zlimit):
 	#   &if not [null %frmdir%] &then
 	#     &workspace %frmdir%
 	# &return &error
-
 
 def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
     '''Agree function from AGREE.aml

@@ -535,6 +535,34 @@ class HydroDEM(object):
         return params
 
     def execute(self, parameters, messages):
+
+        from make_HydroDEM import *
+
+        outdir = parameters[0].valueAsText
+        huc8cov = parameters[1].valueAsText
+        origdem = parameters[2].valueAsText
+        dendrite = parameters[3].valueAsText
+        snap_grid = parameters[4].valueAsText
+        bowl_polys = parameters[5].valueAsText
+        bowl_lines = parameters[6].valueAsText
+        inwall = parameters[7].valueAsText
+        cellsz = parameters[8].valueAsText # this should maybe be dropped
+        drainplug = parameters[9].valueAsText
+        buffdist = parameters[10].valueAsText
+        inwallbuffdist = parameters[11].valueAsText
+        inwallht = parameters[12].valueAsText
+        outwallht = parameters[13].valueAsText
+        agreebuf = parameters[14].valueAsText
+        agreesmooth = parameters[15].valueAsText
+        agreesharp = parameters[16].valueAsText
+        bowldepth = parameters[17].valueAsText
+
+        start_path = None # not sure if needed
+        copylayers = None # not sure if needed
+        bowling = None # note sure if needed
+
+        hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, start_path, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, copylayers, cellsz, bowling, in_wall, drain_plugs)
+
         return None
 
 
