@@ -108,7 +108,7 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version):
 	#  arcpy.Delete_management(out_table)
 	#  pass # you need *something* here 
 
-def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd):
+def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version):
 	"""
 	This tool extracts a polygon area from NED tiles, and merges to a single grid.
 	This tool requires as input a polygon feature class created from a raster catalog and containing the 
@@ -123,92 +123,50 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd):
 																 <Clip_Polygon> <Output_Grid>
 	Alan Rea, ahrea@usgs.gov, 2009-12-31, original coding
 	   """
+	arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
 
 	# set working folder
 	arcpy.env.Workspace = Input_Workspace
-	arcpy.env.ScratchWorkspace = arcpy.Workspace
+	arcpy.env.ScratchWorkspace = arcpy.env.Workspace
 
 	# select index tiles overlapping selected poly(s)
-	intersectout = arcpy.env.Workspace + "\\clipintersect.shp"
+	intersectout = os.path.join(arcpy.env.Workspace,"clipintersect.shp")
 	if arcpy.Exists(intersectout):
 	  arcpy.Delete_management(intersectout)
 	
 	arcpy.Clip_analysis(nedindx, clpfeat, intersectout) # clip the dataset
 
-	# Create search cursor 
-	rows = arcpy.SearchCursor(intersectout) 
-	row = rows.Next()
-	rownum = 1
-
-	# Make sure the "Path" field exists in the index polys--Not done yet, should do error trapping 
-	#if arcpy.Exists(row):
-	#desc = arcpy.Describe(row)
-	#if "Path" in desc.Fields.Name 
-
-	pth = str(row.GetValue("Path"))
-	arcpy.AddMessage("Setting raster snap and coordinate system to match first input grid " + pth )
-	try:
-	  assert arcpy.Exists(pth) == True
-	  arcpy.env.SnapRaster = pth
-	  arcpy.env.OutputCoordinateSystem = pth
-	except:
-	  arcpy.AddError("First input grid does not exist: " + pth)
-	  arcpy.AddMessage("Stopping... ")
-	
-	#arcpy.Extent = clpfeat
-
-	#strMosaicList = ""
 	MosaicList = []
-	while row: # iterate through rows (of the intersected data) and extract the relevent portion of the DEM.
+	# Create search cursor 
+	with arcpy.da.SearchCursor(intersectout,"Path") as cursor:
+		ct = 0
+		for row in cursor: # interate through each entry
+			pth = row[0] # extract path
 
-	  pth = str(row.GetValue("Path"))
-	  #OutTmpg = "tmpg" + str(rownum)
-	  #arcpy.AddMessage("Extracting " + pth + " to " + OutTmpg)
-	  arcpy.Extent = pth # set extent
-	  MosaicList.append(arcpy.ExtractByMask(pth, clpfeat)) # extract the chunk of the DEM needed.
+			if ct == 0:
+				arcpy.AddMessage("Setting raster snap and coordinate system to match first input grid " + pth )
+				try:
+				  assert arcpy.Exists(pth) == True
+				  arcpy.env.SnapRaster = pth
+				  arcpy.env.OutputCoordinateSystem = pth
+				except:
+				  arcpy.AddError("First input grid does not exist: " + pth)
+				  arcpy.AddMessage("Stopping... ")
+				  sys.exit(0)
 
-	  #strMosaicList = strMosaicList + OutTmpg + ","
-	  #rownum = rownum + 1
-	  row = rows.Next() # advance row cursor
+			arcpy.Extent = pth # set extent
+	  		MosaicList.append(arcpy.sa.ExtractByMask(pth, clpfeat)) # extract the chunk of the DEM needed.
+	  		ct += 1
 
-	#strMosaicList = strMosaicList[:-1]
 	arcpy.Extent = clpfeat # reset extent to the whole layer
 	
 	arcpy.AddMessage("Merging grids to create " + OutGrd)
-	arcpy.Merge_management(MosaicList,OutGrd) # merge the grids together.
-	
-	#InExpression = "merge (" + strMosaicList + ")"
-	#arcpy.SingleOutputMapAlgebra_sa(InExpression, OutGrd)
+	arcpy.MosaicToNewRaster_management(MosaicList,arcpy.env.Workspace,OutGrd,None,None,None,1) # merge the grids together.
 
-	## No Longer Needed I think
-	#arcpy.AddMessage("Removing temporary grids ... ")
-	#n = 1
-	#while n < rownum:
-	#  tmpnm = "tmpg" + str(n)
-	#  arcpy.Delete_management(tmpnm)
-	#  n = n + 1
-
-	del rows
-	 
-	# handle errors and report using GPMsg function
-	#except MsgError, xmsg:
-	#  GPMsg("Error",str(xmsg))
-	#except arcgisscripting.ExecuteError:
-	#  line, file, err = TraceInfo()
-	#  GPMsg("Error","Geoprocessing error on %s of %s:" % (line,file))
-	#  for imsg in range(0, arcpy.MessageCount):
-	#    if arcpy.GetSeverity(imsg) == 2:     
-	#      GPMsg("Return",imsg) # AddReturnMessage
-	#except:  
-	#  line, file, err = TraceInfo()
-	#  GPMsg("Error","Python error on %s of %s" % (line,file))
-	#  GPMsg("Error",err)
-	#finally:
-	#  # Clean up here (delete cursors, temp files)
-	#  arcpy.Delete_management(intersectout) # remove the intersect data
-	#  pass # you need *something* here 
+	if arcpy.Exists(intersectout):
+		arcpy.Delete_management(intersectout)
 
 def checkNoData(InGrid, tmpLoc, OutPolys_shp):
 	"""

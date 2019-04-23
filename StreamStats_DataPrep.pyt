@@ -171,7 +171,7 @@ class makeELEVDATAIndex(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param4.value = "NEDIndexPolys"
+		param4.value = "ELEVDATIndexPolys"
 
 		params = [param0,param1,param2,param3,param4]
 		return params
@@ -206,6 +206,8 @@ class ExtractPoly(object):
 			datatype = "DEWorkspace",
 			parameterType = "Required",
 			direction = "Input")
+
+		param0.filter.list = ["File System"]
 
 		param1 = arcpy.Parameter(
 			displayName = "ELEVDATA Index Polygons",
@@ -242,7 +244,7 @@ class ExtractPoly(object):
 		clpfeat = parameters[2].valueAsText # clip polygon feature layer, I think this should be a collection of features so all the clipping happens in a loop....
 		OutGrd = parameters[3].valueAsText # name of output grid
 
-		extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd)
+		extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version)
 
 		return
 
