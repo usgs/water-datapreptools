@@ -103,7 +103,16 @@ class databaseSetup(object):
             parameterType = "Required",
             direction = "Input")
 
-        parameters = [param0,param1,param2,param3,param4,param5,param6,param7]
+        param8 = arcpy.Parameter(
+            displayName = "Alternative Outwall Buffer",
+            name = "alt_buff",
+            datatype = "GPString",
+            parameterType = "Optional",
+            direction = "Input")
+
+        param8.value = "50"
+
+        parameters = [param0,param1,param2,param3,param4,param5,param6,param7, param8]
         return parameters
 
     def execute(self, parameters, messages):
@@ -120,5 +129,6 @@ class databaseSetup(object):
         hucbuffer = parameters[5].valueAsText
         nhd_path = parameters[6].valueAsText
         elevation_projection_template = parameters[7].valueAsText
+        alt_buff = parameters[8].valueAsText
 
-        databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template)
+        databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff)

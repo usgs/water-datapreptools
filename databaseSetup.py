@@ -1,7 +1,8 @@
 import arcpy
+import sys
 import os
 
-def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template):
+def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff):
 	"""
 	Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.
 
@@ -99,10 +100,10 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					#create variables for huc buffers
 					hucbuffer_custom = os.path.join(current_db,"huc8_buffer" + str(hucbuffer))
 					hucbuffer_custom_dd83 = os.path.join(current_db,"huc8_buffer" + str(hucbuffer) + "_dd83")
-					hucbuffer_50 = os.path.join(current_db,"huc8_buffer50")
+					hucbuffer_alt = os.path.join(current_db,"huc8_buffer%s"%(alt_buff))
 
 					#start process
-					arcpy.AddMessage("    Selecting current HUC8")
+					arcpy.AddMessage("    Selecting current outwall hydrologic unit.")
 					arcpy.Select_analysis(hu_dataset, os.path.join(current_db,"huc12"), "\"%s\" = \'%s\'" % (hu8_field, current_hu8))
 
 					arcpy.AddMessage("    Dissolving 12 digit internal polygons")
@@ -113,12 +114,12 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.PolygonToLine_management(os.path.join(current_db,"huc8"), os.path.join(current_db,"outer_wall"))
 					arcpy.Erase_analysis(os.path.join(current_db,"huc12_line"),os.path.join(current_db,"outer_wall"),os.path.join(current_db,"inwall_edit"))
 					
-					arcpy.AddMessage("    Creating user-defined buffered HUC8 dataset")
+					arcpy.AddMessage("    Creating user-defined buffered outwall dataset")
 					arcpy.Buffer_analysis(os.path.join(current_db,"huc8"), hucbuffer_custom, hucbuffer, "FULL", "ROUND")
-					arcpy.AddMessage("    Creating 50 meter buffered HUC8 dataset")
-					arcpy.Buffer_analysis(os.path.join(current_db,"huc8"), hucbuffer_50, "50 METERS", "FULL", "ROUND")                
+					arcpy.AddMessage("    Creating %s meter buffered outwall dataset"%(alt_buff))
+					arcpy.Buffer_analysis(os.path.join(current_db,"huc8"), hucbuffer_alt, "%s METERS"%(alt_buff), "FULL", "ROUND")                
 					
-					arcpy.AddMessage("    Creating unprojected buffered HUC8 dataset for Elevation and NHD clips")
+					arcpy.AddMessage("    Creating unprojected buffered outwall dataset for elevation and hydrography clips")
 					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_dd83, elevation_projection_template)
 					
 					arcpy.AddMessage("    Creating sink point feature class")
@@ -135,7 +136,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.AddMessage("  Doing NHD processing")
 					
 					#Create NHD feature dataset within current HU database
-					arcpy.AddMessage("    Creating NHD feature dataset in local HUC workspace")
+					arcpy.AddMessage("    Creating NHD feature dataset in local hydrologic unit workspace")
 					arcpy.CreateFeatureDataset_management(current_db, "Hydrography", hucbuffer_custom)
 					arcpy.CreateFeatureDataset_management(current_db, "Reference", hucbuffer_custom)
 					  
