@@ -245,54 +245,49 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
+	arcpy.CheckOutExtension("Spatial")
+	from arcpy.sa import *
+
 	try: 
 		# set working folder
 		arcpy.env.Workspace = Input_Workspace
 		arcpy.env.ScratchWorkspace = arcpy.env.Workspace
-		tmpDEM = "tmpdemprj"
+		tmpDEM = os.path.join(arcpy.env.Workspace, "tmpdemprj")
+		OutGrd = os.path.join(arcpy.env.Workspace, OutGrd)
+
+		if arcpy.Exists(OutGrd):
+			arcpy.Delete_management(OutGrd)
+
 		# clear the processing extent
 		arcpy.Extent = ""
 		arcpy.OutputCoordinateSystem = ""
 		arcpy.SnapRaster = ""
 		arcpy.AddMessage("Projecting " + InGrd + " to create " + tmpDEM)
-		arcpy.ProjectRaster_management(InGrd, tmpDEM, OutCoordsys, "BILINEAR", OutCellSize, "#", RegistrationPoint)
+		arcpy.ProjectRaster_management(InGrd, tmpDEM, OutCoordsys, "BILINEAR", OutCellSize, None, RegistrationPoint)
 
 		arcpy.Extent = tmpDEM
 		arcpy.OutputCoordinateSystem = OutCoordsys
 		arcpy.SnapRaster = tmpDEM
 		arcpy.CellSize = tmpDEM
-		InExpression = "int ((\'%s\' * 100) + 0.5)"%(tmpDEM) # expression to convert raster units.
+
+		tmpDEMRAST = Raster(tmpDEM) # load projected raster
+		
 		arcpy.AddMessage("Converting to integer centimeter elevations and producing final output grid " + OutGrd)
-		arcpy.SingleOutputMapAlgebra_sa(InExpression, OutGrd)
+
+		tmp = Int((tmpDEMRAST * 100) +0.5) # convert from m to cm integers
+
+		tmp.save(OutGrd) # save output grid
 
 		arcpy.AddMessage("Removing temporary grid tmpdemprj... ")
 		arcpy.Delete_management(tmpDEM)
 
 		#If process completed successfully, open prj.adf file and assign z units
-		if arcpy.exists(Input_Workspace + "\\" + OutGrd):
-			o = open(Input_Workspace + "\\" + OutGrd + "\\prj_new.adf","w")
-			data = open(Input_Workspace + "\\" + OutGrd + "\\prj.adf").read()
+		if arcpy.Exists(OutGrd):
+			o = open(os.path.join(OutGrd,"prj_new.adf"),"w")
+			data = open(os.path.join(OutGrd,"prj.adf")).read()
 			o.write(re.sub("Zunits        NO","Zunits        100",data))
 			o.close()
-			os.rename(Input_Workspace + "\\" + OutGrd + "\\prj.adf", Input_Workspace + "\\" + OutGrd + "\\prj_backup.adf")
-			os.rename(Input_Workspace + "\\" + OutGrd + "\\prj_new.adf", Input_Workspace + "\\" + OutGrd + "\\prj.adf")
+			os.rename(os.path.join(OutGrd,"prj.adf"),os.path.join(OutGrd,"prj_backup.adf"))
+			os.rename(os.path.join(OutGrd,"prj_new.adf"), os.path.join(OutGrd,"prj.adf"))
 	except:
-		raise  
-
-		# # handle errors and report using GPMsg function
-		# except MsgError, xmsg:
-		#   GPMsg("Error",str(xmsg))
-		# except arcgisscripting.ExecuteError:
-		#   line, file, err = TraceInfo()
-		#   GPMsg("Error","Geoprocessing error on %s of %s:" % (line,file))
-		#   for imsg in range(0, arcpy.MessageCount):
-		#     if gp.GetSeverity(imsg) == 2:     
-		#       GPMsg("Return",imsg) # AddReturnMessage
-		# except:  
-		#   line, file, err = TraceInfo()
-		#   GPMsg("Error","Python error on %s of %s" % (line,file))
-		#   GPMsg("Error",err)
-		# finally:
-		#   # Clean up here (delete cursors, temp files)
-		#   pass # you need *something* here 
-		#     return
+		raise

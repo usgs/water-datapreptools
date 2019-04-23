@@ -367,6 +367,8 @@ class ProjScale(object):
 			parameterType = "Required",
 			direction = "Input")
 
+		param0.filter.list = ['File System']
+
 		param1 = arcpy.Parameter(
 			displayName = "Input Grid",
 			name = "InGrid",
@@ -377,9 +379,11 @@ class ProjScale(object):
 		param2 = arcpy.Parameter(
 			displayName = "Output Grid",
 			name = "OutGrid",
-			datatype = "DERasterBand",
+			datatype = "GPString",
 			parameterType = "Required",
-			direction = "Output")
+			direction = "Input")
+
+		param2.value = "dem"
 
 		param3 = arcpy.Parameter(
 			displayName = "Output Coordinate System",
