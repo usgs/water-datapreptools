@@ -191,7 +191,7 @@ def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	# Process: Raster to Polygon
 	arcpy.RasterToPolygon_conversion(tmpGrid, os.path.join(tmpLoc,OutPolys_shp), "NO_SIMPLIFY", "Value", "SINGLE_OUTER_PART", "")
 
-def fillNoData(InGrid, OutGrid):
+def fillNoData(workspace, InGrid, OutGrid, version = None):
 	"""
 	2D_Fill_NoData_Cells.py
 	Created on: 2019-02-21 16:28:59.00000
@@ -209,28 +209,24 @@ def fillNoData(InGrid, OutGrid):
 
 	from arcpy.sa import *
 
+	OutGridPth = os.path.join(workspace, OutGrid)
+
 	if arcpy.Exists(InGrid) == False:
 		arcpy.AddError("Input grid does not exist.")
 		sys.exit(0)
 
-	if arcpy.Exists(OutGrid):
+	if arcpy.Exists(OutGridPth):
 		arcpy.AddError("Output grid exists.")
 		sys.exit(0)
 
-	# Process: Single Output Map Algebra
-	#tempEnvironment0 = arcpy.env.extent
 	arcpy.env.extent = InGrid
-	#tempEnvironment1 = arcpy.env.cellSize
 	arcpy.env.cellSize = InGrid
 	
 	InGrid = Raster(InGrid)
 	
-	tmpRast = Con(IsNull(InGrid), FocalMean(InGrid), InGrid)
+	tmpRast = Con(IsNull(InGrid), FocalStatistics(InGrid), InGrid)
 	
-	tmpRast.save(OutGrid)
-
-	#arcpy.env.extent = tempEnvironment0
-	#arcpy.env.cellSize = tempEnvironment1
+	tmpRast.save(OutGridPth)
 
 def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, version = None):
 	"""

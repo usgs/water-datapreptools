@@ -310,20 +310,29 @@ class FillNoData(object):
 	def getParameterInfo(self):
 		"""Define parameter definitions"""
 		param0 = arcpy.Parameter(
+			displayName = "Workspace",
+			name = "workspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input")
+
+		param0.filter.list = ["File System"]
+
+		param1 = arcpy.Parameter(
 			displayName = "Input Grid",
 			name = "InGrid",
 			datatype = "DERasterBand",
 			parameterType = "Required",
 			direction = "Input")
 
-		param1 = arcpy.Parameter(
+		param2 = arcpy.Parameter(
 			displayName = "Output Grid",
 			name = "OutGrid",
-			datatype = "DERasterBand",
+			datatype = "GPString",
 			parameterType = "Required",
-			direction = "Output")
+			direction = "Input")
 
-		params = [param0, param1]
+		params = [param0, param1, param2]
 		return params
 
 	def execute(self, parameters, messages):
@@ -331,10 +340,12 @@ class FillNoData(object):
 		from elevationTools import fillNoData
 
 		# load parameters
-		InGrid = parameters[0].valueAsText
-		OutGrid = parameters[1].valueAsText
+		workspace = parameters[0].valueAsText
+		InGrid = parameters[1].valueAsText
+		OutGrid = parameters[2].valueAsText
+
 		
-		fillNoData(InGrid,OutGrid)
+		fillNoData(workspace, InGrid, OutGrid, version)
 		
 		return
 
