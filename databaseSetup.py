@@ -23,6 +23,27 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	nhd_path : str
 
 	elevation_projection_template : str
+
+	Old Notes
+	---------
+    HUC_process.py
+    ==============
+    This script setup up an archydro workspace for the StreamStats process
+    The script takes the WBD, NHD and creates a new folder in a new workspace
+    for each huc and creates a master filegdb that sits in the archydro root
+    and holds the huc8index.  It also dissolves by 12 digit and 8 digit polygons
+    and line feature classes, creates the inner walls feature class, creates a
+    50m and 2000m buffer of the HUC and creats a 2000m huc buffer in the DEM
+    projection (to use with your Elevation tools)
+    
+    Changes
+    =======
+    Created on: April 20 2010 by Martyn Smith, USGS
+    Updated on: May 26, 2015 by Kitty Kolb, USGS
+    Modified to remove M-values from shapefile creations.
+    Updated on: April 11, 2019 by Kitty Kolb, USGS
+    Modified to reflect ArcPy and new data naming conventions, wrote new cursor search
+    April 22, 2019 - Theodore Barnhart: moved to python toolbox.
 	"""
 
 	 # set up geoprocessor, with spatial analyst license
