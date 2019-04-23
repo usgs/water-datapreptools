@@ -3,7 +3,7 @@ import sys
 import os
 import re
 
-def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version):
+def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = None):
 	"""
 	Make a raster catalog and polygon index to NED tiles in a directory tree. 
 	
@@ -29,7 +29,8 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version):
 	Theodore Barnhart, tbarnhart@usgs.gov, 20190220, moved to code.usgs.gov for version control.
 	  Updated for arcpy.
 	"""
-	arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	arcpy.env.overwriteOutput=True
 
@@ -108,7 +109,7 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version):
 	#  arcpy.Delete_management(out_table)
 	#  pass # you need *something* here 
 
-def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version):
+def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	"""
 	This tool extracts a polygon area from NED tiles, and merges to a single grid.
 	This tool requires as input a polygon feature class created from a raster catalog and containing the 
@@ -123,7 +124,8 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version):
 																 <Clip_Polygon> <Output_Grid>
 	Alan Rea, ahrea@usgs.gov, 2009-12-31, original coding
 	   """
-	arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
 
@@ -168,28 +170,26 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version):
 	if arcpy.Exists(intersectout):
 		arcpy.Delete_management(intersectout)
 
-def checkNoData(InGrid, tmpLoc, OutPolys_shp):
+def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	"""
 	Converted from model builder to arcpy, Theodore Barnhart, tbarnhart@usgs.gov, 20190222
 	"""
-	if OutPolys_shp == '#' or not OutPolys_shp:
-		OutPolys_shp = "%s\\RasterT_SingleO1.shp"%(tmpLoc) # provide a default value if unspecified
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
-	# Local variables:
-	tmpGrid = "%s\\SingleOutput2"%(tmpLoc)
+	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
 
-	# Process: Single Output Map Algebra
-	#tempEnvironment0 = arcpy.env.extent
+	from arcpy.sa import *
+
 	arcpy.env.extent = InGrid
-	#tempEnvironment1 = arcpy.env.cellSize
 	arcpy.env.cellSize = InGrid
-	arcpy.gp.SingleOutputMapAlgebra_sa("con ( isnull ( InGrid ), 1 )", tmpGrid, "''")
-	#arcpy.env.extent = tempEnvironment0
-	#arcpy.env.cellSize = tempEnvironment1
+
+	InGrid = Raster(InGrid)
+
+	tmpGrid = Con(IsNull(InGrid), 1)
 
 	# Process: Raster to Polygon
-	arcpy.RasterToPolygon_conversion(tmpGrid, OutPolys_shp, "NO_SIMPLIFY", "Value", "SINGLE_OUTER_PART", "")
-	arcpy.Delete_management(tmpGrid) # remove the temporary grid
+	arcpy.RasterToPolygon_conversion(tmpGrid, os.path.join(tmpLoc,OutPolys_shp), "NO_SIMPLIFY", "Value", "SINGLE_OUTER_PART", "")
 
 def fillNoData(InGrid, OutGrid):
 	"""
@@ -202,6 +202,13 @@ def fillNoData(InGrid, OutGrid):
 	
 	Converted from model builder to arcpy, Theodore Barnhart, tbarnhart@usgs.gov, 20190222
 	"""
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+
+	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
+
+	from arcpy.sa import *
+
 	if arcpy.Exists(InGrid) == False:
 		arcpy.AddError("Input grid does not exist.")
 		sys.exit(0)
@@ -215,11 +222,17 @@ def fillNoData(InGrid, OutGrid):
 	arcpy.env.extent = InGrid
 	#tempEnvironment1 = arcpy.env.cellSize
 	arcpy.env.cellSize = InGrid
-	arcpy.gp.SingleOutputMapAlgebra_sa("con ( isnull ( InGrid ) , focalmean ( InGrid  ) , InGrid  )", OutGrid, "''")
+	
+	InGrid = Raster(InGrid)
+	
+	tmpRast = Con(IsNull(InGrid), FocalMean(InGrid), InGrid)
+	
+	tmpRast.save(OutGrid)
+
 	#arcpy.env.extent = tempEnvironment0
 	#arcpy.env.cellSize = tempEnvironment1
 
-def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint):
+def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, version = None):
 	"""
 	Projects a NED grid to a user-specified coordinate system, handling cell registration. Converts
 	 output grid to centimeters (multiplies by 100 and rounds). 
@@ -233,11 +246,13 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 	Theodore Barnhart, tbarnhart@usgs.gov, 20190222
 		  Converted original code to arcpy
 	"""
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	try: 
 		# set working folder
-		arcpy.Workspace = Input_Workspace
-		arcpy.ScratchWorkspace = arcpy.Workspace
+		arcpy.env.Workspace = Input_Workspace
+		arcpy.env.ScratchWorkspace = arcpy.env.Workspace
 		tmpDEM = "tmpdemprj"
 		# clear the processing extent
 		arcpy.Extent = ""

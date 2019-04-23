@@ -118,7 +118,7 @@ class databaseSetup(object):
 		elevation_projection_template = parameters[7].valueAsText
 		alt_buff = parameters[8].valueAsText
 
-		databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff)
+		databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff, version=version)
 
 class makeELEVDATAIndex(object):
 	def __init__(self):
@@ -186,7 +186,7 @@ class makeELEVDATAIndex(object):
 		InputELEVDATAws = parameters[3].valueAsText # geodatabase of elevation data
 		OutFC = parameters[4].valueAsText # output polygon feature class
 
-		elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version)
+		elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version=version)
 
 		return
 
@@ -244,7 +244,7 @@ class ExtractPoly(object):
 		clpfeat = parameters[2].valueAsText # clip polygon feature layer, I think this should be a collection of features so all the clipping happens in a loop....
 		OutGrd = parameters[3].valueAsText # name of output grid
 
-		extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version)
+		extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version=version)
 
 		return
 
@@ -273,12 +273,16 @@ class CheckNoData(object):
 			parameterType = "Required",
 			direction = "Input")
 
+		param1.filter.list = ["Local Database"]
+
 		param2 = arcpy.Parameter(
 			displayName = "Output Feature Layer",
 			name = "OutPolys",
-			datatype = "DEFeatureClass",
+			datatype = "GPString",
 			parameterType = "Required",
-			direction = "Output")
+			direction = "Input")
+
+		param2.value = "DEMsinks"
 
 		params = [param0,param1,param2]
 		return params
@@ -291,7 +295,7 @@ class CheckNoData(object):
 		tmpLoc = parameters[1].valueAsText
 		OutPolys_shp = parameters[2].valueAsText
 
-		checkNoData(InGrid, tmpLoc, OutPolys_shp)
+		checkNoData(InGrid, tmpLoc, OutPolys_shp, version=version)
 
 		return
 
