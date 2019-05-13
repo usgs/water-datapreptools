@@ -432,141 +432,141 @@ class ProjScale(object):
 		return
 
 class SetupBathyGrad(object):
-    def __init__(self):
-        """Define the tool (tool name is the name of the class)."""
-        self.label = "A. Bathymetric Gradient Setup"
-        self.description = "This script creates a set of NHD Hydrography Datasets, extracts the appropriate features and converts them to rasters for input into HydroDEM."
-        self.category = "4 - HydroDEM"
-        self.canRunInBackground = False
+	def __init__(self):
+		"""Define the tool (tool name is the name of the class)."""
+		self.label = "A. Bathymetric Gradient Setup"
+		self.description = "This script creates a set of NHD Hydrography Datasets, extracts the appropriate features and converts them to rasters for input into HydroDEM."
+		self.category = "4 - HydroDEM"
+		self.canRunInBackground = False
 
-    def getParameterInfo(self):
-        """Define parameter definitions"""
-        param0 = arcpy.Parameter(
-            displayName = "Output Workspace",
-            name = "Workspace",
-            datatype = "DEWorkspace",
-            parameterType = "Required",
-            direction = "Input") # maybe should be Output
+	def getParameterInfo(self):
+		"""Define parameter definitions"""
+		param0 = arcpy.Parameter(
+			displayName = "Output Workspace",
+			name = "Workspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input") # maybe should be Output
 
-        param1 = arcpy.Parameter(
-            displayName = "Digital Elevation Model (used for snapping)",
-            name = "SnapGrid",
-            datatype = "DERasterBand",
-            parameterType = "Required",
-            direction = "Input") 
+		param1 = arcpy.Parameter(
+			displayName = "Digital Elevation Model (used for snapping)",
+			name = "SnapGrid",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input") 
 
-        param2 = arcpy.Parameter(
-            displayName = "Dissolved HUC8 Dataset",
-            name = "hucpoly",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input")
+		param2 = arcpy.Parameter(
+			displayName = "Dissolved HUC8 Dataset",
+			name = "hucpoly",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
 
-        param3 = arcpy.Parameter(
-            displayName = "NHD Area",
-            name = "NHDArea",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input")
+		param3 = arcpy.Parameter(
+			displayName = "NHD Area",
+			name = "NHDArea",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
 
-        param4 = arcpy.Parameter(
-            displayName = "NHD Dendrite",
-            name = "NHDFlowline",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input")
+		param4 = arcpy.Parameter(
+			displayName = "NHD Dendrite",
+			name = "NHDFlowline",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
 
-        param5 = arcpy.Parameter(
-            displayName = "NHD Waterbody",
-            name = "NHDWaterbody",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input")
+		param5 = arcpy.Parameter(
+			displayName = "NHD Waterbody",
+			name = "NHDWaterbody",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
 
-        param6 = arcpy.Parameter(
-            displayName = "Cell Size",
-            name = "cellSize",
-            datatype = "GPString",
-            parameterType = "Required",
-            direction = "Input")
+		param6 = arcpy.Parameter(
+			displayName = "Cell Size",
+			name = "cellSize",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input")
 
-        param6.value = "10"
+		param6.value = "10"
 
-        params = [param0,param1,param2,param3,param4,param5,param6]
-        return params
+		params = [param0,param1,param2,param3,param4,param5,param6]
+		return params
 
-    def execute(self, parameters, messages):
+	def execute(self, parameters, messages):
 
-    	from make_hydrodem import bathymetricGradient, SnapExtent
+		from make_hydrodem import bathymetricGradient, SnapExtent
 
-        Workspace = parameters[0].valueAsText
-        SnapGrid = parameters[1].valueAsText
-        hucpoly = parameters[2].valueAsText
-        NHDArea = parameters[3].valueAsText
-        NHDFlowline = parameters[4].valueAsText
-        NHDWaterbody = parameters[5].valueAsText
-        cellSize = parameters[6].valueAsText
+		Workspace = parameters[0].valueAsText
+		SnapGrid = parameters[1].valueAsText
+		hucpoly = parameters[2].valueAsText
+		NHDArea = parameters[3].valueAsText
+		NHDFlowline = parameters[4].valueAsText
+		NHDWaterbody = parameters[5].valueAsText
+		cellSize = parameters[6].valueAsText
 
-        bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize)
+		bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize)
 
 class CoastalDEM(object):
-    def __init__(self):
-        """Define the tool (tool name is the name of the class)."""
-        self.label = "B. Coastal DEM Processing"
-        self.description = "Lowers the level of the sea to ensure it is always below land level. Also raises any land cells to 1 cm unless they are within a polygon with Land attribute of 0. The input polygons (LandSea) needs to identify the sea with a Land attribute of -1. Land is identified with a Land value of 1. No change polygons should have Land value of 0."
-        self.canRunInBackground = False
-        self.category = "4 - HydroDEM"
+	def __init__(self):
+		"""Define the tool (tool name is the name of the class)."""
+		self.label = "B. Coastal DEM Processing"
+		self.description = "Lowers the level of the sea to ensure it is always below land level. Also raises any land cells to 1 cm unless they are within a polygon with Land attribute of 0. The input polygons (LandSea) needs to identify the sea with a Land attribute of -1. Land is identified with a Land value of 1. No change polygons should have Land value of 0."
+		self.canRunInBackground = False
+		self.category = "4 - HydroDEM"
 
-    def getParameterInfo(self):
-        """Define parameter definitions"""
-        param0 = arcpy.Parameter(
-            displayName = "Workspace",
-            name = "Input_Workspace",
-            datatype = "DEWorkspace",
-            parameterType = "Required",
-            direction = "Input") # maybe should be Output
+	def getParameterInfo(self):
+		"""Define parameter definitions"""
+		param0 = arcpy.Parameter(
+			displayName = "Workspace",
+			name = "Input_Workspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input") # maybe should be Output
 
-        param1 = arcpy.Parameter(
-            displayName = "Input raw DEM",
-            name = "grdName",
-            datatype = "DERasterBand",
-            parameterType = "Required",
-            direction = "Input")
+		param1 = arcpy.Parameter(
+			displayName = "Input raw DEM",
+			name = "grdName",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
 
-        param1.value = "dem_raw"
+		param1.value = "dem_raw"
 
-        param2 = arcpy.Parameter(
-            displayName = "Input LandSea polygon feature class",
-            name = "InFeatureClass",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input")
+		param2 = arcpy.Parameter(
+			displayName = "Input LandSea polygon feature class",
+			name = "InFeatureClass",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
 
-        param3 = arcpy.Parameter(
-            displayName = "Output DEM",
-            name = "OutRaster",
-            datatype = "DERasterBand",
-            parameterType = "Required",
-            direction = "Input")
+		param3 = arcpy.Parameter(
+			displayName = "Output DEM",
+			name = "OutRaster",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
 
-        param3.value = "dem_sea"
+		param3.value = "dem_sea"
 
-        param4 = arcpy.Parameter(
-            displayName = "Sea Level",
-            name = "seaLevel",
-            datatype = "GPString",
-            parameterType = "Required",
-            direction = "Input")
+		param4 = arcpy.Parameter(
+			displayName = "Sea Level",
+			name = "seaLevel",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input")
 
-        param4.value = "-60000"
+		param4.value = "-60000"
 
-        params = [param0,param1,param2,param3,param4]
-        return params
+		params = [param0,param1,param2,param3,param4]
+		return params
 
-    def execute(self, parameters, messages):
-    	from make_hydrodem import coastaldem
+	def execute(self, parameters, messages):
+		from make_hydrodem import coastaldem
 
-    	Input_Workspace = parameters[0].valueAsText    # input workspace (type Workspace)
+		Input_Workspace = parameters[0].valueAsText    # input workspace (type Workspace)
 		grdName = parameters[1].valueAsText            # input DEM grid name (type String)
 		InFeatureClass = parameters[2].valueAsText     # input LandSea feature class (type Feature Class)
 		OutRaster = parameters[3].valueAsText          # output DEM grid name (type String)
@@ -575,189 +575,189 @@ class CoastalDEM(object):
 		coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel)
 
 class HydroDEM(object):
-    def __init__(self):
-        """Define the tool (tool name is the name of the class)."""
-        self.label = "C. HydroDEM"
-        self.description = "Run make_HydroDEM.py to process DEMs, burning in streams and building walls."
-        self.canRunInBackground = False
-        self.category = "4 - HydroDEM"
+	def __init__(self):
+		"""Define the tool (tool name is the name of the class)."""
+		self.label = "C. HydroDEM"
+		self.description = "Run make_HydroDEM.py to process DEMs, burning in streams and building walls."
+		self.canRunInBackground = False
+		self.category = "4 - HydroDEM"
 
-    def getParameterInfo(self):
-        """Define parameter definitions"""
-        param0 = arcpy.Parameter(
-            displayName = "Output Workspace",
-            name = "Workspace",
-            datatype = "DEWorkspace",
-            parameterType = "Required",
-            direction = "Input") # maybe should be Output
+	def getParameterInfo(self):
+		"""Define parameter definitions"""
+		param0 = arcpy.Parameter(
+			displayName = "Output Workspace",
+			name = "Workspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input") # maybe should be Output
 
-        param1 = arcpy.Parameter(
-            displayName = "HUC layer",
-            name = "huc8cov",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input") 
+		param1 = arcpy.Parameter(
+			displayName = "HUC layer",
+			name = "huc8cov",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input") 
 
-        param2 = arcpy.Parameter(
-            displayName = "Digital Elevation Model",
-            name = "origdem",
-            datatype = "DERasterBand",
-            parameterType = "Required",
-            direction = "Input")
+		param2 = arcpy.Parameter(
+			displayName = "Digital Elevation Model",
+			name = "origdem",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
 
-        param3 = arcpy.Parameter(
-            displayName = "Stream Dendrite",
-            name = "dendrite",
-            datatype = "DEFeatureClass",
-            parameterType = "Required",
-            direction = "Input")
+		param3 = arcpy.Parameter(
+			displayName = "Stream Dendrite",
+			name = "dendrite",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
 
-        param4 = arcpy.Parameter(
-            displayName = "Snap Grid",
-            name = "snap_grid",
-            datatype = "DERasterBand",
-            parameterType = "Required",
-            direction = "Input")
+		param4 = arcpy.Parameter(
+			displayName = "Snap Grid",
+			name = "snap_grid",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
 
-        param5 = arcpy.Parameter(
-            displayName = "NHD Waterbody Grid",
-            name = "bowl_polys",
-            datatype = "DERasterBand",
-            parameterType = "Optional",
-            direction = "Input")
+		param5 = arcpy.Parameter(
+			displayName = "NHD Waterbody Grid",
+			name = "bowl_polys",
+			datatype = "DERasterBand",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param6 = arcpy.Parameter(
-            displayName = "NHD Flowline Grid",
-            name = "bowl_lines",
-            datatype = "DERasterBand",
-            parameterType = "Optional",
-            direction = "Input")
+		param6 = arcpy.Parameter(
+			displayName = "NHD Flowline Grid",
+			name = "bowl_lines",
+			datatype = "DERasterBand",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param7 = arcpy.Parameter(
-            displayName = "Inner Walls",
-            name = "inwall",
-            datatype = "DEFeatureClass", # maybe should be raster
-            parameterType = "Optional",
-            direction = "Input")
+		param7 = arcpy.Parameter(
+			displayName = "Inner Walls",
+			name = "inwall",
+			datatype = "DEFeatureClass", # maybe should be raster
+			parameterType = "Optional",
+			direction = "Input")
 
-        param8 = arcpy.Parameter(
-            displayName = "Cell Size",
-            name = "cellSize",
-            datatype = "GPString",
-            parameterType = "Required",
-            direction = "Input")
+		param8 = arcpy.Parameter(
+			displayName = "Cell Size",
+			name = "cellSize",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input")
 
-        param9 = arcpy.Parameter(
-            displayName = "Drain Plugs",
-            name = "drainplug",
-            datatype = "DEFeatureClass", # maybe should be raster
-            parameterType = "Optional",
-            direction = "Input")
+		param9 = arcpy.Parameter(
+			displayName = "Drain Plugs",
+			name = "drainplug",
+			datatype = "DEFeatureClass", # maybe should be raster
+			parameterType = "Optional",
+			direction = "Input")
 
-        param10 = arcpy.Parameter(
-            displayName = "HUC buffer",
-            name = "buffdist",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param10 = arcpy.Parameter(
+			displayName = "HUC buffer",
+			name = "buffdist",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param10.value = 50
+		param10.value = 50
 
-        param11 = arcpy.Parameter(
-            displayName = "Inner Wall Buffer",
-            name = "inwallbuffdist",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param11 = arcpy.Parameter(
+			displayName = "Inner Wall Buffer",
+			name = "inwallbuffdist",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param11.value = 15
+		param11.value = 15
 
-        param12 = arcpy.Parameter(
-            displayName = "Inner Wall Height",
-            name = "inwallht",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param12 = arcpy.Parameter(
+			displayName = "Inner Wall Height",
+			name = "inwallht",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param12.value = 150000
+		param12.value = 150000
 
-        param13 = arcpy.Parameter(
-            displayName = "Outer Wall Height",
-            name = "outwallht",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param13 = arcpy.Parameter(
+			displayName = "Outer Wall Height",
+			name = "outwallht",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param13.value = 300000
+		param13.value = 300000
 
-        param14 = arcpy.Parameter(
-            displayName = "AGREE buffer",
-            name = "agreebuf",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param14 = arcpy.Parameter(
+			displayName = "AGREE buffer",
+			name = "agreebuf",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param14.value = 60
+		param14.value = 60
 
-        param15 = arcpy.Parameter(
-            displayName = "AGREE Smooth Drop",
-            name = "agreesmooth",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param15 = arcpy.Parameter(
+			displayName = "AGREE Smooth Drop",
+			name = "agreesmooth",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param15.value = -500
+		param15.value = -500
 
-        param16 = arcpy.Parameter(
-            displayName = "AGREE Sharp Drop",
-            name = "agreesharp",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param16 = arcpy.Parameter(
+			displayName = "AGREE Sharp Drop",
+			name = "agreesharp",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param16.value = -50000
+		param16.value = -50000
 
-        param17 = arcpy.Parameter(
-            displayName = "Bowl Depth",
-            name = "bowldepth",
-            datatype = "GPDouble",
-            parameterType = "Optional",
-            direction = "Input")
+		param17 = arcpy.Parameter(
+			displayName = "Bowl Depth",
+			name = "bowldepth",
+			datatype = "GPDouble",
+			parameterType = "Optional",
+			direction = "Input")
 
-        param17.value = 2000
+		param17.value = 2000
 
-        params = [param0,param1,param2,param3,param4,param5,param6,param7,param8,param9,param10,
-                    param11,param12,param13,param14,param15,param16, param17]
+		params = [param0,param1,param2,param3,param4,param5,param6,param7,param8,param9,param10,
+					param11,param12,param13,param14,param15,param16, param17]
 
-        return params
+		return params
 
-    def execute(self, parameters, messages):
+	def execute(self, parameters, messages):
 
-        from make_HydroDEM import *
+		from make_HydroDEM import *
 
-        outdir = parameters[0].valueAsText
-        huc8cov = parameters[1].valueAsText
-        origdem = parameters[2].valueAsText
-        dendrite = parameters[3].valueAsText
-        snap_grid = parameters[4].valueAsText
-        bowl_polys = parameters[5].valueAsText
-        bowl_lines = parameters[6].valueAsText
-        inwall = parameters[7].valueAsText
-        cellsz = parameters[8].valueAsText # this should maybe be dropped
-        drainplug = parameters[9].valueAsText
-        buffdist = parameters[10].valueAsText
-        inwallbuffdist = parameters[11].valueAsText
-        inwallht = parameters[12].valueAsText
-        outwallht = parameters[13].valueAsText
-        agreebuf = parameters[14].valueAsText
-        agreesmooth = parameters[15].valueAsText
-        agreesharp = parameters[16].valueAsText
-        bowldepth = parameters[17].valueAsText
+		outdir = parameters[0].valueAsText
+		huc8cov = parameters[1].valueAsText
+		origdem = parameters[2].valueAsText
+		dendrite = parameters[3].valueAsText
+		snap_grid = parameters[4].valueAsText
+		bowl_polys = parameters[5].valueAsText
+		bowl_lines = parameters[6].valueAsText
+		inwall = parameters[7].valueAsText
+		cellsz = parameters[8].valueAsText # this should maybe be dropped
+		drainplug = parameters[9].valueAsText
+		buffdist = parameters[10].valueAsText
+		inwallbuffdist = parameters[11].valueAsText
+		inwallht = parameters[12].valueAsText
+		outwallht = parameters[13].valueAsText
+		agreebuf = parameters[14].valueAsText
+		agreesmooth = parameters[15].valueAsText
+		agreesharp = parameters[16].valueAsText
+		bowldepth = parameters[17].valueAsText
 
-        start_path = None # not sure if needed
-        copylayers = None # not sure if needed
-        bowling = None # note sure if needed
+		start_path = None # not sure if needed
+		copylayers = None # not sure if needed
+		bowling = None # note sure if needed
 
-        hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, start_path, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, copylayers, cellsz, bowling, in_wall, drain_plugs)
+		hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, start_path, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, copylayers, cellsz, bowling, in_wall, drain_plugs)
 
-        return None
+		return None
