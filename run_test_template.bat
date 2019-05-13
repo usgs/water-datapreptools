@@ -1,0 +1,3 @@
+REM # this is a template for how to run the test scripts
+REM # cd over to the directory with the test scripts and then run...
+\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python.exe test_hydroDEM.py
