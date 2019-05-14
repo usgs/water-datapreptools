@@ -1,5 +1,7 @@
 from elevationTools import elevIndex
 
+print("************ Testing elevIndex ************")
+
 OutLoc = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\test_global.gdb"
 rcName = "IndexRC"
 coordsysRaster = "NAD83_Conus_Albers"
