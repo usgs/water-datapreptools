@@ -2,7 +2,7 @@ import arcpy
 import sys
 import os
 
-def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff):
+def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff, version = None):
 	"""
 	Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.
 
@@ -23,6 +23,9 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	nhd_path : str
 
 	elevation_projection_template : str
+
+	version : str
+		Package version number
 
 	Old Notes
 	---------
@@ -45,6 +48,9 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
     Modified to reflect ArcPy and new data naming conventions, wrote new cursor search
     April 22, 2019 - Theodore Barnhart: moved to python toolbox.
 	"""
+
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	 # set up geoprocessor, with spatial analyst license
 	if arcpy.CheckExtension("Spatial") == "Available":

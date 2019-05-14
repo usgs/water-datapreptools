@@ -44,7 +44,7 @@ def SnapExtent(lExtent, lRaster):
 
 	return extent
 
-def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody,cellsize):
+def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody,cellsize, version = None):
 	'''Generates the input datasets for enforcing a bathymetic gradient in hydroDEM (bowling).
 	
 	Originally:
@@ -74,10 +74,15 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	cellsize : str
 
+	version : str
+		Package version number
+
 	Returns
 	-------
 	
 	'''
+
+
 	arcpy.env.overwriteOutput = True # Set script to overwrite if files exist
 	arcpy.AddMessage("Starting Bathymetric Gradient Preparations....")
 
@@ -276,7 +281,7 @@ def coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel):
 
 	return None
 
-def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, start_path, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, copylayers, cellsz, bowling, in_wall, drain_plugs):
+def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWorkspace, version = None):
 	'''Hydro-enforce a DEM
 
 	This aml is used by the National StreamStats Team as the optimal
@@ -305,48 +310,43 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	outdir : DEworkspace
 		Working directory
 	huc8cov : DEFeatureClass
-		Local division feature class, often HUC8
-	origdemPth :
-
-	dendrite :
-	
-	snap_grid :
-	
-	bowl_polys :
-	
-	bowl_lines :
-	
-	inwall : 
-	
+		Local division feature class, often HUC8, this will be the outer wall of the hydroDEM.
+	origdemPth : str
+		Path to the orignial, projected DEM.
+	dendrite : str
+		Path to the dendrite feature class to be used.
+	snap_grid : str
+		Path to a raster dataset to use as a snap_grid to align all the watersheds, often the same as the DEM.
+	bowl_polys : str
+		Path to the bowling area raster generated from the bathymetric gradient tool.
+	bowl_lines : str
+		Path to the bowling line raster generated from the bathymetric gradient tool.
+	inwall : str
+		Path to the feature class to be used for inwalling
 	drainplug : 
-	
-	start_path :
-	
-	buffdist :
-	
+		Path to the feature class used for inserting sinks into the dataset
+	buffdist : float
+		Distance to buffer the outer wall, same units as the projection.
 	inwallbuffdist :
-	
+		Distance to buffer the inner walls, same units as the projection.
 	inwallht :
-	
+		Inwall height, same units as the projection.
 	outwallht :
-	
+		Inwall height, same units as the projection.
 	agreebuf :
-	
+		AGREE function buffer distance, same units as the projection.
 	agreesmooth :
-	
+		AGREE function smoothing distance, same units as the projection.
 	agreesharp :
-	
+		AGREE function sharp distance, same units as the projection.
 	bowldepth :
-	
-	copylayers :
-	
+		Bowling depth, same units as the projection.
 	cellsz :
-	
-	bowling :
-	
-	in_wall :
-	
-	drain_plugs :
+		Cell size, same units as the projection.
+	scratchWorkspace : str
+		Path to scratch workspace
+	version : str
+		Package version number
 
 	Returns
 	-------
@@ -376,6 +376,10 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	if (bowl_polys is None) or (bowl_lines is None):
 		bowl_bypass == True
 
+	# test if full path datasets exist
+	for fl in [outdir,origdemPth,snap_grid,scratchWorkspace]:
+		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
+
 	dsc = arcpy.Describe(snap_grid)
 	rem = dsc.extent.XMin % 5
 	assert rem == 0, "Snap Grid origin not divisible by 5."
@@ -384,13 +388,18 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.workspace = outdir
 	arcpy.env.cellSize = cellsz
 	arcpy.env.overwriteOutput = True
+	arcpy.env.scratchWorkspace = scratchWorkspace
+
+	# test if other datasets exist
+	for fl in [huc8cov,dendrite,bowl_polys,bowl_lines,inwall,drainplug]:
+		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
 	tmpLocations = [] # make a container for temp locations that will be deleted at the end
 
 	# buffer the huc8cov
 	hucbuff = 'hucbuff' # some temp location
 	tmpLocations.append(hucbuff)
-	arcpy.AddMessage('Buffering Local Divisons')
+	arcpy.AddMessage('	Buffering Local Divisons')
 	arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
 	arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
 	arcpy.CalculateField_management(hucbuff,"dummy","1")
@@ -398,13 +407,13 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.extent = hucbuff # set the extent to the buffered HUC
 
 	# rasterize the buffered local division
-	arcpy.AddMessage('Rasterizing %s'%hucbuff)
+	arcpy.AddMessage('	Rasterizing %s'%hucbuff)
 	outGrid = 'hucbuffRast'
 	tmpLocations.append(outGrid)
 	arcpy.PolygonToRaster_conversion(hucbuff,"dummy",outGrid,cellsize = cellsz)
 
 	# rasterize the dendrite
-	arcpy.AddMessage('Rasterizing %s'%dendrite)
+	arcpy.AddMessage('	Rasterizing %s'%dendrite)
 	dendriteGridpth = 'tmpDendriteRast'
 	tmpLocations.append(dendriteGridpth)
 
@@ -422,7 +431,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	elevgrid = agree(origdem, dendriteGrid, agreebuf, agreesmooth, agreesharp) # run agree function
 	
 	# burning streams and adding walls
-	arcpy.AddMessage('Starting Walling') # (L182 in hydroDEM_work_mod.aml)
+	arcpy.AddMessage('	Starting Walling') # (L182 in hydroDEM_work_mod.aml)
 
 	ridgeNLpth = 'ridgeRast'
 	tmpLocations.append(ridgeNLpth)
@@ -438,18 +447,21 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeEXP)
 	demRidge8 = elevgrid + Con((IsNull(ridgeW) == 0) & (IsNull(dendriteGrid)), outwallht, 0)
 
-	arcpy.AddMessage('Walling Complete')
+	arcpy.AddMessage('	Walling Complete')
 
 	if dp_bypass == False: # dp_bypass is defined after the main code in the original AML
-		dpg_path = 'depressionRast'
-		tmpLocations.append(dpg_path)
-		arcpy.AddField_management(drainplug,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-		arcpy.CalculateField_management(drainplug,"dummy","1")
-		arcpy.FeatureToRaster_conversion(drainplug,"dummy",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
-		dpg = Raster(dpg_path) # load the raster object
+		if int(arcpy.GetCount_management(drainplug).getOutput(0)) > 0:
+			dpg_path = 'depressionRast'
+			tmpLocations.append(dpg_path)
+			arcpy.AddField_management(drainplug,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+			arcpy.CalculateField_management(drainplug,"dummy","1")
+			arcpy.FeatureToRaster_conversion(drainplug,"dummy",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
+			dpg = Raster(dpg_path) # load the raster object
+		else:
+			dpg = CreateConstantRaster(0, "INTEGER", cell_size = cellsz) # if the feature class is empty, make a dummy raster
 
 	if bowl_bypass == False: # bowl_bypass is defined after the main code in the original AML
-		arcpy.AddMessage('Starting Bowling')
+		arcpy.AddMessage('	Starting Bowling')
 		blp_name = 'blp'
 		tmpLocations.append(blp_name)
 		
@@ -464,13 +476,13 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		eucd = SetNull(IsNull(bowl_polys), EucDistance(blp)) # (L210 in hydroDEM_work_mod.aml)
 		demRidge8wb = demRidge8 - Con(IsNull(eucd) == 0, (bowldepth / (eucd+1)), 0)
 
-		arcpy.AddMessage('Bowling complete')
+		arcpy.AddMessage('	Bowling complete')
 
 	else:
-		arcpy.AddMessage('Bowling Skipped')
+		arcpy.AddMessage('	Bowling Skipped')
 
 	if iw_bypass == False:
-		arcpy.AddMessage('Starting Inwalling')
+		arcpy.AddMessage('	Starting Inwalling')
 		iwb_name = 'inwall_buff'
 		tmpLocations.append(iwb_name)
 		arcpy.Buffer_analysis(inwall,iwb_name,inwallbuffdist) #(L223 in hydroDEM_work_mod.aml)
@@ -487,11 +499,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		inwallg = Con(tmpGrd == 100, 0)
 		dem_enforced = demRidge8wb + Con((IsNull(inwallg) == 0) & (IsNull(dendriteGrid)), inwallht, 0) #(L226 in hydroDEM_work_mod.aml)
 
-		arcpy.AddMessage('Inwalling Complete')
+		arcpy.AddMessage('	Inwalling Complete')
 	else:
 		del dem_enforced
 		dem_enforced = demRidge8wb
-		arcpy.AddMessage('Inwalling Skipped')
+		arcpy.AddMessage('	Inwalling Skipped')
 
 	if dp_bypass == False:
 		detmp = Con(IsNull(dpg),dem_enforced)
@@ -501,20 +513,26 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.extent = hucbuff
 	arcpy.cellSize = origdem
 
-	filldem,fdirg = fill(dem_enforced, "sink", None)
+	#filldem,fdirg = fill(dem_enforced, "sink", None)
+	arcpy.AddMessage("	Starting Fill")
+	filldem = Fill(dem_enforced)
+	fdirg2 = FlowDirection(filldem, 'FORCE')
+	arcpy.AddMessage("	Fill Complete")
 
 	if dp_bypass == False:
-		fdirg2 = FlowDirection(filldem, 'FORCE')
-		fdirg = Con(IsNull(dpg), fdirg2, 0) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
-
+		#fdirg2 = FlowDirection(filldem, 'FORCE')
+		fdirg = Con(dpg == 1, 0, fdirg2) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
+	else:
+		fdirg = fdirg2
+		
 	arcpy.env.mask = ridgeNLpth # mask to HUC
 
 	# might need to save the fdirg, delete it from the python workspace, and reload it...
-	arcpy.AddMessage('Starting Flow Accumulation')
+	arcpy.AddMessage('	Starting Flow Accumulation')
 	faccg = FlowAccumulation(fdirg, None, "INTEGER")
-	arcpy.AddMessage('Flow Accumulation Complete')
+	arcpy.AddMessage('	Flow Accumulation Complete')
 
-	arcpy.AddMessage('Creating Sink Features')
+	arcpy.AddMessage('	Creating Sink Features')
 	fsinkg = Con((filldem - origdem) > 1, 1)
 	#fsinkg_name = 'fsinkg'
 	#fsinkg_path = os.path.join(arcpy.env.workspace,fsinkc_name)
@@ -525,20 +543,21 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.RasterToPolygon_conversion(fsinkg, fsinkc_name, 'NO_SIMPLIFY') # (L273 in hydroDEM_work_mod.aml), outputs fsinkc
 	del fsinkg
 
-	arcpy.AddMessage('Sink Creation Complete')
-	arcpy.AddMessage('HydroDEM Complete')
+	arcpy.AddMessage('	Sink Creation Complete')
 
-	# clean up the environment of temp files
-	#arcpy.Delete_management(fsinkg_path) # clean up
-	# more statements needed here...
+	# save the grids to the workspace
+	filldem.save(os.path.join(arcpy.env.workspace,"hydrodem"))
+	del filldem
+	fdirg.save(os.path.join(arcpy.env.workspace,"hydrodemfdr"))
+	del fdirg
+	faccg.save(os.path.join(arcpy.env.workspace,"hydrodemfac"))
+	del faccg
 
+	# clean the environment of temp files
 	for fl in tmpLocations: # delete tmp files
 		if arcpy.Exists(fl): arcpy.Delete_management(fl)
 
-	# save the grids to the workspace
-	filldem.save("filldem")
-	fdirg.save("fdirg")
-	faccg.save("faccg")
+	arcpy.AddMessage('HydroDEM Complete')
 
 	return None
 
@@ -921,13 +940,13 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	elevgrid : arcpy.sa Raster
 		conditioned elevation grid returned as a arcpy.sa Raster object
 	'''
-	arcpy.AddMessage('Starting AGREE')
+	arcpy.AddMessage('	Starting AGREE')
 
 	# code to check that all inputs exist
 
 	cellsize = (float(arcpy.GetRasterProperties_management(origdem, "CELLSIZEX").getOutput(0)) + float(arcpy.GetRasterProperties_management(origdem, "CELLSIZEY").getOutput(0)))/2. # compute the raster cell size
 
-	arcpy.AddMessage('	Setting Environment Variables')
+	arcpy.AddMessage('		Setting Environment Variables')
 	arcpy.env.extent = origdem # (L130 AGREE.aml)
 	arcpy.env.cellSize = cellsize # (L131 AGREE.aml)
 
@@ -939,7 +958,7 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 
 	#arcpy.FeaturetoRaster_conversion(dendrite,dendriteGridPth)
 
-	arcpy.AddMessage('	Computing smooth drop/raise grid...')
+	arcpy.AddMessage('		Computing smooth drop/raise grid...')
 	# expression = 'int ( setnull ( isnull ( vectgrid ), ( \"origdem\" + \"greesmooth\" ) ) )'
 
 	#dendriteGrid = Raster(dendriteGridPth)
@@ -947,31 +966,31 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	
 	smogrid = Int(SetNull(IsNull(dendrite), (origdem + agreesmooth))) # compute the smooth drop/raise grid (L154 in AGREE.aml)
 
-	arcpy.AddMessage('	Computing vector distance grids...')
+	arcpy.AddMessage('		Computing vector distance grids...')
 	vectdist = EucDistance(smogrid)
 	# Need to produce vectallo (stores the elevation of the closest vector cell), is this the same as the smogrid?
 	vectallo = EucAllocation(smogrid) # Roland Viger thinks the original vectallo is an allocation grid, that can be made with EucAllocation.
 
-	arcpy.AddMessage('	Computing buffer grids...')
+	arcpy.AddMessage('		Computing buffer grids...')
 	bufgrid1 = Con((vectdist > (agreebuf - (cellsize / 2.))), 1, 0) 
 	bufgrid2 = Int(SetNull(bufgrid1 == 0, origdem)) # (L183 in AGREE.aml)
 
-	arcpy.AddMessage('	Computing buffer distance grids...')
+	arcpy.AddMessage('		Computing buffer distance grids...')
 	# compute euclidean distance and allocation grids
 	bufdist = EucDistance(bufgrid2)
 	bufallo = EucAllocation(bufgrid2)
 
-	arcpy.AddMessage('	Computing smooth modified elevation grid...')
+	arcpy.AddMessage('		Computing smooth modified elevation grid...')
 	smoelev =  vectallo + ((bufallo - vectallo) / (bufdist + vectdist)) * vectdist
 
-	arcpy.AddMessage('	Computing sharp drop/raise grid...')
+	arcpy.AddMessage('		Computing sharp drop/raise grid...')
 	#shagrid = int ( setnull ( isnull ( vectgrid ), ( smoelev + %sharpdist% ) ) )
 	shagrid = Int(SetNull(IsNull(dendrite), (smoelev + agreesharp)))
 
-	arcpy.AddMessage('	Computing modified elevation grid...')
+	arcpy.AddMessage('		Computing modified elevation grid...')
 	elevgrid = Con(IsNull(dendrite), smoelev, shagrid)
 
-	arcpy.AddMessage('AGREE Complete')
+	arcpy.AddMessage('	AGREE Complete')
 
 	return elevgrid 
 

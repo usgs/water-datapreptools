@@ -507,7 +507,7 @@ class SetupBathyGrad(object):
 		NHDWaterbody = parameters[5].valueAsText
 		cellSize = parameters[6].valueAsText
 
-		bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize)
+		bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize, version = version)
 
 class CoastalDEM(object):
 	def __init__(self):
@@ -754,10 +754,6 @@ class HydroDEM(object):
 		agreesharp = parameters[16].valueAsText
 		bowldepth = parameters[17].valueAsText
 
-		start_path = None # not sure if needed
-		copylayers = None # not sure if needed
-		bowling = None # note sure if needed
-
-		hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, start_path, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, copylayers, cellsz, bowling, in_wall, drain_plugs)
+		hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz)
 
 		return None
