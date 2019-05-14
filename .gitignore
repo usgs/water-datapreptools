@@ -1,0 +1,5 @@
+/.ipynb_checkpoints/
+*.xml
+*.pyc
+/data/
+/test_data/

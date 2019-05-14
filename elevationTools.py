@@ -130,11 +130,11 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
 
 	# set working folder
-	arcpy.env.Workspace = Input_Workspace
-	arcpy.env.ScratchWorkspace = arcpy.env.Workspace
+	arcpy.env.workspace = Input_Workspace
+	arcpy.env.scratchWorkspace = arcpy.env.workspace
 
 	# select index tiles overlapping selected poly(s)
-	intersectout = os.path.join(arcpy.env.Workspace,"clipintersect.shp")
+	intersectout = os.path.join(arcpy.env.workspace,"clipintersect.shp")
 	if arcpy.Exists(intersectout):
 	  arcpy.Delete_management(intersectout)
 	
@@ -151,8 +151,8 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 				arcpy.AddMessage("Setting raster snap and coordinate system to match first input grid " + pth )
 				try:
 				  assert arcpy.Exists(pth) == True
-				  arcpy.env.SnapRaster = pth
-				  arcpy.env.OutputCoordinateSystem = pth
+				  arcpy.env.snapRaster = pth
+				  arcpy.env.outputCoordinateSystem = pth
 				except:
 				  arcpy.AddError("First input grid does not exist: " + pth)
 				  arcpy.AddMessage("Stopping... ")
@@ -165,7 +165,7 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	arcpy.Extent = clpfeat # reset extent to the whole layer
 	
 	arcpy.AddMessage("Merging grids to create " + OutGrd)
-	arcpy.MosaicToNewRaster_management(MosaicList,arcpy.env.Workspace,OutGrd,None,None,None,1) # merge the grids together.
+	arcpy.MosaicToNewRaster_management(MosaicList,arcpy.env.workspace,OutGrd,None,"32_BIT_SIGNED",None,1) # merge the grids together.
 
 	if arcpy.Exists(intersectout):
 		arcpy.Delete_management(intersectout)
@@ -250,10 +250,10 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 
 	try: 
 		# set working folder
-		arcpy.env.Workspace = Input_Workspace
-		arcpy.env.ScratchWorkspace = arcpy.env.Workspace
-		tmpDEM = os.path.join(arcpy.env.Workspace, "tmpdemprj")
-		OutGrd = os.path.join(arcpy.env.Workspace, OutGrd)
+		arcpy.env.workspace = Input_Workspace
+		arcpy.env.scratchWorkspace = arcpy.env.workspace
+		tmpDEM = os.path.join(arcpy.env.workspace, "tmpdemprj")
+		OutGrd = os.path.join(arcpy.env.workspace, OutGrd)
 
 		if arcpy.Exists(OutGrd):
 			arcpy.Delete_management(OutGrd)
