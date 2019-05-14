@@ -348,17 +348,16 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	version : str
 		Package version number
 
-	Returns
+	Returns (saved to outDIR)
 	-------
-	filldem : arcpy.sa Raster
-		hydro-enforced, filled DEM
-	fdirg : arcpy.sa Raster
-		flow direction grid cooresponding to filldem
-	faccg : arcpy.sa Raster
-		flow accumulation grid cooresponding to filldem
-	sink_path : path
-		path to sink feature class
-
+	filldem : raster
+		hydro-enforced DEM raster grid saved to outDir
+	fdirg : raster
+		HydroDEM FDR raster grid saved to outDir
+	faccg : raster
+		HydroDEM FAC raster grid saved to outDir
+	sink_path : feature class
+		Sink feature class saved to outDir
 	'''
 	arcpy.AddMessage("HydroDEM is running")
 
@@ -442,7 +441,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	#ridgeEXP = 'some temp location'
 	ridgeNL = Raster(ridgeNLpth) # load ridgeNL 
 	ridgeEXP = Expand(ridgeNL,2,[1]) # the last parameter is the zone to be expanded, this might need to be added to the dummy field above... 
-	#outRidgeEXP.save(ridgeEXP) # save temperary file, maybe not needed
 
 	ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeEXP)
 	demRidge8 = elevgrid + Con((IsNull(ridgeW) == 0) & (IsNull(dendriteGrid)), outwallht, 0)
@@ -464,8 +462,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		arcpy.AddMessage('	Starting Bowling')
 		blp_name = 'blp'
 		tmpLocations.append(blp_name)
-		
-		#inPaths = '%s;%s'%(bowl_lines,dpg_path)
 
 		bowlLines = Raster(bowl_lines)
 
@@ -513,14 +509,12 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.extent = hucbuff
 	arcpy.cellSize = origdem
 
-	#filldem,fdirg = fill(dem_enforced, "sink", None)
 	arcpy.AddMessage("	Starting Fill")
 	filldem = Fill(dem_enforced)
 	fdirg2 = FlowDirection(filldem, 'FORCE')
 	arcpy.AddMessage("	Fill Complete")
 
 	if dp_bypass == False:
-		#fdirg2 = FlowDirection(filldem, 'FORCE')
 		fdirg = Con(dpg == 1, 0, fdirg2) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
 	else:
 		fdirg = fdirg2
@@ -534,10 +528,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	arcpy.AddMessage('	Creating Sink Features')
 	fsinkg = Con((filldem - origdem) > 1, 1)
-	#fsinkg_name = 'fsinkg'
-	#fsinkg_path = os.path.join(arcpy.env.workspace,fsinkc_name)
-	#fsinkg.save(fsinkg_path)
-	#del fsinkg # clean up
 	
 	fsinkc_name = 'fsinkc'
 	arcpy.RasterToPolygon_conversion(fsinkg, fsinkc_name, 'NO_SIMPLIFY') # (L273 in hydroDEM_work_mod.aml), outputs fsinkc
