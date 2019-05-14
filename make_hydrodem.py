@@ -185,7 +185,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	arcpy.AddMessage("Done!")
 
-def coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel):
+def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel):
 	'''Sets elevations for water and other areas in DEM
 
 	Originally:
@@ -196,19 +196,20 @@ def coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel):
 	Parameters
 	----------
 	Input_Workspace : str
-		Input workspace
-	grdName : str
+		Input workspace, output raster will be written here.
+	grdNamePth : str
 		Input DEM grid.
 	InFeatureClass : str
-		LandSea feature class
+		LandSea feature class.
 	OutRaster : str
-		Output DEM grid
+		Output DEM grid name.
 	seaLevel : float
 		Elevation at which to make the sea
 	
 	Returns
 	-------
 	OutRaster : raster
+		Output raster written to the workspace.
 	'''
 
 	try:
@@ -216,68 +217,29 @@ def coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel):
 		arcpy.env.workspace = Input_Workspace
 		arcpy.env.scratchWorkspace = arcpy.env.Workspace
 
-		arcpy.env.extent = grdName
-		arcpy.env.snapRaster = grdName
-		arcpy.env.outputCoordinateSystem = grdName
-		arcpy.env.cellSize = grdName
-		#cellsz = grdName.Cellsize
+		arcpy.env.extent = grdNamePth
+		arcpy.env.snapRaster = grdNamePth
+		arcpy.env.outputCoordinateSystem = grdNamePth
+		arcpy.env.cellSize = grdNamePth
 
-		#buffg = polygrid (hucbufland)
+		# this is assuming land is 1 and sea is -1
 		arcpy.PolygonToRaster_conversion(InFeatureClass, "Land", "mskg")
 		
 		mskg = Raster("mskg") # load the mask grid
-		grdName = Raster()
+		grdName = Raster(grdNamePth) # load the 
 		
 		seag = Con(mskg == -1, float(seaLevel))
 
-		landg = Con((mskg == 1) and grdName <= 0, 1, grdName)
-		#seaGrd = con(mskGrd == -1, seaLevel)
-		#strCmd = "con('%s' == %s, %s)" % ("mskg", "-1", seaLevel)
-		#arcpy.AddMessage(strCmd)
-		#arcpy.SingleOutputMapAlgebra_sa(strCmd, "seag")
+		landg = Con((mskg == 1) & (grdName <= 0), 1, grdName)
 
-		#landGrd = con(mskGrd == 1 and grdName <= 0, 1, grdName)
-		strCmd = "con(%s == 1 and %s <= 0, %s, %s)" % ("mskg", grdName, "1", grdName)
-		arcpy.AddMessage(strCmd)
-		arcpy.SingleOutputMapAlgebra_sa(strCmd, "landg")
+		nochgg = Con(mskg == 0, grdName)
 
-		#nochgGrd = con(mskGrd == 0, grdName)
-		strCmd = "con('%s' == %s, %s)" % ("mskg", "0", grdName)
-		arcpy.AddMessage(strCmd)
-		arcpy.SingleOutputMapAlgebra_sa(strCmd, "nochgg")
-
-
-		strMosaicList = "seag, landg, nochgg"
-		strCmd = "merge (" + strMosaicList + ")"
-		arcpy.AddMessage(strCmd)
-		arcpy.SingleOutputMapAlgebra_sa(strCmd, OutRaster)
-
-		arcpy.AddMessage("Removing temporary grids ... ")
-		#gp.delete_management("mskg")
-		#gp.delete_management("seag")
-		#gp.delete_management("landg")
-		#gp.delete_management("nochgg")
+		arcpy.MosaicToNewRaster_management([seag,landg,nochgg],arcpy.env.workspace,OutRaster,None,None,None,1) # mosaic and produce new raster
+		
 	except:
 		e = sys.exc_info()[1]
 		print(e.args[0])
 		arcpy.AddError(e.args[0])
-
-		# handle errors and report using GPMsg function
-	#except MsgError, xmsg:
-	#	arcpy.AddError(str(xmsg))
-	#except arcpy.ExecuteError:
-	#	line, file, err = TraceInfo()
-	#	arcpy.AddError("Geoprocessing error on %s of %s:" % (line,file))
-	#	for imsg in range(0, arcpy.MessageCount):
-	#		if arcpy.GetSeverity(imsg) == 2:     
-	#			arcpy.AddReturnMessage(imsg) # AddReturnMessage
-	#except:  
-	#	line, file, err = TraceInfo()
-	#	arcpy.AddError("Python error on %s of %s" % (line,file))
-	#	arcpy.AddError(err)
-	#finally:
-		# Clean up here (delete cursors, temp files)
-	#	pass # you need *something* here 
 
 	return None
 
@@ -456,7 +418,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 			arcpy.FeatureToRaster_conversion(drainplug,"dummy",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
 			dpg = Raster(dpg_path) # load the raster object
 		else:
-			dpg = CreateConstantRaster(0, "INTEGER", cell_size = cellsz) # if the feature class is empty, make a dummy raster
+			tmp = CreateConstantRaster(0, "INTEGER", cell_size = cellsz) # if the feature class is empty, make a dummy raster
+			dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
 
 	if bowl_bypass == False: # bowl_bypass is defined after the main code in the original AML
 		arcpy.AddMessage('	Starting Bowling')
