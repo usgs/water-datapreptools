@@ -2,7 +2,7 @@ import arcpy
 import sys
 import os
 
-version = "4.0"
+version = "4.0alpha"
 
 arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
@@ -247,8 +247,6 @@ class ExtractPoly(object):
 
 		extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version=version)
 
-		return
-
 class CheckNoData(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
@@ -298,8 +296,6 @@ class CheckNoData(object):
 
 		checkNoData(InGrid, tmpLoc, OutPolys_shp, version=version)
 
-		return
-
 class FillNoData(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
@@ -346,7 +342,7 @@ class FillNoData(object):
 		OutGrid = parameters[2].valueAsText
 
 		
-		fillNoData(workspace, InGrid, OutGrid, version)
+		fillNoData(workspace, InGrid, OutGrid, version = version)
 		
 		return
 
@@ -427,7 +423,7 @@ class ProjScale(object):
 		OutCellSize = parameters[4].valueAsText     # Cell size for output grid. (type Analysis cell size)
 		RegistrationPoint = parameters[5].valueAsText  # Registration point. Space separated coordinates. (type String)
 
-		projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint)
+		projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, version = version)
 		
 		return
 

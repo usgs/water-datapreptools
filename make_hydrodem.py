@@ -483,7 +483,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	else:
 		fdirg = Int(fdirg2)
 		
-	#arcpy.env.mask = ridgeNLpth # mask to HUC
+	arcpy.env.mask = ridgeNLpth # mask to HUC
 
 	# might need to save the fdirg, delete it from the python workspace, and reload it...
 	arcpy.AddMessage('	Starting Flow Accumulation')
@@ -508,8 +508,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	del faccg
 
 	# clean the environment of temp files
-	#for fl in tmpLocations: # delete tmp files
-	#	if arcpy.Exists(fl): arcpy.Delete_management(fl)
+	for fl in tmpLocations: # delete tmp files
+		if arcpy.Exists(fl): arcpy.Delete_management(fl)
 
 	arcpy.AddMessage('HydroDEM Complete')
 

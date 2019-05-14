@@ -165,7 +165,7 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	arcpy.Extent = clpfeat # reset extent to the whole layer
 	
 	arcpy.AddMessage("Merging grids to create " + OutGrd)
-	arcpy.MosaicToNewRaster_management(MosaicList,arcpy.env.Workspace,OutGrd,None,None,None,1) # merge the grids together.
+	arcpy.MosaicToNewRaster_management(MosaicList,arcpy.env.workspace,OutGrd,None,"32_BIT_SIGNED",None,1) # merge the grids together.
 
 	if arcpy.Exists(intersectout):
 		arcpy.Delete_management(intersectout)
@@ -250,10 +250,10 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 
 	try: 
 		# set working folder
-		arcpy.env.Workspace = Input_Workspace
-		arcpy.env.ScratchWorkspace = arcpy.env.Workspace
-		tmpDEM = os.path.join(arcpy.env.Workspace, "tmpdemprj")
-		OutGrd = os.path.join(arcpy.env.Workspace, OutGrd)
+		arcpy.env.workspace = Input_Workspace
+		arcpy.env.scratchWorkspace = arcpy.env.workspace
+		tmpDEM = os.path.join(arcpy.env.workspace, "tmpdemprj")
+		OutGrd = os.path.join(arcpy.env.workspace, OutGrd)
 
 		if arcpy.Exists(OutGrd):
 			arcpy.Delete_management(OutGrd)
