@@ -587,6 +587,8 @@ class HydroDEM(object):
 			parameterType = "Required",
 			direction = "Input") # maybe should be Output
 
+		param0.filter.list = ["Local Database"]
+
 		param1 = arcpy.Parameter(
 			displayName = "HUC layer",
 			name = "huc8cov",
@@ -642,6 +644,8 @@ class HydroDEM(object):
 			datatype = "GPString",
 			parameterType = "Required",
 			direction = "Input")
+
+		param8.value = "10"
 
 		param9 = arcpy.Parameter(
 			displayName = "Drain Plugs",
