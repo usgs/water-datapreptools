@@ -1,5 +1,7 @@
 from databaseSetup import databaseSetup
 
+print("************ Testing databaseSetup ************")
+
 output_workspace = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace"
 output_gdb_name = "test_global"
 hu_dataset = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data\test_WBD.shp"
