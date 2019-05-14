@@ -234,7 +234,7 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 
 		nochgg = Con(mskg == 0, grdName)
 
-		arcpy.MosaicToNewRaster_management([seag,landg,nochgg],arcpy.env.workspace,OutRaster,None,None,None,1) # mosaic and produce new raster
+		arcpy.MosaicToNewRaster_management([seag,landg,nochgg],arcpy.env.workspace,OutRaster,None, "32_BIT_SIGNED", None, 1, "FIRST") # mosaic and produce new raster
 		
 	except:
 		e = sys.exc_info()[1]
@@ -428,7 +428,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 		bowlLines = Raster(bowl_lines)
 
-		arcpy.MosaicToNewRaster_management([bowlLines,dpg],arcpy.env.workspace,blp_name, None, None, None, 1) # probably need some more options
+		arcpy.MosaicToNewRaster_management([bowlLines,dpg],arcpy.env.workspace,blp_name, None, "32_BIT_SIGNED", None, 1, "FIRST") # probably need some more options
 
 		blp = Raster(blp_name)
 
@@ -473,16 +473,17 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.cellSize = origdem
 
 	arcpy.AddMessage("	Starting Fill")
-	filldem = Fill(dem_enforced)
-	fdirg2 = FlowDirection(filldem, 'FORCE')
+	filldem = Int(Fill(dem_enforced))
+	fdirg2 = Int(FlowDirection(filldem, 'FORCE')) # this works...
+	#fdirg2.save("fdirg2")
 	arcpy.AddMessage("	Fill Complete")
 
 	if dp_bypass == False:
-		fdirg = Con(dpg == 1, 0, fdirg2) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
+		fdirg = Int(Con(IsNull(dpg) == 0, 0, fdirg2)) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
 	else:
-		fdirg = fdirg2
+		fdirg = Int(fdirg2)
 		
-	arcpy.env.mask = ridgeNLpth # mask to HUC
+	#arcpy.env.mask = ridgeNLpth # mask to HUC
 
 	# might need to save the fdirg, delete it from the python workspace, and reload it...
 	arcpy.AddMessage('	Starting Flow Accumulation')
@@ -507,8 +508,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	del faccg
 
 	# clean the environment of temp files
-	for fl in tmpLocations: # delete tmp files
-		if arcpy.Exists(fl): arcpy.Delete_management(fl)
+	#for fl in tmpLocations: # delete tmp files
+	#	if arcpy.Exists(fl): arcpy.Delete_management(fl)
 
 	arcpy.AddMessage('HydroDEM Complete')
 
