@@ -81,7 +81,8 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	-------
 	
 	'''
-
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	arcpy.env.overwriteOutput = True # Set script to overwrite if files exist
 	arcpy.AddMessage("Starting Bathymetric Gradient Preparations....")
@@ -211,6 +212,8 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 	OutRaster : raster
 		Output raster written to the workspace.
 	'''
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	try:
 		# set working folder
@@ -321,6 +324,9 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	sink_path : feature class
 		Sink feature class saved to outDir
 	'''
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+
 	arcpy.AddMessage("HydroDEM is running")
 
 	## put some checks here about the _bypass variables
@@ -341,9 +347,9 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	for fl in [outdir,origdemPth,snap_grid,scratchWorkspace]:
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
-	dsc = arcpy.Describe(snap_grid)
-	rem = dsc.extent.XMin % 5
-	assert rem == 0, "Snap Grid origin not divisible by 5."
+	#dsc = arcpy.Describe(snap_grid)
+	#rem = dsc.extent.XMin % 5
+	#assert rem == 0, "Snap Grid origin not divisible by 5."
 
 	# set working directory and environment
 	arcpy.env.workspace = outdir
@@ -389,7 +395,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.mask = outGrid # set mask (L169 in hydroDEM_work_mod.aml)
 	arcpy.env.snapRaster = snap_grid
 
-	elevgrid = agree(origdem, dendriteGrid, agreebuf, agreesmooth, agreesharp) # run agree function
+	elevgrid = agree(origdem, dendriteGrid, int(agreebuf), int(agreesmooth), int(agreesharp)) # run agree function
 	
 	# burning streams and adding walls
 	arcpy.AddMessage('	Starting Walling') # (L182 in hydroDEM_work_mod.aml)
@@ -444,7 +450,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		arcpy.AddMessage('	Starting Inwalling')
 		iwb_name = 'inwall_buff'
 		tmpLocations.append(iwb_name)
-		arcpy.Buffer_analysis(inwall,iwb_name,inwallbuffdist) #(L223 in hydroDEM_work_mod.aml)
+		arcpy.Buffer_analysis(inwall,iwb_name,inwallbuffdist, ) #(L223 in hydroDEM_work_mod.aml)
 		
 		tmpGrd_name = 'tmpGrd'
 		tmpLocations.append(tmpGrd_name)
@@ -455,9 +461,10 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		arcpy.FeatureToRaster_conversion(iwb_name,"dummy",tmpGrd_name, cell_size = cellsz)
 		tmpGrd = Raster(tmpGrd_name)
 
-		inwallg = Con(tmpGrd == 100, 0)
-		dem_enforced = demRidge8wb + Con((IsNull(inwallg) == 0) & (IsNull(dendriteGrid)), inwallht, 0) #(L226 in hydroDEM_work_mod.aml)
+		#inwallg = Con(tmpGrd == 100, 0) # this makes an empty raster...
 
+		# Only inwalls where there are not streams and there are inwalls.
+		dem_enforced = demRidge8wb + Con((IsNull(tmpGrd) == 0) & (IsNull(dendriteGrid)), inwallht, 0) #(L226 in hydroDEM_work_mod.aml) 
 		arcpy.AddMessage('	Inwalling Complete')
 	else:
 		del dem_enforced
@@ -473,8 +480,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.cellSize = origdem
 
 	arcpy.AddMessage("	Starting Fill")
-	filldem = Int(Fill(dem_enforced))
-	fdirg2 = Int(FlowDirection(filldem, 'FORCE')) # this works...
+	filldem = Fill(dem_enforced)
+	fdirg2 = FlowDirection(filldem, 'FORCE') # this works...
 	#fdirg2.save("fdirg2")
 	arcpy.AddMessage("	Fill Complete")
 
@@ -509,7 +516,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	# clean the environment of temp files
 	for fl in tmpLocations: # delete tmp files
-		if arcpy.Exists(fl): arcpy.Delete_management(fl)
+		if arcpy.Exists(fl):
+			try:
+				arcpy.Delete_management(fl)
+			except:
+				arcpy.AddMessage("Failed to Delete: %s"%fl)
 
 	arcpy.AddMessage('HydroDEM Complete')
 

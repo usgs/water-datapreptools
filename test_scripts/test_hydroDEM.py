@@ -1,3 +1,5 @@
+import sys
+sys.path.append("..")
 from make_hydrodem import hydrodem
 
 print("************ Testing HydroDEM ************")
