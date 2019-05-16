@@ -114,15 +114,15 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	#convert to temporary shapefiles
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
 	arcpy.AddField_management(nhd_area_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(nhd_area_feat,"dummy","1")
+	arcpy.CalculateField_management(nhd_area_feat,"dummy","1", "PYTHON")
 
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyWaterbody, arcpy.env.workspace, nhd_wb_feat)
 	arcpy.AddField_management(nhd_wb_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(nhd_wb_feat,"dummy","1")
+	arcpy.CalculateField_management(nhd_wb_feat,"dummy","1", "PYTHON")
 
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyFlowline, arcpy.env.workspace, nhd_flow_feat)
 	arcpy.AddField_management(nhd_flow_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(nhd_flow_feat,"dummy","1")
+	arcpy.CalculateField_management(nhd_flow_feat,"dummy","1", "PYTHON")
 
 	try:
 		#hydrographyArea Processing
@@ -347,9 +347,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	for fl in [outdir,origdemPth,snap_grid,scratchWorkspace]:
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
-	dsc = arcpy.Describe(snap_grid)
-	rem = dsc.extent.XMin % 5
-	assert rem == 0, "Snap Grid origin not divisible by 5."
+	dsc = arcpy.Describe(snap_grid) 
+	assert dsc.extent.XMin % 5 == 0, "Snap Grid origin not divisible by 5."
 
 	# set working directory and environment
 	arcpy.env.workspace = outdir
@@ -369,7 +368,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.AddMessage('	Buffering Local Divisons')
 	arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
 	arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(hucbuff,"dummy","1")
+	arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
 
 	arcpy.env.extent = hucbuff # set the extent to the buffered HUC
 
@@ -386,7 +385,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	# may need to add a field to dendrite to rasterize it...
 	arcpy.AddField_management(dendrite,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(dendrite,"dummy","1")
+	arcpy.CalculateField_management(dendrite,"dummy","1", "PYTHON")
 	arcpy.FeatureToRaster_conversion(dendrite,"dummy",dendriteGridpth, cell_size = cellsz)
 	dendriteGrid = Raster(dendriteGridpth)
 	
@@ -404,7 +403,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	tmpLocations.append(ridgeNLpth)
 	# may need to add a field to huc8cov to rasterize it...
 	arcpy.AddField_management(huc8cov,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(huc8cov,"dummy","1")
+	arcpy.CalculateField_management(huc8cov,"dummy","1", "PYTHON")
 	arcpy.FeatureToRaster_conversion(huc8cov,"dummy",ridgeNLpth,cell_size = cellsz) # rasterize the local divisions feature
 	#ridgeEXP = 'some temp location'
 	ridgeNL = Raster(ridgeNLpth) # load ridgeNL 
@@ -420,11 +419,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 			dpg_path = 'depressionRast'
 			tmpLocations.append(dpg_path)
 			arcpy.AddField_management(drainplug,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-			arcpy.CalculateField_management(drainplug,"dummy","1")
+			arcpy.CalculateField_management(drainplug,"dummy","1", "PYTHON")
 			arcpy.FeatureToRaster_conversion(drainplug,"dummy",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
 			dpg = Raster(dpg_path) # load the raster object
 		else:
-			tmp = CreateConstantRaster(0, "INTEGER", cell_size = cellsz) # if the feature class is empty, make a dummy raster
+			tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz, extent = None) # if the feature class is empty, make a dummy raster
 			dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
 
 	if bowl_bypass == False: # bowl_bypass is defined after the main code in the original AML
@@ -456,7 +455,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		tmpLocations.append(tmpGrd_name)
 
 		arcpy.AddField_management(iwb_name,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-		arcpy.CalculateField_management(iwb_name,"dummy","1")
+		arcpy.CalculateField_management(iwb_name,"dummy","1", "PYTHON")
 
 		arcpy.FeatureToRaster_conversion(iwb_name,"dummy",tmpGrd_name, cell_size = cellsz)
 		tmpGrd = Raster(tmpGrd_name)
@@ -1224,3 +1223,236 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	# &type AGREE: NOTE: Modified elevation grid is saved as elevgrid in current workspace.
 	# &type AGREE: 
 	# &return
+
+def adjust_accum(facPth, numInlets, upstreamPths):
+	'''
+	Example
+	-------
+	adjust_accum("./01010001/fac",2,["./01010002/fac","./01010003/fac"])
+
+	Description
+	-----------
+	This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named "fac_global" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy.
+
+	Parameters
+	----------
+	facPth : str
+		Path to flow accumulation grid
+	numInlets : int
+		Numer of inlets to the supplied flow accumulation grid
+	upstreamPths : list
+		List of paths to upstream flow accumulation grids
+	
+	Outputs
+	-------
+	facGlobal : str
+		Path to fac_global raster created in the same directory as fac
+
+	Attribution
+	-----------
+	accum_adjust2.aml - unknown
+	flow_accum_adjust.py - Martyn Smith, USGS
+	adjust_accum (function) - Theodore Barnhart, USGS
+	'''
+
+	#test that everything exists	
+	assert arcpy.Exists(facPth), "Raster %s deos not exist"%(fl)
+
+	for fl in upstreamPths:
+		assert arcpy.Exists(fl), "Raster %s does not exist"%(fl)
+
+	# load the upstream rasters into a structure
+	upstreams = []
+	for fl in upstreamPths:
+		upstreams.append(Raster(fl))
+
+	downstream = Raster(facPth) # load the downstream raster
+
+	for upstream in upstreams: # iterate through the rasters
+		maxFac = upstream.maximum # get maximum of upstream fac
+
+
+
+
+
+
+
+
+	# &args fac_grd num_inlets ingrds:REST
+	# &type [date -full]
+	# &echo &on
+
+	# &if [null %fac_grd%] &then &do
+	#   &call usage
+	#   &return
+	# &end 
+
+	# &severity &error &routine Bailout
+
+	# grid
+	# disp 9999
+
+	# &do i = 1 &to %num_inlets%
+	#   &s grd%i% = [extract %i% [unquote %ingrds%]]
+	#   &s i = %i% + 1
+	# &end
+
+	# &s start_path [show work]
+	# &do i = 1 &to %num_inlets%
+	#   &wo [dir [value grd%i%]]
+	#   /*determine max FAC value
+	#   &des [value grd%i%]
+	#   &if [exists grd_t1 -grid] &then
+	#     arc kill grd_t1
+	#   setmask off
+	#   setcell %grd$dx%
+	#   setwindow [value grd%i%]
+	#   grd_t1 = con([entryname [value grd%i%]] == %grd$zmax%,0)
+	#   setmask grd_t1
+	#   /*determine x,y of max FAC cell
+	#   &if [exists pnt_t%i% -cover] &then
+	#     arc kill pnt_t%i%
+	#   pnt_t%i% = gridpoint(grd_t1,value)
+	#   &des pnt_t%i%
+	#   &s outlet_x%i% = %dsc$xmax%
+	#   &s outlet_y%i% = %dsc$ymax%
+	#   &s adjust_num%i%val = %grd$zmax%
+	#   &type %i%, [value grd%i%], [value outlet_x%i%], [value outlet_y%i%]
+	  
+	#   /*determine FDR value of max FAC cell
+	#   &s fdr%i% = [show cellvalue [dir [value grd%i%]]/fdr [value outlet_x%i%], [value outlet_y%i%]]
+	  
+	#   /*calc  x,y offset
+	#   &select [value fdr%i%]
+	#     &when 1
+	#       &do
+	#         &s adjust_num%i%x = [calc [value outlet_x%i%] + %grd$dx%]
+	#         &s adjust_num%i%y = [value outlet_y%i%]
+	#       &end
+	#     &when 2
+	#       &do
+	#         &s adjust_num%i%x = [calc [value outlet_x%i%] + %grd$dx%]
+	#         &s adjust_num%i%y = [calc [value outlet_y%i%] - %grd$dy%]
+	#       &end
+	#     &when 4
+	#       &do
+	#         &s adjust_num%i%x = [value outlet_x%i%]
+	#         &s adjust_num%i%y = [calc [value outlet_y%i%] - %grd$dx%]
+	#       &end
+	#     &when 8
+	#       &do
+	#         &s adjust_num%i%x = [calc [value outlet_x%i%] - %grd$dx%]
+	#         &s adjust_num%i%y = [calc [value outlet_y%i%] - %grd$dy%]
+	#       &end
+	#     &when 16
+	#       &do
+	#         &s adjust_num%i%x = [calc [value outlet_x%i%] - %grd$dx%]
+	#         &s adjust_num%i%y = [value outlet_y%i%]
+	#       &end
+	#     &when 32
+	#       &do
+	#         &s adjust_num%i%x = [calc [value outlet_x%i%] - %grd$dx%]
+	#         &s adjust_num%i%y = [calc [value outlet_y%i%] + %grd$dy%]
+	#       &end
+	#     &when 64
+	#       &do
+	#         &s adjust_num%i%x = [value outlet_x%i%]
+	#         &s adjust_num%i%y = [calc [value outlet_y%i%] + %grd$dx%]
+	#       &end
+	#     &when 128
+	#       &do
+	#         &s adjust_num%i%x = [calc [value outlet_x%i%] + %grd$dx%]
+	#         &s adjust_num%i%y = [calc [value outlet_y%i%] + %grd$dy%]
+	#       &end
+	#   &end
+	#   &wo %start_path%
+	# &end
+
+	# &wo [dir %fac_grd%]
+	#  setmask off
+	# setwindow maxof
+	# mape %fac_grd%
+	# units map
+	# &if [exists fac1 -grid] &then
+	#   arc kill fac1
+	# arc copy [entryname %fac_grd%] fac1
+
+	# &do i = 1 &to %num_inlets%
+	#   coord keyboard xy
+	#   &if [exists pathgrd%i% -grid] &then
+	#     arc kill pathgrd%i%
+	#     pathgrd%i% = costpath(*,fil,fdr)
+	#        1,[value adjust_num%i%x],[value adjust_num%i%y]
+	#        3
+	#        ~
+	       
+	#   &if [exists fac_adj%i% -grid] &then
+	#     arc kill fac_adj%i%
+	#   fac_adj%i% = con(pathgrd%i%,fac%i% + [value adjust_num%i%val],fac%i%)
+	#   &s val = %i% + 1
+	#   &if [exists fac%val% -grid] &then
+	#     arc kill fac%val%
+	#   fac%val% = merge(fac_adj%i%,fac%i%)
+	# &end
+
+
+	# &if [exists fac_global.rrd -file] &then
+	#   &s xx [delete fac_global.rrd -file]
+	# &if [exists fac_global.aux -file] &then
+	#   &s xx [delete fac_global.aux -file]
+
+	# &if [exists fac_global -grid] &then
+	#   arc kill fac_global
+
+	# rename fac%val% fac_global
+
+
+	# /*&if [exists str%thresh2% -grid] &then
+	# /*  arc kill str%thresh2%
+
+	# /*str%thresh2% = con ( fac_global ge %thresh2%, 1)
+	  
+	# /*cleanup
+	# &do i = 1 &to %num_inlets%
+	#   &if [exists grd_t1 -grid] &then
+	#     arc kill grd_t1
+	#   &if [exists fac_adj%i% -grid] &then
+	#     arc kill fac_adj%i% all
+	#   &if [exists pathgrd%i% -grid] &then
+	#     arc kill pathgrd%i% all
+	#   &if [exists fac%i% -grid] &then
+	#     arc kill fac%i%
+	# &end 
+	  
+	# coord mouse  
+
+	# quit
+
+	# &return
+
+	# &ROUTINE BAILOUT
+	# &severity &error &ignore
+	# coord mouse
+	# &wo %start_path%
+	# &lv
+	# &return &error Bailing out of Accum_Adjust2.aml
+
+	# &routine usage
+	# &type  
+	# &type  USAGE: &r accum_adjust2 <fac_grd> <num_inlets> 
+	# &type                <space separated list of full paths to upstream fac grids>
+	# &type   
+	# &type  ex: &r d:\sstoolbox\accum_adjust2 3 D:\streamstats\DataPrepWorkshop10\ex1\1111\fac D:\streamstats\DataPrepWorkshop10\ex1\2222\fac D:\streamstats\DataPrepWorkshop10\ex1\3333\fac 
+	# &type 
+	# &type This AML adjusts the fac of a downstream HUC to include flow accumulations from
+	# &type upstream HUC's. Run this from the downstream HUC workspace. The AML will leave 
+	# &type the fac grid intact and will create agrid named "fac_global". To get true 
+	# &type accumulation values in HUCs downstream of other non-headwater HUCs, proceed 
+	# &type from upstream HUCs to downstream HUCs in order, and specify the fac_global grid 
+	# &type for any upstream HUC that has one. (It is not essential that the fac_global
+	# &type contain true global fac values, and in some cases it is not possible since the 
+	# &type values get too large. In practice, as long as the receiving cells have 
+	# &type accumulation values larger than the stream definition threshold 
+	# &type (150,000 cells for 10-m grids), then it will be OK. 
+	# &type  
+	# &return  /* end of usage routine

@@ -700,7 +700,7 @@ class HydroDEM(object):
 		bowldepth = int(parameters[17].valueAsText)
 		scratchWS = parameters[18].valueAsText
 
-		hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWS,version = version)
+		hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWS, version = version)
 
 		return None
 
