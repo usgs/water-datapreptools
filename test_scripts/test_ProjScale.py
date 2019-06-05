@@ -1,9 +1,12 @@
+import sys
+sys.path.append("..")
 from elevationTools import projScale
 
-print("************ Testing projScale ************")
+huc = "01080201"
+print("************ Testing projScale on unit: %s************"%huc)
 
-Input_Workspace = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\01080207\Layers" 
-InGrd = "dem_fill"
+Input_Workspace = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\%s\Layers"%huc 
+InGrd = "dem_dd"
 OutGrd = "dem"
 OutCoordsys = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data\test_WBD.shp" # not sure if this will work
 OutCellSize = 10

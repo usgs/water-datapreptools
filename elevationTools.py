@@ -2,6 +2,9 @@ import arcpy
 import sys
 import os
 import re
+arcpy.CheckOutExtension("Spatial")
+
+from arcpy.sa import *
 
 def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = None):
 	"""
@@ -39,12 +42,12 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 	coordsysPolys = coordsysRaster     # Coordinate system for polygon footprints. Use same NED grid to specify. (type Spatial Reference)
 
 	if arcpy.Exists(OutLoc): 
-	  DSType = arcpy.Describe(arcpy.Describe(OutLoc).CatalogPath).WorkspaceType
-	  arcpy.AddMessage("Dataset type =" + DSType)
-	  if DSType == "FileSystem":
-		arcpy.AddError("Output " + OutLoc + " is not a Geodatabase. Output location must be a Geodatabase.")
-	else:
-	  arcpy.AddError("Output " + OutLoc + "does not exist")
+		DSType = arcpy.Describe(arcpy.Describe(OutLoc).CatalogPath).WorkspaceType
+		arcpy.AddMessage("Dataset type =" + DSType)
+		if DSType == "FileSystem":
+			arcpy.AddError("Output " + OutLoc + " is not a Geodatabase. Output location must be a Geodatabase.")
+		else:
+	  		arcpy.AddError("Output " + OutLoc + "does not exist")
 	
 	# Now that we're sure the geodb exists, make it the active workspace
 	arcpy.Workspace = OutLoc
@@ -53,12 +56,12 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 
 	OutFCpath = os.path.join(OutLoc,OutFC)
 	if arcpy.Exists(OutFCpath): 
-	  arcpy.AddError("Output feature class" + OutFCpath + "Already exists")
-	  sys.exit(0) # end script
+		arcpy.AddError("Output feature class" + OutFCpath + "Already exists")
+		sys.exit(0) # end script
 
 	if arcpy.Exists(Output_Raster_Catalog): 
-	  arcpy.AddError("Output raster catalog" + Output_Raster_Catalog + "Already exists")
-	  sys.exit(0) # end script
+		arcpy.AddError("Output raster catalog" + Output_Raster_Catalog + "Already exists")
+		sys.exit(0) # end script
 
 	# Process: Create Raster Catalog...
 	arcpy.AddMessage("Creating output raster catalog " + Output_Raster_Catalog)
@@ -72,8 +75,8 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 	tmpTablePath = os.path.join(OutLoc,tabName) # generate path to temp table
 
 	if arcpy.Exists(tmpTablePath): # if the temp table exists, delete it.
-	  arcpy.AddMessage("Temp table exits, deleting...")
-	  arcpy.Delete_management(tmpTablePath)
+		arcpy.AddMessage("Temp table exits, deleting...")
+		arcpy.Delete_management(tmpTablePath)
 
 	#arcpy.CreateTable_management(OutLoc,tabName) # create empty table
 	# Process: Export Raster Catalog paths, then join paths to raster catalog
@@ -89,7 +92,7 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 	# remove temporary table 
 	arcpy.AddMessage("Removing temporary table ... ")
 	arcpy.Delete_management(tmpTablePath)
-   
+	 
 
 	# handle errors and report using GPMsg function
 	#except xmsg:
@@ -127,7 +130,6 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
-	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
 
 	# set working folder
 	arcpy.env.workspace = Input_Workspace
@@ -136,7 +138,7 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	# select index tiles overlapping selected poly(s)
 	intersectout = os.path.join(arcpy.env.workspace,"clipintersect.shp")
 	if arcpy.Exists(intersectout):
-	  arcpy.Delete_management(intersectout)
+		arcpy.Delete_management(intersectout)
 	
 	arcpy.Clip_analysis(nedindx, clpfeat, intersectout) # clip the dataset
 
@@ -150,17 +152,17 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 			if ct == 0:
 				arcpy.AddMessage("Setting raster snap and coordinate system to match first input grid " + pth )
 				try:
-				  assert arcpy.Exists(pth) == True
-				  arcpy.env.snapRaster = pth
-				  arcpy.env.outputCoordinateSystem = pth
+					assert arcpy.Exists(pth) == True
+					arcpy.env.snapRaster = pth
+					arcpy.env.outputCoordinateSystem = pth
 				except:
-				  arcpy.AddError("First input grid does not exist: " + pth)
-				  arcpy.AddMessage("Stopping... ")
-				  sys.exit(0)
+					arcpy.AddError("First input grid does not exist: " + pth)
+					arcpy.AddMessage("Stopping... ")
+					sys.exit(0)
 
 			arcpy.Extent = pth # set extent
-	  		MosaicList.append(arcpy.sa.ExtractByMask(pth, clpfeat)) # extract the chunk of the DEM needed.
-	  		ct += 1
+			MosaicList.append(arcpy.sa.ExtractByMask(pth, clpfeat)) # extract the chunk of the DEM needed.
+			ct += 1
 
 	arcpy.Extent = clpfeat # reset extent to the whole layer
 	
@@ -177,9 +179,6 @@ def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
-	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
-
-	from arcpy.sa import *
 
 	arcpy.env.extent = InGrid
 	arcpy.env.cellSize = InGrid
@@ -205,9 +204,6 @@ def fillNoData(workspace, InGrid, OutGrid, version = None):
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
-	arcpy.CheckOutExtension("Spatial") # checkout the spatial analyst extension
-
-	from arcpy.sa import *
 
 	OutGridPth = os.path.join(workspace, OutGrid)
 
@@ -245,15 +241,14 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
-	arcpy.CheckOutExtension("Spatial")
-	from arcpy.sa import *
-
 	try: 
 		# set working folder
 		arcpy.env.workspace = Input_Workspace
 		arcpy.env.scratchWorkspace = arcpy.env.workspace
 		tmpDEM = os.path.join(arcpy.env.workspace, "tmpdemprj")
 		OutGrd = os.path.join(arcpy.env.workspace, OutGrd)
+
+		assert arcpy.Exists(InGrid), "Raster %s does not exist"%InGrid
 
 		if arcpy.Exists(OutGrd):
 			arcpy.Delete_management(OutGrd)

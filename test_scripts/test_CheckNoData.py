@@ -1,9 +1,12 @@
+import sys
+sys.path.append("..")
 from elevationTools import checkNoData
 
-print("************ Testing checkNoData ************")
+huc = "01080201"
+print("************ Testing checkNoData on unit: %s ************"%huc)
 
-InGrid = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\01080207\Layers\dem_dd"
-tmpLoc = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\01080207\input_data.gdb"
+InGrid = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\%s\Layers\dem_dd"%huc
+tmpLoc = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\%s\input_data.gdb"%huc
 OutPolys_shp = "DEMsinks"
 
 checkNoData(InGrid, tmpLoc, OutPolys_shp)
