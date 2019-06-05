@@ -1258,12 +1258,19 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	flow_accum_adjust.py - Martyn Smith, USGS
 	adjust_accum (function) - Theodore Barnhart, USGS
 	'''
+	arcpy.AddMessage("Preparing environment.")
 	arcpy.env.workspace = workspace
+	arcpy.env.scratchWorkspace = workspace
 
 	#test that everything exists	
-	assert arcpy.Exists(facPth), "Raster %s deos not exist"%(fl)
+	assert arcpy.Exists(facPth), "Raster %s does not exist"%(facPth)
 
-	for fl in upstreamPths:
+	assert arcpy.Exists(fdrPth), "Raster %s does not exist"%(fdrPth)
+
+	for fl in upstreamFACpths:
+		assert arcpy.Exists(fl), "Raster %s does not exist"%(fl)
+
+	for fl in upstreamFDRpths:
 		assert arcpy.Exists(fl), "Raster %s does not exist"%(fl)
 
 	# load the upstream rasters into a structure
@@ -1281,6 +1288,7 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	dx = dsc.children[0].MeanCellWidth
 	dy = dsc.children[0].MeanCellHeight
 
+	arcpy.AddMessage("Processing upstream rasters...")
 	costPaths = []
 	for fac,fdr in zip(upstreamFACs,upstreamFDRs): # iterate through the rasters
 		arcpy.env.extent = fac
@@ -1288,41 +1296,43 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 		arcpy.env.overwriteOutput = True
 
 		loc = Con(fac == fac.maximum,fdr) # make a locator raster of the outlet of the outlet
-		flowDir = loc.maximum # get the flow direction of the selected cell
-
-		if flowDir == 1: # east
-			xCoor = dx
-			yCoor = 0
-		elif flowDir == 2: # southeast
-			xCoor = dx
-			yCoor = dy*-1
-		elif flowDir == 4: # south
-			xCoor = 0
-			yCoor = dy * -1
-		elif flowDir == 8: # southwest
-			xCoor = dx
-			yCoor = dy * -1
-		elif flowDir == 16: # west
-			xCoor = dx * -1
-			yCoor = 0
-		elif flowDir == 32: # northwest
-			xCoor = dx * -1
-			yCoor = dy
-		elif flowDir == 64: # north
-			xCoor = 0
-			yCoor = dy
-		elif flowDir == 128: # northeast
-			xCoor = dx
-			yCoor = dy
+		#flowDir = int(loc.maximum) # get the flow direction of the selected cell
 
 		# now get the location of the cell...
 		arcpy.RasterToPoint_conversion(loc,"pt") # conver to feature class
-		with arcpy.da.SearchCursor("pt",["SHAPE@X","SHAPE@Y"]) as cursor: # read the data
+		with arcpy.da.SearchCursor("pt",["grid_code","SHAPE@X","SHAPE@Y"]) as cursor: # read the data
 			with arcpy.da.UpdateCursor("pt",["SHAPE@X","SHAPE@Y"]) as updateCursor: # update the data
 				for row, uprow in zip(cursor,updateCursor):
 					# extract coordinates
-					x = row[0]
-					y = row[1]
+					flowDir = row[0]
+					x = row[1]
+					y = row[2]
+
+					# figure out the correction
+					if flowDir == 1: # east
+						xCoor = dx
+						yCoor = 0
+					elif flowDir == 2: # southeast
+						xCoor = dx
+						yCoor = dy*-1
+					elif flowDir == 4: # south
+						xCoor = 0
+						yCoor = dy * -1
+					elif flowDir == 8: # southwest
+						xCoor = dx
+						yCoor = dy * -1
+					elif flowDir == 16: # west
+						xCoor = dx * -1
+						yCoor = 0
+					elif flowDir == 32: # northwest
+						xCoor = dx * -1
+						yCoor = dy
+					elif flowDir == 64: # north
+						xCoor = 0
+						yCoor = dy
+					elif flowDir == 128: # northeast
+						xCoor = dx
+						yCoor = dy
 
 					# update their position
 					x += xCoor
@@ -1334,18 +1344,22 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 					updateCursor.updateRow(uprow)
 
 		# now trace the least cost downstream from the point
-		arcpy.env.extent = downstream
-		arcpy.env.cellSize = downstream
+		arcpy.env.extent = downstreamFDR
+		arcpy.env.cellSize = downstreamFDR
 		ones = Con(downstreamFDR,1) # make a constant raster
-		costPth = CostPath("pt",ones,downstreamFDR,path_type = "BEST_SINGLE") # trace path and append to list
+		ones.save("constant")
+		costPth = CostPath("pt","hydrodem",downstreamFDR,path_type = "EACH_CELL") # trace path and append to list
 
-		costPaths.append(Con(costPth,fac.maximum,0.)) # attribute the cost path with the fac max value, all the cost paths will be added together later.
+		tmp = Con(costPth,fac.maximum,0.)
+		tmp.save("costPath")
+		costPaths.append(tmp) # attribute the cost path with the fac max value, all the cost paths will be added together later.
 
 		if arcpy.Exists("pth"): arcpy.Delete_management("pth") # clean up
 
 	# now that all cost paths have been generatate, sum them with the downstream FAC gid to get the final FAC grid.
-	arcpy.env.extent = downstream
-	arcpy.env.cellSize = downstream
+	arcpy.AddMessage("Correcting downstream FAC.")
+	arcpy.env.extent = downstreamFDR
+	arcpy.env.cellSize = downstreamFDR
 
 	for pth in costPaths:
 		downstream += pth
