@@ -1224,7 +1224,7 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	# &type AGREE: 
 	# &return
 
-def adjust_accum(facPth, numInlets, upstreamPths):
+def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	'''
 	Example
 	-------
@@ -1237,11 +1237,15 @@ def adjust_accum(facPth, numInlets, upstreamPths):
 	Parameters
 	----------
 	facPth : str
-		Path to flow accumulation grid
-	numInlets : int
-		Numer of inlets to the supplied flow accumulation grid
-	upstreamPths : list
+		Path to downstream flow accumulation grid
+	fdrPth : str
+		Path to downstream flow direction grid
+	upstreamFACpths : list
 		List of paths to upstream flow accumulation grids
+	upstreamFDRpths : list
+		List of paths to upstream flow direction grids
+	workspace : str
+		local geodatabase to work in.
 	
 	Outputs
 	-------
@@ -1254,6 +1258,7 @@ def adjust_accum(facPth, numInlets, upstreamPths):
 	flow_accum_adjust.py - Martyn Smith, USGS
 	adjust_accum (function) - Theodore Barnhart, USGS
 	'''
+	arcpy.env.workspace = workspace
 
 	#test that everything exists	
 	assert arcpy.Exists(facPth), "Raster %s deos not exist"%(fl)
@@ -1262,21 +1267,90 @@ def adjust_accum(facPth, numInlets, upstreamPths):
 		assert arcpy.Exists(fl), "Raster %s does not exist"%(fl)
 
 	# load the upstream rasters into a structure
-	upstreams = []
-	for fl in upstreamPths:
-		upstreams.append(Raster(fl))
+	upstreamFACs = []
+	upstreamFDRs = []
+	for fac,fdr in zip(upstreamFACpths,upstreamFDRpths):
+		upstreamFACs.append(Raster(fac))
+		upstreamFDRs.append(Raster(fdr))
 
 	downstream = Raster(facPth) # load the downstream raster
+	downstreamFDR = Raster(fdrPth)
 
-	for upstream in upstreams: # iterate through the rasters
-		maxFac = upstream.maximum # get maximum of upstream fac
+	# get raster cell dimensions
+	dsc = arcpy.Describe(downstream)
+	dx = dsc.children[0].MeanCellWidth
+	dy = dsc.children[0].MeanCellHeight
 
+	costPaths = []
+	for fac,fdr in zip(upstreamFACs,upstreamFDRs): # iterate through the rasters
+		arcpy.env.extent = fac
+		arcpy.env.cellSize = fac
+		arcpy.env.overwriteOutput = True
 
+		loc = Con(fac == fac.maximum,fdr) # make a locator raster of the outlet of the outlet
+		flowDir = loc.maximum # get the flow direction of the selected cell
 
+		if flowDir == 1: # east
+			xCoor = dx
+			yCoor = 0
+		elif flowDir == 2: # southeast
+			xCoor = dx
+			yCoor = dy*-1
+		elif flowDir == 4: # south
+			xCoor = 0
+			yCoor = dy * -1
+		elif flowDir == 8: # southwest
+			xCoor = dx
+			yCoor = dy * -1
+		elif flowDir == 16: # west
+			xCoor = dx * -1
+			yCoor = 0
+		elif flowDir == 32: # northwest
+			xCoor = dx * -1
+			yCoor = dy
+		elif flowDir == 64: # north
+			xCoor = 0
+			yCoor = dy
+		elif flowDir == 128: # northeast
+			xCoor = dx
+			yCoor = dy
 
+		# now get the location of the cell...
+		arcpy.RasterToPoint_conversion(loc,"pt") # conver to feature class
+		with arcpy.da.SearchCursor("pt",["SHAPE@X","SHAPE@Y"]) as cursor: # read the data
+			with arcpy.da.UpdateCursor("pt",["SHAPE@X","SHAPE@Y"]) as updateCursor: # update the data
+				for row, uprow in zip(cursor,updateCursor):
+					# extract coordinates
+					x = row[0]
+					y = row[1]
 
+					# update their position
+					x += xCoor
+					y += yCoor
 
+					# insert back into feature class
+					uprow[0] = x
+					uprow[1] = y
+					updateCursor.updateRow(uprow)
 
+		# now trace the least cost downstream from the point
+		arcpy.env.extent = downstream
+		arcpy.env.cellSize = downstream
+		ones = Con(downstreamFDR,1) # make a constant raster
+		costPth = CostPath("pt",ones,downstreamFDR,path_type = "BEST_SINGLE") # trace path and append to list
+
+		costPaths.append(Con(costPth,fac.maximum,0.)) # attribute the cost path with the fac max value, all the cost paths will be added together later.
+
+		if arcpy.Exists("pth"): arcpy.Delete_management("pth") # clean up
+
+	# now that all cost paths have been generatate, sum them with the downstream FAC gid to get the final FAC grid.
+	arcpy.env.extent = downstream
+	arcpy.env.cellSize = downstream
+
+	for pth in costPaths:
+		downstream += pth
+
+	downstream.save("hydrodemfac_global")
 
 	# &args fac_grd num_inlets ingrds:REST
 	# &type [date -full]
