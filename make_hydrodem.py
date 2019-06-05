@@ -1344,14 +1344,13 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 					updateCursor.updateRow(uprow)
 
 		# now trace the least cost downstream from the point
-		arcpy.env.extent = downstreamFDR
-		arcpy.env.cellSize = downstreamFDR
+		arcpy.env.extent = downstream
+		arcpy.env.cellSize = downstream
 		ones = Con(downstreamFDR,1) # make a constant raster
-		ones.save("constant")
-		costPth = CostPath("pt","hydrodem",downstreamFDR,path_type = "EACH_CELL") # trace path and append to list
+		costPth = CostPath("pt",ones,downstreamFDR,path_type = "EACH_CELL") # trace path and append to list
 
 		tmp = Con(costPth,fac.maximum,0.)
-		tmp.save("costPath")
+		#tmp.save("costPath")
 		costPaths.append(tmp) # attribute the cost path with the fac max value, all the cost paths will be added together later.
 
 		if arcpy.Exists("pth"): arcpy.Delete_management("pth") # clean up
