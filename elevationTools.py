@@ -174,8 +174,31 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 
 def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	"""
+	Generates a feature class of no data values.
+
+	Parameters
+	----------
+	InGrid : Raster
+		Input DEM grid to search for no data values
+	tmpLoc : str
+		Path to workspace
+	OutPoly_shp : str
+		Name for output feature class
+	version : str
+		StreamStats DataPrepTools version
+
+	Returns
+	-------
+	None
+
+	Outputs
+	-------
+	OutPoly_shp : feature class 
+		No data feature class
+
 	Converted from model builder to arcpy, Theodore Barnhart, tbarnhart@usgs.gov, 20190222
 	"""
+	arcpy.env.overwriteOutput = True
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
@@ -189,6 +212,8 @@ def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 
 	# Process: Raster to Polygon
 	arcpy.RasterToPolygon_conversion(tmpGrid, os.path.join(tmpLoc,OutPolys_shp), "NO_SIMPLIFY", "Value", "SINGLE_OUTER_PART", "")
+
+	arcpy.AddMessage("%s no data regions found"%int(arcpy.GetCount_management(os.path.join(tmpLoc,OutPolys_shp)).getOutput(0)))
 
 def fillNoData(workspace, InGrid, OutGrid, version = None):
 	"""
@@ -248,7 +273,7 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 		tmpDEM = os.path.join(arcpy.env.workspace, "tmpdemprj")
 		OutGrd = os.path.join(arcpy.env.workspace, OutGrd)
 
-		assert arcpy.Exists(InGrid), "Raster %s does not exist"%InGrid
+		assert arcpy.Exists(InGrd), "Raster %s does not exist"%InGrid
 
 		if arcpy.Exists(OutGrd):
 			arcpy.Delete_management(OutGrd)
