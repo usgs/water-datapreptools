@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from elevationTools import checkNoData
 
-huc = "01080201"
+huc = "01080203"
 print("************ Testing checkNoData on unit: %s ************"%huc)
 
 InGrid = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\%s\Layers\dem_dd"%huc

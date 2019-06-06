@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from elevationTools import projScale
 
-huc = "01080201"
+huc = "01080203"
 print("************ Testing projScale on unit: %s************"%huc)
 
 Input_Workspace = r"C:\Users\tbarnhart\projects\datapreptools\data\test_workspace\%s\Layers"%huc 
