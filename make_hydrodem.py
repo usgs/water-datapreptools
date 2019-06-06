@@ -480,7 +480,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	arcpy.AddMessage("	Starting Fill")
 	filldem = Fill(dem_enforced)
-	fdirg2 = FlowDirection(filldem, 'FORCE') # this works...
+	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
 	#fdirg2.save("fdirg2")
 	arcpy.AddMessage("	Fill Complete")
 
@@ -1346,19 +1346,22 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 		# now trace the least cost downstream from the point
 		arcpy.env.extent = downstream
 		arcpy.env.cellSize = downstream
-		ones = Con(downstreamFDR,1) # make a constant raster
+
+		ones = Con(IsNull(downstream) == 0,1) # make a constant raster
+
+		ones.save("constant")
 		costPth = CostPath("pt",ones,downstreamFDR,path_type = "EACH_CELL") # trace path and append to list
 
-		tmp = Con(costPth,fac.maximum,0.)
-		#tmp.save("costPath")
+		tmp = Con(IsNull(costPth)==0,fac.maximum,0)
+		tmp.save("costPath")
 		costPaths.append(tmp) # attribute the cost path with the fac max value, all the cost paths will be added together later.
 
-		if arcpy.Exists("pth"): arcpy.Delete_management("pth") # clean up
+		if arcpy.Exists("pt"): arcpy.Delete_management("pt") # clean up
 
 	# now that all cost paths have been generatate, sum them with the downstream FAC gid to get the final FAC grid.
 	arcpy.AddMessage("Correcting downstream FAC.")
-	arcpy.env.extent = downstreamFDR
-	arcpy.env.cellSize = downstreamFDR
+	arcpy.env.extent = downstream
+	arcpy.env.cellSize = downstream
 
 	for pth in costPaths:
 		downstream += pth
