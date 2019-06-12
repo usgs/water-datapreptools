@@ -14,9 +14,7 @@ class Toolbox(object):
 		self.alias = "StreamStatsDataPrep"
 
 		# List of tool classes associated with this toolbox
-		self.tools = [databaseSetup,
-		makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,
-		SetupBathyGrad, CoastalDEM, HydroDEM] # CoastalDEM,
+		self.tools = [databaseSetup,makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum]
 
 class databaseSetup(object):
 	def __init__(self):
@@ -408,7 +406,16 @@ class ProjScale(object):
 
 		param5.value = "0 0"
 
-		params = [param0,param1,param2,param3,param4,param5]
+		param6 = arcpy.Parameter(
+			displayName = "Scale Factor",
+			name = "scaleFact",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input")
+
+		param6.value = "100"
+
+		params = [param0,param1,param2,param3,param4,param5,param6]
 
 		return params
 
@@ -423,15 +430,16 @@ class ProjScale(object):
 		OutCoordsys = parameters[3].valueAsText     # Coordinate system for output grid. (type Coordinate System)
 		OutCellSize = parameters[4].valueAsText     # Cell size for output grid. (type Analysis cell size)
 		RegistrationPoint = parameters[5].valueAsText  # Registration point. Space separated coordinates. (type String)
+		scaleFact = int(parameters[6].valueAsText)
 
-		projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, version = version)
+		projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, scaleFact = scaleFact, version = version)
 		
-		return
+		return None
 
 class SetupBathyGrad(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
-		self.label = "Bathymetric Gradient Setup"
+		self.label = "B. Bathymetric Gradient Setup"
 		self.description = "This script creates a set of NHD Hydrography Datasets, extracts the appropriate features and converts them to rasters for input into HydroDEM."
 		self.category = "4 - HydroDEM"
 		self.canRunInBackground = False
@@ -506,10 +514,79 @@ class SetupBathyGrad(object):
 
 		bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize, version = version)
 
+		return None
+
+class CoastalDEM(object):
+	def __init__(self):
+		"""Define the tool (tool name is the name of the class)."""
+		self.label = "A. Coastal DEM Processing (Optional)"
+		self.description = "Lowers the level of the sea to ensure it is always below land level. Also raises any land cells to 1 cm unless they are within a polygon with Land attribute of 0. The input polygons (LandSea) needs to identify the sea with a Land attribute of -1. Land is identified with a Land value of 1. No change polygons should have Land value of 0."
+		self.canRunInBackground = False
+		self.category = "4 - HydroDEM"
+
+	def getParameterInfo(self):
+		"""Define parameter definitions"""
+		param0 = arcpy.Parameter(
+			displayName = "Workspace",
+			name = "Input_Workspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input") # maybe should be Output
+
+		param1 = arcpy.Parameter(
+			displayName = "Input raw DEM",
+			name = "grdName",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
+
+		param1.value = "dem_raw"
+
+		param2 = arcpy.Parameter(
+			displayName = "Input LandSea polygon feature class",
+			name = "InFeatureClass",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
+
+		param3 = arcpy.Parameter(
+			displayName = "Output DEM",
+			name = "OutRaster",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
+
+		param3.value = "dem_sea"
+
+		param4 = arcpy.Parameter(
+			displayName = "Sea Level",
+			name = "seaLevel",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input")
+
+		param4.value = "-60000"
+
+		params = [param0,param1,param2,param3,param4]
+		return params
+
+	def execute(self, parameters, messages):
+		from make_hydrodem import coastaldem
+
+		Input_Workspace = parameters[0].valueAsText    # input workspace (type Workspace)
+		grdName = parameters[1].valueAsText            # input DEM grid name (type String)
+		InFeatureClass = parameters[2].valueAsText     # input LandSea feature class (type Feature Class)
+		OutRaster = parameters[3].valueAsText          # output DEM grid name (type String)
+		seaLevel = parameters[4].valueAsText           # Elevation to make the sea
+
+		coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel)
+
+		return None
+
 class HydroDEM(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
-		self.label = "Hydro-Enforce DEM"
+		self.label = "C. Hydro-Enforce DEM"
 		self.description = "Run make_HydroDEM() to process DEMs, burning in streams and building walls."
 		self.category = "4 - HydroDEM"
 		self.canRunInBackground = False
@@ -521,9 +598,18 @@ class HydroDEM(object):
 			name = "Workspace",
 			datatype = "DEWorkspace",
 			parameterType = "Required",
-			direction = "Input") # maybe should be Output
+			direction = "Input")
 
 		param0.filter.list = ["Local Database"]
+		
+		param18 = arcpy.Parameter(
+			displayName = "Scratch Workspace",
+			name = "scratchWS",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input")
+
+		param18.filter.list = ["File System"]
 
 		param1 = arcpy.Parameter(
 			displayName = "HUC layer",
@@ -662,16 +748,7 @@ class HydroDEM(object):
 
 		param17.value = 2000
 
-		param18 = arcpy.Parameter(
-			displayName = "Scratch Workspace",
-			name = "scratchWS",
-			datatype = "DEWorkspace",
-			parameterType = "Required",
-			direction = "Input")
-
-		param18.filter.list = ["File System"]
-
-		params = [param0,param1,param2,param3,param4,param5,param6,param7,param8,param9,param10,param11,param12,param13,param14,param15,param16,param17,param18]
+		params = [param0,param18,param1,param2,param3,param4,param5,param6,param7,param8,param9,param10,param11,param12,param13,param14,param15,param16,param17]
 
 		return params
 
@@ -680,90 +757,88 @@ class HydroDEM(object):
 		from make_hydrodem import hydrodem, agree
 
 		outdir = parameters[0].valueAsText
-		huc8cov = parameters[1].valueAsText
-		origdem = parameters[2].valueAsText
-		dendrite = parameters[3].valueAsText
-		snap_grid = parameters[4].valueAsText
-		bowl_polys = parameters[5].valueAsText
-		bowl_lines = parameters[6].valueAsText
-		inwall = parameters[7].valueAsText
-		cellsz = parameters[8].valueAsText
-		drainplug = parameters[9].valueAsText
-		buffdist = int(parameters[10].valueAsText)
-		inwallbuffdist = int(parameters[11].valueAsText)
-		inwallht = int(parameters[12].valueAsText)
-		outwallht = int(parameters[13].valueAsText)
-		agreebuf = int(parameters[14].valueAsText)
-		agreesmooth = int(parameters[15].valueAsText)
-		agreesharp = int(parameters[16].valueAsText)
-		bowldepth = int(parameters[17].valueAsText)
-		scratchWS = parameters[18].valueAsText
+		huc8cov = parameters[2].valueAsText
+		origdem = parameters[3].valueAsText
+		dendrite = parameters[4].valueAsText
+		snap_grid = parameters[5].valueAsText
+		bowl_polys = parameters[6].valueAsText
+		bowl_lines = parameters[7].valueAsText
+		inwall = parameters[8].valueAsText
+		cellsz = parameters[9].valueAsText
+		drainplug = parameters[10].valueAsText
+		buffdist = int(parameters[11].valueAsText)
+		inwallbuffdist = int(parameters[12].valueAsText)
+		inwallht = int(parameters[13].valueAsText)
+		outwallht = int(parameters[14].valueAsText)
+		agreebuf = int(parameters[15].valueAsText)
+		agreesmooth = int(parameters[16].valueAsText)
+		agreesharp = int(parameters[17].valueAsText)
+		bowldepth = int(parameters[18].valueAsText)
+		scratchWS = parameters[1].valueAsText
 
 		hydrodem(outdir, huc8cov, origdem, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWS, version = version)
 
 		return None
 
-class CoastalDEM(object):
+class AdjustAccum(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
-		self.label = "Coastal DEM Processing (Optional)"
-		self.description = "Lowers the level of the sea to ensure it is always below land level. Also raises any land cells to 1 cm unless they are within a polygon with Land attribute of 0. The input polygons (LandSea) needs to identify the sea with a Land attribute of -1. Land is identified with a Land value of 1. No change polygons should have Land value of 0."
+		self.label = "D. Adjust Accumulation"
+		self.description = "This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named \"fac_global\" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
 		"""Define parameter definitions"""
 		param0 = arcpy.Parameter(
-			displayName = "Workspace",
-			name = "Input_Workspace",
-			datatype = "DEWorkspace",
+			displayName = "Downstream Accumulation Grid",
+			name = "facPth",
+			datatype = "DERasterBand",
 			parameterType = "Required",
-			direction = "Input") # maybe should be Output
+			direction = "Input")
 
 		param1 = arcpy.Parameter(
-			displayName = "Input raw DEM",
-			name = "grdName",
+			displayName = "Downstream Flow Direction Grid",
+			name = "fdrPth",
 			datatype = "DERasterBand",
 			parameterType = "Required",
 			direction = "Input")
-
-		param1.value = "dem_raw"
 
 		param2 = arcpy.Parameter(
-			displayName = "Input LandSea polygon feature class",
-			name = "InFeatureClass",
-			datatype = "DEFeatureClass",
-			parameterType = "Required",
-			direction = "Input")
-
-		param3 = arcpy.Parameter(
-			displayName = "Output DEM",
-			name = "OutRaster",
+			displayName = "Upstream Flow Accumulation Grids",
+			name = "upstreamFACpths",
 			datatype = "DERasterBand",
 			parameterType = "Required",
-			direction = "Input")
+			direction = "Input",
+			multiValue = True)
 
-		param3.value = "dem_sea"
+		param3 = arcpy.Parameter(
+			displayName = "Upstream Flow Direction Grids",
+			name = "upstreamFDRpths",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input",
+			multiValue = True)
 
 		param4 = arcpy.Parameter(
-			displayName = "Sea Level",
-			name = "seaLevel",
-			datatype = "GPString",
+			displayName = "Workspace",
+			name = "workspace",
+			datatype = "Workspace",
 			parameterType = "Required",
 			direction = "Input")
-
-		param4.value = "-60000"
 
 		params = [param0,param1,param2,param3,param4]
 		return params
 
 	def execute(self, parameters, messages):
-		from make_hydrodem import coastaldem
+		from make_hydrodem import adjust_accum
 
-		Input_Workspace = parameters[0].valueAsText    # input workspace (type Workspace)
-		grdName = parameters[1].valueAsText            # input DEM grid name (type String)
-		InFeatureClass = parameters[2].valueAsText     # input LandSea feature class (type Feature Class)
-		OutRaster = parameters[3].valueAsText          # output DEM grid name (type String)
-		seaLevel = parameters[4].valueAsText           # Elevation to make the sea
+		facPth = parameters[0].valueAsText # path to downstream flow accumulation grid
+		fdrPth = parameters[1].valueAsText # path to downstream flow direction grid
+		upstreamFACpths = parameters[2].valueAsText # list of upstream flow accumulation grids
+		upstreamFDRpths = parameters[3].valueAsText # list of upstream flow direction grids
+		workspace = parameters[4].valueAsText # path to geodatabase workspace to work in
 
-		coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel)
+		adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace)
+
+		return None

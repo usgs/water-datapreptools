@@ -312,7 +312,7 @@ def fillNoData(workspace, InGrid, OutGrid, version = None):
 	
 	tmpRast.save(OutGridPth)
 
-def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, version = None):
+def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, scaleFact = 100, version = None):
 	"""
 	Projects a NED grid to a user-specified coordinate system, handling cell registration. Converts
 	 output grid to centimeters (multiplies by 100 and rounds).
@@ -381,7 +381,7 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 		
 		arcpy.AddMessage("Converting to integer centimeter elevations and producing final output grid " + OutGrd)
 
-		tmp = Int((tmpDEMRAST * 100) +0.5) # convert from m to cm integers
+		tmp = Int((tmpDEMRAST * scaleFact) +0.5) # convert from m to cm integers
 
 		tmp.save(OutGrd) # save output grid
 

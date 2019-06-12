@@ -112,6 +112,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					#Create folder for HU inside output folder
 					arcpy.CreateFolder_management(output_workspace, current_hu8)
 					arcpy.CreateFolder_management(os.path.join(output_workspace,current_hu8), "Layers")
+					arpy.CreateFolder_management(os.path.join(output_workspace,current_hu8),"tmp") # make scratch workspace later for hydroDEM.
 								
 					#Create file geodatabase to house data
 					arcpy.CreateFileGDB_management(os.path.join(output_workspace,current_hu8), "input_data.gdb")
