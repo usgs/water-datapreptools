@@ -16,7 +16,7 @@ class Toolbox(object):
 		# List of tool classes associated with this toolbox
 		self.tools = [databaseSetup,
 		makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,
-		SetupBathyGrad, HydroDEM] # CoastalDEM,
+		SetupBathyGrad, CoastalDEM, HydroDEM] # CoastalDEM,
 
 class databaseSetup(object):
 	def __init__(self):
@@ -509,8 +509,8 @@ class SetupBathyGrad(object):
 class HydroDEM(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
-		self.label = "HydroDEM"
-		self.description = "Run make_HydroDEM.py to process DEMs, burning in streams and building walls."
+		self.label = "Hydro-Enforce DEM"
+		self.description = "Run make_HydroDEM() to process DEMs, burning in streams and building walls."
 		self.category = "4 - HydroDEM"
 		self.canRunInBackground = False
 
@@ -671,8 +671,7 @@ class HydroDEM(object):
 
 		param18.filter.list = ["File System"]
 
-		params = [param0,param1,param2,param3,param4,param5,param6,param7,param8,param9,param10,
-					param11,param12,param13,param14,param15,param16,param17,param18]
+		params = [param0,param1,param2,param3,param4,param5,param6,param7,param8,param9,param10,param11,param12,param13,param14,param15,param16,param17,param18]
 
 		return params
 
