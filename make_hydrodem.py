@@ -1349,11 +1349,11 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 
 		ones = Con(IsNull(downstream) == 0,1) # make a constant raster
 
-		ones.save("constant")
+		#ones.save("constant")
 		costPth = CostPath("pt",ones,downstreamFDR,path_type = "EACH_CELL") # trace path and append to list
 
 		tmp = Con(IsNull(costPth)==0,fac.maximum,0)
-		tmp.save("costPath")
+		#tmp.save("costPath")
 		costPaths.append(tmp) # attribute the cost path with the fac max value, all the cost paths will be added together later.
 
 		if arcpy.Exists("pt"): arcpy.Delete_management("pt") # clean up
