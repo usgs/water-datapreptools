@@ -793,21 +793,21 @@ class AdjustAccum(object):
 		param0 = arcpy.Parameter(
 			displayName = "Downstream Accumulation Grid",
 			name = "facPth",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Input")
 
 		param1 = arcpy.Parameter(
 			displayName = "Downstream Flow Direction Grid",
 			name = "fdrPth",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Input")
 
 		param2 = arcpy.Parameter(
 			displayName = "Upstream Flow Accumulation Grids",
 			name = "upstreamFACpths",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Input",
 			multiValue = True)
@@ -815,7 +815,7 @@ class AdjustAccum(object):
 		param3 = arcpy.Parameter(
 			displayName = "Upstream Flow Direction Grids",
 			name = "upstreamFDRpths",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Input",
 			multiValue = True)
@@ -835,8 +835,8 @@ class AdjustAccum(object):
 
 		facPth = parameters[0].valueAsText # path to downstream flow accumulation grid
 		fdrPth = parameters[1].valueAsText # path to downstream flow direction grid
-		upstreamFACpths = parameters[2].valueAsText # list of upstream flow accumulation grids
-		upstreamFDRpths = parameters[3].valueAsText # list of upstream flow direction grids
+		upstreamFACpths = (parameters[2].valueAsText).split(';') # list of upstream flow accumulation grids
+		upstreamFDRpths = (parameters[3].valueAsText).split(';') # list of upstream flow direction grids
 		workspace = parameters[4].valueAsText # path to geodatabase workspace to work in
 
 		adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace)
