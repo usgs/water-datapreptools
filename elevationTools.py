@@ -381,20 +381,56 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 		
 		arcpy.AddMessage("Converting to integer centimeter elevations and producing final output grid " + OutGrd)
 
-		tmp = Int((tmpDEMRAST * scaleFact) +0.5) # convert from m to cm integers
+		tmp = Int((tmpDEMRAST * scaleFact) +0.5) # convert from m to cm integers if input dem is in m and scaleFact is 100.
+		# there should probably be some code here to compute the correct Zunits based on the vertical unit and the scale factor and then a check later to make sure Arc has handled it properly. 
 
 		tmp.save(OutGrd) # save output grid
+
+		# test if OutGrd has the same vertical and horizontal units
+		sr = arcpy.Describe(OutGrd).spatialReference # get spatial reference
+
+		sameUnits = compareSpatialRefUnits(OutGrd)
 
 		arcpy.AddMessage("Removing temporary grid tmpdemprj... ")
 		arcpy.Delete_management(tmpDEM)
 
-		#If process completed successfully, open prj.adf file and assign z units
+		#If process completed successfully, open prj.adf file and assign z units, this should be changed!!! PRJ files no longer used.... (https://community.esri.com/thread/31951)
+		# A new version of this should set the Zunits to the the multiplyer needed to get the zunits to 1 m. setZFalseOriginAndUnits is likely needed to do this correctly...
 		if arcpy.Exists(OutGrd):
 			o = open(os.path.join(OutGrd,"prj_new.adf"),"w")
 			data = open(os.path.join(OutGrd,"prj.adf")).read()
-			o.write(re.sub("Zunits        NO","Zunits        100",data))
+			o.write(re.sub("Zunits        NO","Zunits        %s"%(scaleFact),data))
 			o.close()
 			os.rename(os.path.join(OutGrd,"prj.adf"),os.path.join(OutGrd,"prj_backup.adf"))
 			os.rename(os.path.join(OutGrd,"prj_new.adf"), os.path.join(OutGrd,"prj.adf"))
 	except:
 		raise
+
+def compareSpatialRefUnits(grd):
+	'''Compare horizontal and vertical units from a raster dataset. Returns True if units are the same, returns False if they are different.
+
+	Parameters
+	----------
+	grd : str
+		Path to raster dataset.
+
+	Returns
+	-------
+	sameUnits : bool
+		True if units are the same, False if not.
+	'''
+
+	assert arcpy.Exists(grd), "%s does not exist."%grd
+
+	sr = arcpy.Describe(grd).spatialReference
+
+	zUnitCode = sr.ZFalseOriginAndUnits.split()[-1] # get Zunit scale factor
+	xyUnits = sr.linearUnitName
+
+	if zUnitCode == "NO":
+		sameUnits = False
+		arcpy.AddMessage("Zunits in %s not set and are assumed to be %s"%(xyUnits))
+	else:
+		sameUnits = True
+
+	return sameUnits
