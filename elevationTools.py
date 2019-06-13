@@ -357,13 +357,15 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 		# set working folder
 		arcpy.env.workspace = Input_Workspace
 		arcpy.env.scratchWorkspace = arcpy.env.workspace
-		tmpDEM = os.path.join(arcpy.env.workspace, "tmpdemprj")
-		OutGrd = os.path.join(arcpy.env.workspace, OutGrd)
+		tmpDEM = "tmpDEM"
 
 		assert arcpy.Exists(InGrd), "Raster %s does not exist"%InGrid
 
 		if arcpy.Exists(OutGrd):
 			arcpy.Delete_management(OutGrd)
+
+		if arcpy.Exists(tmpDEM):
+			arcpy.Delete_management(tmpDEM)
 
 		# clear the processing extent
 		arcpy.Extent = ""
@@ -379,30 +381,41 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 
 		tmpDEMRAST = Raster(tmpDEM) # load projected raster
 		
-		arcpy.AddMessage("Converting to integer centimeter elevations and producing final output grid " + OutGrd)
+		arcpy.AddMessage("Scaling original values by %s and coverting to integers to produce %s"%(scaleFact, OutGrd))
 
 		tmp = Int((tmpDEMRAST * scaleFact) +0.5) # convert from m to cm integers if input dem is in m and scaleFact is 100.
 		# there should probably be some code here to compute the correct Zunits based on the vertical unit and the scale factor and then a check later to make sure Arc has handled it properly. 
 
 		tmp.save(OutGrd) # save output grid
 
-		# test if OutGrd has the same vertical and horizontal units
-		sr = arcpy.Describe(OutGrd).spatialReference # get spatial reference
-
 		sameUnits = compareSpatialRefUnits(OutGrd)
 
-		arcpy.AddMessage("Removing temporary grid tmpdemprj... ")
+		sr = arcpy.Describe(OutGrd).spatialReference
+
+		if sr.linearUnitName.upper() not in ["FEET","METER"]:
+			arcpy.AddMessage("Output grid horizontal units not defined, check horizontal and vertical units.")
+
+		# compute what the zunits should be if horizontal and vertical units are the same. Numerical zUnits should be the number of units needed to equal one meter. https://community.esri.com/thread/31951
+		if sr.linearUnitCode == 9002: # EPSG for international foot
+			zunits = (1./0.3048) * scaleFact
+		elif sr.linearUnitCode == 9001: # EPSG for metre
+			origSR = arcpy.Describe(InGrd).spatialReference
+			zunits = float(origSR.ZFalseOriginAndUnits.split()[-1]) * scaleFact # for meters
+		elif sr.linearUnitCode == 9003: # EPSG for US Survey Foot
+			zunits = (1./0.3048006096012192) * scaleFact
+		else:
+			arcpy.AddMessage("Output grid horizontal units not defined, check horizontal and vertical units.")
+			zunits = scaleFact
+
+		if float(sr.ZFalseOriginAndUnits.split()[-1]) != zunits:
+			arcpy.AddMessage("Zunits scale factor not set correctly, updating")
+			FalseOrigin = sr.ZFalseOriginAndUnits.split()[0]
+			sr.setZFalseOriginAndUnits(float(FalseOrigin), zunits)
+			arcpy.DefineProjection_management(OutGrd,sr) # actually update the projection here.
+
+		arcpy.AddMessage("Removing temporary grid %s... "%(tmpDEM))
 		arcpy.Delete_management(tmpDEM)
 
-		#If process completed successfully, open prj.adf file and assign z units, this should be changed!!! PRJ files no longer used.... (https://community.esri.com/thread/31951)
-		# A new version of this should set the Zunits to the the multiplyer needed to get the zunits to 1 m. setZFalseOriginAndUnits is likely needed to do this correctly...
-		if arcpy.Exists(OutGrd):
-			o = open(os.path.join(OutGrd,"prj_new.adf"),"w")
-			data = open(os.path.join(OutGrd,"prj.adf")).read()
-			o.write(re.sub("Zunits        NO","Zunits        %s"%(scaleFact),data))
-			o.close()
-			os.rename(os.path.join(OutGrd,"prj.adf"),os.path.join(OutGrd,"prj_backup.adf"))
-			os.rename(os.path.join(OutGrd,"prj_new.adf"), os.path.join(OutGrd,"prj.adf"))
 	except:
 		raise
 
