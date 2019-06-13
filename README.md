@@ -15,7 +15,7 @@ This toolbox is contained is several files, which will need to be installed corr
     - elevationTools.py :: Python module for inspecting DEMs, reprojection, and scaling values to integers.
     - make_hydrodem.py :: Python module for DEM hydro-enforcement. 
     - *.xml :: ESRI ArcPy Toolbox documentation files.
-    - legacy :: Folder of original AML and Python scripts from older StreamStats DataPrep toolboxes. Depricated.
+    - legacy :: Folder of original AML and Python scripts from older StreamStats DataPrep toolboxes. Deprecated.
     - test_scripts :: Folder of Python scripts to test individual tools via the command line.
 
 ## Installation
@@ -24,7 +24,7 @@ On the command line, navigate to the directory you would like to clone to reposi
 
 Then open ArcMap or ArcPro and navigate to the folder you just downloaded, the toolbox should be contained there and ready for use.
 
-**Note: ArcPro funcitonality is currently limited.**
+**Note: ArcPro functionality is currently limited.**
 
 To use the Python modules and functions in scripts you will need to add the downloaded folder to your Python path.
 
