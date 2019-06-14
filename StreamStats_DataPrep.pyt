@@ -1,7 +1,7 @@
 import arcpy
 import sys
 import os
-from make_hydrodem import *
+#from make_hydrodem import *
 
 version = "4.0alpha"
 
