@@ -43,7 +43,7 @@ class databaseSetup(object):
 		param2 = arcpy.Parameter(
 			displayName = "Hydrologic Unit Boundary Dataset",
 			name = "hu_dataset",
-			datatype = "DEShapefile",
+			datatype = ["DEShapefile","DEFeatureClass"],
 			parameterType = "Required",
 			direction = "Input")
 
