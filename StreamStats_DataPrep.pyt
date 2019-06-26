@@ -54,7 +54,7 @@ class databaseSetup(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param3.value = 'HUC_8'
+		param3.value = 'HUC8'
 
 		param4 = arcpy.Parameter(
 			displayName = "Inwall Field",
@@ -63,7 +63,7 @@ class databaseSetup(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param4.value = 'HUC_12'
+		param4.value = 'HUC12'
 
 		param5 = arcpy.Parameter(
 			displayName = "Hydrologic Unit Buffer Distance (m)",

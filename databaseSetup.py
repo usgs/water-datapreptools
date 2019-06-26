@@ -97,7 +97,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 				arcpy.AddMessage("%s = \"%s\"" % (hu8_field, current_hu8))
 				
 				#check to make sure NHD exists and set variable names, if no NHD for HUC, skip it
-				arcpy.AddMessage(" Checking to see if NHD exists for current HUC8")
+				arcpy.AddMessage(" Checking to see if NHD exists for %s"%(current_hu8[:4]))
 				NHDExists = False
 				if arcpy.Exists(os.path.join(nhd_path,"NHD_H_" + current_hu8[:4] + "_HU4_GDB" + ".gdb")):
 					orig_4dig_NHD = os.path.join(nhd_path,"NHD_H_" + current_hu8[:4] + "_HU4_GDB" + ".gdb")
@@ -110,9 +110,10 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 				#If NHD exists for current HUC 8, then do the work
 				if NHDExists:
 					#Create folder for HU inside output folder
+					hydrog_projection_template = os.path.join(orig_4dig_NHD,"Hydrography","NHDFlowline") # get a file to generate hydrography clip.
 					arcpy.CreateFolder_management(output_workspace, current_hu8)
 					arcpy.CreateFolder_management(os.path.join(output_workspace,current_hu8), "Layers")
-					arpy.CreateFolder_management(os.path.join(output_workspace,current_hu8),"tmp") # make scratch workspace later for hydroDEM.
+					arcpy.CreateFolder_management(os.path.join(output_workspace,current_hu8),"tmp") # make scratch workspace later for hydroDEM.
 								
 					#Create file geodatabase to house data
 					arcpy.CreateFileGDB_management(os.path.join(output_workspace,current_hu8), "input_data.gdb")
@@ -127,7 +128,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 
 					#create variables for huc buffers
 					hucbuffer_custom = os.path.join(current_db,"huc8_buffer" + str(hucbuffer))
-					hucbuffer_custom_dd83 = os.path.join(current_db,"huc8_buffer" + str(hucbuffer) + "_dd83")
+					hucbuffer_custom_elev_dd83 = os.path.join(current_db,"huc8_buffer_elev" + str(hucbuffer) + "_dd83")
+					hucbuffer_custom_hydrog_dd83 = os.path.join(current_db,"huc8_buffer_hydrog" + str(hucbuffer) + "_dd83")
 					hucbuffer_alt = os.path.join(current_db,"huc8_buffer%s"%(alt_buff))
 
 					#start process
@@ -148,7 +150,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.Buffer_analysis(os.path.join(current_db,"huc8"), hucbuffer_alt, "%s METERS"%(alt_buff), "FULL", "ROUND")                
 					
 					arcpy.AddMessage("    Creating unprojected buffered outwall dataset for elevation and hydrography clips")
-					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_dd83, elevation_projection_template)
+					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_elev_dd83, elevation_projection_template)
+					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_hydrog_dd83, hydrog_projection_template)
 					
 					arcpy.AddMessage("    Creating sink point feature class")
 					arcpy.CreateFeatureclass_management(os.path.join(output_workspace,current_hu8,"input_data.gdb"), "sinkpoint_edit", "POINT","","","", os.path.join(current_db,"huc8"))
@@ -174,7 +177,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 						
 						#clip unprojected feature
 						arcpy.AddMessage("      Clipping   " + featuretype)
-						arcpy.Clip_analysis(os.path.join(orig_4dig_NHD,"Hydrography",featuretype), hucbuffer_custom_dd83, os.path.join(current_db, featuretype + "_dd83"))
+						arcpy.Clip_analysis(os.path.join(orig_4dig_NHD,"Hydrography",featuretype), hucbuffer_custom_hydrog_dd83, os.path.join(current_db, featuretype + "_dd83"))
 						
 						#project clipped feature
 						arcpy.AddMessage("      Projecting " + featuretype)

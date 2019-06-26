@@ -64,11 +64,13 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 
 	if arcpy.Exists(OutLoc): 
 		DSType = arcpy.Describe(arcpy.Describe(OutLoc).CatalogPath).WorkspaceType
-		arcpy.AddMessage("Dataset type =" + DSType)
+		arcpy.AddMessage("Dataset type = " + DSType)
 		if DSType == "FileSystem":
 			arcpy.AddError("Output " + OutLoc + " is not a Geodatabase. Output location must be a Geodatabase.")
-		else:
-	  		arcpy.AddError("Output " + OutLoc + "does not exist")
+			sys.exit(0)
+	else:
+	  	arcpy.AddError("Output " + OutLoc + " does not exist")
+	  	sys.exit(0)
 	
 	# Now that we're sure the geodb exists, make it the active workspace
 	arcpy.Workspace = OutLoc
