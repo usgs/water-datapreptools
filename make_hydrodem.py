@@ -334,14 +334,18 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	iw_bypass = False
 	bowl_bypass = False
 
-	if inwall is None:
-		iw_bypass == True
+	if inwall == None:
+		iw_bypass = True
 
-	if drainplug is None:
-		dp_bypass == True
+	if drainplug == None:
+		dp_bypass = True
 
-	if (bowl_polys is None) or (bowl_lines is None):
-		bowl_bypass == True
+	if ('bowl_polys' == None) or ('bowl_lines' == None):
+		bowl_bypass = True
+
+	arcpy.AddMessage('bowl_bypass is %s'%str(bowl_bypass))
+	arcpy.AddMessage('dp_bypass is %s'%str(dp_bypass))
+	arcpy.AddMessage('iw_bypass is %s'%str(iw_bypass))
 
 	# test if full path datasets exist
 	for fl in [outdir,origdemPth,snap_grid,scratchWorkspace]:
@@ -360,13 +364,13 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	testDsets = [huc8cov,dendrite]
 
 	# add datasets based on the bypass flags
-	if dp_bypass:
+	if not dp_bypass:
 		testDsets.append(drainplug)
 
-	if iw_bypass:
+	if not iw_bypass:
 		testDsets.append(inwall)
 
-	if bowl_bypass:
+	if not bowl_bypass:
 		testDsets.append(bowl_polys)
 		testDsets.append(bowl_lines)
 	
@@ -428,7 +432,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	arcpy.AddMessage('	Walling Complete')
 
-	if dp_bypass == False: # dp_bypass is defined after the main code in the original AML
+	if not dp_bypass: # dp_bypass is defined after the main code in the original AML
 		if int(arcpy.GetCount_management(drainplug).getOutput(0)) > 0:
 			dpg_path = 'depressionRast'
 			tmpLocations.append(dpg_path)
@@ -439,8 +443,12 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		else:
 			tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz, extent = None) # if the feature class is empty, make a dummy raster
 			dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
+	else:
+		tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz, extent = None) # if the feature class is empty, make a dummy raster
+		dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
 
-	if bowl_bypass == False: # bowl_bypass is defined after the main code in the original AML
+
+	if not bowl_bypass: # bowl_bypass is defined after the main code in the original AML
 		arcpy.AddMessage('	Starting Bowling')
 		blp_name = 'blp'
 		tmpLocations.append(blp_name)
@@ -448,7 +456,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		bowlLines = Raster(bowl_lines)
 
 		arcpy.MosaicToNewRaster_management([bowlLines,dpg],arcpy.env.workspace,blp_name, None, "32_BIT_SIGNED", None, 1, "FIRST") # probably need some more options
-
+		
 		blp = Raster(blp_name)
 
 		eucd = SetNull(IsNull(bowl_polys), EucDistance(blp)) # (L210 in hydroDEM_work_mod.aml)
@@ -459,7 +467,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	else:
 		arcpy.AddMessage('	Bowling Skipped')
 
-	if iw_bypass == False:
+	if not iw_bypass:
 		arcpy.AddMessage('	Starting Inwalling')
 		iwb_name = 'inwall_buff'
 		tmpLocations.append(iwb_name)
@@ -484,7 +492,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		dem_enforced = demRidge8wb
 		arcpy.AddMessage('	Inwalling Skipped')
 
-	if dp_bypass == False:
+	if not dp_bypass:
 		detmp = Con(IsNull(dpg),dem_enforced)
 		del dem_enforced
 		dem_enforced = detmp #(L242 in hydroDEM_work_mod.aml)
