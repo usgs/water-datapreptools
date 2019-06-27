@@ -359,11 +359,14 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	# test if other datasets exist
 	testDsets = [huc8cov,dendrite]
 
-	if dp_bypass == False: testDsets.append(drainplug)
+	# add datasets based on the bypass flags
+	if dp_bypass:
+		testDsets.append(drainplug)
 
-	if iw_bypass == False: testDsets.append(inwall)
+	if iw_bypass:
+		testDsets.append(inwall)
 
-	if bowl_bypass == False:
+	if bowl_bypass:
 		testDsets.append(bowl_polys)
 		testDsets.append(bowl_lines)
 	
