@@ -358,6 +358,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	# test if other datasets exist
 	for fl in [huc8cov,dendrite,bowl_polys,bowl_lines,inwall,drainplug]:
+		arcpy.AddMessage("Checking if %s exists."%(fl))
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
 	tmpLocations = [] # make a container for temp locations that will be deleted at the end
