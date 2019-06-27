@@ -506,7 +506,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	#fdirg2.save("fdirg2")
 	arcpy.AddMessage("	Fill Complete")
 
-	if dp_bypass == False:
+	if not dp_bypass:
 		fdirg = Int(Con(IsNull(dpg) == 0, 0, fdirg2)) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
 	else:
 		fdirg = Int(fdirg2)
