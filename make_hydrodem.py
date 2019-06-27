@@ -357,7 +357,17 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.scratchWorkspace = scratchWorkspace
 
 	# test if other datasets exist
-	for fl in [huc8cov,dendrite,bowl_polys,bowl_lines,inwall,drainplug]:
+	testDsets = [huc8cov,dendrite]
+
+	if dp_bypass == False: testDsets.append(drainplug)
+
+	if iw_bypass == False: testDsets.append(inwall)
+
+	if bowl_bypass == False:
+		testDsets.append(bowl_polys)
+		testDsets.apppend(bowl_lines)
+	
+	for fl in testDsets:
 		arcpy.AddMessage("Checking if %s exists."%(fl))
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
