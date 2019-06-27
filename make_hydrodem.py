@@ -365,7 +365,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	if bowl_bypass == False:
 		testDsets.append(bowl_polys)
-		testDsets.apppend(bowl_lines)
+		testDsets.append(bowl_lines)
 	
 	for fl in testDsets:
 		arcpy.AddMessage("Checking if %s exists."%(fl))
