@@ -359,6 +359,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.cellSize = cellsz
 	arcpy.env.overwriteOutput = True
 	arcpy.env.scratchWorkspace = scratchWorkspace
+	arcpy.env.outputCoordinateSystem = origdemPth
 
 	# test if other datasets exist
 	testDsets = [huc8cov,dendrite]
@@ -441,10 +442,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 			arcpy.FeatureToRaster_conversion(drainplug,"dummy",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
 			dpg = Raster(dpg_path) # load the raster object
 		else:
-			tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz, extent = None) # if the feature class is empty, make a dummy raster
+			tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz) # if the feature class is empty, make a dummy raster
 			dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
 	else:
-		tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz, extent = None) # if the feature class is empty, make a dummy raster
+		arcpy.AddMessage("	Bypassing Drain Plugs")
+		tmp = CreateConstantRaster(0, data_type = "INTEGER", cell_size = cellsz) # if the feature class is empty, make a dummy raster
 		dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
 
 
