@@ -501,7 +501,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.cellSize = origdem
 
 	arcpy.AddMessage("	Starting Fill")
-	filldem = Fill(dem_enforced)
+	filldem = Fill(dem_enforced,None)
 	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
 	#fdirg2.save("fdirg2")
 	arcpy.AddMessage("	Fill Complete")
