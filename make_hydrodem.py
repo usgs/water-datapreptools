@@ -500,6 +500,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.extent = hucbuff
 	arcpy.cellSize = origdem
 
+	dem_enforced.save(os.path.join(arcpy.env.workspace,'dem_enforced'))
+
 	arcpy.AddMessage("	Starting Fill")
 	filldem = Fill(dem_enforced,None)
 	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
