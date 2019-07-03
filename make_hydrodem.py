@@ -505,6 +505,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	dem_enforced.save(os.path.join(arcpy.env.workspace,'dem_enforced'))
 
 	arcpy.AddMessage("	Starting Fill")
+	arcpy.env.mask = ridgeNLpth # mask to HUC
 	filldem = Fill(dem_enforced,None)
 	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
 	#fdirg2.save("fdirg2")
@@ -515,7 +516,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	else:
 		fdirg = Int(fdirg2)
 		
-	#arcpy.env.mask = ridgeNLpth # mask to HUC
+	
 
 	# might need to save the fdirg, delete it from the python workspace, and reload it...
 	arcpy.AddMessage('	Starting Flow Accumulation')
