@@ -432,7 +432,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	ridgeNL = Raster(ridgeNLpth) # load ridgeNL 
 	ridgeEXP = Expand(ridgeNL,2,[1]) # the last parameter is the zone to be expanded, this might need to be added to the dummy field above... 
 
-	ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeEXP)
+	#ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeEXP)
+	ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeNL)
 	demRidge8 = elevgrid + Con((IsNull(ridgeW) == 0) & (IsNull(dendriteGrid)), outwallht, 0)
 
 	arcpy.AddMessage('	Walling Complete')
@@ -503,13 +504,13 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		del dem_enforced
 		dem_enforced = detmp #(L242 in hydroDEM_work_mod.aml)
 
-	arcpy.env.extent = hucbuff
+	arcpy.env.extent = ridgeEXP
+	arcpy.env.mask = ridgeEXP # mask to HUC
 	arcpy.cellSize = origdem
 
 	dem_enforced.save(os.path.join(arcpy.env.workspace,'dem_enforced'))
 
 	arcpy.AddMessage("	Starting Fill")
-	arcpy.env.mask = ridgeNLpth # mask to HUC
 	filldem = Fill(dem_enforced,None)
 	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
 	#fdirg2.save("fdirg2")
