@@ -381,17 +381,17 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	tmpLocations = [] # make a container for temp locations that will be deleted at the end
 
-	hucbuff = huc8cov # just use the coverage
-	arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
-
-	# buffer the huc8cov
-	#hucbuff = 'hucbuff' # some temp location
-	#tmpLocations.append(hucbuff)
-	#arcpy.AddMessage('	Buffering Local Divisons')
-	#arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
+	#hucbuff = huc8cov # just use the coverage
 	#arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
 	#arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
+
+	# buffer the huc8cov
+	hucbuff = 'hucbuff' # some temp location
+	tmpLocations.append(hucbuff)
+	arcpy.AddMessage('	Buffering Local Divisons')
+	arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
+	arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+	arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
 
 	arcpy.env.extent = hucbuff # set the extent to the buffered HUC
 
@@ -423,7 +423,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.AddMessage('	Starting Walling') # (L182 in hydroDEM_work_mod.aml)
 
 	ridgeNLpth = 'ridgeRast'
-	tmpLocations.append(ridgeNLpth)
+	#tmpLocations.append(ridgeNLpth)
 	# may need to add a field to huc8cov to rasterize it...
 	arcpy.AddField_management(huc8cov,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
 	arcpy.CalculateField_management(huc8cov,"dummy","1", "PYTHON")
@@ -431,6 +431,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	#ridgeEXP = 'some temp location'
 	ridgeNL = Raster(ridgeNLpth) # load ridgeNL 
 	ridgeEXP = Expand(ridgeNL,2,[1]) # the last parameter is the zone to be expanded, this might need to be added to the dummy field above... 
+	ridgeEXP.save('ridgeEXP')
 
 	ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeEXP)
 	#ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeNL)
