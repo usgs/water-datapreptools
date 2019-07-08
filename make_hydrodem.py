@@ -381,10 +381,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	tmpLocations = [] # make a container for temp locations that will be deleted at the end
 
-	#hucbuff = huc8cov # just use the coverage
-	#arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	#arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
-
 	# buffer the huc8cov
 	hucbuff = 'hucbuff' # some temp location
 	tmpLocations.append(hucbuff)
@@ -431,10 +427,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	#ridgeEXP = 'some temp location'
 	ridgeNL = Raster(ridgeNLpth) # load ridgeNL 
 	ridgeEXP = Expand(ridgeNL,2,[1]) # the last parameter is the zone to be expanded, this might need to be added to the dummy field above... 
-	ridgeEXP.save('ridgeEXP')
 
 	ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeEXP)
-	#ridgeW = SetNull((IsNull(ridgeNL) == 0) & (IsNull(ridgeEXP) == 0), ridgeNL)
 	demRidge8 = elevgrid + Con((IsNull(ridgeW) == 0) & (IsNull(dendriteGrid)), outwallht, 0)
 
 	arcpy.AddMessage('	Walling Complete')
@@ -454,7 +448,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		arcpy.AddMessage("	Bypassing Drain Plugs")
 		tmp = CreateConstantRaster(0) # if the feature class is empty, make a dummy raster
 		dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
-
 
 	if not bowl_bypass: # bowl_bypass is defined after the main code in the original AML
 		arcpy.AddMessage('	Starting Bowling')
@@ -490,8 +483,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		arcpy.FeatureToRaster_conversion(iwb_name,"dummy",tmpGrd_name, cell_size = cellsz)
 		tmpGrd = Raster(tmpGrd_name)
 
-		#inwallg = Con(tmpGrd == 100, 0) # this makes an empty raster...
-
 		# Only inwalls where there are not streams and there are inwalls.
 		dem_enforced = demRidge8wb + Con((IsNull(tmpGrd) == 0) & (IsNull(dendriteGrid)), inwallht, 0) #(L226 in hydroDEM_work_mod.aml) 
 		arcpy.AddMessage('	Inwalling Complete')
@@ -514,7 +505,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.AddMessage("	Starting Fill")
 	filldem = Fill(dem_enforced,None)
 	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
-	#fdirg2.save("fdirg2")
 	arcpy.AddMessage("	Fill Complete")
 
 	if not dp_bypass:
