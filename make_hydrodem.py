@@ -381,13 +381,17 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	tmpLocations = [] # make a container for temp locations that will be deleted at the end
 
-	# buffer the huc8cov
-	hucbuff = 'hucbuff' # some temp location
-	tmpLocations.append(hucbuff)
-	arcpy.AddMessage('	Buffering Local Divisons')
-	arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
+	hucbuff = huc8cov # just use the coverage
 	arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
 	arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
+
+	# buffer the huc8cov
+	#hucbuff = 'hucbuff' # some temp location
+	#tmpLocations.append(hucbuff)
+	#arcpy.AddMessage('	Buffering Local Divisons')
+	#arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
+	#arcpy.AddField_management(hucbuff,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+	#arcpy.CalculateField_management(hucbuff,"dummy","1", "PYTHON")
 
 	arcpy.env.extent = hucbuff # set the extent to the buffered HUC
 
@@ -516,8 +520,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	else:
 		fdirg = Int(fdirg2)
 		
-	
-
 	# might need to save the fdirg, delete it from the python workspace, and reload it...
 	arcpy.AddMessage('	Starting Flow Accumulation')
 	faccg = FlowAccumulation(fdirg, None, "INTEGER")
