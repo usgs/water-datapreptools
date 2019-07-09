@@ -470,9 +470,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	if not iw_bypass:
 		arcpy.AddMessage('	Starting Inwalling')
-		iwb_name = 'inwall_buff'
+		iwb_name = 'tmp_inwall_buff'
 		tmpLocations.append(iwb_name)
-		arcpy.Buffer_analysis(inwall,iwb_name,inwallbuffdist, ) #(L223 in hydroDEM_work_mod.aml)
+		if arcpy.Exists(iwb_name):
+			arcpy.AddMessage("%s exists, please delete or rename before proceeding."%(iwb_name))
+		arcpy.Buffer_analysis(inwall,iwb_name,inwallbuffdist) #(L223 in hydroDEM_work_mod.aml)
 		
 		tmpGrd_name = 'tmpGrd'
 		tmpLocations.append(tmpGrd_name)
