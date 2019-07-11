@@ -453,6 +453,8 @@ class SetupBathyGrad(object):
 			parameterType = "Required",
 			direction = "Input") # maybe should be Output
 
+		param0.filter.list = ["Local Database"]
+
 		param1 = arcpy.Parameter(
 			displayName = "Digital Elevation Model (used for snapping)",
 			name = "SnapGrid",

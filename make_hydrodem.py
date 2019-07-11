@@ -88,7 +88,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	arcpy.AddMessage("Starting Bathymetric Gradient Preparations....")
 
 	# Set the Geoprocessing environment...
-	arcpy.env.scratchworkspace = workspace
+	arcpy.env.scratchWorkspace = workspace
 	arcpy.env.workspace = workspace
 
 	# Setup local variables and temporary layer files
