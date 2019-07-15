@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from make_hydrodem import hydrodem
 
-huc = "0203010502"
+huc = "0203010501"
 print("************ Testing HydroDEM on unit: %s ************"%huc)
 
 outdir = r"C:\Users\tbarnhart\projects\datapreptools\data\psteeves\%s\input_data.gdb"%(huc)
