@@ -12,6 +12,7 @@ arcpy.CheckOutExtension("Spatial")
 import sys
 import os
 from arcpy.sa import *
+import time
 
 def SnapExtent(lExtent, lRaster):
 	'''Returns a given extent snapped to the passed raster.
@@ -324,6 +325,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	sink_path : feature class
 		Sink feature class saved to outDir
 	'''
+	strtTime = time.time()
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
@@ -506,6 +508,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	arcpy.AddMessage("	Starting Fill")
 	filldem = Fill(dem_enforced,None)
+
+	# set the mask and extent for the FAC and FDR grids, which should be clipped to the huc bounding polygon.
+	arcpy.env.extent = huc8cov
+	arcpy.env.mask = huc8cov
+	
 	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
 	arcpy.AddMessage("	Fill Complete")
 
@@ -531,6 +538,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	# save the grids to the workspace
 	filldem.save(os.path.join(arcpy.env.workspace,"hydrodem"))
 	del filldem
+
 	fdirg.save(os.path.join(arcpy.env.workspace,"hydrodemfdr"))
 	del fdirg
 	faccg.save(os.path.join(arcpy.env.workspace,"hydrodemfac"))
@@ -544,7 +552,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 			except:
 				arcpy.AddMessage("Failed to Delete: %s"%fl)
 
-	arcpy.AddMessage('HydroDEM Complete')
+	totalTime = time.time() - strtTime
+	arcpy.AddMessage('HydroDEM Complete, %s minutes.'%(totalTime/60.))
 
 	return None
 
