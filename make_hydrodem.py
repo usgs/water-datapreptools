@@ -508,13 +508,14 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	arcpy.AddMessage("	Starting Fill")
 	filldem = Fill(dem_enforced,None)
+	fdirg2 = FlowDirection(filldem, 'FORCE') # this works...
+	arcpy.AddMessage("	Fill Complete")
 
 	# set the mask and extent for the FAC and FDR grids, which should be clipped to the huc bounding polygon.
 	arcpy.env.extent = huc8cov
 	arcpy.env.mask = huc8cov
+
 	
-	fdirg2 = FlowDirection(filldem, 'NORMAL') # this works...
-	arcpy.AddMessage("	Fill Complete")
 
 	if not dp_bypass:
 		fdirg = Int(Con(IsNull(dpg) == 0, 0, fdirg2)) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
