@@ -14,7 +14,12 @@ class Toolbox(object):
 		self.alias = "StreamStatsDataPrep"
 
 		# List of tool classes associated with this toolbox
-		self.tools = [databaseSetup,makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum]
+		self.tools = [
+		databaseSetup,
+		makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,
+		TopoGrid,
+		CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum
+		]
 
 class databaseSetup(object):
 	def __init__(self):
@@ -434,6 +439,107 @@ class ProjScale(object):
 
 		projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, scaleFact = scaleFact, version = version)
 		
+		return None
+
+class TopoGrid(object):
+	def __init__(self):
+		self.label = "TopoGrid"
+		self.description = "This script runs topo to raster as a prelimary burning and walling process before HydroDEM is run. It takes a buffered DEM dataset and runs raster to multipoint with VIP filtering based on the percentage set in the tool. The output of the script is a new DEM to be used by HydroDEM."
+		self.category = "3 - TopoGrid (optional)"
+		self.canRunInBackground = False
+
+	def getParameterInfo(self):
+
+		param0 = arcpy.Parameter(
+			displayName = "Output Workspace",
+			name = "Workspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param0.filter.list = ["Local Database"]
+
+		param1 = arcpy.Parameter(
+			displayName = "Dissolved HUC8 boundary",
+			name = "huc8",
+			datatype = ["DEFeatureClass","DEShapefile"],
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param2 = arcpy.Parameter(
+			displayName = "Topogrid Buffer Distance",
+			name = "buffdist",
+			datatype = "GPDouble",
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param3 = arcpy.Parameter(
+			displayName = "12 Digit Hydrologic Unit Datasets if dissolved HUC8 boundary failed.",
+			name = "huc12",
+			datatype = ["DEFeatureClass","DEShapefile"],
+			parameterType = "Optional",
+			direction = "Input",
+			multiValue = True
+			)
+
+
+		param4 = arcpy.Parameter(
+			displayName = "Dendritic Flowline Features",
+			name = "dendrite",
+			datatype = ["DEFeatureClass","DEShapefile"],
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param5 = arcpy.Parameter(
+			displayName = "Buffered and Projected Elevation Data",
+			name = "dem",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param6 = arcpy.Parameter(
+			displayName = "Output Cell Size",
+			name = "cellSize",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param6.value = '10'
+
+		param7 = arcpy.Parameter(
+			displayName = "VIP Percentage",
+			name = "vipPer",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input"
+			)
+
+		param7.value = "5" # default in arcPro
+
+		params = [param0,param1,param2,param3,param4,param5,param6,param7]
+		return params
+
+	def execute(self,parameters, messages):
+		
+		from topo_grid import topogrid
+
+		workspace = parameters[0].valueAsText
+		huc8 = parameters[1].valueAsText
+		buffDist = parameters[2].valueAsText
+		huc12 = parameters[3].valueAsText
+		dendrite = parameters[4].valueAsText
+		dem = parameters[5].valueAsText
+		cellSize = parameters[6].valueAsText
+		vipPer = parameters[7].valueAsText
+		
+		topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,huc12=huc12)
+
 		return None
 
 class SetupBathyGrad(object):
