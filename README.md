@@ -24,7 +24,5 @@ On the command line, navigate to the directory you would like to clone to reposi
 
 Then open ArcMap or ArcPro and navigate to the folder you just downloaded, the toolbox should be contained there and ready for use.
 
-**Note: ArcPro functionality is currently limited.**
-
 To use the Python modules and functions in scripts you will need to add the downloaded folder to your Python path.
 
