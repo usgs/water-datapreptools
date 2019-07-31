@@ -12,5 +12,6 @@ dendrite = "NHDFlowline"
 dem = r"C:\Users\tbarnhart\projects\datapreptools\data\psteeves\%s\dem_buff2000"%(huc)
 cellSize = "10"
 vipPer = "5"
+snapgrid = r"C:\Users\tbarnhart\projects\datapreptools\data\psteeves\%s\snap_grid"%(huc)
 
-topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer)
+topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer, snapgrid = snapgrid)

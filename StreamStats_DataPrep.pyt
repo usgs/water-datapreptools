@@ -522,7 +522,15 @@ class TopoGrid(object):
 
 		param7.value = "5" # default in arcPro
 
-		params = [param0,param1,param2,param3,param4,param5,param6,param7]
+		param8 = arcpy.Parameter(
+			displayName = "SnapGrid",
+			name = "snapgrid",
+			datatype = "DERasterBand",
+			parameterType = "Optional",
+			direction = "Input"
+			)
+
+		params = [param0,param1,param2,param3,param4,param5,param6,param7,param8]
 		return params
 
 	def execute(self,parameters, messages):
@@ -537,8 +545,9 @@ class TopoGrid(object):
 		dem = parameters[5].valueAsText
 		cellSize = parameters[6].valueAsText
 		vipPer = parameters[7].valueAsText
+		snapgrid = parameters[8].valueAsText
 		
-		topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,huc12=huc12)
+		topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = snapgrid, huc12=huc12)
 
 		return None
 
