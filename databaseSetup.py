@@ -61,6 +61,10 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	# Set script to overwrite if files exist
 	arcpy.env.overwriteOutput=True
 
+	localName = "local"
+	subName = "subWatershed"
+	GDB_name = "input_data.gdb"
+
 	#set scratch and arcpy workspaces
 	arcpy.env.Workspace = output_workspace
 	arcpy.env.scratchWorkspace = output_workspace
@@ -91,13 +95,14 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 			for row in cursor:
 				#Get current huc 8
 				current_hu8 = str(row[0])
-				current_db = os.path.join(output_workspace,row[0],"input_data.gdb") 
+				current_db = os.path.join(output_workspace,current_hu8,GDB_name) 
 				#current_db = output_workspace + "\\" + row[0] + "\\input_data.gdb"
 				arcpy.AddMessage("")
-				arcpy.AddMessage("%s = \"%s\"" % (hu8_field, current_hu8))
+				#arcpy.AddMessage("%s = \"%s\"" % (hu8_field, current_hu8))
 				
 				#check to make sure NHD exists and set variable names, if no NHD for HUC, skip it
-				arcpy.AddMessage(" Checking to see if NHD exists for %s"%(current_hu8[:4]))
+				arcpy.AddMessage("Starting processing local folder %s...."%(current_hu8))
+				arcpy.AddMessage("	Checking to see if NHD exists for %s"%(current_hu8[:4]))
 				NHDExists = False
 				if arcpy.Exists(os.path.join(nhd_path,"NHD_H_" + current_hu8[:4] + "_HU4_GDB" + ".gdb")):
 					orig_4dig_NHD = os.path.join(nhd_path,"NHD_H_" + current_hu8[:4] + "_HU4_GDB" + ".gdb")
@@ -116,45 +121,43 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.CreateFolder_management(os.path.join(output_workspace,current_hu8),"tmp") # make scratch workspace later for hydroDEM.
 								
 					#Create file geodatabase to house data
-					arcpy.CreateFileGDB_management(os.path.join(output_workspace,current_hu8), "input_data.gdb")
+					arcpy.CreateFileGDB_management(os.path.join(output_workspace,current_hu8), GDB_name)
 					  
 					#start output file creation
-					arcpy.AddMessage(" Starting processing... ")
-
 					#----------------------------------
 					#WBD Processing
 					#----------------------------------
 					arcpy.AddMessage("  Doing WBD processing")
 
 					#create variables for huc buffers
-					hucbuffer_custom = os.path.join(current_db,"huc8_buffer" + str(hucbuffer))
-					hucbuffer_custom_elev_dd83 = os.path.join(current_db,"huc8_buffer_elev" + str(hucbuffer) + "_dd83")
-					hucbuffer_custom_hydrog_dd83 = os.path.join(current_db,"huc8_buffer_hydrog" + str(hucbuffer) + "_dd83")
-					hucbuffer_alt = os.path.join(current_db,"huc8_buffer%s"%(alt_buff))
+					hucbuffer_custom = os.path.join(current_db,"local_buffer" + str(hucbuffer))
+					hucbuffer_custom_elev_dd83 = os.path.join(current_db,"local_buffer_elev" + str(hucbuffer) + "_dd83")
+					hucbuffer_custom_hydrog_dd83 = os.path.join(current_db,"local_buffer_hydrog" + str(hucbuffer) + "_dd83")
+					hucbuffer_alt = os.path.join(current_db,"local_buffer%s"%(alt_buff))
 
 					#start process
-					arcpy.AddMessage("    Selecting current outwall hydrologic unit.")
-					arcpy.Select_analysis(hu_dataset, os.path.join(current_db,"huc12"), "\"%s\" = \'%s\'" % (hu8_field, current_hu8))
+					arcpy.AddMessage("    Selecting current local hydrologic unit.")
+					arcpy.Select_analysis(hu_dataset, os.path.join(current_db,subName), "\"%s\" = \'%s\'" % (hu8_field, current_hu8))
 
-					arcpy.AddMessage("    Dissolving 12 digit internal polygons")
-					arcpy.Dissolve_management(os.path.join(current_db,"huc12"), os.path.join(current_db,"huc8"), hu8_field)
+					arcpy.AddMessage("    Dissolving sub-watershed polygons")
+					arcpy.Dissolve_management(os.path.join(current_db,subName), os.path.join(current_db,localName), hu8_field)
 					
 					arcpy.AddMessage("    Creating inner and outer wall polyline feature classes")
-					arcpy.PolygonToLine_management(os.path.join(current_db,"huc12"), os.path.join(current_db,"huc12_line"))
-					arcpy.PolygonToLine_management(os.path.join(current_db,"huc8"), os.path.join(current_db,"outer_wall"))
+					arcpy.PolygonToLine_management(os.path.join(current_db,subName), os.path.join(current_db,"huc12_line"))
+					arcpy.PolygonToLine_management(os.path.join(current_db,localName), os.path.join(current_db,"outer_wall"))
 					arcpy.Erase_analysis(os.path.join(current_db,"huc12_line"),os.path.join(current_db,"outer_wall"),os.path.join(current_db,"inwall_edit"))
 					
 					arcpy.AddMessage("    Creating user-defined buffered outwall dataset")
-					arcpy.Buffer_analysis(os.path.join(current_db,"huc8"), hucbuffer_custom, hucbuffer, "FULL", "ROUND")
+					arcpy.Buffer_analysis(os.path.join(current_db,localName), hucbuffer_custom, hucbuffer, "FULL", "ROUND")
 					arcpy.AddMessage("    Creating %s meter buffered outwall dataset"%(alt_buff))
-					arcpy.Buffer_analysis(os.path.join(current_db,"huc8"), hucbuffer_alt, "%s METERS"%(alt_buff), "FULL", "ROUND")                
+					arcpy.Buffer_analysis(os.path.join(current_db,localName), hucbuffer_alt, "%s METERS"%(alt_buff), "FULL", "ROUND")                
 					
 					arcpy.AddMessage("    Creating unprojected buffered outwall dataset for elevation and hydrography clips")
 					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_elev_dd83, elevation_projection_template)
 					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_hydrog_dd83, hydrog_projection_template)
 					
 					arcpy.AddMessage("    Creating sink point feature class")
-					arcpy.CreateFeatureclass_management(os.path.join(output_workspace,current_hu8,"input_data.gdb"), "sinkpoint_edit", "POINT","","","", os.path.join(current_db,"huc8"))
+					arcpy.CreateFeatureclass_management(os.path.join(output_workspace,current_hu8,"input_data.gdb"), "sinkpoint_edit", "POINT","","","", os.path.join(current_db,localName))
 
 					#erase huc 12 line dataset after inwall is created
 					if arcpy.Exists(os.path.join(current_db,"huc12_line")):
@@ -195,7 +198,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.AddMessage("    Adding fields to NHDFlowline")
 					arcpy.AddField_management(os.path.join(current_db,"Hydrography","NHDFlowline"), "comments", "text", "250")
 					arcpy.AddField_management (os.path.join(current_db,"Hydrography","NHDFlowline"), "to_steward", "text", "50")
-					arcpy.AddMessage("    Finished HUC")
+					arcpy.AddMessage("    Finished local %s"%current_hu8)
 					
 				#if no NHD, skip the HUC
 				else:
@@ -204,14 +207,13 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 			#del cursor, row    
 
 	# handle errors and report using gp.addmessage function
-	except Exception, errMsg:
-
-		# If we have messages of severity error (2), we assume a GP tool raised it,
+	except:
+		#If we have messages of severity error (2), we assume a GP tool raised it,
 		#  so we'll output that.  Otherwise, we assume we raised the error and the
 		#  information is in errMsg.
 		#
 		if arcpy.GetMessages(2):   
 			arcpy.AddError(arcpy.GetMessages(2))
-			print arcpy.GetMessages(2)
+			arcpy.AddError(arcpy.GetMessages(2))
 		else:
 			arcpy.AddError(str(errMsg)) 

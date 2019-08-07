@@ -285,7 +285,7 @@ class CheckNoData(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param2.value = "DEMsinks"
+		param2.value = "DEM_NoDataSinks"
 
 		params = [param0,param1,param2]
 		return params
@@ -326,12 +326,16 @@ class FillNoData(object):
 			parameterType = "Required",
 			direction = "Input")
 
+		param1.value = "DEM_NoDataSinks"
+
 		param2 = arcpy.Parameter(
 			displayName = "Output Grid",
 			name = "OutGrid",
 			datatype = "GPString",
 			parameterType = "Required",
 			direction = "Input")
+
+		param2.value = "DEM_filled"
 
 		params = [param0, param1, param2]
 		return params
@@ -384,7 +388,7 @@ class ProjScale(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param2.value = "dem"
+		param2.value = "dem_raw"
 
 		param3 = arcpy.Parameter(
 			displayName = "Output Coordinate System",

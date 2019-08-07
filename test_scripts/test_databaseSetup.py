@@ -1,4 +1,7 @@
+import sys
+sys.path.append("..")
 from databaseSetup import databaseSetup
+
 
 print("************ Testing databaseSetup ************")
 
@@ -8,7 +11,7 @@ hu_dataset = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data\test_WBD
 hu8_field = "HUC8"
 hu12_field = "HUC12"
 hucbuffer = 2000
-nhd_path = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data\ELEVDATA"
+nhd_path = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data"
 elevation_projection_template = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data\ELEVDATA\grdn44w074_13"
 alt_buff = 50
 
