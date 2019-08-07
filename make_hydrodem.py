@@ -1579,3 +1579,166 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	# &type (150,000 cells for 10-m grids), then it will be OK. 
 	# &type  
 	# &return  /* end of usage routine
+
+def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None):
+	'''generate stream reaches, adjoint catchments, and drainage points
+	
+	Note
+	----
+	This tool requires archydro
+
+	Parameters
+	----------
+	workspace : str
+		database-type workspace to output rasters and feature classes.
+	facPth : str
+		Path to the flow accumulation grid produced by hydroDEM.
+	fdrPth : str
+		Path to the flow direction grid produced by hydroDEM.
+	thresh1 : int
+		Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 m$^2$.
+	thresh2 : int
+		Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 m$^2$.
+	sinksPth : str (optional)
+		Path to the snklnk grid, optional.
+
+	Returns
+	-------
+	None
+
+	Outputs
+	-------
+	str : raster
+		Stream raster where fac > 15,000,000 m$^2$.
+	str900 : raster
+		Stream raster where fac > 810,000 m$^2$.
+	strlnk : raster
+	lnk : raster
+	cat : raster
+	drainageLine : feature class
+	catchment : feature class
+	adjointCatchment : feature class
+	drainagePoint : feature class
+	'''
+
+	# I had to delete all the pyc files, delete the splitHUC.py file, and remove splitHUC from the __init__ file to get this to load...
+
+	pyVer = int(sys.version[:1])
+
+	if pyVer == 3: # for python 3
+		arcpy.AddMessage("This tool only runs in Python 2....")
+		sys.exit(0)
+		#from archydro.streamdefinition import StreamDefinition
+		#from archydro.streamsegmentation import StreamSegmentation
+		#from archydro.drainagelineprocessing import DrainageLineProcessing
+		#from archydro.combinestreamlinkandsinklink import CombineStreamLinkandSinkLink
+		#from archydro.catchmentgriddelineation import CatchmentGridDelineation
+		#from archydro.catchmentpolygonprocessing import CatchmentPolygonProcessing
+		#from archydro.adjointcatchmentprocessing import AdjointCatchmentProcessing
+		#from archydro.drainagepointprocessing import DrainagePointProcessing
+	else: # for python 2
+		#from ArcHydroTools import StreamDefinition
+		#from ArcHydroTools import StreamSegmentation
+		from ArcHydroTools import DrainageLineProcessing
+		from ArcHydroTools import CombineStreamLinkAndSinkLink
+		from ArcHydroTools import CatchmentGridDelineation
+		from ArcHydroTools import CatchmentPolyProcessing
+		from ArcHydroTools import AdjointCatchment
+		from ArcHydroTools import DrainagePointProcessing
+
+	arcpy.AddMessage("Starting Post HydroDEM Processing.")
+
+	arcpy.env.extent = facPth
+	arcpy.env.snapRaster = facPth
+	arcpy.env.cellsize = facPth
+	arcpy.env.overwriteOutput = True
+	arcpy.AddMessage("	Environment set.")
+
+	finalSpace = os.path.split(workspace)[0]
+
+	fac = Raster(facPth)
+	# generate the str900 grid
+	str900Pth = os.path.join(finalSpace,'str900')
+	str900 = Con(fac > thresh2,1,None)
+	str900.save(str900Pth)
+	arcpy.AddMessage("	str900 created.")
+
+	# generate the str grid
+	streamPth = os.path.join(finalSpace,'str')
+	stream = Con(fac > thresh1,1,None)
+	stream.save(streamPth)
+	arcpy.AddMessage("	str raster created.")
+
+	# generate the stream link grid
+	if sinksPth != None:
+		lnkPth = os.path.join(finalSpace,'strlnk')
+	else:
+		lnkPth = os.path.join(finalSpace, 'lnk')
+	
+	lnk = StreamLink(stream,fdrPth)
+	lnk.save(lnkPth)
+	arcpy.AddMessage("	lnk raster created.")
+
+	del lnk
+	del stream
+
+	# Drainage Line
+	drainLinePth = os.path.join(workspace,'drainageLine')
+	DrainageLineProcessing(lnkPth,fdrPth,drainLinePth)
+	arcpy.AddMessage("	drainageLine features created.")
+
+	if sinksPth != None: # combine sink link and stream link if sink link exists
+			newlnkPth = os.path.join(finalSpace,'lnk')
+			CombineStreamLinkAndSinkLink(lnkPth,sinksPth,newlnkPth)
+			lnkPth = newlnkPth
+			arcpy.AddMessage("	snklnk merged with lnk raster.")
+
+	catPth = os.path.join(finalSpace,'cat')
+	CatchmentGridDelineation(fdrPth,lnkPth,catPth)
+	arcpy.AddMessage("	cat raster created.")
+
+	catchmentPth = os.path.join(workspace,'catchment')
+	CatchmentPolyProcessing(catPth,catchmentPth)
+	arcpy.AddMessage("	catchment features created.")
+
+
+	adjointPth = os.path.join(workspace,'adjointCatchment')
+	AdjointCatchment(drainLinePth, catchmentPth,adjointPth)
+	arcpy.AddMessage("	adjointCatchment features created.")
+
+	dpPth = os.path.join(workspace,'drainagePoint')
+	DrainagePointProcessing(facPth,catPth, catchmentPth,dpPth)
+	arcpy.AddMessage("	drainagePoint features created.")
+
+	#arcpy.AddMessage("	Moving rasters out of\n\n%s\n\nto\n\n%s"%(workspace,finalSpace))
+	rasters = ['hydrodem','hydrodemfac','hydrodemfdr']
+
+	moveRasters(workspace,finalSpace,rasters)
+
+def moveRasters(source, dest, rasters, fmt = None):
+	''' Move raster out of a working geodatabase to a destination folder.'''
+	arcpy.AddMessage("		Moving %s rasters from:"%(len(rasters)))
+	arcpy.AddMessage("\n")
+	arcpy.AddMessage("		%s"%source)
+	arcpy.AddMessage("\n")
+	arcpy.AddMessage("		To:")
+	arcpy.AddMessage("\n")
+	arcpy.AddMessage("		%s"%dest)
+	for rast in rasters:
+		arcpy.AddMessage("			%s"%rast)
+
+	arcpy.AddMessage("		######################")
+	arcpy.AddMessage("		######################")
+
+	for rast in rasters:
+		if arcpy.Exists(os.path.join(source,rast)):
+			outRast = rast # keep original format
+			if fmt != None:
+				outRast = "%s.%s"%(rast,fmt)
+
+			arcpy.AddMessage("		Moving %s"%rast)
+			tmp = Raster(os.path.join(source,rast))
+			tmp.save(os.path.join(dest,outRast))
+			del tmp
+		else:
+			arcpy.AddMessage("		%s not found!"%rast)

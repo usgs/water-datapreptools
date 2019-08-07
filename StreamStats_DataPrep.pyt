@@ -18,7 +18,7 @@ class Toolbox(object):
 		databaseSetup,
 		makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,
 		TopoGrid,
-		CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum
+		CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum,posthydrodem
 		]
 
 class databaseSetup(object):
@@ -901,7 +901,7 @@ class AdjustAccum(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "D. Adjust Accumulation"
-		self.description = "This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named \"fac_global\" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy."
+		self.description = "This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named \"hydrodemfac_global\" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the hydrodemfac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
 
@@ -944,6 +944,8 @@ class AdjustAccum(object):
 			parameterType = "Required",
 			direction = "Input")
 
+		param4.filter.list = ["Local Database"]
+
 		params = [param0,param1,param2,param3,param4]
 		return params
 
@@ -957,5 +959,76 @@ class AdjustAccum(object):
 		workspace = parameters[4].valueAsText # path to geodatabase workspace to work in
 
 		adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace)
+
+		return None
+
+class AdjustAccum(object):
+	def __init__(self):
+		"""Define the tool (tool name is the name of the class)."""
+		self.label = "E. Post Hydrodem"
+		self.description = "This fucntion uses ArcHydroTools to generate the following rasters: str, str900, cat, and lnk. Feature classes of drainageLine, catchment, adjointCatchment, and drainagePoint are also created. This tool only runs using Python 2 as ArcHydro tools are not fully implemented with Python 3."
+		self.canRunInBackground = False
+		self.category = "4 - HydroDEM"
+
+	def getParameterInfo(self):
+		"""Define parameter definitions"""
+		param0 = arcpy.Parameter(
+			displayName = "Workspace",
+			name = "workspace",
+			datatype = "Workspace",
+			parameterType = "Required",
+			direction = "Input")
+
+		param0.filter.list = ["Local Database"]
+
+		param1 = arcpy.Parameter(
+			displayName = "hydrodemfac",
+			name = "facPth",
+			datatype = "DERasterDataset",
+			parameterType = "Required",
+			direction = "Input")
+
+		param2 = arcpy.Parameter(
+			displayName = "hydrodemfdr",
+			name = "fdrPth",
+			datatype = "DERasterDataset",
+			parameterType = "Required",
+			direction = "Input")
+
+		param3 = arcpy.Parameter(
+			displayName = "str threshold",
+			name = "thresh1",
+			datatype = "GPLong",
+			parameterType = "Required",
+			direction = "Input")
+
+		param4 = arcpy.Parameter(
+			displayName = "str900 threshold",
+			name = "thresh2",
+			datatype = "GPLong",
+			parameterType = "Required",
+			direction = "Input")
+
+		param5 = arcpy.Parameter(
+			displayName = "Sink Link",
+			name = "sinksPth",
+			datatype = "DERasterBand",
+			parameterType = "Optional",
+			direction = "Input")
+
+		params = [param0,param1,param2,param3,param4, param5]
+		return params
+
+	def execute(self, parameters, messages):
+		from make_hydrodem import postHydroDEM
+
+		workspace = parameters[0].valueAsText
+		facPth = parameters[1].valueAsText
+		fdrPth = parameters[2].valueAsText
+		thresh1 = parameters[3].valueAsText
+		thresh2 = parameters[4].valueAsText
+		sinksPth = parameters[5].valueAsText
+
+		postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = sinksPth)
 
 		return None
