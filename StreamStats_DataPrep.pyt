@@ -1033,6 +1033,6 @@ class posthydrodem(object):
 		thresh2 = parameters[4].valueAsText
 		sinksPth = parameters[5].valueAsText
 
-		postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = sinksPth)
+		postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = sinksPth, version = version)
 
 		return None

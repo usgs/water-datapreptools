@@ -1580,7 +1580,7 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	# &type  
 	# &return  /* end of usage routine
 
-def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None):
+def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, version = None):
 	'''generate stream reaches, adjoint catchments, and drainage points
 	
 	Note
@@ -1601,6 +1601,8 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None):
 		Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 m$^2$.
 	sinksPth : str (optional)
 		Path to the snklnk grid, optional.
+	version : str (optional)
+		StreamStats DataPrepTools version to be printed.
 
 	Returns
 	-------
@@ -1621,7 +1623,8 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None):
 	drainagePoint : feature class
 	'''
 
-	# I had to delete all the pyc files, delete the splitHUC.py file, and remove splitHUC from the __init__ file to get this to load...
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	pyVer = int(sys.version[:1])
 
