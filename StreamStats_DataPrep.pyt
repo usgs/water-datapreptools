@@ -962,7 +962,7 @@ class AdjustAccum(object):
 
 		return None
 
-class AdjustAccum(object):
+class posthydrodem(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "E. Post Hydrodem"
