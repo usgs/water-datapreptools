@@ -1711,7 +1711,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None):
 	arcpy.AddMessage("	drainagePoint features created.")
 
 	#arcpy.AddMessage("	Moving rasters out of\n\n%s\n\nto\n\n%s"%(workspace,finalSpace))
-	rasters = ['hydrodem','hydrodemfac','hydrodemfdr']
+	rasters = ['hydrodem','hydrodemfac','hydrodemfdr', 'hydrodemfac_global']
 
 	moveRasters(workspace,finalSpace,rasters)
 
