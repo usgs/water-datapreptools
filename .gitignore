@@ -1,4 +1,6 @@
-/.ipynb_checkpoints/
+*/.ipynb_checkpoints/
 *.pyc
 /data/
 /test_data/
+*.mxd
+/.ipynb_checkpoints/
