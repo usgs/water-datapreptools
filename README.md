@@ -15,7 +15,6 @@ This toolbox is contained is several files, which will need to be installed corr
     - elevationTools.py :: Python module for inspecting DEMs, reprojection, and scaling values to integers.
     - make_hydrodem.py :: Python module for DEM hydro-enforcement. 
     - *.xml :: ESRI ArcPy Toolbox documentation files.
-    - legacy :: Folder of original AML and Python scripts from older StreamStats DataPrep toolboxes. Deprecated.
     - test_scripts :: Folder of Python scripts to test individual tools via the command line.
 
 ## Installation
@@ -24,5 +23,7 @@ On the command line, navigate to the directory you would like to clone to reposi
 
 Then open ArcMap or ArcPro and navigate to the folder you just downloaded, the toolbox should be contained there and ready for use.
 
-To use the Python modules and functions in scripts you will need to add the downloaded folder to your Python path.
+To use the Python modules and functions in scripts you will need to add the downloaded folder to your Python path, see the first two lines of each test script for examples of how to do this.
+
+***Note:*** Tool 4E uses ArcHydroTools, these will need to be installed for this tool to function. This tool currently only functions via ArcMap / Python 2. This is the last step in data preparation tools.
 
