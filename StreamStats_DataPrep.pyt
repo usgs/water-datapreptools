@@ -169,16 +169,7 @@ class makeELEVDATAIndex(object):
 
 		param3.filter.list = ["File System"]
 
-		param4 = arcpy.Parameter(
-			displayName = "Output Polygon Feature Class",
-			name = "OutFC",
-			datatype = "GPString",
-			parameterType = "Required",
-			direction = "Input")
-
-		param4.value = "ELEVDATIndexPolys"
-
-		params = [param0,param1,param2,param3,param4]
+		params = [param0,param1,param2,param3]
 		return params
 
 	def execute(self, parameters, messages):
@@ -189,9 +180,8 @@ class makeELEVDATAIndex(object):
 		rcName = parameters[1].valueAsText # raster catalogue name
 		coordsysRaster = parameters[2].valueAsText # raster coordinate system
 		InputELEVDATAws = parameters[3].valueAsText # geodatabase of elevation data
-		OutFC = parameters[4].valueAsText # output polygon feature class
 
-		elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version=version)
+		elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version=version)
 
 		return
 

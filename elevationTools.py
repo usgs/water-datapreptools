@@ -6,7 +6,7 @@ arcpy.CheckOutExtension("Spatial")
 
 from arcpy.sa import *
 
-def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = None):
+def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
 	"""
 	Make a raster catalog and polygons indexed to seamless digital elevation model tiles in a directory tree. 
 	
@@ -20,8 +20,6 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 		Path to raster from which to base the raster catalog's coordinate system.
 	InputELEVDATAws : str
 		Path to workspace containing the elevation data to be included in the raster catalog.
-	OutFC : str
-		Path to the output feature class.
 	version : str, optional
 		StreamStats DataPrepTools version number.
 	
@@ -87,36 +85,38 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = 
 		sys.exit(0) # end script
 
 	# Process: Create Raster Catalog...
-	arcpy.AddMessage("Creating output raster catalog " + Output_Raster_Catalog)
-	arcpy.CreateRasterCatalog_management(OutLoc, rcName, coordsysRaster, coordsysPolys, "", "0", "0", "0", Raster_Management_Type, "")
+	arcpy.AddMessage("Creating output mosaic dataset " + Output_Raster_Catalog)
+	arcpy.CreateMosaicDataset_management(OutLoc, rcName, coordsysRaster)
 	
 	# Process: Workspace To Raster Catalog...
-	arcpy.AddMessage("Loading all rasters under workspace " + InputELEVDATAws + " into raster catalog...")
-	arcpy.WorkspaceToRasterCatalog_management(InputELEVDATAws, Output_Raster_Catalog, "INCLUDE_SUBDIRECTORIES", "NONE") 
-	
-	tabName = "tmp" # maybe strip off the .dbf since the table should be inside a geodatabase.
-	tmpTablePath = os.path.join(OutLoc,tabName) # generate path to temp table
+	arcpy.AddMessage("Loading all rasters under workspace " + InputELEVDATAws + " into raster mosaic dataset...")
 
-	if arcpy.Exists(tmpTablePath): # if the temp table exists, delete it.
-		arcpy.AddMessage("Temp table exits, deleting...")
-		arcpy.Delete_management(tmpTablePath)
+	arcpy.AddRastersToMosaicDataset_management(os.path.join(OutLoc, rcName), "Raster Dataset",InputELEVDATAws, sub_folder = "NO_SUBFOLDERS", update_cellsize_ranges = "UPDATE_CELL_SIZES", update_boundary = "UPDATE_BOUNDARY", update_overviews = "NO_OVERVIEWS")
+
+	#arcpy.WorkspaceToRasterCatalog_management(InputELEVDATAws, Output_Raster_Catalog, "INCLUDE_SUBDIRECTORIES", "NONE") 
+	
+	#tabName = "tmp" # maybe strip off the .dbf since the table should be inside a geodatabase.
+	#tmpTablePath = os.path.join(OutLoc,tabName) # generate path to temp table
+
+	#if arcpy.Exists(tmpTablePath): # if the temp table exists, delete it.
+	#	arcpy.AddMessage("Temp table exits, deleting...")
+	#	arcpy.Delete_management(tmpTablePath)
 
 	#arcpy.CreateTable_management(OutLoc,tabName) # create empty table
 	# Process: Export Raster Catalog paths, then join paths to raster catalog
-	arcpy.AddMessage("Getting full pathnames into raster catalog")
+	#arcpy.AddMessage("Getting full pathnames into raster catalog")
 	#out_table = ScratchName("tmp","tbl","table") # create blank table
-	arcpy.ExportRasterCatalogPaths_management(Output_Raster_Catalog, "ALL", tmpTablePath)
-	arcpy.JoinField_management(Output_Raster_Catalog, "OBJECTID", tmpTablePath, "SourceOID", "Path")
+	#arcpy.ExportRasterCatalogPaths_management(Output_Raster_Catalog, "ALL", tmpTablePath)
+	#arcpy.JoinField_management(Output_Raster_Catalog, "OBJECTID", tmpTablePath, "SourceOID", "Path")
 	
 	# Process: Use Copy Features to make a polygon feature class out of the raster catalog footprints 
-	arcpy.AddMessage("Making polygon index of raster catalog...")
-	arcpy.CopyFeatures_management(Output_Raster_Catalog, OutFCpath)
+	#arcpy.AddMessage("Making polygon index of raster catalog...")
+	#arcpy.CopyFeatures_management(Output_Raster_Catalog, OutFCpath)
 	
 	# remove temporary table 
-	arcpy.AddMessage("Removing temporary table ... ")
-	arcpy.Delete_management(tmpTablePath)
+	#arcpy.AddMessage("Removing temporary table ... ")
+	#arcpy.Delete_management(tmpTablePath)
 	 
-
 	# handle errors and report using GPMsg function
 	#except xmsg:
 	#  arcpy.AddError(str(xmsg))
@@ -144,7 +144,7 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	Input_Workspace : str
 		Path to the workspace to work in.
 	nedindx : str
-		Path to the elevation data raster catalog.
+		Path to the elevation data mosaic dataset.
 	clpfeat : str
 		Path to the clipping feature.
 	OutGrd : str
@@ -177,43 +177,16 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	# set working folder
 	arcpy.env.workspace = Input_Workspace
 	arcpy.env.scratchWorkspace = arcpy.env.workspace
+	arcpy.env.extent = clpfeat
+	#arcpy.env.snapRaster = nedindx
+	#arcpy.env.outputCoordinateSystem = nedindx
 
-	# select index tiles overlapping selected poly(s)
-	intersectout = os.path.join(arcpy.env.workspace,"clipintersect.shp")
-	if arcpy.Exists(intersectout):
-		arcpy.Delete_management(intersectout)
-	
-	arcpy.Clip_analysis(nedindx, clpfeat, intersectout) # clip the dataset
-
-	MosaicList = []
-	# Create search cursor 
-	with arcpy.da.SearchCursor(intersectout,"Path") as cursor:
-		ct = 0
-		for row in cursor: # interate through each entry
-			pth = row[0] # extract path
-
-			if ct == 0:
-				arcpy.AddMessage("Setting raster snap and coordinate system to match first input grid " + pth )
-				try:
-					assert arcpy.Exists(pth) == True
-					arcpy.env.snapRaster = pth
-					arcpy.env.outputCoordinateSystem = pth
-				except:
-					arcpy.AddError("First input grid does not exist: " + pth)
-					arcpy.AddMessage("Stopping... ")
-					sys.exit(0)
-
-			arcpy.Extent = pth # set extent
-			MosaicList.append(arcpy.sa.ExtractByMask(pth, clpfeat)) # extract the chunk of the DEM needed.
-			ct += 1
-
-	arcpy.Extent = clpfeat # reset extent to the whole layer
-	
-	arcpy.AddMessage("Merging grids to create " + OutGrd)
-	arcpy.MosaicToNewRaster_management(MosaicList,arcpy.env.workspace,OutGrd,None,"32_BIT_SIGNED",None,1) # merge the grids together.
-
-	if arcpy.Exists(intersectout):
-		arcpy.Delete_management(intersectout)
+	dsc = arcpy.Describe(clpfeat)
+	ext = dsc.extent
+	clpExt = "%s %s %s %s"%(ext.XMin, ext.YMin, ext.XMax, ext.YMax)
+	arcpy.AddMessage(clpExt)
+	arcpy.Clip_management(nedindx, clpExt, os.path.join(Input_Workspace,OutGrd), in_template_dataset = clpfeat, nodata_value = -9999, clipping_geometry = "ClippingGeometry", maintain_clipping_extent = "NO_MAINTAIN_EXTENT") # clip the dataset
+	arcpy.AddMessage("Clip Complete.")
 
 def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	"""
