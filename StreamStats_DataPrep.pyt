@@ -151,7 +151,7 @@ class makeELEVDATAIndex(object):
 			parameterType = "Required",
 			direction = "Input") 
 
-		param1.value = "IndexRC"
+		param1.value = "IndexRMD"
 
 		param2 = arcpy.Parameter(
 			displayName = "Coordinate System",
@@ -161,7 +161,7 @@ class makeELEVDATAIndex(object):
 			direction = "Input")
 
 		param3 = arcpy.Parameter(
-			displayName = "Input ELEV Workspace",
+			displayName = "Input elevation data workspace",
 			name = "inputELEVws",
 			datatype = "DEWorkspace",
 			parameterType = "Required",
