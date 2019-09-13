@@ -15,11 +15,11 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
 	OutLoc : str
 		Path to output location for the raster catalog.
 	rcName : str
-		Namoe of the output raster catalog.
+		Name of the output mosaic raster dataset.
 	coordsysRaster : str
-		Path to raster from which to base the raster catalog's coordinate system.
+		Path to raster from which to base the mosaic dataset's coordinate system.
 	InputELEVDATAws : str
-		Path to workspace containing the elevation data to be included in the raster catalog.
+		Path to workspace containing the elevation data to be included in the mosaic raster dataset
 	version : str, optional
 		StreamStats DataPrepTools version number.
 	
@@ -74,11 +74,6 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
 	arcpy.Workspace = OutLoc
 	arcpy.ScratchWorkspace = OutLoc
 	arcpy.AddMessage("Working geodatabase is " + OutLoc)
-
-	OutFCpath = os.path.join(OutLoc,OutFC)
-	if arcpy.Exists(OutFCpath): 
-		arcpy.AddError("Output feature class" + OutFCpath + "Already exists")
-		sys.exit(0) # end script
 
 	if arcpy.Exists(Output_Raster_Catalog): 
 		arcpy.AddError("Output raster catalog" + Output_Raster_Catalog + "Already exists")

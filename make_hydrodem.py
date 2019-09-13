@@ -354,7 +354,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
 	dsc = arcpy.Describe(snap_grid) 
-	assert dsc.extent.XMin % 5 == 0, "Snap Grid origin not divisible by 5."
+	assert dsc.extent.XMin % 1 == 0, "Snap Grid origin not divisible by 5."
 
 	# set working directory and environment
 	arcpy.env.workspace = outdir
@@ -384,7 +384,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	tmpLocations = [] # make a container for temp locations that will be deleted at the end
 
 	# buffer the huc8cov
-	hucbuff = 'hucbuff' # some temp location
+	hucbuff = os.path.join(arcpy.env.workspace,'hucbuff') # some temp location
 	tmpLocations.append(hucbuff)
 	arcpy.AddMessage('	Buffering Local Divisons')
 	arcpy.Buffer_analysis(huc8cov, hucbuff, buffdist) # do we need to buffer if this is done in the setup tool, maybe just pass hucbuff to the next step from the parameters...
@@ -395,13 +395,13 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	# rasterize the buffered local division
 	arcpy.AddMessage('	Rasterizing %s'%hucbuff)
-	outGrid = 'hucbuffRast'
+	outGrid = os.path.join(arcpy.env.workspace,'hucbuffRast')
 	tmpLocations.append(outGrid)
 	arcpy.PolygonToRaster_conversion(hucbuff,"dummy",outGrid,cellsize = cellsz)
 
 	# rasterize the dendrite
 	arcpy.AddMessage('	Rasterizing %s'%dendrite)
-	dendriteGridpth = 'tmpDendriteRast'
+	dendriteGridpth = os.path.join(arcpy.env.workspace,'tmpDendriteRast')
 	tmpLocations.append(dendriteGridpth)
 
 	# may need to add a field to dendrite to rasterize it...
@@ -420,8 +420,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	# burning streams and adding walls
 	arcpy.AddMessage('	Starting Walling') # (L182 in hydroDEM_work_mod.aml)
 
-	ridgeNLpth = 'ridgeRast'
-	#tmpLocations.append(ridgeNLpth)
+	ridgeNLpth = os.path.join(arcpy.env.workspace,'ridgeRast')
+	tmpLocations.append(ridgeNLpth)
 	# may need to add a field to huc8cov to rasterize it...
 	arcpy.AddField_management(huc8cov,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
 	arcpy.CalculateField_management(huc8cov,"dummy","1", "PYTHON")
@@ -437,7 +437,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	if not dp_bypass: # dp_bypass is defined after the main code in the original AML
 		if int(arcpy.GetCount_management(drainplug).getOutput(0)) > 0:
-			dpg_path = 'depressionRast'
+			dpg_path = os.path.join(arcpy.env.workspace,'depressionRast')
 			tmpLocations.append(dpg_path)
 			arcpy.AddField_management(drainplug,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
 			arcpy.CalculateField_management(drainplug,"dummy","1", "PYTHON")
@@ -453,7 +453,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	if not bowl_bypass: # bowl_bypass is defined after the main code in the original AML
 		arcpy.AddMessage('	Starting Bowling')
-		blp_name = 'blp'
+		blp_name = os.path.join(arcpy.env.workspace,'blp')
 		tmpLocations.append(blp_name)
 
 		bowlLines = Raster(bowl_lines)
@@ -472,13 +472,13 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	if not iw_bypass:
 		arcpy.AddMessage('	Starting Inwalling')
-		iwb_name = 'tmp_inwall_buff'
+		iwb_name = os.path.join(arcpy.env.workspace,'tmp_inwall_buff')
 		tmpLocations.append(iwb_name)
 		if arcpy.Exists(iwb_name):
 			arcpy.AddMessage("%s exists, please delete or rename before proceeding."%(iwb_name))
 		arcpy.Buffer_analysis(inwall,iwb_name,inwallbuffdist) #(L223 in hydroDEM_work_mod.aml)
 		
-		tmpGrd_name = 'tmpGrd'
+		tmpGrd_name = os.path.join(arcpy.env.workspace,'tmpGrd')
 		tmpLocations.append(tmpGrd_name)
 
 		arcpy.AddField_management(iwb_name,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
@@ -491,7 +491,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		dem_enforced = demRidge8wb + Con((IsNull(tmpGrd) == 0) & (IsNull(dendriteGrid)), inwallht, 0) #(L226 in hydroDEM_work_mod.aml) 
 		arcpy.AddMessage('	Inwalling Complete')
 	else:
-		del dem_enforced
+		if arcpy.Exists(dem_enforced):
+			del dem_enforced
 		dem_enforced = demRidge8wb
 		arcpy.AddMessage('	Inwalling Skipped')
 
@@ -514,8 +515,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	# set the mask and extent for the FAC and FDR grids, which should be clipped to the huc bounding polygon.
 	arcpy.env.extent = huc8cov
 	arcpy.env.mask = huc8cov
-
-	
 
 	if not dp_bypass:
 		fdirg = Int(Con(IsNull(dpg) == 0, 0, fdirg2)) # (L256 in hydroDEM_work_mod.aml), insert a zero where drain plugs were.
@@ -615,7 +614,7 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 
 	#arcpy.AddMessage('	Rasterizing the Dendrite.')
 	#tmpLocations = []
-	#dendriteGridPth = 'tmpDendrite' # might need to add a field for rasterization
+	#dendriteGridPth = os.path.join(arcpy.env.workspace,'tmpDendrite') # might need to add a field for rasterization
 	#tmpLocations.append(dendriteGridPth)
 	#arcpy.AddField_management
 
@@ -923,7 +922,7 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	# &type AGREE: 
 	# &return
 
-def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
+def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, version = None):
 	'''
 	Example
 	-------
@@ -945,6 +944,8 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 		List of paths to upstream flow direction grids
 	workspace : str
 		local geodatabase to work in.
+	version : str (optional)
+		Stream Stats datapreptool version number.
 	
 	Outputs
 	-------
@@ -957,6 +958,9 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	flow_accum_adjust.py - Martyn Smith, USGS
 	adjust_accum (function) - Theodore Barnhart, USGS
 	'''
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+
 	arcpy.AddMessage("Preparing environment.")
 	arcpy.env.workspace = workspace
 	arcpy.env.scratchWorkspace = workspace
@@ -1246,6 +1250,66 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace):
 	# &type  
 	# &return  /* end of usage routine
 
+def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None):
+	'''Simple drainage adjust method.
+
+	Original coding by Al Rea (2010) ahrea@usgs.gov
+	Updated to arcPy by Theodore Barnhart (2019) tbarnhart@usgs.gov
+
+	Adds a value to the flow accumulation grid given an input point using a least-cost-path to coascalde down through the flow direction grid.
+	
+	Parameters
+	----------
+	ptin : str (feature class)
+		Point feature class representing one inlet to the downstream DEM.
+	fdrin : str (raster)
+		Flow direction raster
+	facin : str (raster)
+		Name of the flow accumulation raster
+	filin : str (raster)
+		Burned DEM to use as cost surface.
+	facout : str (raster)
+		Output name of adjusted FAC grid.
+	incrval : int
+		Value to adjust the downstream FAC grid by.
+	version : str
+		Stream Stats version number
+
+	Returns
+	-------
+	None
+
+	Outputs
+	-------
+	hydrodemfac_global : raster
+		Adjusted FAC grid.
+	'''
+
+	if version:
+		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+
+	# check that everything exists
+	for fl in [ptin, facin, filin, facout]:
+		assert arcpy.Exists(fl) == True, "%s does not exist."%(fl)
+
+	arcpy.env.workspace = os.path.dirname(facin) # set workspace
+	arcpy.env.scratchWorkspace = arcpy.env.workspace
+	arcpy.env.snapRaster = fdrin
+	arcpy.env.outputCoordinateSystem = fdrin
+	arcpy.env.extent = fdrin
+
+	costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL") # compute least cost path downstream from inlet point.
+
+	correction = Con(costPth, incrval) # convert the cost path to the increase value
+
+	FAC = Raster(facin)
+
+	corrFAC = FAC + correction # add the correction, hopefully this doesn't overwrite no data values on the FAC grid.
+
+	corrFAC.save(facout) # save the output raster
+
+	return None
+
 def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, version = None):
 	'''generate stream reaches, adjoint catchments, and drainage points
 	
@@ -1401,7 +1465,12 @@ def moveRasters(source, dest, rasters, fmt = None):
 
 	for rast in rasters:
 		if arcpy.Exists(os.path.join(source,rast)):
-			outRast = rast # keep original format
+			
+			if fmt == None and len(rast) > 13: # if unformatted, truncate name to 13 characters.
+				outRast = rast[0:13] # keep original format
+			else: 
+				outRast = rast
+
 			if fmt != None:
 				outRast = "%s.%s"%(rast,fmt)
 

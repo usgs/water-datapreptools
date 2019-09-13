@@ -18,7 +18,7 @@ class Toolbox(object):
 		databaseSetup,
 		makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,
 		TopoGrid,
-		CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum,posthydrodem
+		CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum,AdjustAccumSimp,posthydrodem
 		]
 
 class databaseSetup(object):
@@ -129,7 +129,7 @@ class makeELEVDATAIndex(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "A. Make ELEVDATA Index"
-		self.description = "Function to make ELEVDATA into a raster catalog for clipping to the basin polygons."
+		self.description = "Function to make ELEVDATA into a mosaic raster dataset for clipping to the basin polygons."
 		self.category = "2 - Elevation Tools"
 		self.canRunInBackground = False
 
@@ -145,7 +145,7 @@ class makeELEVDATAIndex(object):
 		param0.filter.list = ["Local Database"] 
 
 		param1 = arcpy.Parameter(
-			displayName = "Output Raster Catalog Name",
+			displayName = "Output Raster Mosaic Dataset Name",
 			name = "rcName",
 			datatype = "GPString",
 			parameterType = "Required",
@@ -161,7 +161,7 @@ class makeELEVDATAIndex(object):
 			direction = "Input")
 
 		param3 = arcpy.Parameter(
-			displayName = "Input elevation data workspace",
+			displayName = "Input Elevation Data workspace",
 			name = "inputELEVws",
 			datatype = "DEWorkspace",
 			parameterType = "Required",
@@ -205,7 +205,7 @@ class ExtractPoly(object):
 		param0.filter.list = ["File System"]
 
 		param1 = arcpy.Parameter(
-			displayName = "ELEVDATA Index Polygons",
+			displayName = "ELEVDATA Raster Mosaic Dataset",
 			name = "nedindx",
 			datatype = "GPFeatureLayer",
 			parameterType = "Required",
@@ -894,7 +894,7 @@ class HydroDEM(object):
 class AdjustAccum(object):
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
-		self.label = "D. Adjust Accumulation"
+		self.label = "D.1 Adjust Accumulation"
 		self.description = "This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named \"hydrodemfac_global\" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the hydrodemfac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
@@ -952,7 +952,79 @@ class AdjustAccum(object):
 		upstreamFDRpths = (parameters[3].valueAsText).split(';') # list of upstream flow direction grids
 		workspace = parameters[4].valueAsText # path to geodatabase workspace to work in
 
-		adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace)
+		adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, version = version)
+
+		return None
+
+class AdjustAccumSimp(object):
+	def __init__(self):
+		self.label = "D.2 Adjust Accumulation (Simple)"
+		self.description = "Simplified flow accumulation adjustment tool. Takes a single point feature class as input, and adjusts fac downstream of that point. Use this when the more automated Flow Accum Adjust tool fails. First make a point at the inlet. Make a separate point feature class and run this separately for each inlet."
+		self.canRunInBackground = False
+		self.category = "4 - HydroDEM"
+
+	def getParameterInfo(self):
+
+		param0 = arcpy.Parameter(
+			displayName = "Inlet Point",
+			name = "inletpoint",
+			datatype = "GPFeatureLayer",
+			parameterType = "Required",
+			direction = "Input")
+
+		param1 = arcpy.Parameter(
+			displayName = "Flow Direction Grid",
+			name = "fdr",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
+
+		param2 = arcpy.Parameter(
+			displayName = "Flow Accumulation Grid",
+			name = "fac",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
+
+		param3 = arcpy.Parameter(
+			displayName = "HydroDEM",
+			name = "filin",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
+
+		param4 = arcpy.Parameter(
+			displayName = "Output FAC",
+			name = "facout",
+			datatype = "DERasterBand",
+			parameterType = "Required",
+			direction = "Input")
+
+		param4.value = "hydrodemfac_global"
+
+		param5 = arcpy.Parameter(
+			displayName = "Adjustment Value",
+			name = "incrval",
+			datatype = "GPString",
+			parameterType = "Required",
+			direction = "Input")
+
+		param5.value = '150000'
+
+		params = [param0,param1,param2,param3,param4,param5]
+		return params
+
+	def execute(self):
+		from make_hydrodem import adjust_accum_simple
+
+		ptin = parameters[0].valueAsText
+		fdrin = parameter[1].valueAsText
+		facin = parameters[2].valueAsText
+		filin = parameters[3].valueAsText
+		facout = parameters[4].valueAsText
+		incrval = int(parameters[5].valueAsText)
+
+		adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version = version)
 
 		return None
 
@@ -1019,8 +1091,8 @@ class posthydrodem(object):
 		workspace = parameters[0].valueAsText
 		facPth = parameters[1].valueAsText
 		fdrPth = parameters[2].valueAsText
-		thresh1 = parameters[3].valueAsText
-		thresh2 = parameters[4].valueAsText
+		thresh1 = int(parameters[3].valueAsText)
+		thresh2 = int(parameters[4].valueAsText)
 		sinksPth = parameters[5].valueAsText
 
 		postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = sinksPth, version = version)

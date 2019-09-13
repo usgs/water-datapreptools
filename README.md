@@ -25,5 +25,8 @@ Then open ArcMap or ArcPro and navigate to the folder you just downloaded, the t
 
 To use the Python modules and functions in scripts you will need to add the downloaded folder to your Python path, see the first two lines of each test script for examples of how to do this.
 
-***Note:*** Tool 4E uses ArcHydroTools, these will need to be installed for this tool to function. This tool currently only functions via ArcMap / Python 2. This is the last step in data preparation tools.
+***Note:*** Tool 4E uses ArcHydroTools, these will need to be installed for this tool to function. This tool currently only functions via ArcMap / Python 2. This is the last step in the data preparation workflow.
 
+***Note:*** When working on ArcGIS projects stored on NAS devices, additional configuration may be required. See:
+- https://community.spiceworks.com/topic/1389064-performance-and-locking-issues-with-synology-nas-and-arcgis
+- https://support.esri.com/en/technical-article/000012722
