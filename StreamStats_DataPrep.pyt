@@ -3,7 +3,7 @@ import sys
 import os
 #from make_hydrodem import *
 
-version = "4.0alpha"
+version = "4.0beta"
 
 arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 

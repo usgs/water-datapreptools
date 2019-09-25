@@ -4,7 +4,9 @@
 A Python toolbox to pre-process and hydro-enforce digital elevation models and hydrography line work for use in StreamStats.
 
 ## Dependencies
-This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro or via a Python executable that is aware of arcpy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing larger domains.
+This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro or via a Python executable that is aware of arcpy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing larger domains. 
+
+ArcHydro: Use version 10.6.0.51 of ArcHydro 64-bit, availabe here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
 
 ## Structure
 This toolbox is contained is several files, which will need to be installed correctly to function (see below). 
