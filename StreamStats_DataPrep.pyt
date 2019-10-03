@@ -541,7 +541,7 @@ class TopoGrid(object):
 		vipPer = parameters[7].valueAsText
 		snapgrid = parameters[8].valueAsText
 		
-		topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = snapgrid, huc12=huc12)
+		topogrid(workspace,huc8,buffDist,dendrite,dem,cellSize,vipPer,snapgrid = snapgrid, huc12=huc12)
 
 		return None
 
