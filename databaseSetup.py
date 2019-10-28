@@ -89,7 +89,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 		#dissolve at 8 dig level and put in output workspace
 		hu8_dissolve = arcpy.Dissolve_management(hu_dataset, os.path.join(output_gdb,"huc8index"), hu8_field)
 		
-		elev_spatial_ref = arcpy.Describe(elevation_projection_template).spatialReference
+		elev_spatial_ref = arcpy.Describe(elevation_projection_template).spatialReference # read the elevation spatial ref.
+		orig_spatial_ref = arcpy.Describe(hu_dataset).spatialReference # read the local division spatial ref.
 
 		# Setup loop to iterate thru each HUC in WBD dataset
 		#fields = hu8_field
@@ -156,8 +157,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.Buffer_analysis(os.path.join(current_db,localName), hucbuffer_alt, "%s METERS"%(alt_buff), "FULL", "ROUND")                
 					
 					arcpy.AddMessage("    Creating unprojected buffered outwall dataset for elevation and hydrography clips")
-					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_elev_dd83, elev_spatial_ref)
-					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_hydrog_dd83, hydrog_spatial_ref)
+					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_elev_dd83, elev_spatial_ref, in_coor_system = orig_spatial_ref)
+					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_hydrog_dd83, hydrog_spatial_ref, in_coor_system = orig_spatial_ref)
 					
 					arcpy.AddMessage("    Creating sink point feature class")
 					arcpy.CreateFeatureclass_management(os.path.join(output_workspace,current_hu8,"input_data.gdb"), "sinkpoint_edit", "POINT","","","", os.path.join(current_db,localName))
@@ -174,8 +175,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					
 					#Create NHD feature dataset within current HU database
 					arcpy.AddMessage("    Creating NHD feature dataset in local hydrologic unit workspace")
-					arcpy.CreateFeatureDataset_management(current_db, "Hydrography", hucbuffer_custom)
-					arcpy.CreateFeatureDataset_management(current_db, "Reference", hucbuffer_custom)
+					arcpy.CreateFeatureDataset_management(current_db, "Hydrography", orig_spatial_ref)
+					arcpy.CreateFeatureDataset_management(current_db, "Reference", orig_spatial_ref)
 					  
 					#process each feature type in NHD
 					featuretypelist = ["NHDArea", "NHDFlowline", "NHDWaterbody"]
@@ -187,7 +188,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 						
 						#project clipped feature
 						arcpy.AddMessage("      Projecting " + featuretype)
-						arcpy.Project_management(os.path.join(current_db, featuretype + "_dd83"), os.path.join(current_db,featuretype + "_project"), hucbuffer_custom)
+						arcpy.Project_management(os.path.join(current_db, featuretype + "_dd83"), os.path.join(current_db,featuretype + "_project"), orig_spatial_ref)
 						arcpy.CopyFeatures_management(os.path.join(current_db, featuretype + "_project"), os.path.join(current_db,"Hydrography",featuretype))
 						
 						#delete unprojected and temporary projected NHD feature classes
