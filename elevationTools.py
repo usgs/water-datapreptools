@@ -179,7 +179,7 @@ def extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version = None):
 	dsc = arcpy.Describe(clpfeat)
 	ext = dsc.extent
 	clpExt = "%s %s %s %s"%(ext.XMin, ext.YMin, ext.XMax, ext.YMax)
-	arcpy.AddMessage(clpExt)
+	#arcpy.AddMessage(clpExt)
 	arcpy.Clip_management(nedindx, clpExt, os.path.join(Input_Workspace,OutGrd), in_template_dataset = clpfeat, nodata_value = -9999, clipping_geometry = "ClippingGeometry", maintain_clipping_extent = "NO_MAINTAIN_EXTENT") # clip the dataset
 	arcpy.AddMessage("Clip Complete.")
 

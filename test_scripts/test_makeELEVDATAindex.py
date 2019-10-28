@@ -11,4 +11,4 @@ InputELEVDATAws = r"C:\Users\tbarnhart\projects\datapreptools\data\test_data\ELE
 OutFC = "ELEVDATIndexPolys"
 version = None
 
-elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, OutFC, version = version)
+elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = version)
