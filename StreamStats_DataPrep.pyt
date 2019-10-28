@@ -207,7 +207,7 @@ class ExtractPoly(object):
 		param1 = arcpy.Parameter(
 			displayName = "ELEVDATA Raster Mosaic Dataset",
 			name = "nedindx",
-			datatype = "GPFeatureLayer",
+			datatype = "DEMosaicDataset",
 			parameterType = "Required",
 			direction = "Input")
 

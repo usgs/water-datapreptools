@@ -75,9 +75,9 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
 	arcpy.ScratchWorkspace = OutLoc
 	arcpy.AddMessage("Working geodatabase is " + OutLoc)
 
-	if arcpy.Exists(Output_Raster_Catalog): 
-		arcpy.AddError("Output raster catalog" + Output_Raster_Catalog + "Already exists")
-		sys.exit(0) # end script
+	#if arcpy.Exists(Output_Raster_Catalog): 
+	#	arcpy.AddError("Output raster catalog" + Output_Raster_Catalog + "Already exists")
+	#	sys.exit(0) # end script
 
 	# Process: Create Raster Catalog...
 	arcpy.AddMessage("Creating output mosaic dataset " + Output_Raster_Catalog)
@@ -86,7 +86,7 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
 	# Process: Workspace To Raster Catalog...
 	arcpy.AddMessage("Loading all rasters under workspace " + InputELEVDATAws + " into raster mosaic dataset...")
 
-	arcpy.AddRastersToMosaicDataset_management(os.path.join(OutLoc, rcName), "Raster Dataset",InputELEVDATAws, sub_folder = "NO_SUBFOLDERS", update_cellsize_ranges = "UPDATE_CELL_SIZES", update_boundary = "UPDATE_BOUNDARY", update_overviews = "NO_OVERVIEWS")
+	arcpy.AddRastersToMosaicDataset_management(os.path.join(OutLoc, rcName), "Raster Dataset",InputELEVDATAws, sub_folder = "SUBFOLDERS", update_cellsize_ranges = "UPDATE_CELL_SIZES", update_boundary = "UPDATE_BOUNDARY", update_overviews = "UPDATE_OVERVIEWS", maximum_pyramid_levels = 5)
 
 	#arcpy.WorkspaceToRasterCatalog_management(InputELEVDATAws, Output_Raster_Catalog, "INCLUDE_SUBDIRECTORIES", "NONE") 
 	
