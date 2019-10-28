@@ -89,6 +89,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 		#dissolve at 8 dig level and put in output workspace
 		hu8_dissolve = arcpy.Dissolve_management(hu_dataset, os.path.join(output_gdb,"huc8index"), hu8_field)
 		
+		elev_spatial_ref = arcpy.Describe(elevation_projection_template).spatialReference
+
 		# Setup loop to iterate thru each HUC in WBD dataset
 		#fields = hu8_field
 		with arcpy.da.SearchCursor(hu8_dissolve, hu8_field) as cursor:
@@ -116,6 +118,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 				if NHDExists:
 					#Create folder for HU inside output folder
 					hydrog_projection_template = os.path.join(orig_4dig_NHD,"Hydrography","NHDFlowline") # get a file to generate hydrography clip.
+					hydrog_spatial_ref = arcpy.Describe(hydrog_projection_template).spatialReference # make spatial reference object for reproject later
 					arcpy.CreateFolder_management(output_workspace, current_hu8)
 					arcpy.CreateFolder_management(os.path.join(output_workspace,current_hu8), "Layers")
 					arcpy.CreateFolder_management(os.path.join(output_workspace,current_hu8),"tmp") # make scratch workspace later for hydroDEM.
@@ -153,8 +156,8 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 					arcpy.Buffer_analysis(os.path.join(current_db,localName), hucbuffer_alt, "%s METERS"%(alt_buff), "FULL", "ROUND")                
 					
 					arcpy.AddMessage("    Creating unprojected buffered outwall dataset for elevation and hydrography clips")
-					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_elev_dd83, elevation_projection_template)
-					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_hydrog_dd83, hydrog_projection_template)
+					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_elev_dd83, elev_spatial_ref)
+					arcpy.Project_management(hucbuffer_custom, hucbuffer_custom_hydrog_dd83, hydrog_spatial_ref)
 					
 					arcpy.AddMessage("    Creating sink point feature class")
 					arcpy.CreateFeatureclass_management(os.path.join(output_workspace,current_hu8,"input_data.gdb"), "sinkpoint_edit", "POINT","","","", os.path.join(current_db,localName))
