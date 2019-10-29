@@ -1,5 +1,6 @@
 import arcpy
 arcpy.CheckOutExtension("Spatial")
+arcpy.CheckOutExtension("3D")
 import os
 from arcpy.sa import *
 import time
@@ -61,7 +62,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	tmpPaths.append(singlePtsPath)
 
 	arcpy.AddMessage("	Converting dem to point cloud.")
-	arcpy.RasterToMultipoint_3d(dem, tmpPtsPath, None, "VIP %s"%(vipPer), None, None) # run VIP
+	arcpy.RasterToMultipoint_3d(dem, tmpPtsPath, method = "VIP %s"%(vipPer)) # run VIP
 	arcpy.MultipartToSinglepart_management(tmpPtsPath,singlePtsPath) # explode multipoints
 
 	# now pull the z value into a field
