@@ -265,6 +265,8 @@ def fillNoData(workspace, InGrid, OutGrid, version = None):
 
 	OutGridPth = os.path.join(workspace, OutGrid)
 
+	arcpy.env.workspace = workspace
+
 	if arcpy.Exists(InGrid) == False:
 		arcpy.AddError("Input grid does not exist.")
 		sys.exit(0)
