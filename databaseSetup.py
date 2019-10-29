@@ -2,31 +2,37 @@ import arcpy
 import sys
 import os
 
-def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff, version = None):
-	"""
-	Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.
-
+def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template, alt_buff, version = None):
+	"""Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.
+	
 	Parameters
 	----------
 	output_workspace : str
-		Output directory for processing to occure in
+		Output directory for processing to occure in.
 	output_gdb_name : str
 		Global file geodatabase to be created
 	hu_dataset : str
-
+		Feature class that defines local folder geographic boundaries.
 	hu8_field : str
-
+		Field name in "hu_dataset" to dissolve boundaries to local folder extents.
 	hu12_field : str
-
+		Field name in "hu_dataset" to generate inwalls from.
 	hucbuffer : str
-
+		Distance to buffer local folder bounds in map units.
 	nhd_path : str
-
+		Path to workspace containing NHD geodatabases.
 	elevation_projection_template : str
-
+		Path to DEM file to use as a projection template.
+	alt_buff : str
+		Alternative buffer to use on local folder boundaries.
 	version : str
-		Package version number
-
+		Package version number.
+	
+	Returns
+	-------
+	None
+	"""
+	"""
 	Old Notes
 	---------
     HUC_process.py

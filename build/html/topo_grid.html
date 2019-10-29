@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>topo_grid Module &#8212; StreamStats Data Preparation Tools 4.0beta documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="make_hydrodem Module" href="make_hydrodem.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-topo_grid">
+<span id="topo-grid-module"></span><h1>topo_grid Module<a class="headerlink" href="#module-topo_grid" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="topo_grid.topogrid">
+<code class="sig-prename descclassname">topo_grid.</code><code class="sig-name descname">topogrid</code><span class="sig-paren">(</span><em class="sig-param">workspace</em>, <em class="sig-param">huc8</em>, <em class="sig-param">buffdist</em>, <em class="sig-param">dendrite</em>, <em class="sig-param">dem</em>, <em class="sig-param">cellSize</em>, <em class="sig-param">vipPer</em>, <em class="sig-param">snapgrid=None</em>, <em class="sig-param">huc12=None</em><span class="sig-paren">)</span><a class="headerlink" href="#topo_grid.topogrid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to geodatabase</p>
+</dd>
+<dt><strong>huc8</strong><span class="classifier">str</span></dt><dd><p>Path to huc8 feature class</p>
+</dd>
+<dt><strong>buffdist</strong><span class="classifier">int</span></dt><dd><p>Distance to buffer huc8 in horizontal map units</p>
+</dd>
+<dt><strong>dendrite</strong><span class="classifier">str</span></dt><dd><p>Path to flowline dendrite feature class</p>
+</dd>
+<dt><strong>dem</strong><span class="classifier">str</span></dt><dd><p>Path to buffered, scalled, and projected DEM</p>
+</dd>
+<dt><strong>cellSize</strong><span class="classifier">int</span></dt><dd><p>Output cell size</p>
+</dd>
+<dt><strong>vipPer</strong><span class="classifier">int</span></dt><dd><p>VIP thining value</p>
+</dd>
+<dt><strong>snapgrid</strong><span class="classifier">str (optional)</span></dt><dd><p>Path to snapgrid to use instead of input DEM.</p>
+</dd>
+<dt><strong>huc12</strong><span class="classifier">list</span></dt><dd><p>List of paths to HUC12 values if the huc8 doesn’t work</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">StreamStats Data Preparation Tools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="databaseSetup.html">databaseSetup Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">topo_grid Module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">StreamStats Data Preparation Tools</a><ul>
+      <li>Previous: <a href="make_hydrodem.html" title="previous chapter">make_hydrodem Module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Theodore Barnhart.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/topo_grid.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

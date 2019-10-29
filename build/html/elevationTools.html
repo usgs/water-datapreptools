@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>elevationTools Module &#8212; StreamStats Data Preparation Tools 4.0beta documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="make_hydrodem Module" href="make_hydrodem.html" />
+    <link rel="prev" title="databaseSetup Module" href="databaseSetup.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-elevationTools">
+<span id="elevationtools-module"></span><h1>elevationTools Module<a class="headerlink" href="#module-elevationTools" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="elevationTools.checkNoData">
+<code class="sig-prename descclassname">elevationTools.</code><code class="sig-name descname">checkNoData</code><span class="sig-paren">(</span><em class="sig-param">InGrid</em>, <em class="sig-param">tmpLoc</em>, <em class="sig-param">OutPolys_shp</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.checkNoData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a feature class of no data values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>InGrid</strong><span class="classifier">Raster</span></dt><dd><p>Input DEM grid to search for no data values</p>
+</dd>
+<dt><strong>tmpLoc</strong><span class="classifier">str</span></dt><dd><p>Path to workspace</p>
+</dd>
+<dt><strong>OutPoly_shp</strong><span class="classifier">str</span></dt><dd><p>Name for output feature class</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>featCount</strong><span class="classifier">int</span></dt><dd><p>Count of no data features generated.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="elevationTools.compareSpatialRefUnits">
+<code class="sig-prename descclassname">elevationTools.</code><code class="sig-name descname">compareSpatialRefUnits</code><span class="sig-paren">(</span><em class="sig-param">grd</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.compareSpatialRefUnits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare horizontal and vertical units from a raster dataset. Returns True if units are the same, returns False if they are different.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>grd</strong><span class="classifier">str</span></dt><dd><p>Path to raster dataset.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>sameUnits</strong><span class="classifier">bool</span></dt><dd><p>True if units are the same, False if not.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="elevationTools.elevIndex">
+<code class="sig-prename descclassname">elevationTools.</code><code class="sig-name descname">elevIndex</code><span class="sig-paren">(</span><em class="sig-param">OutLoc</em>, <em class="sig-param">rcName</em>, <em class="sig-param">coordsysRaster</em>, <em class="sig-param">InputELEVDATAws</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.elevIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a raster catalog and polygons indexed to seamless digital elevation model tiles in a directory tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>OutLoc</strong><span class="classifier">str</span></dt><dd><p>Path to output location for the raster catalog.</p>
+</dd>
+<dt><strong>rcName</strong><span class="classifier">str</span></dt><dd><p>Name of the output mosaic raster dataset.</p>
+</dd>
+<dt><strong>coordsysRaster</strong><span class="classifier">str</span></dt><dd><p>Path to raster from which to base the mosaic dataset’s coordinate system.</p>
+</dd>
+<dt><strong>InputELEVDATAws</strong><span class="classifier">str</span></dt><dd><p>Path to workspace containing the elevation data to be included in the mosaic raster dataset</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="elevationTools.extractPoly">
+<code class="sig-prename descclassname">elevationTools.</code><code class="sig-name descname">extractPoly</code><span class="sig-paren">(</span><em class="sig-param">Input_Workspace</em>, <em class="sig-param">nedindx</em>, <em class="sig-param">clpfeat</em>, <em class="sig-param">OutGrd</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.extractPoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts watershed DEM from a raster catalogue of tiles based on a watershed feature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
+</dd>
+<dt><strong>nedindx</strong><span class="classifier">str</span></dt><dd><p>Path to the elevation data mosaic dataset.</p>
+</dd>
+<dt><strong>clpfeat</strong><span class="classifier">str</span></dt><dd><p>Path to the clipping feature.</p>
+</dd>
+<dt><strong>OutGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid to be generated in Input_Workspace.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="elevationTools.fillNoData">
+<code class="sig-prename descclassname">elevationTools.</code><code class="sig-name descname">fillNoData</code><span class="sig-paren">(</span><em class="sig-param">workspace</em>, <em class="sig-param">InGrid</em>, <em class="sig-param">OutGrid</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.fillNoData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces NODATA values in a grid with mean values within 3x3 window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
+</dd>
+<dt><strong>InGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the input grid to be filled.</p>
+</dd>
+<dt><strong>OutGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid.</p>
+</dd>
+<dt><strong>Version</strong><span class="classifier">str, optional</span></dt><dd><p>Code version</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>May be run repeatedly to fill in areas wider than 2 cells. Note the output is floating point, even if the input is integer. Note this will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid.</p>
+<p>Converted from model builder to arcpy, Theodore Barnhart, <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a>, 20190222</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="elevationTools.projScale">
+<code class="sig-prename descclassname">elevationTools.</code><code class="sig-name descname">projScale</code><span class="sig-paren">(</span><em class="sig-param">Input_Workspace</em>, <em class="sig-param">InGrd</em>, <em class="sig-param">OutGrd</em>, <em class="sig-param">OutCoordsys</em>, <em class="sig-param">OutCellSize</em>, <em class="sig-param">RegistrationPoint</em>, <em class="sig-param">scaleFact=100</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Projects a NED grid to a user-specified coordinate system, handling cell registration. Converts</dt><dd><p>output grid to centimeters (multiplies by 100 and rounds).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to input workspace.</p>
+</dd>
+<dt><strong>InGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the grid to be projected and scaled.</p>
+</dd>
+<dt><strong>OutGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid.</p>
+</dd>
+<dt><strong>OutCoordsys</strong><span class="classifier">str</span></dt><dd><p>Path to the dataset to base the projection off of.</p>
+</dd>
+<dt><strong>OutCellSize</strong><span class="classifier">int or float</span></dt><dd><p>Cell size for output grid.</p>
+</dd>
+<dt><strong>RegistrationPoint</strong><span class="classifier">str</span></dt><dd><p>Registration point for output grid so all grids snap correctly. In the format “0 0” where the zeros are the x and y of the registration point.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Stream Stats version number.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">StreamStats Data Preparation Tools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="databaseSetup.html">databaseSetup Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">elevationTools Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topo_grid.html">topo_grid Module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">StreamStats Data Preparation Tools</a><ul>
+      <li>Previous: <a href="databaseSetup.html" title="previous chapter">databaseSetup Module</a></li>
+      <li>Next: <a href="make_hydrodem.html" title="next chapter">make_hydrodem Module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Theodore Barnhart.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/elevationTools.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

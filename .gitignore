@@ -4,5 +4,3 @@
 /test_data/
 *.mxd
 /.ipynb_checkpoints/
-*.bat
-Makefile

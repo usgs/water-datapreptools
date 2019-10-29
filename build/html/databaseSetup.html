@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>databaseSetup Module &#8212; StreamStats Data Preparation Tools 4.0beta documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="elevationTools Module" href="elevationTools.html" />
+    <link rel="prev" title="StreamStats Data Preparation Tools" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-databaseSetup">
+<span id="databasesetup-module"></span><h1>databaseSetup Module<a class="headerlink" href="#module-databaseSetup" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="databaseSetup.databaseSetup">
+<code class="sig-prename descclassname">databaseSetup.</code><code class="sig-name descname">databaseSetup</code><span class="sig-paren">(</span><em class="sig-param">output_workspace</em>, <em class="sig-param">output_gdb_name</em>, <em class="sig-param">hu_dataset</em>, <em class="sig-param">hu8_field</em>, <em class="sig-param">hu12_field</em>, <em class="sig-param">hucbuffer</em>, <em class="sig-param">nhd_path</em>, <em class="sig-param">elevation_projection_template</em>, <em class="sig-param">alt_buff</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#databaseSetup.databaseSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_workspace</strong><span class="classifier">str</span></dt><dd><p>Output directory for processing to occure in.</p>
+</dd>
+<dt><strong>output_gdb_name</strong><span class="classifier">str</span></dt><dd><p>Global file geodatabase to be created</p>
+</dd>
+<dt><strong>hu_dataset</strong><span class="classifier">str</span></dt><dd><p>Feature class that defines local folder geographic boundaries.</p>
+</dd>
+<dt><strong>hu8_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” to dissolve boundaries to local folder extents.</p>
+</dd>
+<dt><strong>hu12_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” to generate inwalls from.</p>
+</dd>
+<dt><strong>hucbuffer</strong><span class="classifier">str</span></dt><dd><p>Distance to buffer local folder bounds in map units.</p>
+</dd>
+<dt><strong>nhd_path</strong><span class="classifier">str</span></dt><dd><p>Path to workspace containing NHD geodatabases.</p>
+</dd>
+<dt><strong>elevation_projection_template</strong><span class="classifier">str</span></dt><dd><p>Path to DEM file to use as a projection template.</p>
+</dd>
+<dt><strong>alt_buff</strong><span class="classifier">str</span></dt><dd><p>Alternative buffer to use on local folder boundaries.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Package version number.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">StreamStats Data Preparation Tools</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">databaseSetup Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topo_grid.html">topo_grid Module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">StreamStats Data Preparation Tools</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">StreamStats Data Preparation Tools</a></li>
+      <li>Next: <a href="elevationTools.html" title="next chapter">elevationTools Module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Theodore Barnhart.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/databaseSetup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
