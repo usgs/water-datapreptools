@@ -362,6 +362,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	arcpy.env.overwriteOutput = True
 	arcpy.env.scratchWorkspace = scratchWorkspace
 	arcpy.env.outputCoordinateSystem = origdemPth
+	arcpy.env.snapRaster = snap_grid
 
 	# test if other datasets exist
 	testDsets = [huc8cov,dendrite]
@@ -413,7 +414,6 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	origdem = Raster(origdemPth)
 
 	arcpy.env.mask = outGrid # set mask (L169 in hydroDEM_work_mod.aml)
-	arcpy.env.snapRaster = snap_grid
 
 	elevgrid = agree(origdem, dendriteGrid, int(agreebuf), int(agreesmooth), int(agreesharp)) # run agree function
 	
@@ -611,6 +611,7 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	arcpy.AddMessage('		Setting Environment Variables')
 	arcpy.env.extent = origdem # (L130 AGREE.aml)
 	arcpy.env.cellSize = cellsize # (L131 AGREE.aml)
+	arcpy.env.snapRaster = origdem
 
 	#arcpy.AddMessage('	Rasterizing the Dendrite.')
 	#tmpLocations = []
