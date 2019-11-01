@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to StreamStats Data Preparation Tools’s documentation! &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
+  <title>Welcome to StreamStats Data Preparation Tools’ documentation! &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="StreamStats Data Preparation Tools" href="modules.html" /> 
+    <link rel="next" title="Data Preparation Workflow" href="workflow.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,7 +81,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a></li>
 </ul>
 
             
@@ -127,7 +129,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to StreamStats Data Preparation Tools’s documentation!</li>
+      <li>Welcome to StreamStats Data Preparation Tools’ documentation!</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -146,13 +148,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-streamstats-data-preparation-tools-s-documentation">
-<h1>Welcome to StreamStats Data Preparation Tools’s documentation!<a class="headerlink" href="#welcome-to-streamstats-data-preparation-tools-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="welcome-to-streamstats-data-preparation-tools-documentation">
+<h1>Welcome to StreamStats Data Preparation Tools’ documentation!<a class="headerlink" href="#welcome-to-streamstats-data-preparation-tools-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="firstSteps.html">First Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#database-setup">Database Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#make-elevation-data-index">Make Elevation Data Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#extract-polygons">Extract Polygons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#check-for-nodata-cells">Check For NoData Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#fill-nodata-cells">Fill NoData Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#project-and-scale">Project and Scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#topogrid-optional">TopoGrid (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#bathymetic-gradient-setup">Bathymetic Gradient Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#coastal-dem-processing-optional">Coastal DEM Processing (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#hydro-enforce-dem">Hydro-Enforce DEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#adjust-accumulation">Adjust Accumulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#adjust-accumulation-simple">Adjust Accumulation Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html#post-hydrodem">Post Hydrodem</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="databaseSetup.html">databaseSetup Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
@@ -165,9 +186,9 @@
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 </div>
 
@@ -179,7 +200,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="modules.html" class="btn btn-neutral float-right" title="StreamStats Data Preparation Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="workflow.html" class="btn btn-neutral float-right" title="Data Preparation Workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

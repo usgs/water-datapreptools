@@ -1,3 +1,9 @@
+"""
+An ESRI toolbox to prepare data for use in the StreamStats application.
+
+Tools in this toolbox are describes as classes and rely on the underlying databaseSetup, elevationTools, make_hydrodem, and topo_grid libraries. The functions in the aformentioned libraries can also be used outside of these tools in a Python session with access to ArcPy. All tools are Python 2/3 compatable with the exception of posthydrodem, which must be run using Python 2 / ArcMap.
+
+"""
 import arcpy
 import sys
 import os
@@ -12,7 +18,6 @@ class Toolbox(object):
 	ESRI Arc Toolbox for preparing data for USGS StreamStats.
 	"""
 	def __init__(self):
-		"""Toolbox for preprocessing data for creating or refreshing a StreamStats project."""
 		self.label = "StreamStats Data Preparation Tools"
 		self.alias = "StreamStatsDataPrep"
 
@@ -25,13 +30,44 @@ class Toolbox(object):
 		]
 
 class databaseSetup(object):
+	"""
+	Set up the workspace needed to process elevation and hydrography data.
+	"""
 	def __init__(self):
 		self.label = 'A. Database Setup'
-		self.description = 'This script setup up an archydro workspace for the StreamStats process. The script takes watershed boundaries and hydrography to create a new folder in a new workspace for each hydrologic unit. The tool creates a master filegdb that sits in the root workspace and holds the hydrologic unit polygons (hucpolys). The tool also dissolves by 12 digit and 8 digit polygons and line feature classes, creates the inner walls feature class, creates two buffered HUC feature classes.'
+		self.description = 'This script sets up an archydro data model workspace for the StreamStats process. The script takes watershed boundaries and hydrography to create a new folder in a new workspace for each hydrologic unit. The tool creates a master filegdb that sits in the root workspace and holds the hydrologic unit polygons (hucpolys). The tool also dissolves by 12 digit and 8 digit polygons and line feature classes, creates the inner walls feature class, creates two buffered HUC feature classes.'
 		self.category = '1 - Setup Tools '
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
+		"""Database Setup inputs.
+
+		Parameters
+		----------
+		Output Workspace : DEWorkspace (File System)
+			Folder-type workspace for local folders and geodatabase to be created.
+		Main ArcHydro Geodatabase Name : GPString
+			Name of the geodatabase to be created in "Output Workspace."
+		Hydrologic Unit Boundary Dataset : DEShapefile or DEFeatureClass
+			Polygon vector defining local processing units. Should have columns for outwalls and inwalls, see below.
+		Outwall Field : Field
+			Field in "Hydrologic Unit Boundary Dataset" used to determine local folders and outwalls.
+		Inwall Field : Field
+			Field in "Hydrologic Unit Boundary Dataset" used to determine inwalls.
+		Hydrologic Unit Buffer Distance (m) : GPString
+			Distance to buffer local folder polygons by.
+		Input Hydrography Workspace : DEWorkspace
+			Path to folder type workspace with geodatabases of NHD hydrography.
+		Elevation Dataset Template : DERasterBand
+			Raster dataset to pull projection information from, works best as an ESRI grid.
+		Alternative Outwall Buffer : GPString (optional)
+			Distance for alternative outwall buffer.
+
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "output_workspace",
@@ -111,7 +147,6 @@ class databaseSetup(object):
 		return parameters
 
 	def execute(self, parameters, messages):
-		# import the actual tool
 
 		from databaseSetup import databaseSetup
 
@@ -137,7 +172,15 @@ class makeELEVDATAIndex(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Geodatabase",
 			name = "OutLoc",
@@ -197,7 +240,15 @@ class ExtractPoly(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Input_Workspace",
@@ -253,7 +304,15 @@ class CheckNoData(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 
 		param0 = arcpy.Parameter(
 			displayName = "InputGrid",
@@ -302,7 +361,15 @@ class FillNoData(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "workspace",
@@ -356,7 +423,15 @@ class ProjScale(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		
 		param0 = arcpy.Parameter(
 			displayName = "Input Workspace",
@@ -446,7 +521,15 @@ class TopoGrid(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Workspace",
@@ -557,7 +640,15 @@ class SetupBathyGrad(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Workspace",
@@ -639,7 +730,15 @@ class CoastalDEM(object):
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "Input_Workspace",
@@ -698,6 +797,12 @@ class CoastalDEM(object):
 		return None
 
 class HydroDEM(object):
+	"""Hydro-Enforce a DEM.
+
+	Notes
+	----
+	We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).
+	"""
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "C. Hydro-Enforce DEM"
@@ -706,7 +811,52 @@ class HydroDEM(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		Output Workspace : DEWorkspace (geodatabase)
+			Geodatabase-type workspace where output raster will be saved.
+		Scratch Workspace : DEWorkspace (folder)
+			Folder-type scratch workspace.
+		HUC layer : DEFeatureClass
+			Polygon feature class the bounds the local folder you are working in.
+		Digital Elevation Model : DERasterBand
+			Digital elevation model to be hydro-enforced.
+		Stream Dendrite : DEFeatureClass
+			Polyline feature class describing where streams are on the landscape.
+		Snap Grid : DERasterBand
+			Raster grid used to align output DEM with other related grids or adjacent local folders.
+		NHD Waterbody Grid : DERasterDataset (optional)
+			Grid representing waterbodies from the bathymetric gradient step.
+		NHD Flowline Grid : DERasterDataset (optional)
+			Grid representing flowlines from the bathymetric gradient step.
+		Inner Walls : DEFeatureClass (optional)
+			Polyline feature class used to inforce internal drainage.
+		Cell Size : GPString
+			Output cell size, defaults to 10.
+		Drain Plugs : DEFeatureClass (optional)
+		HUC buffer : GPDouble (optional)
+			Distance to buffer the HUC layer, dfaults to 50.
+		Inner Wall Buffer : GPDouble (optional)
+			Distance to buffer the inwall, defaults to 15.
+		Inner Wall Height : GPDouble (optional)
+			Inwall height, defaults to 150000.
+		Outer Wall Height : GPDouble (optional)
+			Outer wall height, defaults to 300000.
+		AGREE buffer : GPDouble (optional)
+			Defaults to 60.
+		AGREE Smooth Drop : GPDouble (optional)
+			Defaults to -500.
+		AGREE Sharp Drop : GPDouble (optional)
+			Defaults to -50000.
+		Bowl Depth : GPDouble (optional)
+			Defaults to 2000.
+
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Workspace",
@@ -903,7 +1053,15 @@ class AdjustAccum(object):
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Downstream Accumulation Grid",
 			name = "facPth",
@@ -967,7 +1125,15 @@ class AdjustAccumSimp(object):
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Inlet Point",
 			name = "inletpoint",
@@ -1040,7 +1206,15 @@ class posthydrodem(object):
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""Define parameter definitions"""
+		"""
+		Parameters
+		----------
+		
+		Returns
+		-------
+		parameters : list
+			List of input parameters passed to the execute method.
+		"""
 		param0 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "workspace",

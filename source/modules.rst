@@ -1,10 +1,9 @@
-StreamStats Data Preparation Tools
+StreamStats DataPrep Library
 ==================================
 
 .. toctree::
    :maxdepth: 4
-
-   StreamStats_DataPrep
+   
    databaseSetup
    elevationTools
    make_hydrodem

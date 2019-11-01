@@ -81,8 +81,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="databaseSetup.html">databaseSetup Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
@@ -134,7 +135,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">StreamStats Data Preparation Tools</a> &raquo;</li>
+          <li><a href="modules.html">StreamStats DataPrep Library</a> &raquo;</li>
         
       <li>topo_grid Module</li>
     
@@ -159,10 +160,12 @@
 <span id="topo-grid-module"></span><h1>topo_grid Module<a class="headerlink" href="#module-topo_grid" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="topo_grid.topogrid">
-<code class="sig-prename descclassname">topo_grid.</code><code class="sig-name descname">topogrid</code><span class="sig-paren">(</span><em class="sig-param">workspace</em>, <em class="sig-param">huc8</em>, <em class="sig-param">buffdist</em>, <em class="sig-param">dendrite</em>, <em class="sig-param">dem</em>, <em class="sig-param">cellSize</em>, <em class="sig-param">vipPer</em>, <em class="sig-param">snapgrid=None</em>, <em class="sig-param">huc12=None</em><span class="sig-paren">)</span><a class="headerlink" href="#topo_grid.topogrid" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<code class="descclassname">topo_grid.</code><code class="descname">topogrid</code><span class="sig-paren">(</span><em>workspace</em>, <em>huc8</em>, <em>buffdist</em>, <em>dendrite</em>, <em>dem</em>, <em>cellSize</em>, <em>vipPer</em>, <em>snapgrid=None</em>, <em>huc12=None</em><span class="sig-paren">)</span><a class="headerlink" href="#topo_grid.topogrid" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
 <dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to geodatabase</p>
 </dd>
 <dt><strong>huc8</strong><span class="classifier">str</span></dt><dd><p>Path to huc8 feature class</p>
@@ -182,13 +185,15 @@
 <dt><strong>huc12</strong><span class="classifier">list</span></dt><dd><p>List of paths to HUC12 values if the huc8 doesn’t work</p>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt>None</dt><dd></dd>
 </dl>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

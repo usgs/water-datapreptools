@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="elevationTools Module" href="elevationTools.html" />
-    <link rel="prev" title="StreamStats_DataPrep ESRI Toolbox" href="StreamStats_DataPrep.html" /> 
+    <link rel="prev" title="StreamStats DataPrep Library" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,8 +82,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats Data Preparation Tools</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">databaseSetup Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
@@ -135,7 +136,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">StreamStats Data Preparation Tools</a> &raquo;</li>
+          <li><a href="modules.html">StreamStats DataPrep Library</a> &raquo;</li>
         
       <li>databaseSetup Module</li>
     
@@ -160,11 +161,13 @@
 <span id="databasesetup-module"></span><h1>databaseSetup Module<a class="headerlink" href="#module-databaseSetup" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="databaseSetup.databaseSetup">
-<code class="sig-prename descclassname">databaseSetup.</code><code class="sig-name descname">databaseSetup</code><span class="sig-paren">(</span><em class="sig-param">output_workspace</em>, <em class="sig-param">output_gdb_name</em>, <em class="sig-param">hu_dataset</em>, <em class="sig-param">hu8_field</em>, <em class="sig-param">hu12_field</em>, <em class="sig-param">hucbuffer</em>, <em class="sig-param">nhd_path</em>, <em class="sig-param">elevation_projection_template</em>, <em class="sig-param">alt_buff</em>, <em class="sig-param">version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#databaseSetup.databaseSetup" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">databaseSetup.</code><code class="descname">databaseSetup</code><span class="sig-paren">(</span><em>output_workspace</em>, <em>output_gdb_name</em>, <em>hu_dataset</em>, <em>hu8_field</em>, <em>hu12_field</em>, <em>hucbuffer</em>, <em>nhd_path</em>, <em>elevation_projection_template</em>, <em>alt_buff</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#databaseSetup.databaseSetup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
 <dt><strong>output_workspace</strong><span class="classifier">str</span></dt><dd><p>Output directory for processing to occure in.</p>
 </dd>
 <dt><strong>output_gdb_name</strong><span class="classifier">str</span></dt><dd><p>Global file geodatabase to be created</p>
@@ -186,13 +189,15 @@
 <dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Package version number.</p>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt>None</dt><dd></dd>
 </dl>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -208,7 +213,7 @@
         <a href="elevationTools.html" class="btn btn-neutral float-right" title="elevationTools Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="StreamStats_DataPrep.html" class="btn btn-neutral float-left" title="StreamStats_DataPrep ESRI Toolbox" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="StreamStats DataPrep Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
