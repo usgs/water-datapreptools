@@ -61,24 +61,34 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	singlePtsPath = os.path.join(workspace,'vipPoints_exp')
 	tmpPaths.append(singlePtsPath)
 
-	arcpy.AddMessage("	Converting dem to point cloud.")
-	arcpy.RasterToMultipoint_3d(dem, tmpPtsPath, method = "VIP %s"%(vipPer)) # run VIP
-	arcpy.MultipartToSinglepart_management(tmpPtsPath,singlePtsPath) # explode multipoints
-
-	# now pull the z value into a field
-	arcpy.AddField_management(singlePtsPath,'elevation','FLOAT', None, None, None, None, "NULLABLE")
-	with arcpy.da.SearchCursor(singlePtsPath,['SHAPE@Z']) as src:
-		with arcpy.da.UpdateCursor(singlePtsPath, ['elevation']) as dst:
-			for srcRow, dstRow in zip(src,dst):
-				dstRow[0] = srcRow[0]
-				dst.updateRow(dstRow)
-
-	arcpy.AddMessage("	Conversion complete.")
+	singlePtsElevPath = os.path.join(workspace,'vipPoints_exp_elev')
+	tmpPaths.append(singlePtsElevPath)
 
 	tmpTopoDEM = os.path.join(workspace,"topogr_tmp")
 	tmpPaths.append(tmpTopoDEM)
 
 	topodemPth = os.path.join(workspace,"topodem") # this is the final DEM path
+
+	# clean up the workspace before proceeding.
+	for pth in [tmpPtsPath, singlePtsPath, singlePtsElevPath, tmpTopoDEM, topodemPth]:
+		if arcpy.Exists(pth):
+			arcpy.Delete_management(pth)
+
+	arcpy.AddMessage("	Converting dem to point cloud.")
+	arcpy.RasterToMultipoint_3d(dem, tmpPtsPath, method = "VIP %0.1f"%(float(vipPer))) # run VIP
+	arcpy.MultipartToSinglepart_management(tmpPtsPath,singlePtsPath) # explode multipoints
+	ExtractValuesToPoints(singlePtsPath, dem, singlePtsElevPath) # extract the dem elevations to the points
+
+
+	# now pull the z value into a field
+	#arcpy.AddField_management(singlePtsPath,'elevation','FLOAT', None, None, None, None, "NULLABLE")
+	#with arcpy.da.SearchCursor(singlePtsPath,['SHAPE@Z']) as src:
+	#	with arcpy.da.UpdateCursor(singlePtsPath, ['elevation']) as dst:
+	#		for srcRow, dstRow in zip(src,dst):
+	#			dstRow[0] = srcRow[0]
+	#			dst.updateRow(dstRow)
+
+	arcpy.AddMessage("	Conversion complete.")
 
 	# figure out the number of chunks that need to be run through topogrid
 	if huc12 == None:
@@ -101,7 +111,11 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 
 		extent = "%s %s %s %s"%(xmin,ymin,xmax,ymax)
 
-		inputs = "%s elevation POINTELEVATION;%s # STREAM;%s # BOUNDARY"%(singlePtsPath,dendrite,tmpBuffPth)
+		
+		inputs = "%s RASTERVALU POINTELEVATION;%s # STREAM;%s # BOUNDARY"%(singlePtsElevPath,dendrite,tmpBuffPth) # old stype with point feature class
+
+		#inputs = "%s POINTELEVATION;%s # STREAM;%s # BOUNDARY"%(singlePtsPath,dendrite,tmpBuffPth) # new trial style
+
 		arcpy.TopoToRaster_3d(inputs, topodemPth, cellSize, extent, enforce = "ENFORCE", data_type = "SPOT")
 		arcpy.AddMessage("	Rasterization Complete.")
 	else: # iterate through the input huc12s
@@ -110,7 +124,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 		for i,hu in enumerate(huc12):
 			i += 1
 
-			arcpy.AddMessage('Rasterizing point cloud chunk %s'%i)
+			arcpy.AddMessage('	Rasterizing point cloud chunk %s'%i)
 			outPth = os.path.join(workspace,'topo_%s'%i)
 			
 			# make temp file paths
@@ -135,7 +149,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 			arcpy.Buffer_analysis(huDissPth, huBuff_2_pth, "2000 Meters", "FULL", "ROUND")
 
 			arcpy.Clip_analysis(dendrite, huBuff_1_pth, dendrite_clip) # clip dendrite to 50 m
-			acpy.Clip_analysis(singlePtsPath, huBuff_2_pth, vip2k) # clip topo points to 2000 m
+			acpy.Clip_analysis(singlePtsElevPath, huBuff_2_pth, vip2k) # clip topo points to 2000 m
 
 			desc = arcpy.Describe(huBuff_1_pth)
 			ext = str(desc.extent).split()
@@ -146,7 +160,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 
 			extent = "%s %s %s %s"%(xmin,ymin,xmax,ymax)
 
-			inputs = "%s elevation POINTELEVATION;%s # STREAM;%s # BOUNDARY"%(vip2k,dendrite_clip,huBuff_1_pth)
+			inputs = "%s RASTERVALU POINTELEVATION;%s # STREAM;%s # BOUNDARY"%(vip2k,dendrite_clip,huBuff_1_pth)
 			arcpy.TopoToRaster_3d(inputs, outPth, cellSize, extent, enforce = "ENFORCE", data_type = "SPOT")
 
 			if arcpy.Exists(outPth): # if the output DEM exists, append it to the list for mosaicing.
@@ -180,9 +194,9 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	arcpy.DefineProjection_management(topodemPth,outsr) # actually update the projection here.
 
 	# housekeeping
-	for ds in tmpPaths: # clean up temp datasets
-		if arcpy.Exists(ds):
-			arcpy.Delete_management(ds)
+	#for ds in tmpPaths: # clean up temp datasets
+	#	if arcpy.Exists(ds):
+	#		arcpy.Delete_management(ds)
 
 	arcpy.AddMessage("	TopoGrid DEM: %s"%topodemPth)
 
