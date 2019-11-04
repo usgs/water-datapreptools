@@ -577,7 +577,7 @@ class TopoGrid(object):
 		param5 = arcpy.Parameter(
 			displayName = "Buffered and Projected Elevation Data",
 			name = "dem",
-			datatype = "DERasterBand",
+			datatype = ["DERasterBand","DERasterDataset"],
 			parameterType = "Required",
 			direction = "Input"
 			)
@@ -885,7 +885,7 @@ class HydroDEM(object):
 		param2 = arcpy.Parameter(
 			displayName = "Digital Elevation Model",
 			name = "origdem",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Input")
 
@@ -899,7 +899,7 @@ class HydroDEM(object):
 		param4 = arcpy.Parameter(
 			displayName = "Snap Grid",
 			name = "snap_grid",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Input")
 
