@@ -164,6 +164,8 @@ class databaseSetup(object):
 		databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff, version=version)
 
 class makeELEVDATAIndex(object):
+	"""Create a seamless raster mosaic dataset from input digital elevation tiles.
+	"""
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "A. Make ELEVDATA Index"
@@ -172,9 +174,18 @@ class makeELEVDATAIndex(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""Make ELEV data index inputs
+
 		Parameters
 		----------
+		Output Geodatabase : DEWorkspace (Geodatabase)
+			Path to the geodatabase that will hold the output raster mosaic dataset.
+		Output Raster Mosaic Dataset Name : GPString
+			Name of raster mosaic dataset to output, defaults to IndexRMD.
+		Coordinate System : GPCoordinateSystem
+			Coordinate system of input grids and raster mosaic dataset.
+		Input Elevation Data workspace : DEWorkspace (Folder)
+			Path to folder holding input digital elevation models to be included in the raster mosaic dataset.
 		
 		Returns
 		-------
@@ -240,9 +251,18 @@ class ExtractPoly(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""Extract Polygon inputs.
+
 		Parameters
 		----------
+		Output Workspace : DEWorkspace (Folder)
+			Path to folder to work in.
+		ELEVDATA Raster Mosaic Dataset : DEMosaicDataset
+			Path to the raster mosaic dataset holding the elevation data.
+		Clip Polygon : GPFeatureLayer
+			Feature class of the watershed boundary being used for clipping.
+		Output Grid : GPString
+			Name of the output ESRI grid, defaults to dem_dd.
 		
 		Returns
 		-------
@@ -304,10 +324,17 @@ class CheckNoData(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""Check for no data inputs.
+
 		Parameters
 		----------
-		
+		InputGrid : DERasterBand
+			Path to raster dataset to examine.
+		Workspace : DEWorkspace (Geodatabase)
+			Geodatabase-type workspace to work in.
+		Output Feature Layer : GPString
+			Name of output feature class, defaults to DEM_NoDataSinks.
+
 		Returns
 		-------
 		parameters : list
@@ -361,9 +388,16 @@ class FillNoData(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""Fill no data areas by one cell.
+
 		Parameters
 		----------
+		Workspace : DEWorkspace (Folder)
+			Path to folder to work in.
+		Input Grid : DERasterBand
+			Path to raster dataset with no data values to be filled, defaults to DEM_NoDataSinks.
+		Output Grid : GPString
+			Path to write out filled raster dataset to, defaults to DEM_filled.
 		
 		Returns
 		-------
@@ -416,17 +450,31 @@ class FillNoData(object):
 
 class ProjScale(object):
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "E. Project and Scale Elevation Data"
 		self.description = "Project a NED grid to a user-specified coordinate system. Handles setting a cell registration point. Also multiplies by 100 and converts to integer grid format."
 		self.category = "2 - Elevation Tools"
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""Project and scale digital elevation model inputs.
+
 		Parameters
 		----------
-		
+		InWorkSpace : DEWorkspace (Folder)
+			Path to the folder to work in.
+		InGrid : DERasterBand
+			Path to the raster dataset to project and scale.
+		OutGrid : GPString
+			Name for the projected and scaled raster, defaults to dem_raw.
+		OutCoordSys : GPCoordinateSystem
+			Coordinate system to project the input raster to.
+		OutCellSize : analysis_cell_size
+			Output cell size to project the input raster to, defaults to 10 horizontal map units.
+		RegPt : GPString
+			Registration point for the projected raster, defaults to "0 0".
+		scaleFact : GPString
+			Scale factor to use to convert the projected raster to integers, defaults to 100. Consider using a larger scale factor as cell-size decreases.
+
 		Returns
 		-------
 		parameters : list
@@ -514,6 +562,12 @@ class ProjScale(object):
 		return None
 
 class TopoGrid(object):
+	"""Condition an input DEM using a flowline dendrite prior to hydro-enforcement.
+
+	Notes
+	-----
+	This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.
+	"""
 	def __init__(self):
 		self.label = "TopoGrid"
 		self.description = "This script runs topo to raster as a prelimary burning and walling process before HydroDEM is run. It takes a buffered DEM dataset and runs raster to multipoint with VIP filtering based on the percentage set in the tool. The output of the script is a new DEM to be used by HydroDEM."
@@ -521,10 +575,29 @@ class TopoGrid(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""TopoGrid inputs.
+
 		Parameters
 		----------
-		
+		Output Workspace : DEWorkspace (Geodatabase)
+			Path to a geodatabase to work in.
+		Dissolved HUC8 boundary : DEFeatureClass or DEShapefile
+			Feature class to use in bounding the topogrid conditioning process.
+		Topogrid Buffer Distance : GPDouble
+			Distance to buffer the input HUC8 boundary, in the units of the HUC8 boundary. 		
+		12 Digit Hydrologic Unit Datasets if dissolved HUC8 boundary failed : DEFeatureClass or DEShapefile (Optional)
+				List of HUC12 boundaries to split up TopoGrid computations if the whole domain fails.
+		Dendritic Flowline Features : DEFeatureClass or DEShapefile
+			Dendrite used for enforcing flow direction in topogrid.
+		Buffered and Projected Elevation Data : DERasterBand or DERasterDataset
+			Input digital elevation model to be conditioned using topogrid.
+		Output Cell Size : GPString
+			Cell size for output digital elevation model, defualts to 10 horizontal map units.
+		VIP Percentage : GPString
+				Thinning value used in the Very Important Points algorithm to decide how many points from the original raster are retained, defaults to 5 percent.
+		SnapGrid : DERasterBand (Optional)
+			Raster to snap output grid to.
+
 		Returns
 		-------
 		parameters : list
@@ -632,18 +705,38 @@ class TopoGrid(object):
 		return None
 
 class SetupBathyGrad(object):
+	"""Prepare bathymetric gradient inputs for use in hydro-enforcement.
+
+	Notes
+	-----
+	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "B. Bathymetric Gradient Setup"
 		self.description = "This script creates a set of NHD Hydrography Datasets, extracts the appropriate features and converts them to rasters for input into HydroDEM."
 		self.category = "4 - HydroDEM"
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""
+		"""Setup Bathymetric Gradient inputs.
+
 		Parameters
 		----------
-		
+		Output Workspace : DEWorkspace (Geodatabase)
+			Path to a geodatabase to work in.
+		Digital Elevation Model (used for snapping) : DERasterBand
+			Path to a digital elevation model to use for aligning output grids to the rest of the project.
+		Dissolved HUC8 Dataset : DEFeatureClass
+			Feature class of the local folder boundary.
+		NHD Area : DEFeatureClass
+			Feature class of NHD double line streams.
+		NHD Dendrite : DEFeatureClass
+			Feature class of the flowline dendrite.
+		NHD Waterbody : DEFeatureClass
+			Feature class of the NHD water bodies.
+		Cell Size : GPString
+			Output grid cell size, defaults to 10 horizontal map units.
+
 		Returns
 		-------
 		parameters : list
@@ -722,18 +815,30 @@ class SetupBathyGrad(object):
 		return None
 
 class CoastalDEM(object):
+	"""Prepare coastal areas for hydro-enforcement.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "A. Coastal DEM Processing (Optional)"
 		self.description = "Lowers the level of the sea to ensure it is always below land level. Also raises any land cells to 1 cm unless they are within a polygon with Land attribute of 0. The input polygons (LandSea) needs to identify the sea with a Land attribute of -1. Land is identified with a Land value of 1. No change polygons should have Land value of 0."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""
+		"""Coastal digital elevation model processing inputs.
+
 		Parameters
 		----------
-		
+		Workspace : DEWorkspace (Folder)
+			Path to folder to work in. 
+		Input raw DEM : DERasterBand
+			Original digital elevation model to be corrected for coastal areas, defaults to dem_raw.
+		Input LandSea polygon feature class : DEFeatureClass
+			Feature class indicating areas of land and sea.
+		Output DEM : DERasterBand
+			Output digital elevation model name, defaults to dem_sea.
+		Sea Level : GPString
+			Value to insert into areas identified as the sea, defaults to -60000 vertical map units.
+
 		Returns
 		-------
 		parameters : list
@@ -800,7 +905,7 @@ class HydroDEM(object):
 	"""Hydro-Enforce a DEM.
 
 	Notes
-	----
+	-----
 	We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).
 	"""
 	def __init__(self):
@@ -1045,18 +1150,30 @@ class HydroDEM(object):
 		return None
 
 class AdjustAccum(object):
+	"""Adjust flow accumulation grids following hydro-enforcement.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "D.1 Adjust Accumulation"
 		self.description = "This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named \"hydrodemfac_global\" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the hydrodemfac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""
+		"""Adjust flow accumulation grid inputs.
+
 		Parameters
 		----------
-		
+		Downstream Accumulation Grid : DERasterDataset
+			Downstream raster dataset to correct.
+		Downstream Flow Direction Grid : DERasterDataset
+			Downstream flow direction grid.
+		Upstream Flow Accumulation Grids : DERasterDataset
+			Upstream flow accumulation grids to correct the downstream grid with.
+		Upstream Flow Direction Grids : DERasterDataset
+			Upstream flow direction grids corresponding to the grids listed above.
+		Workspace : Workspace (Geodatabase)
+			Geodatabase to work in.
+
 		Returns
 		-------
 		parameters : list
@@ -1118,6 +1235,8 @@ class AdjustAccum(object):
 		return None
 
 class AdjustAccumSimp(object):
+	"""Simply adjust a flow accumulation grid.
+	"""
 	def __init__(self):
 		self.label = "D.2 Adjust Accumulation (Simple)"
 		self.description = "Simplified flow accumulation adjustment tool. Takes a single point feature class as input, and adjusts fac downstream of that point. Use this when the more automated Flow Accum Adjust tool fails. First make a point at the inlet. Make a separate point feature class and run this separately for each inlet."
@@ -1125,10 +1244,23 @@ class AdjustAccumSimp(object):
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""
+		"""Simple flow accumulation grid adjustment inputs.
+
 		Parameters
 		----------
-		
+		Inlet Point : GPFeatureLayer
+			Point feature class indicating the inlet to the downstream hydrologic unit.
+		Flow Direction Grid : DERasterBand
+			Flow direction grid of the downstream hydrologic unit.
+		Flow Accumulation Grid : DERasterBand
+			Flow accumuation grid of the downstream hydrologic unit.
+		HydroDEM : DERasterBand
+			Downstream hydrologic unit hydro-enforced digital elevation model.
+		Output FAC : DERasterBand
+			Corrected flow accumuation grid, defaults to hydrodemfac_global.
+		Adjustment Value : GPString
+			Upstream flow accumulation value to correct the downstream hydrologic unit with, defaults to 150000 grid cells.
+
 		Returns
 		-------
 		parameters : list
@@ -1198,17 +1330,35 @@ class AdjustAccumSimp(object):
 		return None
 
 class posthydrodem(object):
+	"""ArcHydro processing using the hydro-enforced digital elevation model and resultant flow direction and flow accumulation grids.
+
+	Notes
+	-----
+	This tool only functions with ArcMap / Python 2, ArcPro / Python 3 are currently not supported.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "E. Post Hydrodem"
 		self.description = "This fucntion uses ArcHydroTools to generate the following rasters: str, str900, cat, and lnk. Feature classes of drainageLine, catchment, adjointCatchment, and drainagePoint are also created. This tool only runs using Python 2 as ArcHydro tools are not fully implemented with Python 3."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
 
 	def getParameterInfo(self):
-		"""
+		"""Post hydro-enforcement processing inputs.
+
 		Parameters
 		----------
+		Workspace : DEWorkspace (Geodatabase)
+			Geodatabase to work in.
+		hydrodemfac : DERasterDataset
+			Hydro-enforced flow accumulation grid.
+		hydrodemfdr : DERasterDataset
+			Hydro-enforced flow direction grid.
+		str threshold : GPLong
+			Stream threshold in raster cells.
+		str900 threshold : GPLong
+			str900 grid threshold, in raster cells.
+		Sink Link : DERasterBand
+			Sink link raster name.
 		
 		Returns
 		-------

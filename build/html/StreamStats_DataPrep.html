@@ -232,7 +232,8 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.makeELEVDATAIndex">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">makeELEVDATAIndex</code><a class="headerlink" href="#StreamStats_DataPrep.makeELEVDATAIndex" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Create a seamless raster mosaic dataset from input digital elevation tiles.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -240,26 +241,31 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.makeELEVDATAIndex.getParameterInfo" title="StreamStats_DataPrep.makeELEVDATAIndex.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Make ELEV data index inputs</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.makeELEVDATAIndex.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.makeELEVDATAIndex.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Make ELEV data index inputs</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Output Geodatabase</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to the geodatabase that will hold the output raster mosaic dataset.</p>
+</dd>
+<dt><strong>Output Raster Mosaic Dataset Name</strong><span class="classifier">GPString</span></dt><dd><p>Name of raster mosaic dataset to output, defaults to IndexRMD.</p>
+</dd>
+<dt><strong>Coordinate System</strong><span class="classifier">GPCoordinateSystem</span></dt><dd><p>Coordinate system of input grids and raster mosaic dataset.</p>
+</dd>
+<dt><strong>Input Elevation Data workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to folder holding input digital elevation models to be included in the raster mosaic dataset.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -285,26 +291,31 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.ExtractPoly.getParameterInfo" title="StreamStats_DataPrep.ExtractPoly.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Extract Polygon inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.ExtractPoly.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.ExtractPoly.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Extract Polygon inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to folder to work in.</p>
+</dd>
+<dt><strong>ELEVDATA Raster Mosaic Dataset</strong><span class="classifier">DEMosaicDataset</span></dt><dd><p>Path to the raster mosaic dataset holding the elevation data.</p>
+</dd>
+<dt><strong>Clip Polygon</strong><span class="classifier">GPFeatureLayer</span></dt><dd><p>Feature class of the watershed boundary being used for clipping.</p>
+</dd>
+<dt><strong>Output Grid</strong><span class="classifier">GPString</span></dt><dd><p>Name of the output ESRI grid, defaults to dem_dd.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -330,26 +341,29 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.CheckNoData.getParameterInfo" title="StreamStats_DataPrep.CheckNoData.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Check for no data inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.CheckNoData.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.CheckNoData.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Check for no data inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>InputGrid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to raster dataset to examine.</p>
+</dd>
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Geodatabase-type workspace to work in.</p>
+</dd>
+<dt><strong>Output Feature Layer</strong><span class="classifier">GPString</span></dt><dd><p>Name of output feature class, defaults to DEM_NoDataSinks.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -375,26 +389,29 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.FillNoData.getParameterInfo" title="StreamStats_DataPrep.FillNoData.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Fill no data areas by one cell.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.FillNoData.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.FillNoData.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Fill no data areas by one cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to folder to work in.</p>
+</dd>
+<dt><strong>Input Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to raster dataset with no data values to be filled, defaults to DEM_NoDataSinks.</p>
+</dd>
+<dt><strong>Output Grid</strong><span class="classifier">GPString</span></dt><dd><p>Path to write out filled raster dataset to, defaults to DEM_filled.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -420,26 +437,37 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.ProjScale.getParameterInfo" title="StreamStats_DataPrep.ProjScale.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Project and scale digital elevation model inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.ProjScale.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.ProjScale.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Project and scale digital elevation model inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>InWorkSpace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to the folder to work in.</p>
+</dd>
+<dt><strong>InGrid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to the raster dataset to project and scale.</p>
+</dd>
+<dt><strong>OutGrid</strong><span class="classifier">GPString</span></dt><dd><p>Name for the projected and scaled raster, defaults to dem_raw.</p>
+</dd>
+<dt><strong>OutCoordSys</strong><span class="classifier">GPCoordinateSystem</span></dt><dd><p>Coordinate system to project the input raster to.</p>
+</dd>
+<dt><strong>OutCellSize</strong><span class="classifier">analysis_cell_size</span></dt><dd><p>Output cell size to project the input raster to, defaults to 10 horizontal map units.</p>
+</dd>
+<dt><strong>RegPt</strong><span class="classifier">GPString</span></dt><dd><p>Registration point for the projected raster, defaults to “0 0”.</p>
+</dd>
+<dt><strong>scaleFact</strong><span class="classifier">GPString</span></dt><dd><p>Scale factor to use to convert the projected raster to integers, defaults to 100. Consider using a larger scale factor as cell-size decreases.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -457,7 +485,10 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.TopoGrid">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">TopoGrid</code><a class="headerlink" href="#StreamStats_DataPrep.TopoGrid" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Condition an input DEM using a flowline dendrite prior to hydro-enforcement.</p>
+<p class="rubric">Notes</p>
+<p>This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -465,26 +496,41 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.TopoGrid.getParameterInfo" title="StreamStats_DataPrep.TopoGrid.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>TopoGrid inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.TopoGrid.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.TopoGrid.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>TopoGrid inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase to work in.</p>
+</dd>
+<dt><strong>Dissolved HUC8 boundary</strong><span class="classifier">DEFeatureClass or DEShapefile</span></dt><dd><p>Feature class to use in bounding the topogrid conditioning process.</p>
+</dd>
+<dt><strong>Topogrid Buffer Distance</strong><span class="classifier">GPDouble</span></dt><dd><p>Distance to buffer the input HUC8 boundary, in the units of the HUC8 boundary.</p>
+</dd>
+<dt><strong>12 Digit Hydrologic Unit Datasets if dissolved HUC8 boundary failed</strong><span class="classifier">DEFeatureClass or DEShapefile (Optional)</span></dt><dd><p>List of HUC12 boundaries to split up TopoGrid computations if the whole domain fails.</p>
+</dd>
+<dt><strong>Dendritic Flowline Features</strong><span class="classifier">DEFeatureClass or DEShapefile</span></dt><dd><p>Dendrite used for enforcing flow direction in topogrid.</p>
+</dd>
+<dt><strong>Buffered and Projected Elevation Data</strong><span class="classifier">DERasterBand or DERasterDataset</span></dt><dd><p>Input digital elevation model to be conditioned using topogrid.</p>
+</dd>
+<dt><strong>Output Cell Size</strong><span class="classifier">GPString</span></dt><dd><p>Cell size for output digital elevation model, defualts to 10 horizontal map units.</p>
+</dd>
+<dt><strong>VIP Percentage</strong><span class="classifier">GPString</span></dt><dd><p>Thinning value used in the Very Important Points algorithm to decide how many points from the original raster are retained, defaults to 5 percent.</p>
+</dd>
+<dt><strong>SnapGrid</strong><span class="classifier">DERasterBand (Optional)</span></dt><dd><p>Raster to snap output grid to.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -502,7 +548,10 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.SetupBathyGrad">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">SetupBathyGrad</code><a class="headerlink" href="#StreamStats_DataPrep.SetupBathyGrad" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Prepare bathymetric gradient inputs for use in hydro-enforcement.</p>
+<p class="rubric">Notes</p>
+<p>The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -510,26 +559,37 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.SetupBathyGrad.getParameterInfo" title="StreamStats_DataPrep.SetupBathyGrad.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Setup Bathymetric Gradient inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.SetupBathyGrad.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.SetupBathyGrad.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Setup Bathymetric Gradient inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase to work in.</p>
+</dd>
+<dt><strong>Digital Elevation Model (used for snapping)</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to a digital elevation model to use for aligning output grids to the rest of the project.</p>
+</dd>
+<dt><strong>Dissolved HUC8 Dataset</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of the local folder boundary.</p>
+</dd>
+<dt><strong>NHD Area</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of NHD double line streams.</p>
+</dd>
+<dt><strong>NHD Dendrite</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of the flowline dendrite.</p>
+</dd>
+<dt><strong>NHD Waterbody</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of the NHD water bodies.</p>
+</dd>
+<dt><strong>Cell Size</strong><span class="classifier">GPString</span></dt><dd><p>Output grid cell size, defaults to 10 horizontal map units.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -547,7 +607,8 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.CoastalDEM">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">CoastalDEM</code><a class="headerlink" href="#StreamStats_DataPrep.CoastalDEM" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Prepare coastal areas for hydro-enforcement.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -555,26 +616,33 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.CoastalDEM.getParameterInfo" title="StreamStats_DataPrep.CoastalDEM.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Coastal digital elevation model processing inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.CoastalDEM.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.CoastalDEM.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Coastal digital elevation model processing inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to folder to work in.</p>
+</dd>
+<dt><strong>Input raw DEM</strong><span class="classifier">DERasterBand</span></dt><dd><p>Original digital elevation model to be corrected for coastal areas, defaults to dem_raw.</p>
+</dd>
+<dt><strong>Input LandSea polygon feature class</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class indicating areas of land and sea.</p>
+</dd>
+<dt><strong>Output DEM</strong><span class="classifier">DERasterBand</span></dt><dd><p>Output digital elevation model name, defaults to dem_sea.</p>
+</dd>
+<dt><strong>Sea Level</strong><span class="classifier">GPString</span></dt><dd><p>Value to insert into areas identified as the sea, defaults to -60000 vertical map units.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -593,6 +661,7 @@
 <dt id="StreamStats_DataPrep.HydroDEM">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">HydroDEM</code><a class="headerlink" href="#StreamStats_DataPrep.HydroDEM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hydro-Enforce a DEM.</p>
+<p class="rubric">Notes</p>
 <p>We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
@@ -680,7 +749,8 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.AdjustAccum">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">AdjustAccum</code><a class="headerlink" href="#StreamStats_DataPrep.AdjustAccum" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Adjust flow accumulation grids following hydro-enforcement.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -688,26 +758,33 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.AdjustAccum.getParameterInfo" title="StreamStats_DataPrep.AdjustAccum.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Adjust flow accumulation grid inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.AdjustAccum.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.AdjustAccum.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Adjust flow accumulation grid inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Downstream Accumulation Grid</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Downstream raster dataset to correct.</p>
+</dd>
+<dt><strong>Downstream Flow Direction Grid</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Downstream flow direction grid.</p>
+</dd>
+<dt><strong>Upstream Flow Accumulation Grids</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Upstream flow accumulation grids to correct the downstream grid with.</p>
+</dd>
+<dt><strong>Upstream Flow Direction Grids</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Upstream flow direction grids corresponding to the grids listed above.</p>
+</dd>
+<dt><strong>Workspace</strong><span class="classifier">Workspace (Geodatabase)</span></dt><dd><p>Geodatabase to work in.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -725,7 +802,8 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.AdjustAccumSimp">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">AdjustAccumSimp</code><a class="headerlink" href="#StreamStats_DataPrep.AdjustAccumSimp" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Simply adjust a flow accumulation grid.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -733,26 +811,35 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.AdjustAccumSimp.getParameterInfo" title="StreamStats_DataPrep.AdjustAccumSimp.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Simple flow accumulation grid adjustment inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.AdjustAccumSimp.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.AdjustAccumSimp.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Simple flow accumulation grid adjustment inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Inlet Point</strong><span class="classifier">GPFeatureLayer</span></dt><dd><p>Point feature class indicating the inlet to the downstream hydrologic unit.</p>
+</dd>
+<dt><strong>Flow Direction Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Flow direction grid of the downstream hydrologic unit.</p>
+</dd>
+<dt><strong>Flow Accumulation Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Flow accumuation grid of the downstream hydrologic unit.</p>
+</dd>
+<dt><strong>HydroDEM</strong><span class="classifier">DERasterBand</span></dt><dd><p>Downstream hydrologic unit hydro-enforced digital elevation model.</p>
+</dd>
+<dt><strong>Output FAC</strong><span class="classifier">DERasterBand</span></dt><dd><p>Corrected flow accumuation grid, defaults to hydrodemfac_global.</p>
+</dd>
+<dt><strong>Adjustment Value</strong><span class="classifier">GPString</span></dt><dd><p>Upstream flow accumulation value to correct the downstream hydrologic unit with, defaults to 150000 grid cells.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
@@ -770,7 +857,10 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.posthydrodem">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">posthydrodem</code><a class="headerlink" href="#StreamStats_DataPrep.posthydrodem" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>ArcHydro processing using the hydro-enforced digital elevation model and resultant flow direction and flow accumulation grids.</p>
+<p class="rubric">Notes</p>
+<p>This tool only functions with ArcMap / Python 2, ArcPro / Python 3 are currently not supported.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
 <col width="10%" />
@@ -778,26 +868,35 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.posthydrodem.getParameterInfo" title="StreamStats_DataPrep.posthydrodem.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Post hydro-enforcement processing inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.posthydrodem.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.posthydrodem.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Post hydro-enforcement processing inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Geodatabase to work in.</p>
+</dd>
+<dt><strong>hydrodemfac</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Hydro-enforced flow accumulation grid.</p>
+</dd>
+<dt><strong>hydrodemfdr</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Hydro-enforced flow direction grid.</p>
+</dd>
+<dt><strong>str threshold</strong><span class="classifier">GPLong</span></dt><dd><p>Stream threshold in raster cells.</p>
+</dd>
+<dt><strong>str900 threshold</strong><span class="classifier">GPLong</span></dt><dd><p>str900 grid threshold, in raster cells.</p>
+</dd>
+<dt><strong>Sink Link</strong><span class="classifier">DERasterBand</span></dt><dd><p>Sink link raster name.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>parameters</strong><span class="classifier">list</span></dt><dd><p>List of input parameters passed to the execute method.</p>
 </dd>
 </dl>
