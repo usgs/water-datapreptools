@@ -566,6 +566,8 @@ class TopoGrid(object):
 
 	Notes
 	-----
+	This function turns the input DEM into a 3D point cloud, thinned using the VIP algorithm so that not all points are retained from the original DEM. The point cloud is used in conjunction with the supplied flowlines to re-interpolate a DEM that is aware of the location of the flowlines and their flow direction.
+
 	This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.
 	"""
 	def __init__(self):

@@ -7,9 +7,9 @@ import time
 
 def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = None ,huc12=None):
 	'''
-	Note
-	----
-	https://support.esri.com/en/technical-article/000004588
+	Notes
+	-----
+	See https://support.esri.com/en/technical-article/000004588
 
 
 	Parameters

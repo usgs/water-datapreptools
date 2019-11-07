@@ -168,19 +168,24 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>InGrid</strong><span class="classifier">Raster</span></dt><dd><p>Input DEM grid to search for no data values</p>
+<dt><strong>InGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Raster</span></dt>
+<dd><p class="first last">Input DEM grid to search for no data values</p>
 </dd>
-<dt><strong>tmpLoc</strong><span class="classifier">str</span></dt><dd><p>Path to workspace</p>
+<dt><strong>tmpLoc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to workspace</p>
 </dd>
-<dt><strong>OutPoly_shp</strong><span class="classifier">str</span></dt><dd><p>Name for output feature class</p>
+<dt><strong>OutPoly_shp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name for output feature class</p>
 </dd>
-<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version</p>
+<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">StreamStats DataPrepTools version</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>featCount</strong><span class="classifier">int</span></dt><dd><p>Count of no data features generated.</p>
+<dt><strong>featCount</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Count of no data features generated.</p>
 </dd>
 </dl>
 </td>
@@ -198,13 +203,15 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>grd</strong><span class="classifier">str</span></dt><dd><p>Path to raster dataset.</p>
+<dt><strong>grd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to raster dataset.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>sameUnits</strong><span class="classifier">bool</span></dt><dd><p>True if units are the same, False if not.</p>
+<dt><strong>sameUnits</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">True if units are the same, False if not.</p>
 </dd>
 </dl>
 </td>
@@ -222,21 +229,27 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>OutLoc</strong><span class="classifier">str</span></dt><dd><p>Path to output location for the raster catalog.</p>
+<dt><strong>OutLoc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to output location for the raster catalog.</p>
 </dd>
-<dt><strong>rcName</strong><span class="classifier">str</span></dt><dd><p>Name of the output mosaic raster dataset.</p>
+<dt><strong>rcName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the output mosaic raster dataset.</p>
 </dd>
-<dt><strong>coordsysRaster</strong><span class="classifier">str</span></dt><dd><p>Path to raster from which to base the mosaic dataset’s coordinate system.</p>
+<dt><strong>coordsysRaster</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to raster from which to base the mosaic dataset’s coordinate system.</p>
 </dd>
-<dt><strong>InputELEVDATAws</strong><span class="classifier">str</span></dt><dd><p>Path to workspace containing the elevation data to be included in the mosaic raster dataset</p>
+<dt><strong>InputELEVDATAws</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to workspace containing the elevation data to be included in the mosaic raster dataset</p>
 </dd>
-<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
+<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">StreamStats DataPrepTools version number.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt><dd></dd>
+<dt>None</dt>
+<dd></dd>
 </dl>
 </td>
 </tr>
@@ -253,21 +266,27 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
+<dt><strong>Input_Workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to the workspace to work in.</p>
 </dd>
-<dt><strong>nedindx</strong><span class="classifier">str</span></dt><dd><p>Path to the elevation data mosaic dataset.</p>
+<dt><strong>nedindx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to the elevation data mosaic dataset.</p>
 </dd>
-<dt><strong>clpfeat</strong><span class="classifier">str</span></dt><dd><p>Path to the clipping feature.</p>
+<dt><strong>clpfeat</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to the clipping feature.</p>
 </dd>
-<dt><strong>OutGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid to be generated in Input_Workspace.</p>
+<dt><strong>OutGrd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the output grid to be generated in Input_Workspace.</p>
 </dd>
-<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
+<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">StreamStats DataPrepTools version number.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt><dd></dd>
+<dt>None</dt>
+<dd></dd>
 </dl>
 </td>
 </tr>
@@ -284,19 +303,24 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
+<dt><strong>workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to the workspace to work in.</p>
 </dd>
-<dt><strong>InGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the input grid to be filled.</p>
+<dt><strong>InGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the input grid to be filled.</p>
 </dd>
-<dt><strong>OutGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid.</p>
+<dt><strong>OutGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the output grid.</p>
 </dd>
-<dt><strong>Version</strong><span class="classifier">str, optional</span></dt><dd><p>Code version</p>
+<dt><strong>Version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Code version</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt><dd></dd>
+<dt>None</dt>
+<dd></dd>
 </dl>
 </td>
 </tr>
@@ -311,32 +335,41 @@
 <dt id="elevationTools.projScale">
 <code class="descclassname">elevationTools.</code><code class="descname">projScale</code><span class="sig-paren">(</span><em>Input_Workspace</em>, <em>InGrd</em>, <em>OutGrd</em>, <em>OutCoordsys</em>, <em>OutCellSize</em>, <em>RegistrationPoint</em>, <em>scaleFact=100</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
-<dt>Projects a NED grid to a user-specified coordinate system, handling cell registration. Converts</dt><dd>output grid to centimeters (multiplies by 100 and rounds).</dd>
+<dt>Projects a NED grid to a user-specified coordinate system, handling cell registration. Converts</dt>
+<dd>output grid to centimeters (multiplies by 100 and rounds).</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to input workspace.</p>
+<dt><strong>Input_Workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to input workspace.</p>
 </dd>
-<dt><strong>InGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the grid to be projected and scaled.</p>
+<dt><strong>InGrd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the grid to be projected and scaled.</p>
 </dd>
-<dt><strong>OutGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid.</p>
+<dt><strong>OutGrd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of the output grid.</p>
 </dd>
-<dt><strong>OutCoordsys</strong><span class="classifier">str</span></dt><dd><p>Path to the dataset to base the projection off of.</p>
+<dt><strong>OutCoordsys</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to the dataset to base the projection off of.</p>
 </dd>
-<dt><strong>OutCellSize</strong><span class="classifier">int or float</span></dt><dd><p>Cell size for output grid.</p>
+<dt><strong>OutCellSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int or float</span></dt>
+<dd><p class="first last">Cell size for output grid.</p>
 </dd>
-<dt><strong>RegistrationPoint</strong><span class="classifier">str</span></dt><dd><p>Registration point for output grid so all grids snap correctly. In the format “0 0” where the zeros are the x and y of the registration point.</p>
+<dt><strong>RegistrationPoint</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Registration point for output grid so all grids snap correctly. In the format “0 0” where the zeros are the x and y of the registration point.</p>
 </dd>
-<dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Stream Stats version number.</p>
+<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Stream Stats version number.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt><dd></dd>
+<dt>None</dt>
+<dd></dd>
 </dl>
 </td>
 </tr>

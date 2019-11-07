@@ -24,6 +24,7 @@ author = 'Theodore Barnhart'
 
 # The full version, including alpha/beta/rc tags
 release = '4.0beta'
+master_doc = 'index'
 
 
 # -- General configuration ---------------------------------------------------
@@ -33,7 +34,8 @@ release = '4.0beta'
 # ones.
 extensions = [
 'sphinx.ext.autodoc',
-'numpydoc'
+'numpydoc',
+'sphinx_rtd_theme'
 ]
 
 autodoc_mock_imports = ['arcpy','numpy']
@@ -53,21 +55,21 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-htm_theme_options =  {
-    'canonical_url': '',
-    'logo_only': False,
-    'display_version': True,
-    'prev_next_buttons_location': 'bottom',
-    'style_external_links': False,
-    'vcs_pageview_mode': '',
-    'style_nav_header_background': 'white',
-    # Toc options
-    'collapse_navigation': True,
-    'sticky_navigation': True,
-    'navigation_depth': -1,
-    'includehidden': True,
-    'titles_only': False
-}
+# htm_theme_options =  {
+#     'canonical_url': '',
+#     'logo_only': False,
+#     'display_version': True,
+#     'prev_next_buttons_location': 'bottom',
+#     'style_external_links': False,
+#     'vcs_pageview_mode': '',
+#     'style_nav_header_background': 'white',
+#     # Toc options
+#     'collapse_navigation': True,
+#     'sticky_navigation': True,
+#     'navigation_depth': -1,
+#     'includehidden': True,
+#     'titles_only': False
+# }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
