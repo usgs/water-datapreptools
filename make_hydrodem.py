@@ -458,11 +458,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 		bowlLines = Raster(bowl_lines)
 
-		arcpy.MosaicToNewRaster_management([bowlLines,dpg],arcpy.env.workspace,blp_name, None, "32_BIT_SIGNED", None, 1, "FIRST") # probably need some more options
+		#arcpy.MosaicToNewRaster_management([bowlLines,dpg],arcpy.env.workspace,blp_name, None, "32_BIT_SIGNED", None, 1, "FIRST") # probably need some more options
+		#blp = Raster(blp_name)
+		#eucd = SetNull(IsNull(bowl_polys), EucDistance(blp)) # (L210 in hydroDEM_work_mod.aml)
 		
-		blp = Raster(blp_name)
-
-		eucd = SetNull(IsNull(bowl_polys), EucDistance(blp)) # (L210 in hydroDEM_work_mod.aml)
+		eucd = SetNull(IsNull(bowl_polys), EucDistance(bowlLines)) # (L210 in hydroDEM_work_mod.aml)
 		demRidge8wb = demRidge8 - Con(IsNull(eucd) == 0, (bowldepth / (eucd+1)), 0)
 		#demRidge8wb.save(os.path.join(arcpy.env.workspace,'demRidge8wb'))
 		arcpy.AddMessage('	Bowling complete')
