@@ -197,6 +197,7 @@
 <dt id="StreamStats_DataPrep.databaseSetup">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">databaseSetup</code><a class="headerlink" href="#StreamStats_DataPrep.databaseSetup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up the workspace needed to process elevation and hydrography data.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="databaseSetup.html#databaseSetup.databaseSetup" title="databaseSetup.databaseSetup"><code class="xref py py-func docutils literal notranslate"><span class="pre">databaseSetup.databaseSetup()</span></code></a>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -268,6 +269,7 @@
 <dt id="StreamStats_DataPrep.makeELEVDATAIndex">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">makeELEVDATAIndex</code><a class="headerlink" href="#StreamStats_DataPrep.makeELEVDATAIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a seamless raster mosaic dataset from input digital elevation tiles.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="elevationTools.html#elevationTools.elevIndex" title="elevationTools.elevIndex"><code class="xref py py-func docutils literal notranslate"><span class="pre">elevationTools.elevIndex()</span></code></a>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -323,7 +325,9 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.ExtractPoly">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">ExtractPoly</code><a class="headerlink" href="#StreamStats_DataPrep.ExtractPoly" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Extract a hydrologic unit from a digital elevation model based on a clipping polygon.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="elevationTools.html#elevationTools.extractPoly" title="elevationTools.extractPoly"><code class="xref py py-func docutils literal notranslate"><span class="pre">elevationTools.extractPoly()</span></code></a>.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -378,7 +382,9 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.CheckNoData">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">CheckNoData</code><a class="headerlink" href="#StreamStats_DataPrep.CheckNoData" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Check for no data cells in a digital elevation model.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="elevationTools.html#elevationTools.checkNoData" title="elevationTools.checkNoData"><code class="xref py py-func docutils literal notranslate"><span class="pre">elevationTools.checkNoData()</span></code></a>.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -430,7 +436,11 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.FillNoData">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">FillNoData</code><a class="headerlink" href="#StreamStats_DataPrep.FillNoData" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Fill no data cells in a digital elevation model.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="elevationTools.html#elevationTools.fillNoData" title="elevationTools.fillNoData"><code class="xref py py-func docutils literal notranslate"><span class="pre">elevationTools.fillNoData()</span></code></a>.</p>
+<p class="rubric">Notes</p>
+<p>This tool can be run iteratively to fully fill no data areas that are larger than one cell.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -438,14 +448,14 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#StreamStats_DataPrep.FillNoData.getParameterInfo" title="StreamStats_DataPrep.FillNoData.getParameterInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParameterInfo</span></code></a>(self)</td>
-<td>Fill no data areas by one cell.</td>
+<td>Fill no data inputs.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="StreamStats_DataPrep.FillNoData.getParameterInfo">
 <code class="descname">getParameterInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#StreamStats_DataPrep.FillNoData.getParameterInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fill no data areas by one cell.</p>
+<dd><p>Fill no data inputs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -482,7 +492,11 @@
 <dl class="class">
 <dt id="StreamStats_DataPrep.ProjScale">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">ProjScale</code><a class="headerlink" href="#StreamStats_DataPrep.ProjScale" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<dd><p>Project and scale a digital elevation model.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="elevationTools.html#elevationTools.projScale" title="elevationTools.projScale"><code class="xref py py-func docutils literal notranslate"><span class="pre">elevationTools.projScale()</span></code></a>.</p>
+<p class="rubric">Notes</p>
+<p>After scaling, this tool attempts to set the correct z-units; however, if you vertical units are different from your horizontal units it is advized to check the z-units manually.</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -547,6 +561,7 @@
 <dt id="StreamStats_DataPrep.TopoGrid">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">TopoGrid</code><a class="headerlink" href="#StreamStats_DataPrep.TopoGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Condition an input DEM using a flowline dendrite prior to hydro-enforcement.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="topo_grid.html#topo_grid.topogrid" title="topo_grid.topogrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">topo_grid.topogrid()</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>This function turns the input DEM into a 3D point cloud, thinned using the VIP algorithm so that not all points are retained from the original DEM. The point cloud is used in conjunction with the supplied flowlines to re-interpolate a DEM that is aware of the location of the flowlines and their flow direction.</p>
 <p>This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.</p>
@@ -621,6 +636,7 @@
 <dt id="StreamStats_DataPrep.SetupBathyGrad">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">SetupBathyGrad</code><a class="headerlink" href="#StreamStats_DataPrep.SetupBathyGrad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare bathymetric gradient inputs for use in hydro-enforcement.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.bathymetricGradient" title="make_hydrodem.bathymetricGradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.bathymetricGradient()</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.</p>
 <p class="rubric">Methods</p>
@@ -688,6 +704,7 @@
 <dt id="StreamStats_DataPrep.CoastalDEM">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">CoastalDEM</code><a class="headerlink" href="#StreamStats_DataPrep.CoastalDEM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare coastal areas for hydro-enforcement.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.coastaldem" title="make_hydrodem.coastaldem"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.coastaldem()</span></code></a>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -747,6 +764,7 @@
 <dt id="StreamStats_DataPrep.HydroDEM">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">HydroDEM</code><a class="headerlink" href="#StreamStats_DataPrep.HydroDEM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hydro-Enforce a DEM.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.hydrodem" title="make_hydrodem.hydrodem"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.hydrodem()</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).</p>
 <p class="rubric">Methods</p>
@@ -856,6 +874,7 @@
 <dt id="StreamStats_DataPrep.AdjustAccum">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">AdjustAccum</code><a class="headerlink" href="#StreamStats_DataPrep.AdjustAccum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjust flow accumulation grids following hydro-enforcement.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.adjust_accum" title="make_hydrodem.adjust_accum"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.adjust_accum()</span></code></a>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -915,6 +934,7 @@
 <dt id="StreamStats_DataPrep.AdjustAccumSimp">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">AdjustAccumSimp</code><a class="headerlink" href="#StreamStats_DataPrep.AdjustAccumSimp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simply adjust a flow accumulation grid.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.adjust_accum_simple" title="make_hydrodem.adjust_accum_simple"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.adjust_accum_simple()</span></code></a>.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -977,6 +997,7 @@
 <dt id="StreamStats_DataPrep.posthydrodem">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">posthydrodem</code><a class="headerlink" href="#StreamStats_DataPrep.posthydrodem" title="Permalink to this definition">¶</a></dt>
 <dd><p>ArcHydro processing using the hydro-enforced digital elevation model and resultant flow direction and flow accumulation grids.</p>
+<p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.postHydroDEM" title="make_hydrodem.postHydroDEM"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.postHydroDEM()</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>This tool only functions with ArcMap / Python 2, ArcPro / Python 3 are currently not supported.</p>
 <p class="rubric">Methods</p>

@@ -230,8 +230,7 @@ def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	return featCount
 
 def fillNoData(workspace, InGrid, OutGrid, version = None):
-	"""
-	Replaces NODATA values in a grid with mean values within 3x3 window.
+	"""Replaces NODATA values in a grid with mean values within 3x3 window.
 	
 	Parameters
 	----------

@@ -30,8 +30,9 @@ class Toolbox(object):
 		]
 
 class databaseSetup(object):
-	"""
-	Set up the workspace needed to process elevation and hydrography data.
+	"""Set up the workspace needed to process elevation and hydrography data.
+	
+	This tool is a wrapper on :func:`databaseSetup.databaseSetup`.
 	"""
 	def __init__(self):
 		self.label = 'A. Database Setup'
@@ -165,6 +166,8 @@ class databaseSetup(object):
 
 class makeELEVDATAIndex(object):
 	"""Create a seamless raster mosaic dataset from input digital elevation tiles.
+
+	This tool is a wrapper on :func:`elevationTools.elevIndex`.
 	"""
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
@@ -243,8 +246,11 @@ class makeELEVDATAIndex(object):
 		return
 
 class ExtractPoly(object):
+	"""Extract a hydrologic unit from a digital elevation model based on a clipping polygon.
+
+	This tool is a wrapper on :func:`elevationTools.extractPoly`.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "B. Extract Polygons"
 		self.description = "Extract polygon area from ELEVDATA."
 		self.category = "2 - Elevation Tools"
@@ -316,9 +322,11 @@ class ExtractPoly(object):
 		extractPoly(Input_Workspace, nedindx, clpfeat, OutGrd, version=version)
 
 class CheckNoData(object):
+	"""Check for no data cells in a digital elevation model.
+
+	This tool is a wrapper on :func:`elevationTools.checkNoData`.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
-		self.label = "C. CheckNoData"
 		self.description = "Finds NODATA values in a grid and makes a polygon feature class with value 1 if it is NODATA, and 0 if it contains data values."
 		self.category = "2 - Elevation Tools"
 		self.canRunInBackground = False
@@ -380,15 +388,22 @@ class CheckNoData(object):
 		checkNoData(InGrid, tmpLoc, OutPolys_shp, version=version)
 
 class FillNoData(object):
+	"""Fill no data cells in a digital elevation model.
+
+	This tool is a wrapper on :func:`elevationTools.fillNoData`.
+
+	Notes
+	-----
+	This tool can be run iteratively to fully fill no data areas that are larger than one cell.
+	"""
 	def __init__(self):
-		"""Define the tool (tool name is the name of the class)."""
 		self.label = "D. Fill NoData Cells"
 		self.description = "Replaces NODATA values in a grid with mean values within 3x3 window. May be run repeatedly to fill in areas wider than 2 cells. Note the output is floating point, even if the input is integer. Note this will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid."
 		self.category = "2 - Elevation Tools"
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		"""Fill no data areas by one cell.
+		"""Fill no data inputs.
 
 		Parameters
 		----------
@@ -449,6 +464,14 @@ class FillNoData(object):
 		return
 
 class ProjScale(object):
+	"""Project and scale a digital elevation model.
+
+	This tool is a wrapper on :func:`elevationTools.projScale`.
+
+	Notes
+	-----
+	After scaling, this tool attempts to set the correct z-units; however, if you vertical units are different from your horizontal units it is advized to check the z-units manually.
+	"""
 	def __init__(self):
 		self.label = "E. Project and Scale Elevation Data"
 		self.description = "Project a NED grid to a user-specified coordinate system. Handles setting a cell registration point. Also multiplies by 100 and converts to integer grid format."
@@ -563,6 +586,8 @@ class ProjScale(object):
 
 class TopoGrid(object):
 	"""Condition an input DEM using a flowline dendrite prior to hydro-enforcement.
+
+	This tool is a wrapper on :func:`topo_grid.topogrid`.
 
 	Notes
 	-----
@@ -709,6 +734,8 @@ class TopoGrid(object):
 class SetupBathyGrad(object):
 	"""Prepare bathymetric gradient inputs for use in hydro-enforcement.
 
+	This tool is a wrapper on :func:`make_hydrodem.bathymetricGradient`.
+
 	Notes
 	-----
 	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.
@@ -818,6 +845,8 @@ class SetupBathyGrad(object):
 
 class CoastalDEM(object):
 	"""Prepare coastal areas for hydro-enforcement.
+
+	This tool is a wrapper on :func:`make_hydrodem.coastaldem`.
 	"""
 	def __init__(self):
 		self.label = "A. Coastal DEM Processing (Optional)"
@@ -905,6 +934,8 @@ class CoastalDEM(object):
 
 class HydroDEM(object):
 	"""Hydro-Enforce a DEM.
+
+	This tool is a wrapper on :func:`make_hydrodem.hydrodem`.
 
 	Notes
 	-----
@@ -1153,6 +1184,8 @@ class HydroDEM(object):
 
 class AdjustAccum(object):
 	"""Adjust flow accumulation grids following hydro-enforcement.
+
+	This tool is a wrapper on :func:`make_hydrodem.adjust_accum`.
 	"""
 	def __init__(self):
 		self.label = "D.1 Adjust Accumulation"
@@ -1238,6 +1271,8 @@ class AdjustAccum(object):
 
 class AdjustAccumSimp(object):
 	"""Simply adjust a flow accumulation grid.
+
+	This tool is a wrapper on :func:`make_hydrodem.adjust_accum_simple`.
 	"""
 	def __init__(self):
 		self.label = "D.2 Adjust Accumulation (Simple)"
@@ -1333,6 +1368,8 @@ class AdjustAccumSimp(object):
 
 class posthydrodem(object):
 	"""ArcHydro processing using the hydro-enforced digital elevation model and resultant flow direction and flow accumulation grids.
+
+	This tool is a wrapper on :func:`make_hydrodem.postHydroDEM`.
 
 	Notes
 	-----
