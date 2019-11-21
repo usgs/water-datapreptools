@@ -35,10 +35,13 @@ master_doc = 'index'
 extensions = [
 'sphinx.ext.autodoc',
 'numpydoc',
-'sphinx_rtd_theme'
+'sphinx_rtd_theme',
+'rst2pdf.pdfbuilder'
 ]
 
 autodoc_mock_imports = ['arcpy','numpy']
+
+pdf_documents = [('index', u'StreamStats_DataPrepTools',u'Data Preparation Tools Documentation', u'Theodore Barnhart')]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

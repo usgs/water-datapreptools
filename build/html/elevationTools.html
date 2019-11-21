@@ -159,6 +159,7 @@
             
   <div class="section" id="module-elevationTools">
 <span id="elevationtools-module"></span><h1>elevationTools Module<a class="headerlink" href="#module-elevationTools" title="Permalink to this headline">¶</a></h1>
+<p>This library is a collection of functions to create an seamless mosaic of digital elevation models for an area of interest, extracts a hydrologic unit (local folder) from this mosaic, checks for and fills no data values in the digital elevation model, projects the digital elevation model to the target projection, and scales the elevation values for better data storage.</p>
 <dl class="function">
 <dt id="elevationTools.checkNoData">
 <code class="descclassname">elevationTools.</code><code class="descname">checkNoData</code><span class="sig-paren">(</span><em>InGrid</em>, <em>tmpLoc</em>, <em>OutPolys_shp</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.checkNoData" title="Permalink to this definition">¶</a></dt>
@@ -223,7 +224,7 @@
 <dl class="function">
 <dt id="elevationTools.elevIndex">
 <code class="descclassname">elevationTools.</code><code class="descname">elevIndex</code><span class="sig-paren">(</span><em>OutLoc</em>, <em>rcName</em>, <em>coordsysRaster</em>, <em>InputELEVDATAws</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.elevIndex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a raster catalog and polygons indexed to seamless digital elevation model tiles in a directory tree.</p>
+<dd><p>Make a raster mosaic dataset of the digital elevation models found in <em>InputELEVDATAws</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -239,7 +240,7 @@
 <dd><p class="first last">Path to raster from which to base the mosaic dataset’s coordinate system.</p>
 </dd>
 <dt><strong>InputELEVDATAws</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to workspace containing the elevation data to be included in the mosaic raster dataset</p>
+<dd><p class="first last">Path to workspace containing the elevation data to be included in the mosaic raster dataset. Rasters in this workspace should be either geoTiffs or ESRI grids. Rasters must be unzipped, but they can be in subfolders.</p>
 </dd>
 <dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
 <dd><p class="first last">StreamStats DataPrepTools version number.</p>
