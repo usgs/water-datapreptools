@@ -1,3 +1,7 @@
+"""
+This library is a collection of functions to create an seamless mosaic of digital elevation models for an area of interest, extracts a hydrologic unit (local folder) from this mosaic, checks for and fills no data values in the digital elevation model, projects the digital elevation model to the target projection, and scales the elevation values for better data storage.
+"""
+
 import arcpy
 import sys
 import os
@@ -7,9 +11,8 @@ arcpy.CheckOutExtension("Spatial")
 from arcpy.sa import *
 
 def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
-	"""
-	Make a raster catalog and polygons indexed to seamless digital elevation model tiles in a directory tree. 
-	
+	"""Make a raster mosaic dataset of the digital elevation models found in *InputELEVDATAws*. 
+
 	Parameters
 	----------
 	OutLoc : str
@@ -19,7 +22,7 @@ def elevIndex(OutLoc, rcName, coordsysRaster, InputELEVDATAws, version = None):
 	coordsysRaster : str
 		Path to raster from which to base the mosaic dataset's coordinate system.
 	InputELEVDATAws : str
-		Path to workspace containing the elevation data to be included in the mosaic raster dataset
+		Path to workspace containing the elevation data to be included in the mosaic raster dataset. Rasters in this workspace should be either geoTiffs or ESRI grids. Rasters must be unzipped, but they can be in subfolders.
 	version : str, optional
 		StreamStats DataPrepTools version number.
 	

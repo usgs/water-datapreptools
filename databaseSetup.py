@@ -1,16 +1,25 @@
+"""
+This library creates the folder structure and does not data management to facilitate preparing data for use in StreamStats.
+"""
 import arcpy
 import sys
 import os
 
 def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template, alt_buff, version = None):
-	"""Tool to create the hydrologic folders, inwall and outwall lines, DEM clipping polygons, and buffered hydrologic units.
+	"""Set up the local folders and copy hydrography data.
+
+	This tool creates folder cooresponding to each local hydrologic unit and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.
+
+	Notes
+	-----
+	As this tool moves through each local hydrologic unit it searches the *nhd_path* for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized in the same way that NHD hydrography is.
 	
 	Parameters
 	----------
 	output_workspace : str
 		Output directory for processing to occure in.
 	output_gdb_name : str
-		Global file geodatabase to be created
+		Global file geodatabase to be created.
 	hu_dataset : str
 		Feature class that defines local folder geographic boundaries.
 	hu8_field : str
@@ -32,6 +41,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	-------
 	None
 	"""
+	
 	"""
 	Old Notes
 	---------
