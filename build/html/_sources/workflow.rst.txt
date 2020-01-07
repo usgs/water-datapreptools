@@ -6,6 +6,7 @@ Data Preparation Workflow
 	:caption: Contents
 
 	ex_1
+	ex_1b
 	ex_2
 	ex_3
 	ex_4

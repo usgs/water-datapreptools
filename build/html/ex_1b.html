@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>First Steps &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
+  <title>Exercise 1b: TopoGrid &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="StreamStats_DataPrep ESRI Toolbox" href="StreamStats_DataPrep.html" />
-    <link rel="prev" title="Exercise 4" href="ex_4.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="ex_2.html" />
+    <link rel="prev" title="Exercise 1: Hydro-Enforcement" href="ex_1.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,10 +84,16 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="ex_1.html">Exercise 1: Hydro-Enforcement</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_1b.html">Exercise 1b: TopoGrid</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exercise 1b: TopoGrid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setup"><em>Setup</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ex_3.html">Exercise 3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_4.html">Exercise 4</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">First Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firstSteps.html">First Steps</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
@@ -139,13 +145,13 @@
         
           <li><a href="workflow.html">Data Preparation Workflow</a> &raquo;</li>
         
-      <li>First Steps</li>
+      <li>Exercise 1b: TopoGrid</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/firstSteps.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ex_1b.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -158,12 +164,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="first-steps">
-<h1>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h1>
-<img alt="_images/doggo.jpg" src="_images/doggo.jpg" />
+  <div class="section" id="exercise-1b-topogrid">
+<h1>Exercise 1b: TopoGrid<a class="headerlink" href="#exercise-1b-topogrid" title="Permalink to this headline">¶</a></h1>
+<p>Original StreamStats tool development by Pete Steeves, Al Rea, and Martyn Smith</p>
+<p>Transcribed by Kitty Kolb and Pete Steeves, August 2019</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>TopoGrid was originally created in Australia as AnuDEM. The algorithms were ingested into ESRI during the 1990s. Originally used in a command line ArcINFO environment, a Python wrapper was created in 2009. More documentation can be found at <a class="reference external" href="https://www.usgs.gov/core-science-systems/ngp/national-hydrography/nhd-watershed-tool">https://www.usgs.gov/core-science-systems/ngp/national-hydrography/nhd-watershed-tool</a></p>
+<p>TopoGrid enforces drainages, although it does not burn them in like HydroDEM. Enforcing is what can be referred to as a soft break-line process. It sees the stream line and says ‘I’m going to massage the elevation data, to work with that location.” It gets things close, but not precise. It works with the subsequent burning, because then the hard break (the burning/trenching) does not need to be as wide in search of the raster stream. And so, you get to keep much more of the local topology around the stream. If you just do burning alone, and use a small swath tolerance, sometimes the raster stream is not found and you get parallel delineation effects. In general, Topogrid is recommended to improve your DEM in relation to your hydrography. This is particularly helpful in flat terrain where the synthetic streams (derived from a DEM) tend to be relatively inaccurate in relation to the mapped streams.  Caution should be taken to mix and match resolutions, sources and scales.</p>
+<div class="section" id="setup">
+<h3><em>Setup</em><a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Open a session of either ArcMap or ArcCatalog (either one will work)</li>
+<li>Click to run the TopoGrid script in the StreamStats Toolbox.</li>
+<li>Point the tool to your workspace</li>
+</ul>
 <div class="figure align-center" id="id1">
-<a class="reference internal image-reference" href="_images/osabear.JPG"><img alt="_images/osabear.JPG" src="_images/osabear.JPG" style="height: 300px;" /></a>
-<p class="caption"><span class="caption-text"><strong>Figure 1:</strong> A regal Chesapeake Bay Retriever</span></p>
+<img alt="sample inputs for the topo grid tool" src="_images/topogridinputs.png" />
+<p class="caption"><span class="caption-text">Figure: Sample inputs for the Topo Grid tool</span></p>
+</div>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Open the Environments menu</dt>
+<dd><ul class="first last">
+<li>Navigate to Processing Extent</li>
+<li>Set the Snapping Grid to be the “dem_raw” file</li>
+<li>Click “Ok” to return to the main input window</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>NOTE: after you process your first local folder, always navigate back to the first dem_raw file that you processed, so that the study area is consistent.</p>
+<div class="figure align-center" id="id2">
+<img alt="sample environment settings for Topogrid" src="_images/topogridenvsettings.png" />
+<p class="caption"><span class="caption-text">Figure: Example of setting the snap raster in TopoGrid environment settings</span></p>
+</div>
+<ul class="simple">
+<li>Click OK to run TopoGrid</li>
+<li>It will run for a long time, depending on your VIP settings and the GRIDALLOC values</li>
+</ul>
+</div>
 </div>
 </div>
 
@@ -175,10 +216,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="StreamStats_DataPrep.html" class="btn btn-neutral float-right" title="StreamStats_DataPrep ESRI Toolbox" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ex_2.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ex_4.html" class="btn btn-neutral float-left" title="Exercise 4" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ex_1.html" class="btn btn-neutral float-left" title="Exercise 1: Hydro-Enforcement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -150,12 +150,26 @@
             
   <div class="section" id="welcome-to-streamstats-data-preparation-tools-documentation">
 <h1>Welcome to StreamStats Data Preparation Tools’ documentation!<a class="headerlink" href="#welcome-to-streamstats-data-preparation-tools-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="about">
+<h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
+<p>The StreamStats Data Preparation Tools are meant to aid in the processing of digital elevation models (DEM) and hydrography data for ingestion into the US Geological Survey’s Stream Stats application. The tools and the associated workflow examples can be used to prepare DEM and hydrography subsets for local Stream Stats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and processe the resulting flow accumulation and flow direction grids for use in the ArcHydro data model.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Clone these tools onto your machine using the git clone commands. Or download the the repository using the link in the upper right of the repositry page here: <strong>*Link to repo*</strong></p>
+<p>Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to from ArcPro. The toolbox is compatable with both ArcMap and ArcPro, except for the final processing step, which relies on ArcHydro and only works with ArcMap.</p>
+<p>The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the Python libraries and the test_scripts folder for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2.</p>
+</div>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>Please cite these tools and documentation as:</p>
+<p>Barnhart, T.B., K., Kolb, A. Rae, P. Steeves, M. Smith, and P. McCarthy, Stream Stats Data Preparation Tools, USGS Software Release, <strong>*Citation URL Here*</strong></p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ex_1.html">Exercise 1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_2.html">Exercise 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_1.html">Exercise 1: Hydro-Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_1b.html">Exercise 1b: TopoGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_3.html">Exercise 3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_4.html">Exercise 4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="firstSteps.html">First Steps</a></li>
@@ -185,6 +199,7 @@
 </ul>
 </li>
 </ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
