@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
+  <title>Exercise 2: Setting up the Local and Global Geodatabases &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
   
 
   
@@ -81,8 +81,25 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="workflow.html">Data Preparation Workflow</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ex_1.html">Exercise 1: Hydro-Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_1b.html">Exercise 1b: TopoGrid</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exercise 2: Setting up the Local and Global Geodatabases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#document-overview">Document overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#process-local-huc-archydro-geodatabases"><em>Process Local HUC ArcHydro Geodatabases</em></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-streams"><em>Global Streams</em></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#global-geometric-network"><em>Global Geometric Network</em></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-delineation"><em>Test Delineation</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ex_3.html">Exercise 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_4.html">Exercise 4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="firstSteps.html">First Steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a></li>
 </ul>
@@ -132,7 +149,7 @@
         
           <li><a href="workflow.html">Data Preparation Workflow</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Exercise 2: Setting up the Local and Global Geodatabases</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,7 +168,1254 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p></p>
+  <div class="section" id="exercise-2-setting-up-the-local-and-global-geodatabases">
+<h1>Exercise 2: Setting up the Local and Global Geodatabases<a class="headerlink" href="#exercise-2-setting-up-the-local-and-global-geodatabases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="document-overview">
+<h2>Document overview<a class="headerlink" href="#document-overview" title="Permalink to this headline">¶</a></h2>
+<p>(This exercise is run on data in the ‘global_exercise’ workspace)</p>
+<p>Written by Al Rea and Pete Steeves, May 2010</p>
+<p>Updated by Kitty Kolb and Bob Ourso, July 2015 to reflect ArcGIS 10x; additional revisions by Kitty Kolb and Pete Steeves, March &amp; July 2019</p>
+<div class="section" id="process-local-huc-archydro-geodatabases">
+<h3><em>Process Local HUC ArcHydro Geodatabases</em><a class="headerlink" href="#process-local-huc-archydro-geodatabases" title="Permalink to this headline">¶</a></h3>
+<p>The next step, which we call “Post HydroDEM Processing” goes through several steps from the Terrain Preprocessing menu of the ArcHydro Tools and the ArcHydro Python Toolbox. There are two different models in the StreamStats toolbox, one for use when you have sinks or coastlines (which are treated like sinks), and the other for when you have no coastlines or sinks in your huc. Both are provided as PDFs and handouts. Review them to see what is happening.</p>
+<p>Note: portions of this step have been deprecated, since the PostHydroDEM tools no longer work in ArcGIS versions later than 10.3.  The directions assume you are manually stepping through the toolbar instead of using the StreamStats Toolbox</p>
+<div class="section" id="introduction">
+<h4><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">StreamStats needs the hucpoly when you delineate to look for the local data for delineations (it uses the “NAME” attribute in the global hucpoly to do this)</p>
+</li>
+<li><p class="first">The hucpoly is like an index for the local folders</p>
+</li>
+<li><p class="first">Even if you have only frontal hucs and no global hucs, you still need to create the global geodatabase, or else it won’t know where to look for the data.</p>
+</li>
+<li><p class="first">The three layers have a relationship to each other- hucpoly, streams, huc_net_junctions</p>
+<blockquote>
+<div><ul class="simple">
+<li>99% of the time in StreamStats, you’ll be doing local delineations, but other times there are large basins that encompass multiple hucs</li>
+<li>When you click on a point, it asks, “am I on the global streams layer” If yes, then knows to include upstream basins by tracing upstream on the streams layer.</li>
+<li>That relationship grabs the upstream areas and knows to include them; sets them aside. Delineates local piece of basin, then glues it to the upstream larger chunks, dissolves internal boundaries.</li>
+<li>If your study area doesn’t have upstream/downstream hucs, will be vestigial; will see things aren’t on the streams layer, but still have to have it for program to work</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="streamstats-recommended-advanced-settings-and-thresholds">
+<h4><strong>StreamStats Recommended Advanced Settings and Thresholds</strong><a class="headerlink" href="#streamstats-recommended-advanced-settings-and-thresholds" title="Permalink to this headline">¶</a></h4>
+<p><strong>Note:</strong> the commas in the numbers above are for clarity. Enter the numbers in the forms without commas</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="13%" />
+<col width="11%" />
+<col width="13%" />
+<col width="13%" />
+<col width="14%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Post
+HydroDEM
+Processing
+Thresholds
+(Suggested
+values</th>
+<th class="head">10-m
+DEMs</th>
+<th class="head">30-m
+DEMs</th>
+<th class="head">30-ft
+DEMs</th>
+<th class="head">10-ft
+DEMs</th>
+<th class="head">Exercise
+datasets</th>
+<th class="head">3-m
+DEMs</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Threshold 1
+(Stream
+initial
+threshold in
+cells)</td>
+<td>150,000</td>
+<td>50,000</td>
+<td>150,000</td>
+<td>450,000</td>
+<td>8000</td>
+<td>1,666,667</td>
+</tr>
+<tr class="row-odd"><td>Threshold 2
+(Detailed
+stream grid
+threshold in
+cells)</td>
+<td>900</td>
+<td>100</td>
+<td>900</td>
+<td>9,688</td>
+<td>900</td>
+<td>10,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="post-hydrodem-processing">
+<h4><strong>Post-HydroDEM Processing</strong><a class="headerlink" href="#post-hydrodem-processing" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="post-hydrodem-no-sinks">
+<h5><em>Post-HydroDEM No Sinks</em><a class="headerlink" href="#post-hydrodem-no-sinks" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="kara-s-method-probably-the-one-you-should-use">
+<h6><em>Kara’s Method (Probably the one you should use)</em><a class="headerlink" href="#kara-s-method-probably-the-one-you-should-use" title="Permalink to this headline">¶</a></h6>
+<ul class="simple">
+<li>This method was developed by Kara Watson in NJWSC</li>
+<li>You will need to add the ArcHydro Tools Toolbar to your display if you haven’t already</li>
+</ul>
+<div class="figure align-center" id="id2">
+<img alt="screen capture of the ArcHydro Tools Toolbar" src="_images/terrainprepromini.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the ArcHydro Tools Toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">This is the equivalent of PostHydroDem tool</p>
+</li>
+<li><p class="first">The things that you need:</p>
+<blockquote>
+<div><ul class="simple">
+<li>fac or fac_global</li>
+<li>fdr</li>
+<li>Load them into ArcMap map document; this sets the projection of your map document</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Save this in your local folder, give it the same name as your local folder [local folder name].mxd</p>
+<blockquote>
+<div><ul class="simple">
+<li>This creates a geodatabase in your local folder with the local folder name</li>
+<li>Make sure that your target locations are set for the local folders:</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id3">
+<img alt="screen capture of the set target locations menu" src="_images/targetlocations.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the Set Target Locations menu on the ArcHydro toolbar</span></p>
+</div>
+<ul class="simple">
+<li>Go to the Terrain Processing toolbar in ArcHydro</li>
+</ul>
+<div class="figure align-center" id="id4">
+<img alt="screen capture of the stream definition tool on the ArcHydro Tools Toolbar" src="_images/streamdefinitiontoolbar.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the location of the Stream Definition tool on the ArcHydro Tools Toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">Start with the stream definition step</p>
+<blockquote>
+<div><ul>
+<li><p class="first">This step makes the str grid</p>
+</li>
+<li><p class="first">run this twice</p>
+</li>
+<li><p class="first">Thresholds</p>
+<blockquote>
+<div><ul class="simple">
+<li>Threshold 1  —&gt; str grid</li>
+<li>Threshold 2 —-&gt; str900 (or equivalent) NOTE: for a table of threshold values, see the beginning of this document</li>
+<li>Yours will look something like this, although the area (square km) value may be slightly different</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id5">
+<img alt="screen capture of sample inputs for the stream definition tool" src="_images/str900thresholds.jpg" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the sample inputs for the Stream Definition tool</span></p>
+</div>
+<p><strong>Note:</strong> Run the following steps on just the str grid:</p>
+<ul>
+<li><p class="first">Stream Segmentation</p>
+<blockquote>
+<div><ul class="simple">
+<li>This creates the stream link grid</li>
+<li>leave sink stuff blank unless you have sinks (if you have sinks you should use the Post-Processing with Sinks workflow further down)</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<ul>
+<li><p class="first">Create the catchment grid</p>
+<blockquote>
+<div><ul class="simple">
+<li>This step uses link grid strlnk from previous step</li>
+<li>This can be run from either the Toolbar or the ArcToolbox stages</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<ul>
+<li><p class="first">Catchment Polygon processing</p>
+<blockquote>
+<div><ul class="simple">
+<li>This can be run from the toolbar</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<ul>
+<li><p class="first">Drainage line processing</p>
+<blockquote>
+<div><ul class="simple">
+<li>Save your map document (the program sometimes fails at this stage)</li>
+<li>This can be run from either the toolbar or the AH Python Tools toolbox</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Adjoint Catchment processing</p>
+<blockquote>
+<div><ul class="simple">
+<li>Save your map document again (the program sometimes fails at this stage)</li>
+<li>Navigate to ArcToolbox → AH Tools Python → Terrain Preprocessing → Adjoint Catchment processing</li>
+<li>Populate the fields from your layers, and take the defaults for the rest. Your option for Input Drainage Line Split Table should be blank.</li>
+<li>Note: It might tell you at the end that there are loops. I have no idea what this means.</li>
+<li><dl class="first docutils">
+<dt>IF THIS STEP FAILS:</dt>
+<dd><ul class="first last">
+<li>It may give you a yellow triangle and say “general function failure” with an empty feature class for the adjoint catchments</li>
+<li>Close your ArcMap session without saving</li>
+<li>Re-enter your map document</li>
+<li>Delete the empty AdjointCatchment feature class</li>
+<li>Add a field to the Drainage Line feature class called ‘DrainID” (long integer)</li>
+<li>Run the Adjoint Catchment Processing tool from the toolbar, rather than the toolbox</li>
+<li>It should work this time</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<ul>
+<li><p class="first">grids are stored in a folder called Layers</p>
+<blockquote>
+<div><ul class="simple">
+<li>You can move these up one level at the end of processing to be tidy, but Pete S says this is not necessary. It bugs Kitty, so she always does it.</li>
+<li>str</li>
+<li>str900</li>
+<li>cat</li>
+<li>strlnk</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Drainage Point Processing</p>
+<blockquote>
+<div><ul class="simple">
+<li>This step may be vestigial, but it can’t hurt to do it. It is short.</li>
+<li>Longest Flow Path Processing occasionally asks for it, depending on your version</li>
+<li>Choose Drainage Point Processing from either the AH Toolbar or the AH Python Toolbox</li>
+<li>Populate the fields as follows:</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="old-directions-that-no-longer-work">
+<h6><em>Old Directions That No Longer Work</em><a class="headerlink" href="#old-directions-that-no-longer-work" title="Permalink to this headline">¶</a></h6>
+<ol class="arabic simple">
+<li>Start a fresh ArcMap document. (Important: Don’t just hit the “New Map Document” button. This will copy the XML setup from the currently open MXD. We want a completely fresh MXD, so you must start ArcMap from scratch. (Don’t save it yet, either. Wait till step 3 below.)</li>
+<li>Add the fdr and fac grids from the 01092222 workspace to the mxd.  Be sure to add the grids first, before anything else. This ensures the projection is set right.</li>
+<li>Save the MXD as 01092222.mxd in the 01092222 folder. Notice in the folder that extra files appear. There will appear a 01092222.gdb folder, which is a file Geodatabase that will contain the vector layers. Also created is a 01092222.AHD file, which stores the ArcHydro Tools configuration, in XML format, plus a 01092222.xml file. (If you are having trouble in a folder, try deleting these files, including the MXD, and starting over.)</li>
+<li>Run the “F. b) Post HydroDEM.aml Processing (No Sinks)” model/tool. Be sure that you are using the appropriate grid layers for each input using the little pulldown arrow. Do NOT use the file folder browse tool to specify the grids. Set the first Threshold to 8000, the second to 900.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="post-hydrodem-with-sinks">
+<h5><em>Post-HydroDEM (With Sinks)</em><a class="headerlink" href="#post-hydrodem-with-sinks" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li>To Start*</li>
+</ul>
+<hr class="docutils" />
+<ul>
+<li><p class="first">Open a new session of ArcMap</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Save your map document with the name of your local folder</p>
+</li>
+<li><p class="first">Add the following files to your view:</p>
+<blockquote>
+<div><ul class="simple">
+<li>fac (or fac_global)</li>
+<li>fdr</li>
+<li>sinklink</li>
+<li>sinkpoint_edit (from input_data.gdb)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Note: ArcHydro will default that the output grids are stored in a folder called Layers</p>
+<blockquote>
+<div><ul class="simple">
+<li>You can move these up one level at the end of processing to be tidy, but Pete S says this is not necessary. It bugs Kitty, so she always does it. str</li>
+<li>str900</li>
+<li>cat</li>
+<li>strlnk</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="section" id="stream-and-sink-combination">
+<h6><em>Stream and Sink Combination</em><a class="headerlink" href="#stream-and-sink-combination" title="Permalink to this headline">¶</a></h6>
+<ul class="simple">
+<li>Define Streams using the Stream Definition tool on the ArcHydro toolbar</li>
+</ul>
+<div class="figure align-center" id="id6">
+<img alt="screen capture of the stream definition tool on the ArcHydro Tools Toolbar" src="_images/streamdefinitiontoolbar.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the location of the Stream Definition tool on the ArcHydro Tools Toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">This is done twice for separate thresholds (stream grid versus snap grid)</p>
+<blockquote>
+<div><ul>
+<li><p class="first">You can find the thresholds in the table further up this document or at the bottom of Exercise 1</p>
+</li>
+<li><p class="first">First pass → str grid</p>
+<blockquote>
+<div><ul class="simple">
+<li>Note: if you have a fac_global, use fac_global instead of the fac</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Second pass → str900 grid</p>
+<blockquote>
+<div><ul class="simple">
+<li>Name this “str” plus whatever your threshold is. Your threshold may vary based on the pixel size of your application.(See table at the end of Exercise 1 for common pixel sizes)</li>
+<li>Note: if you have a fac_global, use fac_global instead of the fac</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id7">
+<img alt="screen capture of sample inputs for the stream definition tool" src="_images/str900thresholds.jpg" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the sample inputs for the Stream Definition tool</span></p>
+</div>
+<ul>
+<li><p class="first">Create a Sink Point Raster</p>
+<blockquote>
+<div><ul class="simple">
+<li>Add your Sink Link Raster to the view if you haven’t already (quite possibly called “sinklink”)</li>
+<li>Export or Create a copy of the Sink Link Raster to your Layers folder, and call it “sinkpntgrid”</li>
+<li>Add sinkpntgrid to the map document</li>
+<li><strong>Note:</strong> I don’t see any difference between sinklink and sinkpntgrid, but the official ArcHydro for Stormwater instructions use sinkpntgrid instead of sinklink. I’ve used “sinklink” in place of “sinkpntgrid” and there do not seem to be any deleterious effects.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Delineate Sink Watersheds</p>
+<blockquote>
+<div><ul>
+<li><p class="first">In ArcToolbox, navigate to ArcHydro Tools Python → Terrain PreProcessing → Sink Watershed Delineation</p>
+</li>
+<li><p class="first">Populate the input prompts with the files from your map document:</p>
+</li>
+<li><p class="first">Take the default for the outputs</p>
+</li>
+<li><p class="first">It will create two layers:</p>
+<blockquote>
+<div><ul class="simple">
+<li>SinkWshGrid → a raster representation of the watersheds draining to the sinks</li>
+<li>Sink Watershed → a vector representation of the watersheds draining to the sinks</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id8">
+<img alt="screen capture of sample inputs for the sink watershed delineation tool" src="_images/sinkwatershedtool.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the sample inputs for the Sink Watershed Delineation tool</span></p>
+</div>
+<div class="figure align-center" id="id9">
+<img alt="screen capture showing the location of the stream segmentation tool on the ArcHydro toolbar" src="images/streamsegmenttool.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing the location of the Stream Segmentation tool on the ArcHydro toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">Choose the Stream Segmentation task from the ArcHydro Toolbar</p>
+<blockquote>
+<div><ul class="simple">
+<li>Populate the fields from your map document</li>
+<li>Note: use your str grid for the Stream Grid</li>
+<li>It will think for a while, then say “stream segmentation successfully completed”</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id10">
+<img alt="screen capture of the sample inputs for the stream segmentation tool using sinks" src="_images/streamsegmentsink.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the sample inputs for the Stream Segmentation tool using sinks</span></p>
+</div>
+<div class="figure align-center" id="id11">
+<img alt="screen capture showing the location of the combine stream and sink link tool on the ArcHydro toolbar" src="_images/combinestreamsink.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing the location of the Combine Stream Link and Sink Link tool on the ArcHydro toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">Choose the Combine Stream Link and Sink Link tool from the ArcHydro Toolbar</p>
+<blockquote>
+<div><ul class="simple">
+<li>Verify that it has set the proper inputs</li>
+<li>You may need to manually point it to the Drainage Line feature class that was just created in the last step</li>
+<li>This creates a new grid called “lnk”</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id12">
+<img alt="screen capture showing sample inputs for the combine stream and sink link tool" src="_images/combinestreamsinkinputs.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing sample inputs for the Combine Stream Link and Sink Link tool</span></p>
+</div>
+<ul>
+<li><p class="first">Choose the Catchment Grid Delineation step from the ArcHydro Toolbar</p>
+<blockquote>
+<div><ul class="simple">
+<li>The Link grid that it asks for will be the link grid you just made.</li>
+<li>Verify that the other inputs are correct (It should look like this):</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id13">
+<img alt="screen capture showing sample inputs for the catchment grid delineation for sinks tool" src="_images/catgriddelinsink.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing sample inputs for the Catchment Grid Delineation tool when your watershed has sinks</span></p>
+</div>
+<ul>
+<li><p class="first">Convert the Catchment grid to polygons</p>
+<blockquote>
+<div><ul class="simple">
+<li>Navigate to the Catchment Polygon Processing tool in Arc Toolbox → ArcHydro Tools Python → Terrain Preprocessing</li>
+<li>Choose the cat grid from the previous step. Verify that the inputs are correct:</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id14">
+<img alt="screen capture showing sample inputs for the catchment polygon processing tool" src="_images/catpoly2.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing sample inputs for the Catchment Polygon Processing tool</span></p>
+</div>
+<ul>
+<li><p class="first">Create the adjoint catchments</p>
+<blockquote>
+<div><ul class="simple">
+<li>In ArcToolbox, navigate to the Arc Hydro Tools Python → Terrain Preprocessing → Adjoint Catchment Processing tool</li>
+<li>Populate the fields with the layers that you’ve run previously</li>
+<li>The output flow split table will be empty, because you made a dendrite net(work)</li>
+<li>Run the tool</li>
+<li>It might tell you at the end that there are loops. I have no idea what this means.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id15">
+<img alt="screen capture showing sample inputs for the adjoint catchment processing tool" src="_images/adjcatproc2.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing sample inputs for the Adjoint Catchment Processing tool</span></p>
+</div>
+<ul>
+<li><p class="first">IF THIS STEP (adjoint catchment) FAILS:</p>
+<blockquote>
+<div><ul class="simple">
+<li>It may give you a yellow triangle and say “general function failure” with an empty feature class for the adjoint catchments</li>
+<li>Close your ArcMap session</li>
+<li>Re-enter your map document</li>
+<li>Delete the empty AdjointCatchment feature class</li>
+<li>Add a field to the Drainage Line feature class called ‘DrainID” (long integer)</li>
+<li>Run the Adjoint Catchment Processing tool from the toolbar, rather than the toolbox</li>
+<li>It should work this time</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Create Drainage Points</p>
+<blockquote>
+<div><ul class="simple">
+<li>From the ArcToolbox → ArcHydro Tools Python → Terrain PreProcessing toolbox, run the Drainage Point Processing tool</li>
+<li>Verify that the inputs are correct.</li>
+<li>Note: if you have a fac_global, use the fac_global instead of the fac</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id16">
+<img alt="screen capture showing sample inputs for the drainage point processing tool" src="_images/drainptproc2.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing sample inputs for the Drainage Point Processing tool</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="examine-your-data">
+<h4><strong>Examine your Data</strong><a class="headerlink" href="#examine-your-data" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple" start="5">
+<li>Look at the results. Do the streams900cells and DrainageLines match well with the input dendrite_edit? Look at the sinks_poly coverage. Are there large areas that were filled and flattened? Could these areas be better represented by adding some lines to the dendrite_edit, e.g. to break through a dam or some other blockage? Use the “raindrop” (Flow Path Tracing) tool to see how the HydroDEM is routing flow. Once you are satisfied, save the mxd and close ArcMap.</li>
+<li>Open ArcCatalog.  Browse into the 0109222 workspace. Right-click on and Compact (NOT Compress) the 0109222.gdb geodatabase.</li>
+<li>Notice the software also created a “Layers” folder, and it contains several grids. Use ArcCatalog to copy all the grids up one layer to the 01092222 folder, and then delete the Layers folder.</li>
+<li>The other 3 HUCs can be processed in a similar manner. For 01094444, add fac_global instead of fac to the MXD, and specify that by choosing it from the pulldown list of ArcMap grid layers.</li>
+</ol>
+</div>
+<div class="section" id="run-the-cleanup-workspace-tool">
+<h4><strong>Run the Cleanup Workspace tool</strong><a class="headerlink" href="#run-the-cleanup-workspace-tool" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple" start="9">
+<li>This will clean out many of the temporary data sets that were created in our processes, but not all.<ul>
+<li>Do not delete all the temporary datasets until you feel comfortable your fdr and fac, etc, are all right. You may need to re-run hydroDEM later on and need the extra datasets.</li>
+<li>In addition, delete the spare coverages and the “nhd_scg” and “wbd_scg” grids</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li>Create the Global Geodatabase *</li>
+</ul>
+<hr class="docutils" />
+<ol class="arabic">
+<li><p class="first">In ArcCatalog, create a new File Geodatabase in the global_exercise folder and call it global.gdb.</p>
+<ul class="simple">
+<li>The folder location will be your “archydro” folder if you are running your own data</li>
+</ul>
+</li>
+<li><p class="first">Right click on the new global geodatabase and select the New &gt; Feature Dataset</p>
+<ul class="simple">
+<li>Give it the name ‘Layers’.</li>
+</ul>
+<p>= Set the coordinate system</p>
+<blockquote>
+<div><ul class="simple">
+<li>If you are using the exercise data, choose the coordinate system by selecting the “USA Contiguous Albers Equal Area Conic USGS.prj” from the Coordinate Systems&gt;Projected Coordinate Systems&gt;Continental&gt;North America.</li>
+<li>If you are working on actual data and not exercise data, use your local projection instead of USGS Albers</li>
+<li>NOTE: It is important to choose this .prj file from ESRI’s standard prj’s. DO NOT make your own projection- ALWAYS USE AN ESRI standard one</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Default the next menu (vertical coordinate system) to none and default the last menu (tolerance settings).</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li>Global HucPoly *</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="id1">
+<h4>** Introduction **<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>The global hucpoly is like an index. The StreamStats will check the hucpoly and the streams layers first, even if you have only frontal hucs and no global hucs.</li>
+<li>The huc_net is like straws reconnecting the watersheds that HydroDEM spent all the time walling in. It tells StreamStats which upstream and downstream hucs flow into each other</li>
+</ul>
+</div>
+<div class="section" id="methods-of-making-a-global-hucpoly">
+<h4>** Methods of making a Global HucPoly **<a class="headerlink" href="#methods-of-making-a-global-hucpoly" title="Permalink to this headline">¶</a></h4>
+<p>Now we will start creating the layers for the global geodatabase.  We will start with the global hucpoly feature class. There are two ways of doing this:</p>
+<div class="section" id="blob-method-preferred">
+<h5><em>Blob Method (Preferred)</em><a class="headerlink" href="#blob-method-preferred" title="Permalink to this headline">¶</a></h5>
+<ul>
+<li><p class="first">Open a new ArcMap.mxd and save as ‘makeglobal.mxd’ in the upper level (archydro) workspace</p>
+<blockquote>
+<div><ul class="simple">
+<li>ArcHydro will automatically create a project gdb called “makeglobal.gdb”</li>
+<li>Ignore this: the target for the layers you will be creating should be global.gdb</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Add the fdr from your first local workspace to act as a snap grid. This has two purposes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Snapping to consistent origin coordinates is a critical element to building nearly all of your ArcHydro raster datasets.</li>
+<li>It sets the projection for your hucpoly</li>
+<li>Be VERY sure you have the right projection in your map document.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Using Map Algebra, create a new raster using a Con statement:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The statement should read (Con “fdr” ≥0, 130). You can use any number you like that is greater than 128 for the last number in the command.</li>
+<li>Name your output raster whatever you would like. We’ll call it “blob” for the purposes of this exercise</li>
+<li>Save it to a scratch area</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id17">
+<img alt="screen capture of the map algebra statement for converting the fdr grid to a blob" src="_images/confdrblob.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the map algebra statement for converting the fdr grid to a blob</span></p>
+</div>
+<ul>
+<li><p class="first">The blob raster now has the same footprint, projection, pixel size, and snapping as your fdr grid, but is a solid blob.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Use Conversion Tools → From Raster → Raster to Polygon to create a new polygon feature class representing the footprint of your watershed.</li>
+<li>You can name it whatever you like, but for this exercise we’ll call it “blob_poly.”</li>
+<li>Uncheck the “simplify polygons feature class”</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id18">
+<img alt="screen capture of sample inputs for the raster to polygon tool" src="_images/blobrastopoly.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of sample inputs for the Raster to Polygon tool</span></p>
+</div>
+<ul>
+<li><p class="first">You may find that there are small dangly features hanging from the edge of your main feature in the feature class. Jennifer Sharpe suggests an equal/alternate method to open the attribute table for the feature class, where there should be only 1 record.</p>
+<blockquote>
+<div><ul class="simple">
+<li>If you have more than one feature in the feature class, dissolve these into one so that there is one multipart polygon feature class.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Make a “blob_poly” for every local fdr in your study area. Give each one a unique identifier, like “blob_polyxxxxx.”</p>
+</li>
+<li><p class="first">Remove the fdr and blob grids from your map document, leaving the “blob_poly” feature classes</p>
+</li>
+<li><p class="first">Merge the “blob_poly” feature classes into a single feature class within your global geodatabase called “hucpoly”.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Insert a text field called “Name,” and populate it with the name of each local watershed</li>
+<li>Delete the “ID” and “gridcode” fields</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Check for overlaps and gaps in your hucpoly between the local footprints</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Determine your tolerance for imperfections. If you need help performing triage on gaps, you can consult the document “If You Have Gaps in Your Data”</p>
+</li>
+<li><p class="first">If you have small gaps of a single pixel on a ridgeline, this will probably not break StreamStats;</p>
+<blockquote>
+<div><ul class="simple">
+<li>You may safely ignore them</li>
+<li>Unless you are a perfectionist like Kitty who breaks out into hives thinking about gaps</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If you have gaps of more than two or three pixels on a ridgeline, you should probably fix these.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Large gaps could potentially make holes in global watersheds and users will contact the support team about it.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If you have any overlaps these will need to be fixed unless your study area is entirely frontal hucs (every huc is an outlet huc and nothing is upstream of a huc).</p>
+<blockquote>
+<div><ul class="simple">
+<li>Overlaps will break upstream traces, channel slope, and global watersheds, as well as inflating drainage area calculations by the amount of the overlap.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If you can’t decide what to do, please see the training document “If You Have Gaps in Your Hucpoly” for more examples.</p>
+</li>
+<li><p class="first">Solving gaps and overlaps:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Redraw your huc_8/wbd boundary to include or exclude the offending pixels</p>
+</li>
+<li><p class="first">Re-run the StreamStats steps for the affected local folders</p>
+<blockquote>
+<div><ul class="simple">
+<li>Depending on how severe the affected area is</li>
+<li>You may have to rerun the steps from the beginning (1a) for only that local folder</li>
+<li>You can leave the other local folders as they are if they are not affected; they do not have to go through the steps again</li>
+<li>You will need a new huc_8 boundary, a new huc_8 buffer, a new dem, a new fdr, fac, etc. Your flowlines should not have radically changed.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">You can delete blob and blob_poly when you are done with this step</p>
+</li>
+</ul>
+</div>
+<div class="section" id="huc8index-method-old-way">
+<h5><em>Huc8Index Method (Old Way)</em><a class="headerlink" href="#huc8index-method-old-way" title="Permalink to this headline">¶</a></h5>
+<ul>
+<li><p class="first">Open a new ArcMap.mxd and save as ‘makeglobal.mxd’ in the upper level workspace.  Add the ‘huc8index’ feature class, which can be found in the input_data geodatabase. This is the projected version of the WBD hucs. Double check to make sure it is the correct projection.</p>
+</li>
+<li><p class="first">Add a dem or fdr from any of the local workspaces to act as a snap grid.  Snapping to consistent origin coordinates is a critical element to building nearly all of your ArcHydro raster datasets.</p>
+</li>
+<li><p class="first">In ArcToolbox, find the Conversion Tools toolbox. Under “To Raster”, start the Polygon to Raster tool.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Choose huc8index from the layer pulldown for the Input Features.</li>
+<li>Choose HUC_8 for the Value field.</li>
+<li>For the output raster, this is a temporary raster, so you can let it default. (Later you will want to kill the raster.)</li>
+<li>Let the other parameters default, except set the Cell Size to 10.</li>
+<li>IMPORTANT: Before you hit OK, hit the Environments button. Expand the General Settings. Set the Extent to “Same as layer huc8index”. Select the dem layer as the Snap Raster. (If you don’t do this, the output grid cells will not align properly.)</li>
+<li>Open Properties of the output raster, and verify that the extent coordinates are even multiples of 15, like all our other grids.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">In ArcToolbox, find the Conversion Tools toolbox. Under “From Raster” start the “Raster to Polygon” tool.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Choose the raster you made above as the Input raster.</p>
+</li>
+<li><p class="first">Choose HUC_8 as the field.</p>
+</li>
+<li><p class="first">Set the output polygons to go into the global.mdb geodatabase we created earlier, under the “Layers” feature dataset, and named “hucpoly”.</p>
+</li>
+<li><p class="first">Uncheck the Simplify polygons checkbox. Click OK.</p>
+</li>
+<li><p class="first">Symbolize the hucpoly features with a hollow symbol and some colored outline. Zoom in and compare it to the original huc8index, and to some of the grids in the local workspace. It should align perfectly with the grids, but will be a jagged, raster-like representation of the WBD.</p>
+</li>
+<li><p class="first">NOTE: you should not have holes or overlaps in your hucpoly.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Run a topology to find overlaps and gaps between the features in your hucpoly feature class</li>
+<li>If you have large holes, you have problems and need to fill them with data. Adjust your original wbd input shapefile and start from the beginning of grid processing for that local folder</li>
+<li>Small holes along ridgelines, etc, should be fixed in an ideal world. If you are pressed for time, you can decide whether it is a good return of your time to start over for a small area. How OCD are the users in your state? Some states have more vocal users than others.</li>
+<li>All overlaps need to be fixed UNLESS you have a state where there are only local/outlet hucs and not global hucs, in which case you could let it slide, as long as they aren’t egregiously overlapping.  If you have upstream/downstream hucs that overlaps, this will cause massive problems if you want to do upstream tracing or longest flow path.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="global-streams">
+<h3><em>Global Streams</em><a class="headerlink" href="#global-streams" title="Permalink to this headline">¶</a></h3>
+<p>Now let’s create the global ‘streams’ feature class. The purpose of this is like a signpost for the program to know where a delineation point is in the study area, and whether it needs to include upstream information. You have to have at least one stream in the streams feature class, even if you have an entirely frontal study area of all outlet local folders</p>
+<div class="section" id="outlet-trace">
+<h4><strong>Outlet Trace</strong><a class="headerlink" href="#outlet-trace" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Add the 01091111/fdr and 01091111/str grids.  Turn off the fdr grid.</li>
+<li>Zoom into the outlet area of 01091111.</li>
+</ul>
+<div class="figure align-center" id="id19">
+<img alt="view of the outlet of a local processing unit with the stream grid" src="_images/outlet.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the outlet of a local processing unit along with its stream grid</span></p>
+</div>
+<ul class="simple">
+<li>Select the flowpath tracing tool from the ArcHydro toolbar</li>
+</ul>
+<div class="figure align-center" id="id20">
+<img alt="screen capture showing the location of the flowpath tracing tool on the ArcHydor toolbar" src="_images/flowpathbutton.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the location of the Flow Path Tracing tool on the ArcHydro toolbar</span></p>
+</div>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>NOTE: the order of the following steps may be reversed, depending on which version of ArcGIS you are using</dt>
+<dd><ul class="first last">
+<li>In the menu that pops up, specify the 01091111/fdr grid</li>
+<li>Click on a cell anywhere upstream along the 01091111/str grid (I typically select a cell at least 20 cells upstream)</li>
+<li>Click OK if needed</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="figure align-center" id="id21">
+<img alt="screen capture of the input for the flow path tracing tool" src="_images/flowtraceinput.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the input for the Flow Path Tracing tool</span></p>
+</div>
+<ul class="simple">
+<li>The tool will trace your fdr grid to the outlet of your local fdr with a graphic</li>
+</ul>
+<div class="figure align-center" id="id22">
+<img alt="screen capture showing the graphic result of the flow path tracing tool" src="_images/flowtracegraphic.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing the graphic result of the Flow Path Tracing tool</span></p>
+</div>
+</div>
+<div class="section" id="convert-to-features-single-streams">
+<h4><strong>Convert to Features (Single Streams)</strong><a class="headerlink" href="#convert-to-features-single-streams" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Load the XTools Toolbar, if it isn’t already.</li>
+<li>Use the pointer on the Drawing toolbar to select your graphic (it will have drag handles around the selection)</li>
+</ul>
+<div class="figure align-center" id="id23">
+<img alt="screen capture showing the flow path trace graphic selected with drag handles" src="_images/graphicselected.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing the selected Flow Path Trace graphic with the drag handles</span></p>
+</div>
+<ul>
+<li><p class="first">In Xtools Pro, go to Feature Conversions &gt; Convert Graphics to Shapes</p>
+<blockquote>
+<div><ul class="simple">
+<li>Check the default box to choose the input graphics layer.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id24">
+<img alt="screen capture of sample inputs for the XTools convert graphics to shape tool" src="_images/xtoolsgraphicsshape.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the sample inputs for the Convert Graphics to Shape tool in XTools</span></p>
+</div>
+<ul>
+<li><p class="first">Switch graphic type to polyline</p>
+</li>
+<li><p class="first">Output Feature Class →  Save as Type “Feature Class”</p>
+</li>
+<li><p class="first">Surf down to the global layers feature dataset.  Name the feature class ‘strm_1111’.  (If you are working on your own data, it should be something indicative of your local folder instead of the 1111) Click save.</p>
+</li>
+<li><p class="first">Once back in the main menu, uncheck ‘Add ID Field’ and ‘Add Text field’</p>
+</li>
+<li><p class="first">It is up to you whether you are feeling lucky/confident whether you check “Delete graphics after conversion.” .</p>
+</li>
+<li><p class="first">Click Run.</p>
+</li>
+<li><p class="first">Remove the str and fdr grids from the legend</p>
+</li>
+<li><p class="first">Select the graphics (a line and a dot) and delete</p>
+</li>
+<li><p class="first">Repeat the above steps for 2222 and 3333. Name the outputs ‘strm_2222’ and ‘strm_3333’.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Note: Most States will have some border/outlet/frontal hucs that flow out of the State and have no upstream hucs flowing into them.</p>
+</li>
+<li><p class="first">These won’t connect upstream and downstream</p>
+<blockquote>
+<div><ul class="simple">
+<li>You do not have to include these</li>
+<li>But it never hurts to include them</li>
+<li>For these disconnected hucs, you will have little tiny stubs at the exit of each huc</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If your state is all frontal/outlet hucs, you need to have at least one stub to make the geometric network</p>
+<blockquote>
+<div><ul class="simple">
+<li>StreamStats will still look for the networked streams feature class when it is delineating.</li>
+<li>So even in a study area that is entirely frontal hucs with nothing upstream, you’ll need at least one stub to make a geometric network about.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="convert-to-features-multiple-streams">
+<h4><strong>Convert to Features (Multiple Streams)</strong><a class="headerlink" href="#convert-to-features-multiple-streams" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">For 4444, repeat the above steps, but run the process at the inlet cell for each of the 3 inlets (1111, 2222, and 3333).  Run all 3 Flow Path Tracing graphics before converting to polylines.  Name the output ‘strm_4444’</p>
+<blockquote>
+<div><ul class="simple">
+<li>Start Editing with the global geodatabase as your target</li>
+<li>Set selectable layers to ‘strm_4444’.</li>
+<li>Select all 3 lines in Strm_4444 with the edit tool</li>
+<li>Load the Topology Toolbar (if not already loaded) into your ArcMap session.  On the Topology toolbar, click the “Planarize Lines” tool to remove all the overlaps and to create nodes at the junctions. Accept the default cluster tolerance and Click ok.  Strm_4444  should now have 5 line features.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="merging-local-streams-into-global">
+<h4><strong>Merging Local Streams into Global</strong><a class="headerlink" href="#merging-local-streams-into-global" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">Use the ArcToolBox Merge tool (under Data Management Tools →  General) to compile the 4 feature classes into 1.  Name the output ‘streams_tmp’</p>
+</li>
+<li><p class="first">The Streams segments need to be connected with small single-cell length lines at the inlet/outlet locations. (If you have only frontal hucs, this step is not necessary)</p>
+<blockquote>
+<div><ul class="simple">
+<li>Start Editing with the global personal geodatabase as your target</li>
+<li>Set selectable layers to ‘streams_tmp’</li>
+<li>Turn snapping on for ends</li>
+<li>Zoom into the outlet of 1111. Starting at the upstream end, add a line connecting the end node outlet of 1111 with the end node inlet of  4444.</li>
+<li>Repeat for 2222 and 3333 inlets.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Symbolize the streams_tmp layer with arrows to see if the stream lines are pointing downstream.</p>
+<blockquote>
+<div><ul class="simple">
+<li>You may notice several arcs pointing upstream.  These need to be flipped.</li>
+<li>Zoom into one.  In the editor toolbar, change the Task to Modify Feature.  Use the Edit tool from the editor toolbar.  Select the line that needs to be flipped.  Right click on that line and select flip</li>
+<li>Repeat for other stream segments that need to be flipped downstream</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Save edits.  Quit the Editor session.</p>
+</li>
+<li><p class="first">Now you need to create nodes at each location where the streams_tmp feature class intersects the hucpoly feature class. If you have only frontal hucs, you can skip this step and copy your streams_temp to be the main streams feature class:</p>
+<blockquote>
+<div><ul class="simple">
+<li>In Toolbox → Analysis Tools → Overlay, select the Intersect tool</li>
+<li>Input: streams_tmp, hucpoly</li>
+<li>Output: streams</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Delete “streams_tmp” and the other strm_xxxx layers</p>
+</li>
+<li><p class="first">Save and close ArcMap</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="global-geometric-network">
+<h3><em>Global Geometric Network</em><a class="headerlink" href="#global-geometric-network" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="initial-geometric-network-creation">
+<h4><strong>Initial Geometric Network Creation</strong><a class="headerlink" href="#initial-geometric-network-creation" title="Permalink to this headline">¶</a></h4>
+<p>Now we will create the global geometric network <strong>NOTE:</strong> This will not work in ArcPro</p>
+<ul class="simple">
+<li>Open ArcCatalog</li>
+<li>Right click on the Layers feature dataset.  Choose New Geometric Network. Set the name to “huc_net” . Say yes to snapping and take the default</li>
+</ul>
+<div class="figure align-center" id="id25">
+<img alt="screen capture of the inputs for the geometric network creation tool" src="_images/newgeonet.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the Geometric Network Creation tool</span></p>
+</div>
+<ul class="simple">
+<li>Click Next. Select ‘streams’ as the feature class for building your network.  (your options may vary based on what you’ve done so far)</li>
+</ul>
+<div class="figure align-center" id="id26">
+<img alt="screen capture of the selected features for the geometric network creation tool" src="_images/buildfeaturenewgeonet.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the selected features for the Geometric Network Creation tool</span></p>
+</div>
+<ul class="simple">
+<li>Answer Simple/None to complex edges.</li>
+<li>You do not need to add weights to the network</li>
+<li>Depending on your version, it may ask you about preserving enabled values. If so, say Yes for preserving values.</li>
+</ul>
+<div class="figure align-center" id="id27">
+<img alt="screen capture of the preserve values inputs for the geometric network creation tool" src="_images/preservevalues.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the Preserve Values inputs for the Geometric Network Creation tool</span></p>
+</div>
+<ul class="simple">
+<li>Depending on your version, it may ask you whether you want to add weights. Say No for weights.</li>
+<li>Make sure you like the inputs at the summary screen, and then click Finish</li>
+</ul>
+<div class="figure align-center" id="id28">
+<img alt="screen capture of the input summary screen for the geometric network creation tool" src="_images/summarygeonet.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the Summary of Inputs screen for the Geometric Network Creation tool</span></p>
+</div>
+<ul class="simple">
+<li>Several new layers will be added to the feature dataset:</li>
+</ul>
+<div class="figure align-center" id="id29">
+<img alt="view of the huc_net and huc_net_junctions files added to the feature geodatabase" src="_images/geonetgdbview.png" />
+<p class="caption"><span class="caption-text">Figure: View of the new files added to the feature geodatabase</span></p>
+</div>
+</div>
+<div class="section" id="enabling-geometric-network">
+<h4><strong>Enabling Geometric Network</strong><a class="headerlink" href="#enabling-geometric-network" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">Open makeglobal.mxd.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Remove all layers from the legend.</li>
+<li>Add the layers feature dataset, which adds all the feature classes.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="section" id="assign-hydroid">
+<h5><em>Assign HydroID</em><a class="headerlink" href="#assign-hydroid" title="Permalink to this headline">¶</a></h5>
+<ul>
+<li><p class="first">Assign the HydroID for the portions of the network.</p>
+<blockquote>
+<div><ul class="simple">
+<li>From theArcHydro Attribute Tools pulldown menu, choose ‘Assign Hydro ID’</li>
+<li>It will think for a moment, and then say that all HydroIDs have been assigned and give a count</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id30">
+<img alt="screen capture indicating the location of the asign hydro id tool on the archydro toolbar" src="_images/assignhydroid.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the location of the Assign HydroID tool on the ArcHydro toolbar</span></p>
+</div>
+</div>
+<div class="section" id="set-flow-direction">
+<h5><em>Set Flow Direction</em><a class="headerlink" href="#set-flow-direction" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li>From the ArcHydro Network Tools pulldown menu, choose ‘Set Flow Direction.’</li>
+</ul>
+<div class="figure align-center" id="id31">
+<img alt="screen capture indicating the location of the set flow direction tool on the archydro toolbar" src="_images/setfdtoolbar.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the location of the Set Flow Direction tool on the ArcHydro toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">Select the streams layer and With Digitized Direction.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Click ok.</li>
+<li>It will say that it successfully completed.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id32">
+<img alt="screen capture showing the inputs for the set flow direction tool" src="_images/setfdinputs.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the Set Flow Direction tool</span></p>
+</div>
+</div>
+<div class="section" id="connect-local-folder-streams">
+<h5><em>Connect Local Folder Streams</em><a class="headerlink" href="#connect-local-folder-streams" title="Permalink to this headline">¶</a></h5>
+<ul>
+<li><p class="first">Add two fields to the hucpoly feature class:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Create a long integer field called “JunctionID”</li>
+<li>Also add a 10 digit-length text field and call it “Name”</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Update the Name field for the Hucs</p>
+<blockquote>
+<div><ul class="simple">
+<li>Start an editing session</li>
+<li>Populate the Name field for each huc (01091111, 01092222, 01093333, and 01094444)</li>
+<li>Save your edits.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Coordinate the HydroID and JunctionID fields.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Still in an editing session,</li>
+<li>Turn on the Spatial Adjustment toolbar.</li>
+<li>On the Spatial Adjustment pulldown, select Attribute Transfer Mapping</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id33">
+<img alt="screen capture indicating the location of the attribute transfer mapping dialog box on the spatial adjustment toolbar" src="_images/attribtxfrmapping.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the location of the Attribute Transfer Mapping dialog box on the Spatial Adjustment toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">For Source Layer select huc_net_junctions and HydroID from the fields</p>
+</li>
+<li><p class="first">For Target Layer select hucpoly and double click JunctionID from the fields</p>
+<blockquote>
+<div><ul class="simple">
+<li>Double clicking matches the fields. It won’t work unless they are both highlighted.</li>
+<li>Click ok</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id34">
+<img alt="screen capture showing the inputs for the attribute transfer tool" src="_images/attribtxfrinputs.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the Attribute Transfer Mapping tool</span></p>
+</div>
+<ul>
+<li><p class="first">Next, use the Attribute Transfer Tool to link the information.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Zoom in so you can see the junction where the stream intersects the border between 1111 and 4444.</li>
+<li>On the right end of the Spatial Adjustment Toolbar, select the Attribute Transfer Tool.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id35">
+<img alt="screen capture indicating the location of the attribute transfer mapping tool on the spatial adjustment toolbar" src="_images/spatadjtoolbar.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the location of the Attribute Transfer Mapping tool on the Spatial Adjustment toolbar</span></p>
+</div>
+<ul class="simple">
+<li>Left-click first on the junction</li>
+</ul>
+<div class="figure align-center" id="id36">
+<img alt="screen capture showing a highlighted huc_net_Junction point using attribute transfer mapping" src="_images/spatadjjxn.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing a highlighted huc_net_Junction point using the Attribute Transfer Mapping tool</span></p>
+</div>
+<ul class="simple">
+<li>Then left click anywhere inside the (upstream) 1111 hucpoly.</li>
+</ul>
+<div class="figure align-center" id="id37">
+<img alt="screen capture showing a line in the upstream local processing unit using attribute transfer mapping" src="_images/spatadjupstrm.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing the process of clicking in the upstream local processing unit using the Attribute Transfer Mapping tool</span></p>
+</div>
+<ul class="simple">
+<li>Repeat this for the other 3 Hucs.</li>
+<li>Open hucpoly to see that all 4 globally-connected hucpoly features now have a JunctionID and Name.</li>
+</ul>
+<div class="figure align-center" id="id38">
+<img alt="screen capture showing a hucpoly attribute table with JunctionIds attached to features" src="_images/jxnidtable.png" />
+<p class="caption"><span class="caption-text">Figure: A screen capture of a HucPoly attribute table with JunctionIDs attached to features</span></p>
+</div>
+<ul class="simple">
+<li>Save and Stop editing. Save makeglobal.mxd.  Quit out of ArcMap</li>
+</ul>
+<div class="section" id="notes">
+<h6><em>Notes</em><a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h6>
+<ul class="simple">
+<li>If your huc is an upstream Huc, then you click on the junction node for that Huc.</li>
+<li>If it is a coastal/frontal Huc, last in a series of globally-connected Hucs, then click on the last node of the Huc streamline.</li>
+</ul>
+<div class="figure align-center" id="id39">
+<img alt="screen capture showing a line in a coastal local processing unit using attribute transfer mapping" src="_images/spatadjcoast.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture showing the process of clicking in a coastal local processing unit using the Attribute Transfer Mapping tool</span></p>
+</div>
+<ul class="simple">
+<li>If your Huc is a solitary Huc, not connected to other Hucs upstream or downstream, you do not need to do this process. It is theoretically possible to have a hucpoly that is almost entirely solitary hucs, as long as there is at least one streams feature somewhere in the hucpoly.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="relationship-class">
+<h4><strong>Relationship Class</strong><a class="headerlink" href="#relationship-class" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">Open ArcCatalog</p>
+</li>
+<li><p class="first">Right click the global geodatabase and select “New → Relationship Class”</p>
+</li>
+<li><p class="first">Name the relationship class “HUCHasJunction”</p>
+<blockquote>
+<div><ul class="simple">
+<li>Origin Table is hucpoly</li>
+<li>Destination Table is huc_net_Junctions</li>
+<li>Click “Next”</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id40">
+<img alt="screen capture showing the inputs for the new relationship class tool" src="_images/newrelshpinputs.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the New Relationship Class tool</span></p>
+</div>
+<ul>
+<li><p class="first">Make it a simple relationship. Click “Next.”</p>
+</li>
+<li><p class="first">Specify a label</p>
+<blockquote>
+<div><ul class="simple">
+<li>From the origin table/feature class to destination: huc_net_Junctions</li>
+<li>From the destination table/feature class to origin: hucpoly</li>
+<li>Enter ‘none’ for message direction</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id41">
+<img alt="screen capture showing the inputs for the labels tab on the new relationship class tool" src="_images/newrelshplabel.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the labels tab of the New Relationship Class tool</span></p>
+</div>
+<ul class="simple">
+<li>On the next tab, select one to one cardinality</li>
+<li>Do not add attributes</li>
+<li>From the drop-down, pick Primary Key=JunctionID ; Foreign Key= HydroID</li>
+</ul>
+<div class="figure align-center" id="id42">
+<img alt="screen capture showing the inputs for the primary key tab on the new relationship class tool" src="_images/newrelshpprimkey.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the pimrary key tab of the New Relationship Class tool</span></p>
+</div>
+<ul class="simple">
+<li>Click Next, then Finish</li>
+</ul>
+</div>
+</div>
+<div class="section" id="test-delineation">
+<h3><em>Test Delineation</em><a class="headerlink" href="#test-delineation" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Start a fresh map document in ArcMap</p>
+</li>
+<li><p class="first">Add the following layers to your map document:</p>
+<blockquote>
+<div><ul class="simple">
+<li>huc_net (depending on where you are in the process, this will also add Point/Point3D, Streams/Streams3D, and huc_net_junctions)</li>
+<li>hucpoly</li>
+<li>Your str900 layer (or other str*** if you have a different catchment number/pixel size)</li>
+<li>Adjoint catchment and catchment features classes</li>
+<li>Fac, fdr, dem grids</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Save your map document</p>
+</li>
+<li><p class="first">On the ArcHydro toolbar, select the delineate button. Either the Global or Point Delineation buttons will work, but if you want to test whether your global is working you should use the Global button.</p>
+</li>
+</ul>
+<div class="figure align-center" id="id43">
+<img alt="screen capture indicating the location of the delineation buttons on the archydro toolbar" src="_images/delinbuttons.png" />
+<p class="caption"><span class="caption-text">Figure: Illustration of the location of the watershed delineation buttons on the ArcHydro toolbar</span></p>
+</div>
+<ul>
+<li><p class="first">Before you can delineate with the global button, it will ask you to specify the paths to the global data folder</p>
+<blockquote>
+<div><ul class="simple">
+<li>If you have already added the layers to the map, it will auto-populate for you</li>
+<li>Add the navigation path to your archydro (global) folder)</li>
+<li>Click OK</li>
+<li>The layer path window will disappear, but the paths are set in the background</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id44">
+<img alt="screen capture of the inputs for the global point delineation tool" src="_images/globaldelinpaths.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the Global Point Delineation tool</span></p>
+</div>
+<ul>
+<li><p class="first">Zoom in to the area where you want to test your delineation.</p>
+</li>
+<li><p class="first">Click the Global delineation button again.</p>
+<blockquote>
+<div><ul class="simple">
+<li>It will ask you again for your path.</li>
+<li>Click OK</li>
+<li>Your cursor will turn into a crosshair/plus sign</li>
+<li>Click on the pixel of your str900 grid</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Your cursor will turn into a crosshair/plus sign.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Click on the delineation point</p>
+</li>
+<li><p class="first">AH will ask you about snapping.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Say Yes to snapping</li>
+<li>Snapping distance of 3 pixels</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id45">
+<img alt="screen capture of the inputs for the snap point settings" src="_images/snappoint.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the inputs for the snap point settings</span></p>
+</div>
+<ul>
+<li><p class="first">The click point will turn into a red dot</p>
+<blockquote>
+<div><ul class="simple">
+<li>It may think for a moment</li>
+<li>Your finished watershed will be a red cross-hatched area:</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="figure align-center" id="id46">
+<img alt="screen capture of the delineation output marked in red crosshatch" src="_images/tempdelin.png" />
+<p class="caption"><span class="caption-text">Figure: Screen capture of the delineation output</span></p>
+</div>
+<ul>
+<li><p class="first">A popup will ask you if you want to save the watershed.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Say yes, unless for some reason you can tell it went horribly wrong.</li>
+<li>If your delineation went horribly wrong, you may want to save it too, just to troubleshoot</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Name the watershed something descriptive, in case you are doing multiple tests. They will be stored in the file gdb that was created when you saved your map document. The file gdb will have the same name as your map document.</p>
+</li>
+</ul>
+<p><strong>Next Step: Do Exercise 3</strong></p>
+</div>
+</div>
+</div>
 
 
            </div>
