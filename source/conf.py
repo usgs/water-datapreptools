@@ -15,7 +15,6 @@ import sys
 sys.path.insert(0, os.path.abspath('../'))
 import sphinx_rtd_theme
 
-
 # -- Project information -----------------------------------------------------
 
 project = 'StreamStats Data Preparation Tools'
@@ -35,13 +34,16 @@ master_doc = 'index'
 extensions = [
 'sphinx.ext.autodoc',
 'numpydoc',
-'sphinx_rtd_theme',
-'rst2pdf.pdfbuilder'
+'sphinx_rtd_theme'
 ]
 
 autodoc_mock_imports = ['arcpy','numpy']
 
-pdf_documents = [('index', u'StreamStats_DataPrepTools',u'Data Preparation Tools Documentation', u'Theodore Barnhart')]
+latex_documents = [('index', 'StreamStats_DataPrepTools','StreamStats Data Preparation Tools Documentation', 'Theodore Barnhart','manual')]
+
+latex_elements = {
+	'papersize':'letterpaper',
+	'maxlistdepth': '6'}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

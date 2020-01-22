@@ -1,47 +1,47 @@
-\indexentry{databaseSetup (class in StreamStats\_DataPrep)@\spxentry{databaseSetup}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{3}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.databaseSetup method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.databaseSetup method}|hyperpage}{3}
-\indexentry{makeELEVDATAIndex (class in StreamStats\_DataPrep)@\spxentry{makeELEVDATAIndex}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{3}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.makeELEVDATAIndex method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.makeELEVDATAIndex method}|hyperpage}{3}
-\indexentry{ExtractPoly (class in StreamStats\_DataPrep)@\spxentry{ExtractPoly}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{3}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.ExtractPoly method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.ExtractPoly method}|hyperpage}{3}
-\indexentry{CheckNoData (class in StreamStats\_DataPrep)@\spxentry{CheckNoData}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{4}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.CheckNoData method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.CheckNoData method}|hyperpage}{4}
-\indexentry{FillNoData (class in StreamStats\_DataPrep)@\spxentry{FillNoData}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{4}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.FillNoData method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.FillNoData method}|hyperpage}{4}
-\indexentry{ProjScale (class in StreamStats\_DataPrep)@\spxentry{ProjScale}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{4}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.ProjScale method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.ProjScale method}|hyperpage}{4}
-\indexentry{TopoGrid (class in StreamStats\_DataPrep)@\spxentry{TopoGrid}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{5}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.TopoGrid method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.TopoGrid method}|hyperpage}{5}
-\indexentry{SetupBathyGrad (class in StreamStats\_DataPrep)@\spxentry{SetupBathyGrad}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{5}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.SetupBathyGrad method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.SetupBathyGrad method}|hyperpage}{5}
-\indexentry{CoastalDEM (class in StreamStats\_DataPrep)@\spxentry{CoastalDEM}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{5}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.CoastalDEM method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.CoastalDEM method}|hyperpage}{6}
-\indexentry{HydroDEM (class in StreamStats\_DataPrep)@\spxentry{HydroDEM}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{6}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.HydroDEM method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.HydroDEM method}|hyperpage}{6}
-\indexentry{AdjustAccum (class in StreamStats\_DataPrep)@\spxentry{AdjustAccum}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{6}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.AdjustAccum method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.AdjustAccum method}|hyperpage}{7}
-\indexentry{AdjustAccumSimp (class in StreamStats\_DataPrep)@\spxentry{AdjustAccumSimp}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{7}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.AdjustAccumSimp method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.AdjustAccumSimp method}|hyperpage}{7}
-\indexentry{posthydrodem (class in StreamStats\_DataPrep)@\spxentry{posthydrodem}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{7}
-\indexentry{getParameterInfo() (StreamStats\_DataPrep.posthydrodem method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.posthydrodem method}|hyperpage}{7}
-\indexentry{databaseSetup (module)@\spxentry{databaseSetup}\spxextra{module}|hyperpage}{9}
-\indexentry{databaseSetup() (in module databaseSetup)@\spxentry{databaseSetup()}\spxextra{in module databaseSetup}|hyperpage}{9}
-\indexentry{elevationTools (module)@\spxentry{elevationTools}\spxextra{module}|hyperpage}{9}
-\indexentry{checkNoData() (in module elevationTools)@\spxentry{checkNoData()}\spxextra{in module elevationTools}|hyperpage}{9}
-\indexentry{compareSpatialRefUnits() (in module elevationTools)@\spxentry{compareSpatialRefUnits()}\spxextra{in module elevationTools}|hyperpage}{9}
-\indexentry{elevIndex() (in module elevationTools)@\spxentry{elevIndex()}\spxextra{in module elevationTools}|hyperpage}{9}
-\indexentry{extractPoly() (in module elevationTools)@\spxentry{extractPoly()}\spxextra{in module elevationTools}|hyperpage}{9}
-\indexentry{fillNoData() (in module elevationTools)@\spxentry{fillNoData()}\spxextra{in module elevationTools}|hyperpage}{10}
-\indexentry{projScale() (in module elevationTools)@\spxentry{projScale()}\spxextra{in module elevationTools}|hyperpage}{10}
-\indexentry{make\_hydrodem (module)@\spxentry{make\_hydrodem}\spxextra{module}|hyperpage}{10}
-\indexentry{SnapExtent() (in module make\_hydrodem)@\spxentry{SnapExtent()}\spxextra{in module make\_hydrodem}|hyperpage}{10}
-\indexentry{adjust\_accum() (in module make\_hydrodem)@\spxentry{adjust\_accum()}\spxextra{in module make\_hydrodem}|hyperpage}{10}
-\indexentry{adjust\_accum\_simple() (in module make\_hydrodem)@\spxentry{adjust\_accum\_simple()}\spxextra{in module make\_hydrodem}|hyperpage}{11}
-\indexentry{agree() (in module make\_hydrodem)@\spxentry{agree()}\spxextra{in module make\_hydrodem}|hyperpage}{11}
-\indexentry{bathymetricGradient() (in module make\_hydrodem)@\spxentry{bathymetricGradient()}\spxextra{in module make\_hydrodem}|hyperpage}{11}
-\indexentry{coastaldem() (in module make\_hydrodem)@\spxentry{coastaldem()}\spxextra{in module make\_hydrodem}|hyperpage}{12}
-\indexentry{hydrodem() (in module make\_hydrodem)@\spxentry{hydrodem()}\spxextra{in module make\_hydrodem}|hyperpage}{12}
-\indexentry{moveRasters() (in module make\_hydrodem)@\spxentry{moveRasters()}\spxextra{in module make\_hydrodem}|hyperpage}{13}
-\indexentry{postHydroDEM() (in module make\_hydrodem)@\spxentry{postHydroDEM()}\spxextra{in module make\_hydrodem}|hyperpage}{13}
-\indexentry{topo\_grid (module)@\spxentry{topo\_grid}\spxextra{module}|hyperpage}{13}
-\indexentry{topogrid() (in module topo\_grid)@\spxentry{topogrid()}\spxextra{in module topo\_grid}|hyperpage}{13}
+\indexentry{databaseSetup (class in StreamStats\_DataPrep)@\spxentry{databaseSetup}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{69}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.databaseSetup method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.databaseSetup method}|hyperpage}{70}
+\indexentry{makeELEVDATAIndex (class in StreamStats\_DataPrep)@\spxentry{makeELEVDATAIndex}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{70}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.makeELEVDATAIndex method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.makeELEVDATAIndex method}|hyperpage}{70}
+\indexentry{ExtractPoly (class in StreamStats\_DataPrep)@\spxentry{ExtractPoly}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{71}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.ExtractPoly method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.ExtractPoly method}|hyperpage}{71}
+\indexentry{CheckNoData (class in StreamStats\_DataPrep)@\spxentry{CheckNoData}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{71}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.CheckNoData method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.CheckNoData method}|hyperpage}{72}
+\indexentry{FillNoData (class in StreamStats\_DataPrep)@\spxentry{FillNoData}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{72}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.FillNoData method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.FillNoData method}|hyperpage}{72}
+\indexentry{ProjScale (class in StreamStats\_DataPrep)@\spxentry{ProjScale}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{72}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.ProjScale method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.ProjScale method}|hyperpage}{73}
+\indexentry{TopoGrid (class in StreamStats\_DataPrep)@\spxentry{TopoGrid}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{73}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.TopoGrid method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.TopoGrid method}|hyperpage}{74}
+\indexentry{SetupBathyGrad (class in StreamStats\_DataPrep)@\spxentry{SetupBathyGrad}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{74}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.SetupBathyGrad method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.SetupBathyGrad method}|hyperpage}{74}
+\indexentry{CoastalDEM (class in StreamStats\_DataPrep)@\spxentry{CoastalDEM}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{75}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.CoastalDEM method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.CoastalDEM method}|hyperpage}{75}
+\indexentry{HydroDEM (class in StreamStats\_DataPrep)@\spxentry{HydroDEM}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{75}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.HydroDEM method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.HydroDEM method}|hyperpage}{76}
+\indexentry{AdjustAccum (class in StreamStats\_DataPrep)@\spxentry{AdjustAccum}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{77}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.AdjustAccum method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.AdjustAccum method}|hyperpage}{77}
+\indexentry{AdjustAccumSimp (class in StreamStats\_DataPrep)@\spxentry{AdjustAccumSimp}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{77}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.AdjustAccumSimp method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.AdjustAccumSimp method}|hyperpage}{77}
+\indexentry{posthydrodem (class in StreamStats\_DataPrep)@\spxentry{posthydrodem}\spxextra{class in StreamStats\_DataPrep}|hyperpage}{78}
+\indexentry{getParameterInfo() (StreamStats\_DataPrep.posthydrodem method)@\spxentry{getParameterInfo()}\spxextra{StreamStats\_DataPrep.posthydrodem method}|hyperpage}{78}
+\indexentry{databaseSetup (module)@\spxentry{databaseSetup}\spxextra{module}|hyperpage}{79}
+\indexentry{databaseSetup() (in module databaseSetup)@\spxentry{databaseSetup()}\spxextra{in module databaseSetup}|hyperpage}{79}
+\indexentry{elevationTools (module)@\spxentry{elevationTools}\spxextra{module}|hyperpage}{79}
+\indexentry{checkNoData() (in module elevationTools)@\spxentry{checkNoData()}\spxextra{in module elevationTools}|hyperpage}{79}
+\indexentry{compareSpatialRefUnits() (in module elevationTools)@\spxentry{compareSpatialRefUnits()}\spxextra{in module elevationTools}|hyperpage}{80}
+\indexentry{elevIndex() (in module elevationTools)@\spxentry{elevIndex()}\spxextra{in module elevationTools}|hyperpage}{80}
+\indexentry{extractPoly() (in module elevationTools)@\spxentry{extractPoly()}\spxextra{in module elevationTools}|hyperpage}{80}
+\indexentry{fillNoData() (in module elevationTools)@\spxentry{fillNoData()}\spxextra{in module elevationTools}|hyperpage}{80}
+\indexentry{projScale() (in module elevationTools)@\spxentry{projScale()}\spxextra{in module elevationTools}|hyperpage}{81}
+\indexentry{make\_hydrodem (module)@\spxentry{make\_hydrodem}\spxextra{module}|hyperpage}{81}
+\indexentry{SnapExtent() (in module make\_hydrodem)@\spxentry{SnapExtent()}\spxextra{in module make\_hydrodem}|hyperpage}{81}
+\indexentry{adjust\_accum() (in module make\_hydrodem)@\spxentry{adjust\_accum()}\spxextra{in module make\_hydrodem}|hyperpage}{82}
+\indexentry{adjust\_accum\_simple() (in module make\_hydrodem)@\spxentry{adjust\_accum\_simple()}\spxextra{in module make\_hydrodem}|hyperpage}{82}
+\indexentry{agree() (in module make\_hydrodem)@\spxentry{agree()}\spxextra{in module make\_hydrodem}|hyperpage}{82}
+\indexentry{bathymetricGradient() (in module make\_hydrodem)@\spxentry{bathymetricGradient()}\spxextra{in module make\_hydrodem}|hyperpage}{83}
+\indexentry{coastaldem() (in module make\_hydrodem)@\spxentry{coastaldem()}\spxextra{in module make\_hydrodem}|hyperpage}{83}
+\indexentry{hydrodem() (in module make\_hydrodem)@\spxentry{hydrodem()}\spxextra{in module make\_hydrodem}|hyperpage}{84}
+\indexentry{moveRasters() (in module make\_hydrodem)@\spxentry{moveRasters()}\spxextra{in module make\_hydrodem}|hyperpage}{85}
+\indexentry{postHydroDEM() (in module make\_hydrodem)@\spxentry{postHydroDEM()}\spxextra{in module make\_hydrodem}|hyperpage}{85}
+\indexentry{topo\_grid (module)@\spxentry{topo\_grid}\spxextra{module}|hyperpage}{85}
+\indexentry{topogrid() (in module topo\_grid)@\spxentry{topogrid()}\spxextra{in module topo\_grid}|hyperpage}{85}
