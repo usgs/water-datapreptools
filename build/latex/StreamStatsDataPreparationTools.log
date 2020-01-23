@@ -1,409 +1,97 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.1.22)  22 JAN 2020 13:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.1)  22 JAN 2020 17:24
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**StreamStatsDataPreparationTools.tex
-(./StreamStatsDataPreparationTools.tex
-LaTeX2e <2017-04-15>
-Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
-(./sphinxmanual.cls
+**C:/Users/tbarnhart/projects/datapreptools/build/latex/StreamStatsDataPreparat
+ionTools.tex
+
+(C:/Users/tbarnhart/projects/datapreptools/build/latex/StreamStatsDataPreparati
+onTools.tex
+LaTeX2e <2018-12-01>
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\sphinxmanual.cls
 Document Class: sphinxmanual 2018/12/22 v1.8.3 Document class (Sphinx manual)
-(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
-Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\report.cls"
+Document Class: report 2018/09/03 v1.4i Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\size10.clo"
+File: size10.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
 )
-\c@part=\count79
-\c@chapter=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@part=\count80
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+\c@figure=\count87
+\c@table=\count88
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2015/03/17 v1.2c Input encoding file
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\inputenc.sty"
+Package: inputenc 2018/08/11 v1.3c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
-Now handling font encoding OML ...
-... no UTF-8 mapping file for font encoding OML
-Now handling font encoding T1 ...
-... processing UTF-8 mapping file for font encoding T1
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
-File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
-   defining Unicode char U+00A0 (decimal 160)
-   defining Unicode char U+00A1 (decimal 161)
-   defining Unicode char U+00A3 (decimal 163)
-   defining Unicode char U+00AB (decimal 171)
-   defining Unicode char U+00AD (decimal 173)
-   defining Unicode char U+00BB (decimal 187)
-   defining Unicode char U+00BF (decimal 191)
-   defining Unicode char U+00C0 (decimal 192)
-   defining Unicode char U+00C1 (decimal 193)
-   defining Unicode char U+00C2 (decimal 194)
-   defining Unicode char U+00C3 (decimal 195)
-   defining Unicode char U+00C4 (decimal 196)
-   defining Unicode char U+00C5 (decimal 197)
-   defining Unicode char U+00C6 (decimal 198)
-   defining Unicode char U+00C7 (decimal 199)
-   defining Unicode char U+00C8 (decimal 200)
-   defining Unicode char U+00C9 (decimal 201)
-   defining Unicode char U+00CA (decimal 202)
-   defining Unicode char U+00CB (decimal 203)
-   defining Unicode char U+00CC (decimal 204)
-   defining Unicode char U+00CD (decimal 205)
-   defining Unicode char U+00CE (decimal 206)
-   defining Unicode char U+00CF (decimal 207)
-   defining Unicode char U+00D0 (decimal 208)
-   defining Unicode char U+00D1 (decimal 209)
-   defining Unicode char U+00D2 (decimal 210)
-   defining Unicode char U+00D3 (decimal 211)
-   defining Unicode char U+00D4 (decimal 212)
-   defining Unicode char U+00D5 (decimal 213)
-   defining Unicode char U+00D6 (decimal 214)
-   defining Unicode char U+00D8 (decimal 216)
-   defining Unicode char U+00D9 (decimal 217)
-   defining Unicode char U+00DA (decimal 218)
-   defining Unicode char U+00DB (decimal 219)
-   defining Unicode char U+00DC (decimal 220)
-   defining Unicode char U+00DD (decimal 221)
-   defining Unicode char U+00DE (decimal 222)
-   defining Unicode char U+00DF (decimal 223)
-   defining Unicode char U+00E0 (decimal 224)
-   defining Unicode char U+00E1 (decimal 225)
-   defining Unicode char U+00E2 (decimal 226)
-   defining Unicode char U+00E3 (decimal 227)
-   defining Unicode char U+00E4 (decimal 228)
-   defining Unicode char U+00E5 (decimal 229)
-   defining Unicode char U+00E6 (decimal 230)
-   defining Unicode char U+00E7 (decimal 231)
-   defining Unicode char U+00E8 (decimal 232)
-   defining Unicode char U+00E9 (decimal 233)
-   defining Unicode char U+00EA (decimal 234)
-   defining Unicode char U+00EB (decimal 235)
-   defining Unicode char U+00EC (decimal 236)
-   defining Unicode char U+00ED (decimal 237)
-   defining Unicode char U+00EE (decimal 238)
-   defining Unicode char U+00EF (decimal 239)
-   defining Unicode char U+00F0 (decimal 240)
-   defining Unicode char U+00F1 (decimal 241)
-   defining Unicode char U+00F2 (decimal 242)
-   defining Unicode char U+00F3 (decimal 243)
-   defining Unicode char U+00F4 (decimal 244)
-   defining Unicode char U+00F5 (decimal 245)
-   defining Unicode char U+00F6 (decimal 246)
-   defining Unicode char U+00F8 (decimal 248)
-   defining Unicode char U+00F9 (decimal 249)
-   defining Unicode char U+00FA (decimal 250)
-   defining Unicode char U+00FB (decimal 251)
-   defining Unicode char U+00FC (decimal 252)
-   defining Unicode char U+00FD (decimal 253)
-   defining Unicode char U+00FE (decimal 254)
-   defining Unicode char U+00FF (decimal 255)
-   defining Unicode char U+0100 (decimal 256)
-   defining Unicode char U+0101 (decimal 257)
-   defining Unicode char U+0102 (decimal 258)
-   defining Unicode char U+0103 (decimal 259)
-   defining Unicode char U+0104 (decimal 260)
-   defining Unicode char U+0105 (decimal 261)
-   defining Unicode char U+0106 (decimal 262)
-   defining Unicode char U+0107 (decimal 263)
-   defining Unicode char U+0108 (decimal 264)
-   defining Unicode char U+0109 (decimal 265)
-   defining Unicode char U+010A (decimal 266)
-   defining Unicode char U+010B (decimal 267)
-   defining Unicode char U+010C (decimal 268)
-   defining Unicode char U+010D (decimal 269)
-   defining Unicode char U+010E (decimal 270)
-   defining Unicode char U+010F (decimal 271)
-   defining Unicode char U+0110 (decimal 272)
-   defining Unicode char U+0111 (decimal 273)
-   defining Unicode char U+0112 (decimal 274)
-   defining Unicode char U+0113 (decimal 275)
-   defining Unicode char U+0114 (decimal 276)
-   defining Unicode char U+0115 (decimal 277)
-   defining Unicode char U+0116 (decimal 278)
-   defining Unicode char U+0117 (decimal 279)
-   defining Unicode char U+0118 (decimal 280)
-   defining Unicode char U+0119 (decimal 281)
-   defining Unicode char U+011A (decimal 282)
-   defining Unicode char U+011B (decimal 283)
-   defining Unicode char U+011C (decimal 284)
-   defining Unicode char U+011D (decimal 285)
-   defining Unicode char U+011E (decimal 286)
-   defining Unicode char U+011F (decimal 287)
-   defining Unicode char U+0120 (decimal 288)
-   defining Unicode char U+0121 (decimal 289)
-   defining Unicode char U+0122 (decimal 290)
-   defining Unicode char U+0123 (decimal 291)
-   defining Unicode char U+0124 (decimal 292)
-   defining Unicode char U+0125 (decimal 293)
-   defining Unicode char U+0128 (decimal 296)
-   defining Unicode char U+0129 (decimal 297)
-   defining Unicode char U+012A (decimal 298)
-   defining Unicode char U+012B (decimal 299)
-   defining Unicode char U+012C (decimal 300)
-   defining Unicode char U+012D (decimal 301)
-   defining Unicode char U+012E (decimal 302)
-   defining Unicode char U+012F (decimal 303)
-   defining Unicode char U+0130 (decimal 304)
-   defining Unicode char U+0131 (decimal 305)
-   defining Unicode char U+0132 (decimal 306)
-   defining Unicode char U+0133 (decimal 307)
-   defining Unicode char U+0134 (decimal 308)
-   defining Unicode char U+0135 (decimal 309)
-   defining Unicode char U+0136 (decimal 310)
-   defining Unicode char U+0137 (decimal 311)
-   defining Unicode char U+0139 (decimal 313)
-   defining Unicode char U+013A (decimal 314)
-   defining Unicode char U+013B (decimal 315)
-   defining Unicode char U+013C (decimal 316)
-   defining Unicode char U+013D (decimal 317)
-   defining Unicode char U+013E (decimal 318)
-   defining Unicode char U+0141 (decimal 321)
-   defining Unicode char U+0142 (decimal 322)
-   defining Unicode char U+0143 (decimal 323)
-   defining Unicode char U+0144 (decimal 324)
-   defining Unicode char U+0145 (decimal 325)
-   defining Unicode char U+0146 (decimal 326)
-   defining Unicode char U+0147 (decimal 327)
-   defining Unicode char U+0148 (decimal 328)
-   defining Unicode char U+014A (decimal 330)
-   defining Unicode char U+014B (decimal 331)
-   defining Unicode char U+014C (decimal 332)
-   defining Unicode char U+014D (decimal 333)
-   defining Unicode char U+014E (decimal 334)
-   defining Unicode char U+014F (decimal 335)
-   defining Unicode char U+0150 (decimal 336)
-   defining Unicode char U+0151 (decimal 337)
-   defining Unicode char U+0152 (decimal 338)
-   defining Unicode char U+0153 (decimal 339)
-   defining Unicode char U+0154 (decimal 340)
-   defining Unicode char U+0155 (decimal 341)
-   defining Unicode char U+0156 (decimal 342)
-   defining Unicode char U+0157 (decimal 343)
-   defining Unicode char U+0158 (decimal 344)
-   defining Unicode char U+0159 (decimal 345)
-   defining Unicode char U+015A (decimal 346)
-   defining Unicode char U+015B (decimal 347)
-   defining Unicode char U+015C (decimal 348)
-   defining Unicode char U+015D (decimal 349)
-   defining Unicode char U+015E (decimal 350)
-   defining Unicode char U+015F (decimal 351)
-   defining Unicode char U+0160 (decimal 352)
-   defining Unicode char U+0161 (decimal 353)
-   defining Unicode char U+0162 (decimal 354)
-   defining Unicode char U+0163 (decimal 355)
-   defining Unicode char U+0164 (decimal 356)
-   defining Unicode char U+0165 (decimal 357)
-   defining Unicode char U+0168 (decimal 360)
-   defining Unicode char U+0169 (decimal 361)
-   defining Unicode char U+016A (decimal 362)
-   defining Unicode char U+016B (decimal 363)
-   defining Unicode char U+016C (decimal 364)
-   defining Unicode char U+016D (decimal 365)
-   defining Unicode char U+016E (decimal 366)
-   defining Unicode char U+016F (decimal 367)
-   defining Unicode char U+0170 (decimal 368)
-   defining Unicode char U+0171 (decimal 369)
-   defining Unicode char U+0172 (decimal 370)
-   defining Unicode char U+0173 (decimal 371)
-   defining Unicode char U+0174 (decimal 372)
-   defining Unicode char U+0175 (decimal 373)
-   defining Unicode char U+0176 (decimal 374)
-   defining Unicode char U+0177 (decimal 375)
-   defining Unicode char U+0178 (decimal 376)
-   defining Unicode char U+0179 (decimal 377)
-   defining Unicode char U+017A (decimal 378)
-   defining Unicode char U+017B (decimal 379)
-   defining Unicode char U+017C (decimal 380)
-   defining Unicode char U+017D (decimal 381)
-   defining Unicode char U+017E (decimal 382)
-   defining Unicode char U+01CD (decimal 461)
-   defining Unicode char U+01CE (decimal 462)
-   defining Unicode char U+01CF (decimal 463)
-   defining Unicode char U+01D0 (decimal 464)
-   defining Unicode char U+01D1 (decimal 465)
-   defining Unicode char U+01D2 (decimal 466)
-   defining Unicode char U+01D3 (decimal 467)
-   defining Unicode char U+01D4 (decimal 468)
-   defining Unicode char U+01E2 (decimal 482)
-   defining Unicode char U+01E3 (decimal 483)
-   defining Unicode char U+01E6 (decimal 486)
-   defining Unicode char U+01E7 (decimal 487)
-   defining Unicode char U+01E8 (decimal 488)
-   defining Unicode char U+01E9 (decimal 489)
-   defining Unicode char U+01EA (decimal 490)
-   defining Unicode char U+01EB (decimal 491)
-   defining Unicode char U+01F0 (decimal 496)
-   defining Unicode char U+01F4 (decimal 500)
-   defining Unicode char U+01F5 (decimal 501)
-   defining Unicode char U+0218 (decimal 536)
-   defining Unicode char U+0219 (decimal 537)
-   defining Unicode char U+021A (decimal 538)
-   defining Unicode char U+021B (decimal 539)
-   defining Unicode char U+0232 (decimal 562)
-   defining Unicode char U+0233 (decimal 563)
-   defining Unicode char U+1E02 (decimal 7682)
-   defining Unicode char U+1E03 (decimal 7683)
-   defining Unicode char U+200C (decimal 8204)
-   defining Unicode char U+2010 (decimal 8208)
-   defining Unicode char U+2011 (decimal 8209)
-   defining Unicode char U+2012 (decimal 8210)
-   defining Unicode char U+2013 (decimal 8211)
-   defining Unicode char U+2014 (decimal 8212)
-   defining Unicode char U+2015 (decimal 8213)
-   defining Unicode char U+2018 (decimal 8216)
-   defining Unicode char U+2019 (decimal 8217)
-   defining Unicode char U+201A (decimal 8218)
-   defining Unicode char U+201C (decimal 8220)
-   defining Unicode char U+201D (decimal 8221)
-   defining Unicode char U+201E (decimal 8222)
-   defining Unicode char U+2030 (decimal 8240)
-   defining Unicode char U+2031 (decimal 8241)
-   defining Unicode char U+2039 (decimal 8249)
-   defining Unicode char U+203A (decimal 8250)
-   defining Unicode char U+2423 (decimal 9251)
-   defining Unicode char U+1E20 (decimal 7712)
-   defining Unicode char U+1E21 (decimal 7713)
 )
-Now handling font encoding OT1 ...
-... processing UTF-8 mapping file for font encoding OT1
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
-File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
-   defining Unicode char U+00A0 (decimal 160)
-   defining Unicode char U+00A1 (decimal 161)
-   defining Unicode char U+00A3 (decimal 163)
-   defining Unicode char U+00AD (decimal 173)
-   defining Unicode char U+00B8 (decimal 184)
-   defining Unicode char U+00BF (decimal 191)
-   defining Unicode char U+00C5 (decimal 197)
-   defining Unicode char U+00C6 (decimal 198)
-   defining Unicode char U+00D8 (decimal 216)
-   defining Unicode char U+00DF (decimal 223)
-   defining Unicode char U+00E6 (decimal 230)
-   defining Unicode char U+00EC (decimal 236)
-   defining Unicode char U+00ED (decimal 237)
-   defining Unicode char U+00EE (decimal 238)
-   defining Unicode char U+00EF (decimal 239)
-   defining Unicode char U+00F8 (decimal 248)
-   defining Unicode char U+0131 (decimal 305)
-   defining Unicode char U+0141 (decimal 321)
-   defining Unicode char U+0142 (decimal 322)
-   defining Unicode char U+0152 (decimal 338)
-   defining Unicode char U+0153 (decimal 339)
-   defining Unicode char U+0174 (decimal 372)
-   defining Unicode char U+0175 (decimal 373)
-   defining Unicode char U+0176 (decimal 374)
-   defining Unicode char U+0177 (decimal 375)
-   defining Unicode char U+0218 (decimal 536)
-   defining Unicode char U+0219 (decimal 537)
-   defining Unicode char U+021A (decimal 538)
-   defining Unicode char U+021B (decimal 539)
-   defining Unicode char U+2013 (decimal 8211)
-   defining Unicode char U+2014 (decimal 8212)
-   defining Unicode char U+2018 (decimal 8216)
-   defining Unicode char U+2019 (decimal 8217)
-   defining Unicode char U+201C (decimal 8220)
-   defining Unicode char U+201D (decimal 8221)
-)
-Now handling font encoding OMS ...
-... processing UTF-8 mapping file for font encoding OMS
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
-File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
-   defining Unicode char U+00A7 (decimal 167)
-   defining Unicode char U+00B6 (decimal 182)
-   defining Unicode char U+00B7 (decimal 183)
-   defining Unicode char U+2020 (decimal 8224)
-   defining Unicode char U+2021 (decimal 8225)
-   defining Unicode char U+2022 (decimal 8226)
-)
-Now handling font encoding OMX ...
-... no UTF-8 mapping file for font encoding OMX
-Now handling font encoding U ...
-... no UTF-8 mapping file for font encoding U
-   defining Unicode char U+00A9 (decimal 169)
-   defining Unicode char U+00AA (decimal 170)
-   defining Unicode char U+00AE (decimal 174)
-   defining Unicode char U+00BA (decimal 186)
-   defining Unicode char U+02C6 (decimal 710)
-   defining Unicode char U+02DC (decimal 732)
-   defining Unicode char U+200C (decimal 8204)
-   defining Unicode char U+2026 (decimal 8230)
-   defining Unicode char U+2122 (decimal 8482)
-   defining Unicode char U+2423 (decimal 9251)
-))
    defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+2500 (decimal 9472)
    defining Unicode char U+2502 (decimal 9474)
    defining Unicode char U+2514 (decimal 9492)
    defining Unicode char U+251C (decimal 9500)
    defining Unicode char U+2572 (decimal 9586)
- (./cmap.sty
+
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\cmap.sty
 Package: cmap 2008/03/06 v1.0h CMap support: searchable PDF
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\fontenc.sty"
+Package: fontenc 2018/08/11 v2.0j Standard LaTeX package
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
-File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\t1enc.def"
+File: t1enc.def 2018/08/11 v2.0j Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 )<<t1.cmap>>)
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2017/09/02 v2.17a AMS math features
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsmath.sty"
+Package: amsmath 2018/12/01 v2.17b AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amstext.sty"
 Package: amstext 2000/06/29 v2.01 AMS text
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks16
 \ex@=\dimen103
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen104
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty"
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count88
-LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count89
-\leftroot@=\count90
-LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count91
-\DOTSCASE@=\count92
-LaTeX Info: Redefining \ldots on input line 472.
-LaTeX Info: Redefining \dots on input line 475.
-LaTeX Info: Redefining \cdots on input line 596.
-\Mathstrutbox@=\box26
-\strutbox@=\box27
+\inf@bad=\count89
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count90
+\leftroot@=\count91
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count92
+\DOTSCASE@=\count93
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box27
+\strutbox@=\box28
 \big@size=\dimen105
-LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count93
-\c@MaxMatrixCols=\count94
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count94
+\c@MaxMatrixCols=\count95
 \dotsspace@=\muskip10
-\c@parentequation=\count95
-\dspbrk@lvl=\count96
+\c@parentequation=\count96
+\dspbrk@lvl=\count97
 \tag@help=\toks17
-\row@=\count97
-\column@=\count98
-\maxfields@=\count99
+\row@=\count98
+\column@=\count99
+\maxfields@=\count100
 \andhelp@=\toks18
 \eqnshift@=\dimen106
 \alignsep@=\dimen107
@@ -415,43 +103,51 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 \multlinegap=\skip44
 \multlinetaggap=\skip45
 \mathdisplay@stack=\toks20
-LaTeX Info: Redefining \[ on input line 2817.
-LaTeX Info: Redefining \] on input line 2818.
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amssymb.sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2018/02/14 3.18 The Babel package
+("C:\Program Files\MiKTeX 2.9\tex/generic/babel\babel.sty"
+Package: babel 2019/07/19 3.33 The Babel package
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/switch.def
-File: switch.def 2018/02/14 3.18 Babel switching mechanism
+("C:\Program Files\MiKTeX 2.9\tex/generic/babel\switch.def"
+File: switch.def 2019/07/19 3.33 Babel switching mechanism
 )
-(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\tbarnhart\AppData\Roaming\MiKTeX\2.9\tex/latex/arabi\bblopts.cfg
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
+ babel
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/babel-english\english.ldf"
 Language: english 2017/06/06 v3.3r English support from the babel system
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2018/02/14 3.18 Babel common definitions
-\babel@savecnt=\count100
+("C:\Program Files\MiKTeX 2.9\tex/generic/babel\babel.def"
+File: babel.def 2019/07/19 3.33 Babel common definitions
+\babel@savecnt=\count101
 \U@D=\dimen112
 
-(/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def)
-\bbl@dirlevel=\count101
+("C:\Program Files\MiKTeX 2.9\tex/generic/babel\txtbabel.def")
+\bbl@dirlevel=\count102
 )
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\times.sty"
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
-) (./fncychap.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\fncychap.sty
 Package: fncychap 2007/07/30 v1.34 LaTeX package (Revised chapters)
 \RW=\skip46
 \mylen=\skip47
@@ -460,40 +156,41 @@ Package: fncychap 2007/07/30 v1.34 LaTeX package (Revised chapters)
 \py=\skip50
 \pyy=\skip51
 \pxx=\skip52
-\c@AlphaCnt=\count102
-\c@AlphaDecCnt=\count103
+\c@AlphaCnt=\count103
+\c@AlphaDecCnt=\count104
 )
-(./sphinx.sty
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\sphinx.sty
 Package: sphinx 2019/01/12 v1.8.4 LaTeX package (Sphinx markup)
- (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.sty"
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\graphics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-def\pdftex.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen113
 \Gin@req@width=\dimen114
 )
-(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+(C:\Users\tbarnhart\AppData\Roaming\MiKTeX\2.9\tex/latex/fancyhdr\fancyhdr.sty
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
 s
 \f@nch@headwidth=\skip53
 \f@nch@O@elh=\skip54
@@ -504,9 +201,8 @@ s
 \f@nch@O@erf=\skip59
 \f@nch@O@olf=\skip60
 \f@nch@O@orf=\skip61
-)
-(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
-Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/base\textcomp.sty"
+Package: textcomp 2018/08/11 v2.0j Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
 (textcomp)               4 = 5 + \texteuro
@@ -520,13 +216,13 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\ts1enc.def"
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu
-File: ts1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\ts1enc.dfu"
+File: ts1enc.dfu 2018/10/05 v1.2f UTF-8 support for inputenc
    defining Unicode char U+00A2 (decimal 162)
    defining Unicode char U+00A3 (decimal 163)
    defining Unicode char U+00A4 (decimal 164)
@@ -596,6 +292,7 @@ File: ts1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
    defining Unicode char U+25E6 (decimal 9702)
    defining Unicode char U+25EF (decimal 9711)
    defining Unicode char U+266A (decimal 9834)
+   defining Unicode char U+FEFF (decimal 65279)
 ))
 LaTeX Info: Redefining \oldstylenums on input line 334.
 Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
@@ -660,9 +357,10 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
-) (./titlesec.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\titlesec.sty
 Package: titlesec 2019/10/16 v2.13 Sectioning titles
-\ttl@box=\box28
+\ttl@box=\box29
 \beforetitleunit=\skip62
 \aftertitleunit=\skip63
 \ttl@plus=\dimen115
@@ -672,54 +370,59 @@ Package: titlesec 2019/10/16 v2.13 Sectioning titles
 \titlewidthlast=\dimen118
 \titlewidthfirst=\dimen119
 )
-(./tabulary.sty
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\tabulary.sty
 Package: tabulary 2007/10/02 v0.9 tabulary package (DPC)
- (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
-Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/tools\array.sty"
+Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
 \col@sep=\dimen120
+\ar@mcellbox=\box30
 \extrarowheight=\dimen121
 \NC@list=\toks23
 \extratabsurround=\skip64
 \backup@length=\skip65
+\ar@cellbox=\box31
 )
-\TY@count=\count104
+\TY@count=\count105
 \TY@linewidth=\dimen122
 \tymin=\dimen123
 \tymax=\dimen124
 \TY@tablewidth=\dimen125
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
-Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
+("C:\Program Files\MiKTeX 2.9\tex/latex/tools\longtable.sty"
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)+ FMi change
 \LTleft=\skip66
 \LTright=\skip67
 \LTpre=\skip68
 \LTpost=\skip69
-\LTchunksize=\count105
+\LTchunksize=\count106
 \LTcapwidth=\dimen126
-\LT@head=\box29
-\LT@firsthead=\box30
-\LT@foot=\box31
-\LT@lastfoot=\box32
-\LT@cols=\count106
-\LT@rows=\count107
-\c@LT@tables=\count108
-\c@LT@chunks=\count109
+\LT@head=\box32
+\LT@firsthead=\box33
+\LT@foot=\box34
+\LT@lastfoot=\box35
+\LT@cols=\count107
+\LT@rows=\count108
+\c@LT@tables=\count109
+\c@LT@chunks=\count110
 \LT@p@ftn=\toks24
-) (./varwidth.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box33
-\sift@deathcycles=\count110
+\@vwid@box=\box36
+\sift@deathcycles=\count111
 \@vwid@loff=\dimen127
 \@vwid@roff=\dimen128
 )
-(./sphinxmulticell.sty
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\sphinxmulticell.sty
 Package: sphinxmulticell 2017/02/23 v1.6 better span rows and columns of a tabl
 e (Sphinx team)
 \sphinx@TY@tablewidth=\dimen129
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\makeidx.sty"
 Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
-) (./framed.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \OuterFrameSep=\skip70
 \fb@frw=\dimen130
@@ -727,10 +430,10 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \FrameRule=\dimen132
 \FrameSep=\dimen133
 )
-(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(C:\Users\tbarnhart\AppData\Roaming\MiKTeX\2.9\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -744,97 +447,96 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-(./fancyvrb.sty
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\fancyvrb.sty
 Package: fancyvrb 1996/10/05
 
 Style option: `fancyvrb' v2.0-beta, with DG/SPQR fixes <1996/10/05> (tvz)
-\FV@CodeLineNo=\count111
+\FV@CodeLineNo=\count112
 \FV@InFile=\read1
-\FV@TabBox=\box34
-\c@FancyVerbLine=\count112
+\FV@TabBox=\box37
+\c@FancyVerbLine=\count113
 \FV@OutFile=\write3
 No file fancyvrb.rc.
-) (./footnotehyper-sphinx.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\footnotehyper-sphinx.sty
 Package: footnotehyper-sphinx 2017/10/27 v1.7 hyperref aware footnote.sty for s
 phinx (JFB)
-\FNH@notes=\box35
+\FNH@notes=\box38
 \FNH@width=\dimen134
-) (./float.sty
+) (C:/Users/tbarnhart/projects/datapreptools/build/latex\float.sty
 Package: float 1999/05/29 v1.2d Float enhancements (AL)
-\c@float@type=\count113
-\float@box=\box36
-\@floatcapt=\box37
-) (./wrapfig.sty
-\WF@wrappedlines=\count114
-) (./parskip.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+\c@float@type=\count114
+\float@box=\box39
+\@floatcapt=\box40
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\wrapfig.sty
+\WF@wrappedlines=\count115
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\parskip.sty)
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\alltt.sty"
 Package: alltt 1997/06/16 v2.0g defines alltt environment
-) (./upquote.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
-(./capt-of.sty
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\capt-of.sty
 Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
-) (./needspace.sty
+)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\needspace.sty
 Package: needspace 2009/09/03 v1.3b reserve vertical space
 )
-(/usr/share/texlive/texmf-dist/tex/latex/carlisle/remreset.sty)
-(./sphinxhighlight.sty
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\sphinxhighlight.sty
 Package: sphinxhighlight 2016/05/29 stylesheet for highlighting with pygments
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\kvsetkeys.sty"
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\infwarerr.sty"
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\etexcmds.sty"
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifluatex.sty"
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
-)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-)))
+))))
 \sphinxverbatimsep=\dimen135
 \sphinxverbatimborder=\dimen136
 \sphinxshadowsep=\dimen137
 \sphinxshadowsize=\dimen138
 \sphinxshadowrule=\dimen139
 \spx@notice@border=\dimen140
-\spx@image@box=\box38
+\spx@image@box=\box41
 \spx@image@maxheight=\dimen141
-\c@literalblock=\count115
-\sphinxcontinuationbox=\box39
-\sphinxvisiblespacebox=\box40
-\sphinxVerbatim@TitleBox=\box41
+\c@literalblock=\count116
+\sphinxcontinuationbox=\box42
+\sphinxvisiblespacebox=\box43
+\sphinxVerbatim@TitleBox=\box44
 \py@argswidth=\skip71
 \lineblockindentation=\skip72
 \DUlineblockindent=\skip73
 )
-(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2010/09/12 v5.6 Page Geometry
+("C:\Program Files\MiKTeX 2.9\tex/latex/geometry\geometry.sty"
+Package: geometry 2018/04/16 v5.8 Page Geometry
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.sty"
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifvtex.sty"
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count116
-\Gm@cntv=\count117
-\c@Gm@tempcnt=\count118
+\Gm@cnth=\count117
+\Gm@cntv=\count118
+\c@Gm@tempcnt=\count119
 \Gm@bindingoffset=\dimen142
 \Gm@wd@mp=\dimen143
 \Gm@odd@mp=\dimen144
@@ -844,15 +546,16 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layouthoffset=\dimen148
 \Gm@layoutvoffset=\dimen149
 \Gm@dimlist=\toks25
-)
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/geometry\geometry.cfg"))
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\hyperref.sty"
+Package: hyperref 2019/06/12 v6.88h Hypertext links for LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\hobsub-hyperref.sty"
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\hobsub-generic.sty"
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -864,7 +567,7 @@ Package hobsub Info: Skipping package `ifpdf' (already loaded).
 Package hobsub Info: Skipping package `etexcmds' (already loaded).
 Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
+Package: pdftexcmds 2019/07/25 v0.30 Utility functions of pdfTeX for LuaTeX (HO
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -886,78 +589,78 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\auxhook.sty"
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 \@linkdim=\dimen150
-\Hy@linkcounter=\count119
-\Hy@pagecounter=\count120
+\Hy@linkcounter=\count120
+\Hy@pagecounter=\count121
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\pd1enc.def"
+File: pd1enc.def 2019/06/12 v6.88h Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count121
+\Hy@SavedSpaceFactor=\count122
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+("C:\Program Files\MiKTeX 2.9\tex/latex/00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `unicode' set `true' on input line 4383.
+Package hyperref Info: Option `unicode' set `true' on input line 4424.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2018/02/06 v6.86b Hyperref: PDF Unicode definition (HO)
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\puenc.def"
+File: puenc.def 2019/06/12 v6.88h Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 4383.
-Package hyperref Info: Option `breaklinks' set `true' on input line 4383.
-Package hyperref Info: Hyper figures OFF on input line 4509.
-Package hyperref Info: Link nesting OFF on input line 4514.
-Package hyperref Info: Hyper index ON on input line 4517.
-Package hyperref Info: Plain pages OFF on input line 4524.
-Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Option `colorlinks' set `true' on input line 4424.
+Package hyperref Info: Option `breaklinks' set `true' on input line 4424.
+Package hyperref Info: Hyper figures OFF on input line 4550.
+Package hyperref Info: Link nesting OFF on input line 4555.
+Package hyperref Info: Hyper index ON on input line 4558.
+Package hyperref Info: Plain pages OFF on input line 4565.
+Package hyperref Info: Backreferencing OFF on input line 4570.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4762.
-\c@Hy@tempcnt=\count122
+Package hyperref Info: Bookmarks ON on input line 4803.
+\c@Hy@tempcnt=\count123
 
-(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+(C:\Users\tbarnhart\AppData\Roaming\MiKTeX\2.9\tex/latex/url\url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5115.
+LaTeX Info: Redefining \url on input line 5156.
 \XeTeXLinkMargin=\dimen151
-\Fld@menulength=\count123
+\Fld@menulength=\count124
 \Field@Width=\dimen152
 \Fld@charsize=\dimen153
-Package hyperref Info: Hyper figures OFF on input line 6369.
-Package hyperref Info: Link nesting OFF on input line 6374.
-Package hyperref Info: Hyper index ON on input line 6377.
-Package hyperref Info: backreferencing OFF on input line 6384.
-Package hyperref Info: Link coloring ON on input line 6387.
-Package hyperref Info: Link coloring with OCG OFF on input line 6394.
-Package hyperref Info: PDF/A mode OFF on input line 6399.
-LaTeX Info: Redefining \ref on input line 6439.
-LaTeX Info: Redefining \pageref on input line 6443.
-\Hy@abspage=\count124
-\c@Item=\count125
-\c@Hfootnote=\count126
+Package hyperref Info: Hyper figures OFF on input line 6411.
+Package hyperref Info: Link nesting OFF on input line 6416.
+Package hyperref Info: Hyper index ON on input line 6419.
+Package hyperref Info: backreferencing OFF on input line 6426.
+Package hyperref Info: Link coloring ON on input line 6429.
+Package hyperref Info: Link coloring with OCG OFF on input line 6436.
+Package hyperref Info: PDF/A mode OFF on input line 6441.
+LaTeX Info: Redefining \ref on input line 6481.
+LaTeX Info: Redefining \pageref on input line 6485.
+\Hy@abspage=\count125
+\c@Item=\count126
+\c@Hfootnote=\count127
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
-\Fld@listcount=\count127
-\c@bookmark@seq@number=\count128
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\hpdftex.def"
+File: hpdftex.def 2019/06/12 v6.88h Hyperref driver for pdfTeX
+\Fld@listcount=\count128
+\c@bookmark@seq@number=\count129
 
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip74
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/hypcap.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\hypcap.sty"
 Package: hypcap 2016/05/16 v1.12 Adjusting the anchors of captions (HO)
 )
 \@indexfile=\write4
@@ -965,7 +668,9 @@ Package: hypcap 2016/05/16 v1.12 Adjusting the anchors of captions (HO)
 
 
 Writing index file StreamStatsDataPreparationTools.idx
-(./StreamStatsDataPreparationTools.aux)
+
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\StreamStatsDataPreparati
+onTools.aux)
 \openout1 = `StreamStatsDataPreparationTools.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
@@ -982,8 +687,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 68.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 68.
@@ -993,26 +697,27 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
 LaTeX Font Info:    Try loading font information for T1+ptm on input line 68.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\t1ptm.fd"
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
-(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(C:\Users\tbarnhart\AppData\Roaming\MiKTeX\2.9\tex/context/base/mkii\supp-pdf.m
+kii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count129
+\scratchcounter=\count130
 \scratchdimen=\dimen154
-\scratchbox=\box42
-\nofMPsegments=\count130
-\nofMParguments=\count131
+\scratchbox=\box45
+\nofMPsegments=\count131
+\nofMParguments=\count132
 \everyMPshowfont=\toks26
-\MPscratchCnt=\count132
+\MPscratchCnt=\count133
 \MPscratchDim=\dimen155
-\MPnumerator=\count133
-\makeMPintoPDFobject=\count134
+\MPnumerator=\count134
+\makeMPintoPDFobject=\count135
 \everyMPtoPDFconversion=\toks27
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1021,11 +726,7 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
-
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
+)
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1060,26 +761,30 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box43
+\AtBeginShipoutBox=\box46
 Package hyperref Info: Link coloring ON on input line 68.
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\gettitlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count135
+\c@section@level=\count136
 )
 LaTeX Info: Redefining \ref on input line 68.
 LaTeX Info: Redefining \pageref on input line 68.
 LaTeX Info: Redefining \nameref on input line 68.
+
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\StreamStatsDataPreparati
+onTools.out)
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\StreamStatsDataPreparati
+onTools.out)
 \@outlinefile=\write5
 \openout5 = `StreamStatsDataPreparationTools.out'.
 
 Package hyperref Info: Option `pageanchor' set `false' on input line 71.
 LaTeX Font Info:    Try loading font information for T1+phv on input line 71.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\t1phv.fd"
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
@@ -1099,24 +804,30 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
 <<ot1.cmap>><<oml.cmap>><<oms.cmap>><<omx.cmap>>
 LaTeX Font Info:    Try loading font information for U+msa on input line 71.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 71.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 71.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
+{C:/Users/tbarnhart/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
 
 
 ]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 73.
+
+(C:/Users/tbarnhart/projects/datapreptools/build/latex\StreamStatsDataPreparati
+onTools.toc
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
+)
 \tf@toc=\write6
 \openout6 = `StreamStatsDataPreparationTools.toc'.
 
@@ -1132,15 +843,13 @@ Chapter 1.
 
 ]
 Chapter 2.
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 86.
 [3] [4
 
 ]
 Chapter 3.
 LaTeX Font Info:    Try loading font information for TS1+ptm on input line 118.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ts1ptm.fd"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [5]
 
@@ -1149,21 +858,21 @@ Package textcomp Warning: Symbol \textleftarrow not provided by
 (textcomp)                Default family used instead on input line 206.
 
 [6]
-<wbdexample1.png, id=70, 161.10187pt x 173.14688pt>
+<wbdexample1.png, id=105, 161.10187pt x 173.14688pt>
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 274.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\t1pcr.fd"
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 File: wbdexample1.png Graphic file (type png)
 <use wbdexample1.png>
 Package pdftex.def Info: wbdexample1.png  used on input line 274.
 (pdftex.def)             Requested size: 161.10147pt x 173.14645pt.
-<tablehuc8.png, id=72, 634.62094pt x 119.69719pt>
+<tablehuc8.png, id=107, 634.62094pt x 119.69719pt>
 File: tablehuc8.png Graphic file (type png)
 <use tablehuc8.png>
 Package pdftex.def Info: tablehuc8.png  used on input line 281.
 (pdftex.def)             Requested size: 469.75502pt x 88.60374pt.
-<tablehuc12.png, id=73, 335.75438pt x 143.03438pt>
+<tablehuc12.png, id=108, 335.75438pt x 143.03438pt>
 File: tablehuc12.png Graphic file (type png)
 <use tablehuc12.png>
 Package pdftex.def Info: tablehuc12.png  used on input line 288.
@@ -1179,87 +888,98 @@ Type  H <return>  for immediate help.
 l.332 \begin{itemize}
                      
 ? 
-[7 <./wbdexample1.png> <./tablehuc8.png>]
-<queryblock.png, id=82, 563.10374pt x 423.08063pt>
+[7 <C:/Users/tbarnhart/projects/datapreptools/build/latex/wbdexample1.png> <C:/
+Users/tbarnhart/projects/datapreptools/build/latex/tablehuc8.png>]
+<queryblock.png, id=117, 563.10374pt x 423.08063pt>
 File: queryblock.png Graphic file (type png)
 <use queryblock.png>
 Package pdftex.def Info: queryblock.png  used on input line 388.
 (pdftex.def)             Requested size: 469.75502pt x 352.94505pt.
-<nhdnaming.png, id=84, 134.00063pt x 55.70813pt>
+<nhdnaming.png, id=119, 134.00063pt x 55.70813pt>
 File: nhdnaming.png Graphic file (type png)
 <use nhdnaming.png>
 Package pdftex.def Info: nhdnaming.png  used on input line 422.
 (pdftex.def)             Requested size: 134.00027pt x 55.70798pt.
- [8 <./tablehuc12.png>] [9 <./queryblock.png> <./nhdnaming.png>]
-<databasesetup.png, id=102, 348.55219pt x 310.15875pt>
+ [8 <C:/Users/tbarnhart/projects/datapreptools/build/latex/tablehuc12.png>] [9 
+<C:/Users/tbarnhart/projects/datapreptools/build/latex/queryblock.png> <C:/User
+s/tbarnhart/projects/datapreptools/build/latex/nhdnaming.png>]
+<databasesetup.png, id=137, 348.55219pt x 310.15875pt>
 File: databasesetup.png Graphic file (type png)
 <use databasesetup.png>
 Package pdftex.def Info: databasesetup.png  used on input line 473.
 (pdftex.def)             Requested size: 348.55132pt x 310.15799pt.
- [10] [11 <./databasesetup.png>]
-<makenedindex.png, id=126, 348.55219pt x 231.86626pt>
+ [10] [11 <C:/Users/tbarnhart/projects/datapreptools/build/latex/databasesetup.
+png>]
+<makenedindex.png, id=161, 348.55219pt x 231.86626pt>
 File: makenedindex.png Graphic file (type png)
 <use makenedindex.png>
 Package pdftex.def Info: makenedindex.png  used on input line 573.
 (pdftex.def)             Requested size: 348.55132pt x 231.86568pt.
-<extpolyarea.png, id=127, 354.57469pt x 200.24812pt>
+<extpolyarea.png, id=162, 354.57469pt x 200.24812pt>
 File: extpolyarea.png Graphic file (type png)
 <use extpolyarea.png>
 Package pdftex.def Info: extpolyarea.png  used on input line 606.
 (pdftex.def)             Requested size: 354.57382pt x 200.24763pt.
- [12] [13 <./makenedindex.png> <./extpolyarea.png>]
+ [12] [13 <C:/Users/tbarnhart/projects/datapreptools/build/latex/makenedindex.p
+ng> <C:/Users/tbarnhart/projects/datapreptools/build/latex/extpolyarea.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 627--628
 []\T1/ptm/m/n/10 OutPolys.shp: `No-Dat-aChk' (put in 01091111). The out-put (de
 -fault =
  []
 
-<checknodata.png, id=155, 426.84468pt x 139.27031pt>
+<checknodata.png, id=189, 426.84468pt x 139.27031pt>
 File: checknodata.png Graphic file (type png)
 <use checknodata.png>
 Package pdftex.def Info: checknodata.png  used on input line 638.
 (pdftex.def)             Requested size: 426.84364pt x 139.26996pt.
-<nodatainsouts.jpg, id=156, 794.97pt x 614.295pt>
+<nodatainsouts.jpg, id=190, 794.97pt x 614.295pt>
 File: nodatainsouts.jpg Graphic file (type jpg)
 <use nodatainsouts.jpg>
 Package pdftex.def Info: nodatainsouts.jpg  used on input line 654.
 (pdftex.def)             Requested size: 469.75502pt x 363.00267pt.
-[14 <./checknodata.png>] [15 <./nodatainsouts.jpg>]
-<projectscalened.png, id=180, 351.56343pt x 266.49562pt>
+[14 <C:/Users/tbarnhart/projects/datapreptools/build/latex/checknodata.png>]
+[15 <C:/Users/tbarnhart/projects/datapreptools/build/latex/nodatainsouts.jpg>]
+<projectscalened.png, id=214, 351.56343pt x 266.49562pt>
 File: projectscalened.png Graphic file (type png)
 <use projectscalened.png>
 Package pdftex.def Info: projectscalened.png  used on input line 706.
 (pdftex.def)             Requested size: 351.56256pt x 266.49496pt.
- [16 <./projectscalened.png>] [17] [18]
-<laboundarycross.png, id=200, 938.75719pt x 610.53094pt>
+
+[16 <C:/Users/tbarnhart/projects/datapreptools/build/latex/projectscalened.png>
+] [17] [18]
+<laboundarycross.png, id=234, 938.75719pt x 610.53094pt>
 File: laboundarycross.png Graphic file (type png)
 <use laboundarycross.png>
 Package pdftex.def Info: laboundarycross.png  used on input line 1014.
 (pdftex.def)             Requested size: 469.75502pt x 305.50693pt.
- [19] [20 <./laboundarycross.png>]
-<bathgradsetup.png, id=214, 352.31625pt x 311.66437pt>
+ [19] [20 <C:/Users/tbarnhart/projects/datapreptools/build/latex/laboundarycros
+s.png>]
+<bathgradsetup.png, id=248, 352.31625pt x 311.66437pt>
 File: bathgradsetup.png Graphic file (type png)
 <use bathgradsetup.png>
 Package pdftex.def Info: bathgradsetup.png  used on input line 1159.
 (pdftex.def)             Requested size: 352.31538pt x 311.6636pt.
- [21] [22 <./bathgradsetup.png>]
-[23]
-<prehydrodem.png, id=247, 352.31625pt x 301.8778pt>
+ [21] [22 <C:/Users/tbarnhart/projects/datapreptools/build/latex/bathgradsetup.
+png>] [23]
+<prehydrodem.png, id=281, 352.31625pt x 301.8778pt>
 File: prehydrodem.png Graphic file (type png)
 <use prehydrodem.png>
 Package pdftex.def Info: prehydrodem.png  used on input line 1302.
 (pdftex.def)             Requested size: 352.31538pt x 301.87706pt.
- [24 <./prehydrodem.png>]
-<runhydrodem.png, id=258, 356.83313pt x 421.575pt>
+ [24 <C:/Users/tbarnhart/projects/datapreptools/build/latex/prehydrodem.png>]
+<runhydrodem.png, id=292, 356.83313pt x 421.575pt>
 File: runhydrodem.png Graphic file (type png)
 <use runhydrodem.png>
 Package pdftex.def Info: runhydrodem.png  used on input line 1368.
 (pdftex.def)             Requested size: 356.83224pt x 421.57396pt.
-<hydrodeminprogress.png, id=259, 527.72156pt x 362.85562pt>
+<hydrodeminprogress.png, id=293, 527.72156pt x 362.85562pt>
 File: hydrodeminprogress.png Graphic file (type png)
 <use hydrodeminprogress.png>
 Package pdftex.def Info: hydrodeminprogress.png  used on input line 1377.
 (pdftex.def)             Requested size: 469.75502pt x 322.99585pt.
- [25] [26 <./runhydrodem.png>] [27 <./hydrodeminprogress.png>]
+ [25] [26 <C:/Users/tbarnhart/projects/datapreptools/build/latex/runhydrodem.pn
+g>] [27 <C:/Users/tbarnhart/projects/datapreptools/build/latex/hydrodeminprogre
+ss.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 1532--1532
 []\T1/phv/m/n/10 10-m
  []
@@ -1295,17 +1015,19 @@ Overfull \hbox (9.52876pt too wide) in paragraph at lines 1532--1532
  []
 
 [28]
-<topogridinputs.png, id=288, 474.27188pt x 492.33937pt>
+<topogridinputs.png, id=321, 474.27188pt x 492.33937pt>
 File: topogridinputs.png Graphic file (type png)
 <use topogridinputs.png>
 Package pdftex.def Info: topogridinputs.png  used on input line 1568.
 (pdftex.def)             Requested size: 469.75502pt x 487.66537pt.
-<topogridenvsettings.png, id=289, 476.53032pt x 268.75406pt>
+<topogridenvsettings.png, id=322, 476.53032pt x 268.75406pt>
 File: topogridenvsettings.png Graphic file (type png)
 <use topogridenvsettings.png>
 Package pdftex.def Info: topogridenvsettings.png  used on input line 1594.
 (pdftex.def)             Requested size: 469.75502pt x 264.9478pt.
- [29] [30 <./topogridinputs.png>] [31 <./topogridenvsettings.png>]
+ [29] [30 <C:/Users/tbarnhart/projects/datapreptools/build/latex/topogridinputs
+.png>] [31 <C:/Users/tbarnhart/projects/datapreptools/build/latex/topogridenvse
+ttings.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 1730--1730
 []\T1/phv/m/n/10 10-m
  []
@@ -1340,28 +1062,31 @@ Overfull \hbox (9.52876pt too wide) in paragraph at lines 1730--1730
 []\T1/ptm/m/n/10 1,666,667| 
  []
 
-<terrainprepromini.png, id=313, 143.03438pt x 42.91031pt>
+<terrainprepromini.png, id=346, 143.03438pt x 42.91031pt>
 File: terrainprepromini.png Graphic file (type png)
 <use terrainprepromini.png>
 Package pdftex.def Info: terrainprepromini.png  used on input line 1755.
 (pdftex.def)             Requested size: 143.03401pt x 42.91019pt.
-<targetlocations.png, id=314, 378.66469pt x 143.78719pt>
+<targetlocations.png, id=347, 378.66469pt x 143.78719pt>
 File: targetlocations.png Graphic file (type png)
 <use targetlocations.png>
 Package pdftex.def Info: targetlocations.png  used on input line 1792.
 (pdftex.def)             Requested size: 378.66376pt x 143.78683pt.
-<streamdefinitiontoolbar.png, id=315, 272.51813pt x 243.91125pt>
+<streamdefinitiontoolbar.png, id=348, 272.51813pt x 243.91125pt>
 File: streamdefinitiontoolbar.png Graphic file (type png)
 <use streamdefinitiontoolbar.png>
 Package pdftex.def Info: streamdefinitiontoolbar.png  used on input line 1804.
 (pdftex.def)             Requested size: 272.51746pt x 243.91064pt.
-<str900thresholds.jpg, id=316, 217.5628pt x 185.19188pt>
+<str900thresholds.jpg, id=349, 217.5628pt x 185.19188pt>
 File: str900thresholds.jpg Graphic file (type jpg)
 <use str900thresholds.jpg>
 Package pdftex.def Info: str900thresholds.jpg  used on input line 1838.
 (pdftex.def)             Requested size: 217.56227pt x 185.1914pt.
-[32 <./terrainprepromini.png>] [33 <./targetlocations.png> <./streamdefinitiont
-oolbar.png>] [34 <./str900thresholds.jpg>] [35]
+[32 <C:/Users/tbarnhart/projects/datapreptools/build/latex/terrainprepromini.pn
+g>] [33 <C:/Users/tbarnhart/projects/datapreptools/build/latex/targetlocations.
+png> <C:/Users/tbarnhart/projects/datapreptools/build/latex/streamdefinitiontoo
+lbar.png>] [34 <C:/Users/tbarnhart/projects/datapreptools/build/latex/str900thr
+esholds.jpg>] [35]
 File: streamdefinitiontoolbar.png Graphic file (type png)
 <use streamdefinitiontoolbar.png>
 Package pdftex.def Info: streamdefinitiontoolbar.png  used on input line 2063.
@@ -1371,7 +1096,7 @@ File: str900thresholds.jpg Graphic file (type jpg)
 Package pdftex.def Info: str900thresholds.jpg  used on input line 2099.
 (pdftex.def)             Requested size: 217.56227pt x 185.1914pt.
  [36]
-<sinkwatershedtool.png, id=356, 444.15938pt x 317.68687pt>
+<sinkwatershedtool.png, id=389, 444.15938pt x 317.68687pt>
 File: sinkwatershedtool.png Graphic file (type png)
 <use sinkwatershedtool.png>
 Package pdftex.def Info: sinkwatershedtool.png  used on input line 2150.
@@ -1396,49 +1121,54 @@ Type  H <return>  for immediate help.
 l.2157 ...graphics{{images/streamsegmenttool}.png}
                                                   
 ? 
-<streamsegmentsink.png, id=357, 195.73125pt x 184.43906pt>
+<streamsegmentsink.png, id=390, 195.73125pt x 184.43906pt>
 File: streamsegmentsink.png Graphic file (type png)
 <use streamsegmentsink.png>
 Package pdftex.def Info: streamsegmentsink.png  used on input line 2180.
 (pdftex.def)             Requested size: 195.73076pt x 184.4386pt.
-<combinestreamsink.png, id=358, 290.58563pt x 277.78781pt>
+<combinestreamsink.png, id=391, 290.58563pt x 277.78781pt>
 File: combinestreamsink.png Graphic file (type png)
 <use combinestreamsink.png>
 Package pdftex.def Info: combinestreamsink.png  used on input line 2187.
 (pdftex.def)             Requested size: 290.58492pt x 277.78711pt.
-<combinestreamsinkinputs.png, id=359, 186.6975pt x 164.86594pt>
+<combinestreamsinkinputs.png, id=392, 186.6975pt x 164.86594pt>
 File: combinestreamsinkinputs.png Graphic file (type png)
 <use combinestreamsinkinputs.png>
 Package pdftex.def Info: combinestreamsinkinputs.png  used on input line 2210.
 (pdftex.def)             Requested size: 186.69704pt x 164.86551pt.
-[37] [38 <./sinkwatershedtool.png>] [39 <./streamsegmentsink.png> <./combinestr
-eamsink.png>]
-<catgriddelinsink.png, id=381, 195.73125pt x 145.29282pt>
+[37] [38 <C:/Users/tbarnhart/projects/datapreptools/build/latex/sinkwatershedto
+ol.png>] [39 <C:/Users/tbarnhart/projects/datapreptools/build/latex/streamsegme
+ntsink.png> <C:/Users/tbarnhart/projects/datapreptools/build/latex/combinestrea
+msink.png>]
+<catgriddelinsink.png, id=414, 195.73125pt x 145.29282pt>
 File: catgriddelinsink.png Graphic file (type png)
 <use catgriddelinsink.png>
 Package pdftex.def Info: catgriddelinsink.png  used on input line 2230.
 (pdftex.def)             Requested size: 195.73076pt x 145.29245pt.
-<catpoly2.png, id=382, 444.91219pt x 316.18124pt>
+<catpoly2.png, id=415, 444.91219pt x 316.18124pt>
 File: catpoly2.png Graphic file (type png)
 <use catpoly2.png>
 Package pdftex.def Info: catpoly2.png  used on input line 2250.
 (pdftex.def)             Requested size: 444.91109pt x 316.18047pt.
-<adjcatproc2.png, id=383, 445.665pt x 317.68687pt>
+<adjcatproc2.png, id=416, 445.665pt x 317.68687pt>
 File: adjcatproc2.png Graphic file (type png)
 <use adjcatproc2.png>
 Package pdftex.def Info: adjcatproc2.png  used on input line 2279.
 (pdftex.def)             Requested size: 445.66391pt x 317.68608pt.
- [40 <./combinestreamsinkinputs.png> <./catgriddelinsink.png>]
-[41 <./catpoly2.png>] [42 <./adjcatproc2.png>]
-<drainptproc2.png, id=404, 445.665pt x 316.18124pt>
+ [40 <C:/Users/tbarnhart/projects/datapreptools/build/latex/combinestreamsinkin
+puts.png> <C:/Users/tbarnhart/projects/datapreptools/build/latex/catgriddelinsi
+nk.png>] [41 <C:/Users/tbarnhart/projects/datapreptools/build/latex/catpoly2.pn
+g>] [42 <C:/Users/tbarnhart/projects/datapreptools/build/latex/adjcatproc2.png>
+]
+<drainptproc2.png, id=437, 445.665pt x 316.18124pt>
 File: drainptproc2.png Graphic file (type png)
 <use drainptproc2.png>
 Package pdftex.def Info: drainptproc2.png  used on input line 2328.
 (pdftex.def)             Requested size: 445.66391pt x 316.18047pt.
- [43 <./drainptproc2.png>]
+ [43 <C:/Users/tbarnhart/projects/datapreptools/build/latex/drainptproc2.png>] 
 [44]
 
-! Package inputenc Error: Unicode char ≥ (U+2265)
+! Package inputenc Error: Unicode character ≥ (U+2265)
 (inputenc)                not set up for use with LaTeX.
 
 See the inputenc package documentation for explanation.
@@ -1449,23 +1179,25 @@ l.2477 ...statement should read (Con “fdr” ≥
                                                   0, 130). You can use any n...
 
 ? 
-<confdrblob.png, id=427, 451.6875pt x 253.69781pt>
+<confdrblob.png, id=459, 451.6875pt x 253.69781pt>
 File: confdrblob.png Graphic file (type png)
 <use confdrblob.png>
 Package pdftex.def Info: confdrblob.png  used on input line 2493.
 (pdftex.def)             Requested size: 451.68639pt x 253.69719pt.
-<blobrastopoly.png, id=428, 453.19313pt x 169.38281pt>
+<blobrastopoly.png, id=460, 453.19313pt x 169.38281pt>
 File: blobrastopoly.png Graphic file (type png)
 <use blobrastopoly.png>
 Package pdftex.def Info: blobrastopoly.png  used on input line 2516.
 (pdftex.def)             Requested size: 453.19202pt x 169.38239pt.
-[45 <./confdrblob.png>] [46 <./blobrastopoly.png>] [47]
-<outlet.png, id=448, 655.69969pt x 352.31625pt>
+[45 <C:/Users/tbarnhart/projects/datapreptools/build/latex/confdrblob.png>]
+[46 <C:/Users/tbarnhart/projects/datapreptools/build/latex/blobrastopoly.png>]
+[47]
+<outlet.png, id=480, 655.69969pt x 352.31625pt>
 File: outlet.png Graphic file (type png)
 <use outlet.png>
 Package pdftex.def Info: outlet.png  used on input line 2703.
 (pdftex.def)             Requested size: 469.75502pt x 252.40953pt.
-<flowpathbutton.png, id=449, 289.83281pt x 103.88812pt>
+<flowpathbutton.png, id=481, 289.83281pt x 103.88812pt>
 File: flowpathbutton.png Graphic file (type png)
 <use flowpathbutton.png>
 Package pdftex.def Info: flowpathbutton.png  used on input line 2715.
@@ -1480,345 +1212,201 @@ Underfull \hbox (badness 10000) in paragraph at lines 2719--2719
 
  []
 
-[48 <./outlet.png>]
-<flowtraceinput.png, id=458, 195.73125pt x 106.89937pt>
+[48 <C:/Users/tbarnhart/projects/datapreptools/build/latex/outlet.png>]
+<flowtraceinput.png, id=490, 195.73125pt x 106.89937pt>
 File: flowtraceinput.png Graphic file (type png)
 <use flowtraceinput.png>
 Package pdftex.def Info: flowtraceinput.png  used on input line 2739.
 (pdftex.def)             Requested size: 195.73076pt x 106.8991pt.
-<flowtracegraphic.png, id=459, 212.29312pt x 155.07938pt>
+<flowtracegraphic.png, id=491, 212.29312pt x 155.07938pt>
 File: flowtracegraphic.png Graphic file (type png)
 <use flowtracegraphic.png>
 Package pdftex.def Info: flowtracegraphic.png  used on input line 2751.
 (pdftex.def)             Requested size: 212.2926pt x 155.07898pt.
-<graphicselected.png, id=460, 261.97874pt x 188.20313pt>
+<graphicselected.png, id=492, 261.97874pt x 188.20313pt>
 File: graphicselected.png Graphic file (type png)
 <use graphicselected.png>
 Package pdftex.def Info: graphicselected.png  used on input line 2769.
 (pdftex.def)             Requested size: 261.9781pt x 188.20265pt.
-<xtoolsgraphicsshape.png, id=461, 554.07pt x 265.74281pt>
+<xtoolsgraphicsshape.png, id=493, 554.07pt x 265.74281pt>
 File: xtoolsgraphicsshape.png Graphic file (type png)
 <use xtoolsgraphicsshape.png>
 Package pdftex.def Info: xtoolsgraphicsshape.png  used on input line 2786.
 (pdftex.def)             Requested size: 469.75502pt x 225.3026pt.
- [49 <./flowpathbutton.png> <./flowtraceinput.png> <./flowtracegraphic.png>] [5
-0 <./graphicselected.png> <./xtoolsgraphicsshape.png>]
-[51]
-<newgeonet.png, id=488, 331.99031pt x 284.56313pt>
+
+[49 <C:/Users/tbarnhart/projects/datapreptools/build/latex/flowpathbutton.png> 
+<C:/Users/tbarnhart/projects/datapreptools/build/latex/flowtraceinput.png> <C:/
+Users/tbarnhart/projects/datapreptools/build/latex/flowtracegraphic.png>]
+[50 <C:/Users/tbarnhart/projects/datapreptools/build/latex/graphicselected.png>
+ <C:/Users/tbarnhart/projects/datapreptools/build/latex/xtoolsgraphicsshape.png
+>] [51]
+<newgeonet.png, id=520, 331.99031pt x 284.56313pt>
 File: newgeonet.png Graphic file (type png)
 <use newgeonet.png>
 Package pdftex.def Info: newgeonet.png  used on input line 2955.
 (pdftex.def)             Requested size: 331.98949pt x 284.56242pt.
-<buildfeaturenewgeonet.png, id=489, 328.97906pt x 289.83281pt>
+<buildfeaturenewgeonet.png, id=521, 328.97906pt x 289.83281pt>
 File: buildfeaturenewgeonet.png Graphic file (type png)
 <use buildfeaturenewgeonet.png>
 Package pdftex.def Info: buildfeaturenewgeonet.png  used on input line 2967.
 (pdftex.def)             Requested size: 328.97826pt x 289.83209pt.
-<preservevalues.png, id=490, 331.99031pt x 284.56313pt>
+<preservevalues.png, id=522, 331.99031pt x 284.56313pt>
 File: preservevalues.png Graphic file (type png)
 <use preservevalues.png>
 Package pdftex.def Info: preservevalues.png  used on input line 2985.
 (pdftex.def)             Requested size: 331.98949pt x 284.56242pt.
-<summarygeonet.png, id=491, 328.97906pt x 289.83281pt>
+<summarygeonet.png, id=523, 328.97906pt x 289.83281pt>
 File: summarygeonet.png Graphic file (type png)
 <use summarygeonet.png>
 Package pdftex.def Info: summarygeonet.png  used on input line 3000.
 (pdftex.def)             Requested size: 328.97826pt x 289.83209pt.
-<geonetgdbview.png, id=492, 172.39406pt x 80.55093pt>
+<geonetgdbview.png, id=524, 172.39406pt x 80.55093pt>
 File: geonetgdbview.png Graphic file (type png)
 <use geonetgdbview.png>
 Package pdftex.def Info: geonetgdbview.png  used on input line 3012.
 (pdftex.def)             Requested size: 172.39363pt x 80.55074pt.
- [52] [53 <./newgeonet.png> <./buildfeaturenewgeonet.png>] [54 <./preservevalue
-s.png> <./summarygeonet.png>]
-<assignhydroid.png, id=516, 519.44063pt x 118.19156pt>
+ [52] [53 <C:/Users/tbarnhart/projects/datapreptools/build/latex/newgeonet.png>
+ <C:/Users/tbarnhart/projects/datapreptools/build/latex/buildfeaturenewgeonet.p
+ng>] [54 <C:/Users/tbarnhart/projects/datapreptools/build/latex/preservevalues.
+png> <C:/Users/tbarnhart/projects/datapreptools/build/latex/summarygeonet.png>]
+<assignhydroid.png, id=548, 519.44063pt x 118.19156pt>
 File: assignhydroid.png Graphic file (type png)
 <use assignhydroid.png>
 Package pdftex.def Info: assignhydroid.png  used on input line 3051.
 (pdftex.def)             Requested size: 469.75502pt x 106.88539pt.
-<setfdtoolbar.png, id=517, 584.93532pt x 199.49532pt>
+<setfdtoolbar.png, id=549, 584.93532pt x 199.49532pt>
 File: setfdtoolbar.png Graphic file (type png)
 <use setfdtoolbar.png>
 Package pdftex.def Info: setfdtoolbar.png  used on input line 3066.
 (pdftex.def)             Requested size: 469.75502pt x 160.21744pt.
- [55 <./geonetgdbview.png> <./assignhydroid.png> <./setfdtoolbar.png>]
-<setfdinputs.png, id=528, 394.47375pt x 198.7425pt>
+ [55 <C:/Users/tbarnhart/projects/datapreptools/build/latex/geonetgdbview.png> 
+<C:/Users/tbarnhart/projects/datapreptools/build/latex/assignhydroid.png> <C:/U
+sers/tbarnhart/projects/datapreptools/build/latex/setfdtoolbar.png>]
+<setfdinputs.png, id=560, 394.47375pt x 198.7425pt>
 File: setfdinputs.png Graphic file (type png)
 <use setfdinputs.png>
 Package pdftex.def Info: setfdinputs.png  used on input line 3086.
 (pdftex.def)             Requested size: 394.47278pt x 198.742pt.
-<attribtxfrmapping.png, id=529, 236.38312pt x 283.81032pt>
+<attribtxfrmapping.png, id=561, 236.38312pt x 283.81032pt>
 File: attribtxfrmapping.png Graphic file (type png)
 <use attribtxfrmapping.png>
 Package pdftex.def Info: attribtxfrmapping.png  used on input line 3137.
 (pdftex.def)             Requested size: 236.38254pt x 283.80962pt.
-<attribtxfrinputs.png, id=530, 330.48468pt x 339.51843pt>
+<attribtxfrinputs.png, id=562, 330.48468pt x 339.51843pt>
 File: attribtxfrinputs.png Graphic file (type png)
 <use attribtxfrinputs.png>
 Package pdftex.def Info: attribtxfrinputs.png  used on input line 3160.
 (pdftex.def)             Requested size: 330.48387pt x 339.5176pt.
-<spatadjtoolbar.png, id=531, 334.24875pt x 75.28125pt>
+<spatadjtoolbar.png, id=563, 334.24875pt x 75.28125pt>
 File: spatadjtoolbar.png Graphic file (type png)
 <use spatadjtoolbar.png>
 Package pdftex.def Info: spatadjtoolbar.png  used on input line 3180.
 (pdftex.def)             Requested size: 334.24792pt x 75.28105pt.
-<spatadjjxn.png, id=532, 571.38469pt x 272.51813pt>
+<spatadjjxn.png, id=564, 571.38469pt x 272.51813pt>
 File: spatadjjxn.png Graphic file (type png)
 <use spatadjjxn.png>
 Package pdftex.def Info: spatadjjxn.png  used on input line 3192.
 (pdftex.def)             Requested size: 469.75502pt x 224.04846pt.
-<spatadjupstrm.png, id=533, 422.32782pt x 350.81062pt>
+<spatadjupstrm.png, id=565, 422.32782pt x 350.81062pt>
 File: spatadjupstrm.png Graphic file (type png)
 <use spatadjupstrm.png>
 Package pdftex.def Info: spatadjupstrm.png  used on input line 3204.
 (pdftex.def)             Requested size: 422.32678pt x 350.80975pt.
- [56 <./setfdinputs.png>]
-<jxnidtable.png, id=540, 639.89063pt x 225.84375pt>
+
+[56 <C:/Users/tbarnhart/projects/datapreptools/build/latex/setfdinputs.png>]
+<jxnidtable.png, id=572, 639.89063pt x 225.84375pt>
 File: jxnidtable.png Graphic file (type png)
 <use jxnidtable.png>
 Package pdftex.def Info: jxnidtable.png  used on input line 3219.
 (pdftex.def)             Requested size: 469.75502pt x 165.79845pt.
-<spatadjcoast.png, id=541, 359.84438pt x 320.69812pt>
+<spatadjcoast.png, id=573, 359.84438pt x 320.69812pt>
 File: spatadjcoast.png Graphic file (type png)
 <use spatadjcoast.png>
 Package pdftex.def Info: spatadjcoast.png  used on input line 3242.
 (pdftex.def)             Requested size: 359.84349pt x 320.69733pt.
- [57 <./attribtxfrmapping.png>] [58 <./attribtxfrinputs.png> <./spatadjtoolbar.
-png>]
-<newrelshpinputs.png, id=556, 400.49625pt x 429.10312pt>
+
+[57 <C:/Users/tbarnhart/projects/datapreptools/build/latex/attribtxfrmapping.pn
+g>] [58 <C:/Users/tbarnhart/projects/datapreptools/build/latex/attribtxfrinputs
+.png> <C:/Users/tbarnhart/projects/datapreptools/build/latex/spatadjtoolbar.png
+>]
+<newrelshpinputs.png, id=588, 400.49625pt x 429.10312pt>
 File: newrelshpinputs.png Graphic file (type png)
 <use newrelshpinputs.png>
 Package pdftex.def Info: newrelshpinputs.png  used on input line 3279.
 (pdftex.def)             Requested size: 400.49527pt x 429.10207pt.
-<newrelshplabel.png, id=557, 400.49625pt x 429.10312pt>
+<newrelshplabel.png, id=589, 400.49625pt x 429.10312pt>
 File: newrelshplabel.png Graphic file (type png)
 <use newrelshplabel.png>
 Package pdftex.def Info: newrelshplabel.png  used on input line 3305.
 (pdftex.def)             Requested size: 400.49527pt x 429.10207pt.
-<newrelshpprimkey.png, id=558, 392.96812pt x 419.31656pt>
+<newrelshpprimkey.png, id=590, 392.96812pt x 419.31656pt>
 File: newrelshpprimkey.png Graphic file (type png)
 <use newrelshpprimkey.png>
 Package pdftex.def Info: newrelshpprimkey.png  used on input line 3323.
 (pdftex.def)             Requested size: 392.96715pt x 419.31552pt.
- [59 <./spatadjjxn.png>]
-[60 <./spatadjupstrm.png> <./jxnidtable.png>] [61 <./spatadjcoast.png>]
-[62 <./newrelshpinputs.png>] [63 <./newrelshplabel.png>] [64 <./newrelshpprimke
-y.png>]
-<delinbuttons.png, id=594, 1544.01843pt x 78.2925pt>
+ [59 <C:/Users/tbarnhart/projects/datapreptools/build/latex/spatadjjxn.png>]
+[60 <C:/Users/tbarnhart/projects/datapreptools/build/latex/spatadjupstrm.png> <
+C:/Users/tbarnhart/projects/datapreptools/build/latex/jxnidtable.png>] [61 <C:/
+Users/tbarnhart/projects/datapreptools/build/latex/spatadjcoast.png>] [62 <C:/U
+sers/tbarnhart/projects/datapreptools/build/latex/newrelshpinputs.png>]
+[63 <C:/Users/tbarnhart/projects/datapreptools/build/latex/newrelshplabel.png>]
+[64 <C:/Users/tbarnhart/projects/datapreptools/build/latex/newrelshpprimkey.png
+>]
+<delinbuttons.png, id=625, 1544.01843pt x 78.2925pt>
 File: delinbuttons.png Graphic file (type png)
 <use delinbuttons.png>
 Package pdftex.def Info: delinbuttons.png  used on input line 3369.
 (pdftex.def)             Requested size: 469.75502pt x 23.82004pt.
-<globaldelinpaths.png, id=595, 633.86812pt x 657.95813pt>
+<globaldelinpaths.png, id=626, 633.86812pt x 657.95813pt>
 File: globaldelinpaths.png Graphic file (type png)
 <use globaldelinpaths.png>
 Package pdftex.def Info: globaldelinpaths.png  used on input line 3395.
 (pdftex.def)             Requested size: 469.75502pt x 487.62433pt.
-<snappoint.png, id=596, 571.38469pt x 486.31688pt>
+<snappoint.png, id=627, 571.38469pt x 486.31688pt>
 File: snappoint.png Graphic file (type png)
 <use snappoint.png>
 Package pdftex.def Info: snappoint.png  used on input line 3443.
 (pdftex.def)             Requested size: 469.75502pt x 399.8213pt.
-<tempdelin.png, id=597, 469.755pt x 285.2256pt>
+<tempdelin.png, id=628, 469.755pt x 285.2256pt>
 File: tempdelin.png Graphic file (type png)
 <use tempdelin.png>
 Package pdftex.def Info: tempdelin.png  used on input line 3463.
 (pdftex.def)             Requested size: 469.75386pt x 285.22488pt.
-<doggo.jpg, id=598, 401.5pt x 383.4325pt>
+<doggo.jpg, id=629, 401.5pt x 383.4325pt>
 File: doggo.jpg Graphic file (type jpg)
 <use doggo.jpg>
 Package pdftex.def Info: doggo.jpg  used on input line 3493.
 (pdftex.def)             Requested size: 401.49901pt x 383.43156pt.
-<osabear.JPG, id=599, 1189.44376pt x 2161.07375pt>
+<osabear.JPG, id=630, 1189.44376pt x 2161.07375pt>
 File: osabear.JPG Graphic file (type jpg)
 <use osabear.JPG>
 Package pdftex.def Info: osabear.JPG  used on input line 3499.
 (pdftex.def)             Requested size: 124.28726pt x 225.84229pt.
- [65 <./delinbuttons.png>] [66 <./globaldelinpaths.png>] [67 <./snappoint.png>]
- [68 <./tempdelin.png>]
+ [65 <C:/Users/tbarnhart/projects/datapreptools/build/latex/delinbuttons.png>] 
+[66 <C:/Users/tbarnhart/projects/datapreptools/build/latex/globaldelinpaths.png
+>] [67 <C:/Users/tbarnhart/projects/datapreptools/build/latex/snappoint.png>] [
+68 <C:/Users/tbarnhart/projects/datapreptools/build/latex/tempdelin.png>]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
 (Font)              Font shape `T1/pcr/b/n' tried instead on input line 3510.
-
-
-LaTeX Warning: Hyper reference `databaseSetup:databaseSetup.databaseSetup' on p
-age 69 undefined on input line 3513.
-
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
 (Font)              Font shape `T1/pcr/m/sl' tried instead on input line 3513.
 
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.datab
-aseSetup.getParameterInfo' on page 69 undefined on input line 3534.
-
-[69 <./doggo.jpg>]
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 1 on input line 3539.
-
-
-LaTeX Warning: Hyper reference `elevationTools:elevationTools.elevIndex' on pag
-e 70 undefined on input line 3598.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.makeE
-LEVDATAIndex.getParameterInfo' on page 70 undefined on input line 3619.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 2 on input line 3624.
-
-
+[69 <C:/Users/tbarnhart/projects/datapreptools/build/latex/doggo.jpg>]
 Overfull \vbox (249.66997pt too high) has occurred while \output is active []
 
 
-[70 <./osabear.JPG>]
-
-LaTeX Warning: Hyper reference `elevationTools:elevationTools.extractPoly' on p
-age 71 undefined on input line 3668.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Extra
-ctPoly.getParameterInfo' on page 71 undefined on input line 3689.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 3 on input line 3694.
-
-
-LaTeX Warning: Hyper reference `elevationTools:elevationTools.checkNoData' on p
-age 71 undefined on input line 3738.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Check
-NoData.getParameterInfo' on page 71 undefined on input line 3759.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 4 on input line 3764.
-
+[70 <C:/Users/tbarnhart/projects/datapreptools/build/latex/osabear.JPG>]
 [71]
 Underfull \hbox (badness 10000) in paragraph at lines 3778--3780
 []\T1/ptm/m/n/10 [GPString] Name of out-put fea-ture class, de-faults to
  []
 
-
-LaTeX Warning: Hyper reference `elevationTools:elevationTools.fillNoData' on pa
-ge 72 undefined on input line 3805.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.FillN
-oData.getParameterInfo' on page 72 undefined on input line 3829.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 5 on input line 3834.
-
-
-LaTeX Warning: Hyper reference `elevationTools:elevationTools.projScale' on pag
-e 72 undefined on input line 3875.
-
-[72]
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.ProjS
-cale.getParameterInfo' on page 73 undefined on input line 3899.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 6 on input line 3904.
-
-
-LaTeX Warning: Hyper reference `topo_grid:topo_grid.topogrid' on page 73 undefi
-ned on input line 3957.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.TopoG
-rid.getParameterInfo' on page 73 undefined on input line 3983.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 7 on input line 3988.
-
-[73]
+[72] [73]
 Underfull \hbox (badness 10000) in paragraph at lines 4005--4007
 []
  []
 
-
-LaTeX Warning: Hyper reference `make_hydrodem:make_hydrodem.bathymetricGradient
-' on page 74 undefined on input line 4047.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Setup
-BathyGrad.getParameterInfo' on page 74 undefined on input line 4071.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 8 on input line 4076.
-
-[74]
-
-LaTeX Warning: Hyper reference `make_hydrodem:make_hydrodem.coastaldem' on page
- 75 undefined on input line 4129.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Coast
-alDEM.getParameterInfo' on page 75 undefined on input line 4150.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 9 on input line 4155.
-
-
-LaTeX Warning: Hyper reference `make_hydrodem:make_hydrodem.hydrodem' on page 7
-5 undefined on input line 4202.
-
-[75]
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Hydro
-DEM.getParameterInfo' on page 76 undefined on input line 4226.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 10 on input line 4234.
-
-[76]
-
-LaTeX Warning: Hyper reference `make_hydrodem:make_hydrodem.adjust_accum' on pa
-ge 77 undefined on input line 4319.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Adjus
-tAccum.getParameterInfo' on page 77 undefined on input line 4340.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 11 on input line 4345.
-
-
-LaTeX Warning: Hyper reference `make_hydrodem:make_hydrodem.adjust_accum_simple
-' on page 77 undefined on input line 4392.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.Adjus
-tAccumSimp.getParameterInfo' on page 77 undefined on input line 4413.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 12 on input line 4418.
-
-[77]
-
-LaTeX Warning: Hyper reference `make_hydrodem:make_hydrodem.postHydroDEM' on pa
-ge 78 undefined on input line 4468.
-
-
-LaTeX Warning: Hyper reference `StreamStats_DataPrep:StreamStats_DataPrep.posth
-ydrodem.getParameterInfo' on page 78 undefined on input line 4492.
-
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 13 on input line 4497.
-
-[78]
+[74] [75] [76] [77] [78]
 Underfull \hbox (badness 10000) in paragraph at lines 4549--4549
 []\T1/ptm/m/it/10 output_workspace\T1/ptm/m/n/10 , \T1/ptm/m/it/10 out-put_gdb_
 name\T1/ptm/m/n/10 , \T1/ptm/m/it/10 hu_dataset\T1/ptm/m/n/10 , \T1/ptm/m/it/10
@@ -1836,80 +1424,45 @@ Chapter 4.
 
 ] [88
 
-]
-
-LaTeX Warning: Reference `databaseSetup:module-databaseSetup' on page 89 undefi
-ned on input line 5257.
-
-
-LaTeX Warning: Reference `elevationTools:module-elevationTools' on page 89 unde
-fined on input line 5260.
-
-
-LaTeX Warning: Reference `make_hydrodem:module-make_hydrodem' on page 89 undefi
-ned on input line 5263.
-
-
-LaTeX Warning: Reference `topo_grid:module-topo_grid' on page 89 undefined on i
-nput line 5266.
-
-[89
+] [89
 
 
 ]
 No file StreamStatsDataPreparationTools.ind.
-
-Package longtable Warning: Table widths have changed. Rerun LaTeX.
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 5271.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 5271.
-(./StreamStatsDataPreparationTools.aux)
+(StreamStatsDataPreparationTools.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 5271.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 5271.
 
-
-
-Package rerunfilecheck Warning: File `StreamStatsDataPreparationTools.out' has 
-changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `StreamStatsDataPreparationTools.out
-':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  18F6DEF5958F43373D9BE2CF6784B66B;1153.
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+Package rerunfilecheck Info: File `StreamStatsDataPreparationTools.out' has not
+ changed.
+(rerunfilecheck)             Checksum: 0E3E4D6D85D441FC9CCB04E9732566B7;1161.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 5271.
  ) 
 Here is how much of TeX's memory you used:
- 14481 strings out of 492982
- 203046 string characters out of 6134896
- 280709 words of memory out of 5000000
- 17314 multiletter control sequences out of 15000+600000
- 51850 words of font info for 73 fonts, out of 8000000 for 9000
+ 14250 strings out of 492895
+ 204434 string characters out of 3133468
+ 304723 words of memory out of 3000000
+ 17437 multiletter control sequences out of 15000+200000
+ 51850 words of font info for 73 fonts, out of 3000000 for 9000
  1142 hyphenation exceptions out of 8191
- 37i,12n,46p,1049b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/
-fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cm-sup
-er/sfrm1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrb8a.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb
-8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on StreamStatsDataPreparationTools.pdf (93 pages, 2578724 bytes)
+ 37i,12n,46p,1103b,671s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc} <C:\Users\tbarnhart
+\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw
+/courier/ucrro8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb
+8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvbo8a.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on StreamStatsDataPreparationTools.pdf (93 pages, 2661942 bytes)
 .
 PDF statistics:
- 930 PDF objects out of 1000 (max. 8388607)
- 714 compressed objects within 8 object streams
+ 984 PDF objects out of 1000 (max. 8388607)
  375 named destinations out of 1000 (max. 500000)
- 331 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 395 words of extra memory for PDF output out of 10000 (max. 10000000)
 
