@@ -342,7 +342,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	if drainplug == None:
 		dp_bypass = True
 
-	if ('bowl_polys' == None) or ('bowl_lines' == None):
+	if (bowl_polys == None) or (bowl_lines == None):
 		bowl_bypass = True
 
 	arcpy.AddMessage('bowl_bypass is %s'%str(bowl_bypass))
@@ -378,6 +378,9 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		testDsets.append(bowl_polys)
 		testDsets.append(bowl_lines)
 	
+	for fl in testDsets:
+		print(fl)
+
 	for fl in testDsets:
 		arcpy.AddMessage("Checking if %s exists."%(fl))
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
@@ -435,7 +438,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	arcpy.AddMessage('	Walling Complete')
 
-	if not dp_bypass: # dp_bypass is defined after the main code in the original AML
+	if not dp_bypass: # (if bypass is false, as in do not bypass) dp_bypass is defined after the main code in the original AML
 		if int(arcpy.GetCount_management(drainplug).getOutput(0)) > 0:
 			dpg_path = os.path.join(arcpy.env.workspace,'depressionRast')
 			tmpLocations.append(dpg_path)
@@ -446,12 +449,12 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		else:
 			tmp = CreateConstantRaster(0) # if the feature class is empty, make a dummy raster
 			dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
-	else:
+	else: # if the drain pugs are bypassed
 		arcpy.AddMessage("	Bypassing Drain Plugs")
 		tmp = CreateConstantRaster(0) # if the feature class is empty, make a dummy raster
 		dpg = SetNull(tmp,tmp,"VALUE = 0") # set all zeros to null.
 
-	if not bowl_bypass: # bowl_bypass is defined after the main code in the original AML
+	if not bowl_bypass: # (if bypass is false, as in do not bypass) bowl_bypass is defined after the main code in the original AML
 		arcpy.AddMessage('	Starting Bowling')
 		blp_name = os.path.join(arcpy.env.workspace,'blp')
 		tmpLocations.append(blp_name)
@@ -467,7 +470,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		#demRidge8wb.save(os.path.join(arcpy.env.workspace,'demRidge8wb'))
 		arcpy.AddMessage('	Bowling complete')
 
-	else:
+	else: # if bypass is true, skip 
+		demRidge8wb = demRidge8
 		arcpy.AddMessage('	Bowling Skipped')
 
 	if not iw_bypass:
