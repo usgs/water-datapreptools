@@ -1018,7 +1018,8 @@ class HydroDEM(object):
 			name = "huc8cov",
 			datatype = "DEFeatureClass",
 			parameterType = "Required",
-			direction = "Input") 
+			direction = "Input")
+		param1.filter.list = ["Polygon"]
 
 		param2 = arcpy.Parameter(
 			displayName = "Digital Elevation Model",
