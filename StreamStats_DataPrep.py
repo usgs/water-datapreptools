@@ -1335,11 +1335,11 @@ class AdjustAccumSimp(object):
 		param4 = arcpy.Parameter(
 			displayName = "Output FAC",
 			name = "facout",
-			datatype = ["DERasterDataset","GPRasterDataLayer","DERasterBand"],
+			datatype = "DERasterDataset",
 			parameterType = "Required",
 			direction = "Output")
 
-		#param4.value = "hydrodemfac_global"
+		param4.value = "hydrodemfac_global"
 
 		param5 = arcpy.Parameter(
 			displayName = "Adjustment Value",
