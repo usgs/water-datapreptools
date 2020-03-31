@@ -1252,7 +1252,7 @@ class AdjustAccum(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param4.filter.list = ["Local Database",]
+		param4.filter.list = ["Local Database","File System"]
 
 		params = [param0,param1,param2,param3,param4]
 		return params
