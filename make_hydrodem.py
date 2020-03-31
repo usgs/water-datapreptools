@@ -354,7 +354,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		assert arcpy.Exists(fl) == True, "%s does not exist"%(fl)
 
 	dsc = arcpy.Describe(snap_grid) 
-	assert dsc.extent.XMin % 1 == 0, "Snap Grid origin not divisible by 5."
+	assert dsc.extent.XMin % 1 == 0, "Snap Grid origin not divisible by 1."
 
 	# set working directory and environment
 	arcpy.env.workspace = outdir

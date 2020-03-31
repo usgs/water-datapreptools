@@ -1248,11 +1248,11 @@ class AdjustAccum(object):
 		param4 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "workspace",
-			datatype = "Workspace",
+			datatype = "DEWorkspace",
 			parameterType = "Required",
 			direction = "Input")
 
-		param4.filter.list = ["Local Database"]
+		param4.filter.list = ["Local Database",]
 
 		params = [param0,param1,param2,param3,param4]
 		return params
@@ -1294,8 +1294,8 @@ class AdjustAccumSimp(object):
 			Flow accumuation grid of the downstream hydrologic unit.
 		HydroDEM : DERasterBand
 			Downstream hydrologic unit hydro-enforced digital elevation model.
-		Output FAC : DERasterBand
-			Corrected flow accumuation grid, defaults to hydrodemfac_global.
+		Output FAC : GPRasterDataLayer
+			Corrected flow accumuation grid.
 		Adjustment Value : GPString
 			Upstream flow accumulation value to correct the downstream hydrologic unit with, defaults to 150000 grid cells.
 
@@ -1314,32 +1314,32 @@ class AdjustAccumSimp(object):
 		param1 = arcpy.Parameter(
 			displayName = "Flow Direction Grid",
 			name = "fdr",
-			datatype = "DERasterBand",
+			datatype = ["DERasterDataset","GPRasterDataLayer","DERasterBand"],
 			parameterType = "Required",
 			direction = "Input")
 
 		param2 = arcpy.Parameter(
 			displayName = "Flow Accumulation Grid",
 			name = "fac",
-			datatype = "DERasterBand",
+			datatype = ["DERasterDataset","GPRasterDataLayer","DERasterBand"],
 			parameterType = "Required",
 			direction = "Input")
 
 		param3 = arcpy.Parameter(
 			displayName = "HydroDEM",
 			name = "filin",
-			datatype = "DERasterBand",
+			datatype = ["DERasterDataset","GPRasterDataLayer","DERasterBand"],
 			parameterType = "Required",
 			direction = "Input")
 
 		param4 = arcpy.Parameter(
 			displayName = "Output FAC",
 			name = "facout",
-			datatype = "DERasterBand",
+			datatype = ["DERasterDataset","GPRasterDataLayer","DERasterBand"],
 			parameterType = "Required",
-			direction = "Input")
+			direction = "Output")
 
-		param4.value = "hydrodemfac_global"
+		#param4.value = "hydrodemfac_global"
 
 		param5 = arcpy.Parameter(
 			displayName = "Adjustment Value",
@@ -1412,7 +1412,7 @@ class posthydrodem(object):
 			parameterType = "Required",
 			direction = "Input")
 
-		param0.filter.list = ["Local Database"]
+		param0.filter.list = ["Local Database", "File System"]
 
 		param1 = arcpy.Parameter(
 			displayName = "hydrodemfac",
