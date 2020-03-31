@@ -1305,7 +1305,7 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 
 	costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL") # compute least cost path downstream from inlet point.
 
-	correction = Con(costPth, incrval) # convert the cost path to the increase value
+	correction = Con(costPth, incrval,0) # convert the cost path to the increase value
 
 	FAC = Raster(facin)
 
