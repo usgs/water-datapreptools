@@ -1357,7 +1357,7 @@ class AdjustAccumSimp(object):
 		from make_hydrodem import adjust_accum_simple
 
 		ptin = parameters[0].valueAsText
-		fdrin = parameter[1].valueAsText
+		fdrin = parameters[1].valueAsText
 		facin = parameters[2].valueAsText
 		filin = parameters[3].valueAsText
 		facout = parameters[4].valueAsText
