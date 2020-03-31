@@ -1294,7 +1294,7 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	# check that everything exists
-	for fl in [ptin, facin, filin, facout]:
+	for fl in [ptin, facin, filin]:
 		assert arcpy.Exists(fl) == True, "%s does not exist."%(fl)
 
 	arcpy.env.workspace = os.path.dirname(facin) # set workspace
