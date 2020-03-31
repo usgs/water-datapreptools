@@ -1353,7 +1353,7 @@ class AdjustAccumSimp(object):
 		params = [param0,param1,param2,param3,param4,param5]
 		return params
 
-	def execute(self):
+	def execute(self, parameters, messages):
 		from make_hydrodem import adjust_accum_simple
 
 		ptin = parameters[0].valueAsText
