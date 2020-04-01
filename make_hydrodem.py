@@ -1302,13 +1302,15 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 	arcpy.env.snapRaster = fdrin
 	arcpy.env.outputCoordinateSystem = fdrin
 	arcpy.env.extent = fdrin
+	arcpy.env.overwriteOutput = True
 
 	costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL") # compute least cost path downstream from inlet point.
 
-	correction = Con(costPth, incrval,0) # convert the cost path to the increase value
-
-	FAC = Raster(facin)
-
+	c = Con(costPth, incrval) # convert the cost path to the increase value
+	c1 = Con(IsNull(c),0,incrval) # fill with zeros
+	FAC = Raster(facin) # load the FAC raster to be corrected
+	correction = Con(IsNull(FAC),FAC,c1) # fill the edges with NoData
+	#correction.save('corr')
 	corrFAC = FAC + correction # add the correction, hopefully this doesn't overwrite no data values on the FAC grid.
 
 	corrFAC.save(facout) # save the output raster
