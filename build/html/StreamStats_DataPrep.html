@@ -693,6 +693,8 @@
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>This tool expect that the NHD Dendrite and NHD Area features have an attribute column with the name “FType” populated with feature type codes. In the newer NHD High-Resolution data sets this attribute is called “FTYPE.” Unfortunately, the query used to select features is case sensitive so this attribute needs to be renamed to “FType” for NHD High-Resolution data.</p>
 </dd></dl>
 
 </dd></dl>
@@ -968,8 +970,8 @@
 <dt><strong>HydroDEM</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DERasterBand</span></dt>
 <dd><p class="first last">Downstream hydrologic unit hydro-enforced digital elevation model.</p>
 </dd>
-<dt><strong>Output FAC</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DERasterBand</span></dt>
-<dd><p class="first last">Corrected flow accumuation grid, defaults to hydrodemfac_global.</p>
+<dt><strong>Output FAC</strong> <span class="classifier-delimiter">:</span> <span class="classifier">GPRasterDataLayer</span></dt>
+<dd><p class="first last">Corrected flow accumuation grid.</p>
 </dd>
 <dt><strong>Adjustment Value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">GPString</span></dt>
 <dd><p class="first last">Upstream flow accumulation value to correct the downstream hydrologic unit with, defaults to 150000 grid cells.</p>

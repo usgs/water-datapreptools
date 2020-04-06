@@ -770,6 +770,10 @@ class SetupBathyGrad(object):
 		-------
 		parameters : list
 			List of input parameters passed to the execute method.
+
+		Notes
+		-----
+		This tool expect that the NHD Dendrite and NHD Area features have an attribute column with the name "FType" populated with feature type codes. In the newer NHD High-Resolution data sets this attribute is called "FTYPE." Unfortunately, the query used to select features is case sensitive so this attribute needs to be renamed to "FType" for NHD High-Resolution data.
 		"""
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
