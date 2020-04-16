@@ -82,7 +82,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	GDB_name = "input_data.gdb"
 
 	#set scratch and arcpy workspaces
-	arcpy.env.Workspace = output_workspace
+	arcpy.env.workspace = output_workspace
 	arcpy.env.scratchWorkspace = output_workspace
 
 	#disable Z & M values
@@ -237,3 +237,95 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 			arcpy.AddError(arcpy.GetMessages(2))
 		else:
 			arcpy.AddError(str(errMsg)) 
+
+def check_walls(dendrite, inwall, points, outwall=None):
+	'''Intersect dendrite with inwall and outwall to check for errors.
+
+	Parameters
+	----------
+	dendrite : str
+		File path to stream dendrite.
+	inwall : str
+		File path to inwall polygons.
+	points : str
+		File path to output intersection points.
+	outwall : str (optional)
+		File path to outwall polygons.
+
+	Returns
+	-------
+	points : Feature class or shapefile
+		Intersection points between the dendrite, inwall, and outwall.
+	'''
+	outputType = 'POINT'
+
+	files = [dendrite, inwall]
+	if outwall is not None:
+		files.append(outwall)
+		arcpy.AddMessage('Checking inwall and outwall intersections with dendrite:')
+	else:
+		arcpy.AddMessage('Checking inwall intersections with dendrite:')
+
+	for fl in files:
+		if arcpy.Exists(fl) != True:
+			arcpy.AddMessage('%s does not exist.'%fl)
+			arcpy.AddMessage('Aborting function...')
+			sys.exit(0)
+
+	# set up arcpy environment
+	arcpy.env.overwriteOutput = True
+	arcpy.env.workspace = os.path.dirname(dendrite)
+
+	tmpFiles = []
+
+	# perform the intersection
+	inwallInt = 'inwallInt'
+	tmpFiles.append(inwallInt)
+	arcpy.Intersect_analysis([inwall,dendrite], inwallInt, output_type = outputType)
+
+	# count number of features
+	outFeat = 0 # define for later
+	if arcpy.Exists(inwallInt):
+		res = arcpy.GetCount_management(inwallInt)
+		inFeat = int(res[0])
+	else:
+		inFeat = 0
+
+	if inFeat > 0:
+		mergeFeats = inwallInt
+
+	if outwall is not None:
+		# perform intersection
+		outwallInt = 'outwallInt'
+		tmpFiles.append(outwallInt)
+		arcpy.Intersect_analysis([outwall,dendrite], outwallInt, output_type = outputType)
+
+		# count the number of features
+		if arcpy.Exists(outwallInt):
+			res = arcpy.GetCount_management(outwallInt)
+			outFeat = int(res[0])
+		else:
+			outFeat = 0
+
+		# merge outwallInt with inwallInt
+		if outFeat > 0 and inFeat > 0:
+			mergeFeats = [outwallInt,inwallInt]
+		elif outFeat > 0 and inFeat == 0:
+			mergeFeats = outwallInt
+		elif inFeat > 0 and outFeat == 0:
+			mergeFeats = inwallInt
+		else:
+			arcpy.AddMessage('\tNo intersection points found.')
+
+			for fl in tmpFiles:
+				arcpy.Delete_management(fl)
+
+			return None
+
+	arcpy.AddMessage('\t%s intersection points found.'%(inFeat + outFeat))
+	arcpy.Merge_management(mergeFeats, points)
+
+	for fl in tmpFiles:
+		arcpy.Delete_management(fl)
+	
+	return None

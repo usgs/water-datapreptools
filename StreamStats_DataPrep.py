@@ -23,10 +23,10 @@ class Toolbox(object):
 
 		# List of tool classes associated with this toolbox
 		self.tools = [
-		databaseSetup,
-		makeELEVDATAIndex,ExtractPoly,CheckNoData,FillNoData,ProjScale,
+		databaseSetup, checkWalls,
+		makeELEVDATAIndex, ExtractPoly, CheckNoData, FillNoData, ProjScale,
 		TopoGrid,
-		CoastalDEM,SetupBathyGrad,HydroDEM,AdjustAccum,AdjustAccumSimp,posthydrodem
+		CoastalDEM, SetupBathyGrad, HydroDEM, AdjustAccum, AdjustAccumSimp, posthydrodem
 		]
 
 class databaseSetup(object):
@@ -163,6 +163,80 @@ class databaseSetup(object):
 		alt_buff = parameters[8].valueAsText
 
 		databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff, version=version)
+
+class checkWalls(object):
+	def __init__(self):
+		self.label = 'B. Check Walls'
+		self.description = 'Check inwall and outwall features for intersections with '
+		self.category = '1 - Setup Tools '
+		self.canRunInBackground = False
+
+	def getParameterInfo(self):
+		'''Make Check Walls inputs.
+		
+		Parameters
+		----------
+		dendrite : DEFeatureClass
+			Flowline dendrite.
+		inwall : DEFeatureClass
+			Inwall features.
+		points : DEFeatureClass
+			File path to output intersection points.
+		outwall : DEFeatureClass (optional)
+			Outwall features. Defaults to None.
+
+		Returns
+		-------
+		parameters : list
+			List of parameters passed to the execute function.
+		'''
+
+		parameters = []
+		param0 = arcpy.Parameter(
+			displayName = "Dendrite",
+			name = "dendrite",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
+		parameters.append(param0)
+
+		param1 = arcpy.Parameter(
+			displayName = "inwall",
+			name = "inwall",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Input")
+		parameters.append(param1)	
+
+		param2 = arcpy.Parameter(
+			displayName = "Points",
+			name = "points",
+			datatype = "DEFeatureClass",
+			parameterType = "Required",
+			direction = "Output")
+		parameters.append(param2)
+
+		param3 = arcpy.Parameter(
+			displayName = "Outwall",
+			name = "outwall",
+			datatype = "DEFeatureClass",
+			parameterType = "Optional",
+			direction = "Input")
+		parameters.append(param3)
+
+		return parameters
+
+	def execute(self, parameters, messages):
+		from databaseSetup import check_walls
+
+		dendrite = parameters[0].valueAsText
+		inwall = parameters[1].valueAsText
+		points = parameters[2].valueAsText
+		outwall = parameters[3].valueAsText
+
+		check_walls(dendrite, inwall, points, outwall = outwall)
+
+		return None
 
 class makeELEVDATAIndex(object):
 	"""Create a seamless raster mosaic dataset from input digital elevation tiles.
