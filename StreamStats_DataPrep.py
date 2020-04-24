@@ -461,6 +461,8 @@ class CheckNoData(object):
 
 		checkNoData(InGrid, tmpLoc, OutPolys_shp, version=version)
 
+		return None
+
 class FillNoData(object):
 	"""Fill no data cells in a digital elevation model.
 
