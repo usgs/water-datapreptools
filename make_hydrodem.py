@@ -92,6 +92,14 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	arcpy.env.scratchWorkspace = workspace
 	arcpy.env.workspace = workspace
 
+	# test if input files are present
+	inputFiles = [snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody]
+	for fl in inputFiles:
+		if arcpy.Exists(fl) == False:
+			arcpy.AddMessage('%s missing.'%fl)
+			arcpy.AddMessage('Please supply required input. Stopping program.')
+			sys.exit(0)
+
 	# Setup local variables and temporary layer files
 	arcpy.AddMessage("Setting up variables...")
 
