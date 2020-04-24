@@ -421,3 +421,96 @@ def compareSpatialRefUnits(grd):
 		sameUnits = True
 
 	return sameUnits
+
+def check_projection(ds1, ds2):
+	'''Check if the projections of the two files are the same.
+
+	Parameters
+	----------
+	ds1 : str
+		Path to first geospatial file.
+	ds2 : str
+		Path to second geospatial file.
+
+	Returns
+	-------
+	same : bool
+		Boolean indicating if the projections are the same or not.
+
+	Notes
+	-----
+	Slightly modified from Chris Wills' post: https://gis.stackexchange.com/questions/170088/checking-if-two-feature-classes-have-same-spatial-reference-using-arcpy
+	'''
+
+    crs1 = arcpy.Describe(ds1).spatialReference
+    crs2 = arcpy.Describe(ds2).spatialReference
+
+    try:
+        # Consider these
+        assert(crs1.name==crs2.name) # The name of the spatial reference.
+        assert(crs1.PCSCode==crs2.PCSCode) # The projected coordinate system code.1 
+        assert(crs1.PCSName==crs2.PCSName) # The projected coordinate system name.1 
+        assert(crs1.azimuth==crs2.azimuth) # The azimuth of a projected coordinate system.1 
+        assert(crs1.centralMeridian==crs2.centralMeridian) # The central meridian of a projected coordinate system.1    
+        assert(crs1.centralMeridianInDegrees==crs2.centralMeridianInDegrees) # The central meridian (Lambda0) of a projected coordinate system in degrees.1 
+        assert(crs1.centralParallel==crs2.centralParallel) # The central parallel of a projected coordinate system.1
+        assert(crs1.falseEasting==crs2.falseEasting) # The false easting of a projected coordinate system.1 
+        assert(crs1.falseNorthing==crs2.falseNorthing) # The false northing of a projected coordinate system.1  
+        assert(crs1.MFalseOriginAndUnits==crs2.MFalseOriginAndUnits) # The measure false origin and units.
+        assert(crs1.MResolution==crs2.MResolution) # The measure resolution.
+        assert(crs1.MTolerance==crs2.MTolerance) # The measure tolerance.
+        assert(crs1.XYTolerance==crs2.XYTolerance) # The xy tolerance.
+        assert(crs1.ZDomain==crs2.ZDomain) # The extent of the z domain.
+        assert(crs1.ZFalseOriginAndUnits==crs2.ZFalseOriginAndUnits) # The z false origin and units.
+        assert(crs1.factoryCode==crs2.factoryCode) # The factory code or well-known ID (WKID) of the spatial reference.
+        assert(crs1.isHighPrecision==crs2.isHighPrecision) # Indicates whether the spatial reference has high precision set.
+        assert(crs1.latitudeOf1st==crs2.latitudeOf1st) # The latitude of the first point of a projected coordinate system.1
+        assert(crs1.latitudeOf2nd==crs2.latitudeOf2nd) # The latitude of the second point of a projected coordinate system.1    
+        assert(crs1.latitudeOfOrigin==crs2.latitudeOfOrigin) # The latitude of origin of a projected coordinate system.1    
+        assert(crs1.linearUnitCode==crs2.linearUnitCode) # The linear unit code.    
+        assert(crs1.linearUnitName==crs2.linearUnitName) # The linear unit name.1
+        assert(crs1.longitude==crs2.longitude) # The longitude value of this prime meridian.1
+        assert(crs1.longitudeOf1st==crs2.longitudeOf1st) #The longitude of the first point of a projected coordinate system.1
+        assert(crs1.longitudeOf2nd==crs2.longitudeOf2nd) # The longitude of the second point of a projected coordinate system.1
+        assert(crs1.longitudeOfOrigin==crs2.longitudeOfOrigin) # The longitude of origin of a projected coordinate system.1
+        assert(crs1.metersPerUnit==crs2.metersPerUnit) # The meters per linear unit.1
+        assert(crs1.projectionCode==crs2.projectionCode) # The projection code.1
+        assert(crs1.projectionName==crs2.projectionName) # The projection name.1
+        assert(crs1.scaleFactor==crs2.scaleFactor) # The scale factor of a projected coordinate system.1
+        assert(crs1.standardParallel1==crs2.standardParallel1) # The first parallel of a projected coordinate system.1
+        assert(crs1.standardParallel2==crs2.standardParallel2) # The second parallel of a projected coordinate system.1
+        assert(crs1.angularUnitCode==crs2.angularUnitCode) # The angular unit code.2
+        assert(crs1.angularUnitName==crs2.angularUnitName) # The angular unit name.2
+        assert(crs1.datumCode==crs2.datumCode) # The datum code.2
+        assert(crs1.datumName==crs2.datumName) # The datum name.2
+        assert(crs1.flattening==crs2.flattening) # The flattening ratio of this spheroid.2
+        assert(crs1.longitude==crs2.longitude) # The longitude value of this prime meridian.2
+        assert(crs1.primeMeridianCode==crs2.primeMeridianCode) # The prime meridian code.2
+
+        ## Prob can be ignored
+        if strict:
+            assert(crs1.ZResolution==crs2.ZResolution) # The z resolution property.
+            assert(crs1.ZTolerance==crs2.ZTolerance) # The z-tolerance property.
+            assert(crs1.hasMPrecision==crs2.hasMPrecision) # Indicates whether m-value precision information has been defined.
+            assert(crs1.hasXYPrecision==crs2.hasXYPrecision) # Indicates whether xy precision information has been defined.
+            assert(crs1.hasZPrecision==crs2.hasZPrecision) # Indicates whether z-value precision information has been defined.
+            assert(crs1.XYResolution==crs2.XYResolution) # The xy resolution.
+            assert(crs1.domain==crs2.domain) # The extent of the xy domain.
+            assert(crs1.MDomain==crs2.MDomain) # The extent of the measure domain.
+            assert(crs1.remarks==crs2.remarks) # The comment string of the spatial reference.
+            assert(crs1.type==crs2.type) # The type of the spatial reference. Geographic: A geographic coordinate system. Projected: A projected coordinate system.
+            assert(crs1.usage==crs2.usage) # The usage notes.   
+            assert(crs1.classification==crs2.classification) # The classification of a map projection.1 
+            assert(crs1.GCSCode==crs2.GCSCode) # The geographic coordinate system code.2
+            assert(crs1.GCSName==crs2.GCSName) # The geographic coordinate system name.2
+            assert(crs1.primeMeridianName==crs2.primeMeridianName) # The prime meridian name.2
+            assert(crs1.radiansPerUnit==crs2.radiansPerUnit) # The radians per angular unit.2
+            assert(crs1.semiMajorAxis==crs2.semiMajorAxis) # The semi-major axis length of this spheroid.2
+            assert(crs1.semiMinorAxis==crs2.semiMinorAxis) # The semi-minor axis length of this spheroid.2
+            assert(crs1.spheroidCode==crs2.spheroidCode) # The spheroid code.2
+            assert(crs1.spheroidName==crs2.spheroidName) # The spheroid name.2
+        return True
+    except:
+        output_message="CRS differs between datasets."#\ncrs1: %s\ncrs2 : %s" %(crs1.exportToString(), crs2.exportToString())
+        arcpy.AddMessage(output_message)
+        return False
