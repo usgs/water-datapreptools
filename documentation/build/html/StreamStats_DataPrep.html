@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>StreamStats_DataPrep ESRI Toolbox &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="StreamStats DataPrep Library" href="modules.html" />
+    <link rel="prev" title="Welcome to StreamStats Data Preparation Tools’ documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> StreamStats Data Preparation Tools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">StreamStats_DataPrep ESRI Toolbox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#database-setup">Database Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make-elevation-data-index">Make Elevation Data Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extract-polygons">Extract Polygons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-for-nodata-cells">Check For NoData Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fill-nodata-cells">Fill NoData Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-and-scale">Project and Scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#topogrid-optional">TopoGrid (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bathymetic-gradient-setup">Bathymetic Gradient Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coastal-dem-processing-optional">Coastal DEM Processing (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hydro-enforce-dem">Hydro-Enforce DEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adjust-accumulation">Adjust Accumulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adjust-accumulation-simple">Adjust Accumulation Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-hydrodem">Post Hydrodem</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">StreamStats Data Preparation Tools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>StreamStats_DataPrep ESRI Toolbox</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/StreamStats_DataPrep.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="streamstats-dataprep-esri-toolbox">
+<h1>StreamStats_DataPrep ESRI Toolbox<a class="headerlink" href="#streamstats-dataprep-esri-toolbox" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="database-setup">
+<h2>Database Setup<a class="headerlink" href="#database-setup" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="make-elevation-data-index">
+<h2>Make Elevation Data Index<a class="headerlink" href="#make-elevation-data-index" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="extract-polygons">
+<h2>Extract Polygons<a class="headerlink" href="#extract-polygons" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="check-for-nodata-cells">
+<h2>Check For NoData Cells<a class="headerlink" href="#check-for-nodata-cells" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="fill-nodata-cells">
+<h2>Fill NoData Cells<a class="headerlink" href="#fill-nodata-cells" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="project-and-scale">
+<h2>Project and Scale<a class="headerlink" href="#project-and-scale" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="topogrid-optional">
+<h2>TopoGrid (optional)<a class="headerlink" href="#topogrid-optional" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bathymetic-gradient-setup">
+<h2>Bathymetic Gradient Setup<a class="headerlink" href="#bathymetic-gradient-setup" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="coastal-dem-processing-optional">
+<h2>Coastal DEM Processing (optional)<a class="headerlink" href="#coastal-dem-processing-optional" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="hydro-enforce-dem">
+<h2>Hydro-Enforce DEM<a class="headerlink" href="#hydro-enforce-dem" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="adjust-accumulation">
+<h2>Adjust Accumulation<a class="headerlink" href="#adjust-accumulation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="adjust-accumulation-simple">
+<h2>Adjust Accumulation Simple<a class="headerlink" href="#adjust-accumulation-simple" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="post-hydrodem">
+<h2>Post Hydrodem<a class="headerlink" href="#post-hydrodem" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="StreamStats DataPrep Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to StreamStats Data Preparation Tools’ documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Theodore Barnhart
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
