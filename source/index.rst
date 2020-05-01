@@ -28,7 +28,6 @@ Barnhart, T.B., K., Kolb, A. Rae, P. Steeves, M. Smith, and P. McCarthy, Stream 
    :maxdepth: 2
    :caption: Contents:
 
-   workflow
    StreamStats_DataPrep
    modules
 
