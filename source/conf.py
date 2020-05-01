@@ -39,12 +39,6 @@ extensions = [
 
 autodoc_mock_imports = ['arcpy','numpy']
 
-latex_documents = [('index', 'StreamStats_DataPrepTools','StreamStats Data Preparation Tools Documentation', 'Theodore Barnhart','howto')]
-
-latex_elements = {
-	'papersize':'letterpaper',
-	'maxlistdepth': '8'}
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
