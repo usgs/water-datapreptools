@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example Scripts" href="example_scripts.html" />
     <link rel="prev" title="make_hydrodem Module" href="make_hydrodem.html" /> 
 </head>
 
@@ -89,6 +90,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">topo_grid Module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="example_scripts.html">Example Scripts</a></li>
 </ul>
 
             
@@ -155,8 +157,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="topo-grid-module">
-<h1>topo_grid Module<a class="headerlink" href="#topo-grid-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-topo_grid">
+<span id="topo-grid-module"></span><h1>topo_grid Module<a class="headerlink" href="#module-topo_grid" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="topo_grid.topogrid">
+<code class="descclassname">topo_grid.</code><code class="descname">topogrid</code><span class="sig-paren">(</span><em>workspace</em>, <em>huc8</em>, <em>buffdist</em>, <em>dendrite</em>, <em>dem</em>, <em>cellSize</em>, <em>vipPer</em>, <em>snapgrid=None</em>, <em>huc12=None</em><span class="sig-paren">)</span><a class="headerlink" href="#topo_grid.topogrid" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to geodatabase</p>
+</dd>
+<dt><strong>huc8</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to huc8 feature class</p>
+</dd>
+<dt><strong>buffdist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Distance to buffer huc8 in horizontal map units</p>
+</dd>
+<dt><strong>dendrite</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to flowline dendrite feature class</p>
+</dd>
+<dt><strong>dem</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path to buffered, scalled, and projected DEM</p>
+</dd>
+<dt><strong>cellSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Output cell size</p>
+</dd>
+<dt><strong>vipPer</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">VIP thining value</p>
+</dd>
+<dt><strong>snapgrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (optional)</span></dt>
+<dd><p class="first last">Path to snapgrid to use instead of input DEM.</p>
+</dd>
+<dt><strong>huc12</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of paths to HUC12 values if the huc8 doesn’t work</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>See <a class="reference external" href="https://support.esri.com/en/technical-article/000004588">https://support.esri.com/en/technical-article/000004588</a></p>
+</dd></dl>
+
 </div>
 
 
@@ -166,6 +218,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="example_scripts.html" class="btn btn-neutral float-right" title="Example Scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="make_hydrodem.html" class="btn btn-neutral float-left" title="make_hydrodem Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

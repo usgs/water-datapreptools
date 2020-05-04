@@ -576,10 +576,9 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 
 	recoded by Theodore Barnhart, tbarnhart@usgs.gov, 20190225
 
-	-------------
-	--- AGREE ---
-	-------------
 	
+	AGREE
+	-----
 	--- Creation Information ---
 	
 	Name: agree.aml

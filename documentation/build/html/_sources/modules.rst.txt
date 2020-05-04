@@ -1,3 +1,5 @@
+.. _modules-label:
+
 StreamStats DataPrep Library
 ==================================
 

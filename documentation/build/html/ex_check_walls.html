@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Check Inner and Outer Walls &mdash; StreamStats Data Preparation Tools 4.0beta documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Check For NoData Cells" href="ex_CheckNoData.html" />
+    <link rel="prev" title="Project and Scale a Digital Elevation Model" href="ex_ProjScale.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> StreamStats Data Preparation Tools
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="example_scripts.html">Example Scripts</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ex_databaseSetup.html">Initial Database Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_makeELEVDATAindex.html">Make Digital Elevation Model Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_extractPoly.html">Extract Watershed Polygon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_FillNoData.html">Fill NoData Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_ProjScale.html">Project and Scale a Digital Elevation Model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Check Inner and Outer Walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_CheckNoData.html">Check For NoData Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_topogrid.html">Topogrid (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_bathymetricGradient.html">Bathymetric Gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_hydroDEM.html">Hydro-Enforce a Digital Elevation Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_adjust_accum.html">Adjust Accumulation Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_adjust_accum_simple.html">Adjust Accumulation Grid (Simple)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_post_hydrodem.html">Post Hydro-Enforcement</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">StreamStats Data Preparation Tools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="example_scripts.html">Example Scripts</a> &raquo;</li>
+        
+      <li>Check Inner and Outer Walls</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ex_check_walls.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="check-inner-and-outer-walls">
+<h1>Check Inner and Outer Walls<a class="headerlink" href="#check-inner-and-outer-walls" title="Permalink to this headline">¶</a></h1>
+<p>Check if the flowline dendrite intersect the inner and outer walls used for hydro-enforcement.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span> <span class="c1"># change environment to see tools</span>
+<span class="kn">from</span> <span class="nn">databaseSetup</span> <span class="kn">import</span> <span class="n">check_walls</span>
+
+<span class="n">dendrite</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="c1"># path to the flowline dendrite</span>
+<span class="n">inwall</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="c1"># path to the inner wall feature class</span>
+<span class="n">points</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="c1"># path to the intersection points to output</span>
+<span class="n">outwall</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span> <span class="c1"># path to the outer wall feature class (optional) </span>
+
+<span class="n">check_walls</span><span class="p">(</span><span class="n">dendrite</span><span class="p">,</span> <span class="n">inwall</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">outwall</span> <span class="o">=</span> <span class="n">outwall</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ex_CheckNoData.html" class="btn btn-neutral float-right" title="Check For NoData Cells" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ex_ProjScale.html" class="btn btn-neutral float-left" title="Project and Scale a Digital Elevation Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Theodore Barnhart
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

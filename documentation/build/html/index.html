@@ -83,6 +83,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_scripts.html">Example Scripts</a></li>
 </ul>
 
             
@@ -151,13 +152,13 @@
 <h1>Welcome to StreamStats Data Preparation Tools’ documentation!<a class="headerlink" href="#welcome-to-streamstats-data-preparation-tools-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="about">
 <h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
-<p>The StreamStats Data Preparation Tools are meant to aid in the processing of digital elevation models (DEM) and hydrography data for ingestion into the US Geological Survey’s Stream Stats application. The tools and the associated workflow examples can be used to prepare DEM and hydrography subsets for local Stream Stats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and processe the resulting flow accumulation and flow direction grids for use in the ArcHydro data model.</p>
+<p>The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEM) and hydrography data for ingestion into the US Geological Survey’s Stream Stats application. The tools and the associated work flow examples can be used to prepare DEM and hydrography subsets for local Stream Stats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ArcHydro data model.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Clone these tools onto your machine using the git clone commands. Or download the the repository using the link in the upper right of the repositry page here: <strong>*Link to repo*</strong></p>
-<p>Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to from ArcPro. The toolbox is compatable with both ArcMap and ArcPro, except for the final processing step, which relies on ArcHydro and only works with ArcMap.</p>
-<p>The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the Python libraries and the test_scripts folder for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2.</p>
+<p>Clone these tools onto your machine using the <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> commands. Or download the the repository using the link in the upper right of the repository page here: <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools">https://code.usgs.gov/StreamStats/datapreptools</a></p>
+<p>Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step, which relies on ArcHydro and only works with ArcMap (Python 2) at this time.</p>
+<p>The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the <a class="reference internal" href="modules.html#modules-label"><span class="std std-ref">StreamStats DataPrep Library</span></a> and <a class="reference internal" href="example_scripts.html#examples-label"><span class="std std-ref">Example Scripts</span></a> for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2.</p>
 </div>
 <div class="section" id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
@@ -187,6 +188,22 @@
 <li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="topo_grid.html">topo_grid Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example_scripts.html">Example Scripts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_databaseSetup.html">Initial Database Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_makeELEVDATAindex.html">Make Digital Elevation Model Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_extractPoly.html">Extract Watershed Polygon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_FillNoData.html">Fill NoData Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_ProjScale.html">Project and Scale a Digital Elevation Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_check_walls.html">Check Inner and Outer Walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_CheckNoData.html">Check For NoData Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_topogrid.html">Topogrid (optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_bathymetricGradient.html">Bathymetric Gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_hydroDEM.html">Hydro-Enforce a Digital Elevation Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_adjust_accum.html">Adjust Accumulation Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_adjust_accum_simple.html">Adjust Accumulation Grid (Simple)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_post_hydrodem.html">Post Hydro-Enforcement</a></li>
 </ul>
 </li>
 </ul>
