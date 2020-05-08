@@ -33,6 +33,13 @@ To use the Python modules and functions in scripts you will need to add the down
 
 ***Note:*** Tool 4E uses ArcHydroTools, these will need to be installed for this tool to function. This tool currently only functions via ArcMap / Python 2. This is the last step in the data preparation work flow.
 
+## Documentation
+Tool and function library documentation can be found by opening `./documentation/build/html/index.html` with a web browser after the tools have been downloaded to your local machine. 
+
+## Problems with the tools
+
+Please log problems with the tools or function libraries in the issues portion of this repository. Please do not email me. Logging problems in this way allows other users to see the discussion and (hopefully) solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
+
 ***Note:*** When working on ArcGIS projects stored on NAS devices, additional configuration may be required. See:
 - https://community.spiceworks.com/topic/1389064-performance-and-locking-issues-with-synology-nas-and-arcgis
 - https://support.esri.com/en/technical-article/000012722
