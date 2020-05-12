@@ -448,11 +448,11 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 
 	if not dp_bypass: # (if bypass is false, as in do not bypass) dp_bypass is defined after the main code in the original AML
 		if int(arcpy.GetCount_management(drainplug).getOutput(0)) > 0:
-			dpg_path = os.path.join(arcpy.env.workspace,'depressionRast')
-			tmpLocations.append(dpg_path)
-			arcpy.AddField_management(drainplug,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-			arcpy.CalculateField_management(drainplug,"dummy","1", "PYTHON")
-			arcpy.FeatureToRaster_conversion(drainplug,"dummy",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
+			dpg_path = os.path.join(arcpy.env.workspace,'sinklnk')
+			#tmpLocations.append(dpg_path)
+			#arcpy.AddField_management(drainplug,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+			#arcpy.CalculateField_management(drainplug,"dummy","1", "PYTHON")
+			arcpy.FeatureToRaster_conversion(drainplug,"OBJECTID",dpg_path,cell_size = cellsz) # (L195 in hydroDEM_work_mod.aml)
 			dpg = Raster(dpg_path) # load the raster object
 		else:
 			tmp = CreateConstantRaster(0) # if the feature class is empty, make a dummy raster
