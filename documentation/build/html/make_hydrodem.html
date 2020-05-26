@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -58,6 +58,10 @@
 
           
             
+            
+              <div class="version">
+                4.0
+              </div>
             
           
 
@@ -159,30 +163,24 @@
             
   <div class="section" id="module-make_hydrodem">
 <span id="make-hydrodem-module"></span><h1>make_hydrodem Module<a class="headerlink" href="#module-make_hydrodem" title="Permalink to this headline">¶</a></h1>
-<p>Code to replicate the hydroDEM_work_mod.aml, agree.aml, and fill.aml scripts</p>
-<p>Theodore Barnhart, <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a>, 20190225</p>
-<p>Reference: agree.aml</p>
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.SnapExtent">
-<code class="descclassname">make_hydrodem.</code><code class="descname">SnapExtent</code><span class="sig-paren">(</span><em>lExtent</em>, <em>lRaster</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.SnapExtent" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">make_hydrodem.</code><code class="descname">SnapExtent</code><span class="sig-paren">(</span><em><span class="n">lExtent</span></em>, <em><span class="n">lRaster</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.SnapExtent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a given extent snapped to the passed raster.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>lExtent</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">ESRI Arcpy extent string</p>
+<dt><strong>lExtent</strong><span class="classifier">str</span></dt><dd><p>ESRI Arcpy extent string</p>
 </dd>
-<dt><strong>lRaster</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to raster dataset</p>
+<dt><strong>lRaster</strong><span class="classifier">str</span></dt><dd><p>Path to raster dataset</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>extent</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">ESRI ArcPy extent string</p>
+<dt><strong>extent</strong><span class="classifier">str</span></dt><dd><p>ESRI ArcPy extent string</p>
 </dd>
 </dl>
 </td>
@@ -191,78 +189,73 @@
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.adjust_accum">
-<code class="descclassname">make_hydrodem.</code><code class="descname">adjust_accum</code><span class="sig-paren">(</span><em>facPth</em>, <em>fdrPth</em>, <em>upstreamFACpths</em>, <em>upstreamFDRpths</em>, <em>workspace</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.adjust_accum" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descclassname">make_hydrodem.</code><code class="descname">adjust_accum</code><span class="sig-paren">(</span><em><span class="n">facPth</span></em>, <em><span class="n">fdrPth</span></em>, <em><span class="n">upstreamFACpths</span></em>, <em><span class="n">upstreamFDRpths</span></em>, <em><span class="n">workspace</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.adjust_accum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust a downnstream flow accumulation (FAC) raster based on upstream flow accumulation rasters.</p>
+<p>This fucntion adjusts the FAC of a downstream HUC to include flow accumulations from upstream HUC’s. Run this from the downstream HUC workspace. The function will leave the original FAC grids intact and will create a grid named “fac_global” in the same directory as the original FAC raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>facPth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to downstream flow accumulation grid</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>facPth</strong><span class="classifier">str</span></dt><dd><p>Path to downstream flow accumulation grid</p>
 </dd>
-<dt><strong>fdrPth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to downstream flow direction grid</p>
+<dt><strong>fdrPth</strong><span class="classifier">str</span></dt><dd><p>Path to downstream flow direction grid</p>
 </dd>
-<dt><strong>upstreamFACpths</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">List of paths to upstream flow accumulation grids</p>
+<dt><strong>upstreamFACpths</strong><span class="classifier">list</span></dt><dd><p>List of paths to upstream flow accumulation grids</p>
 </dd>
-<dt><strong>upstreamFDRpths</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">List of paths to upstream flow direction grids</p>
+<dt><strong>upstreamFDRpths</strong><span class="classifier">list</span></dt><dd><p>List of paths to upstream flow direction grids</p>
 </dd>
-<dt><strong>workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">local geodatabase to work in.</p>
+<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>local geodatabase to work in.</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (optional)</span></dt>
-<dd><p class="first last">Stream Stats datapreptool version number.</p>
+<dt><strong>version</strong><span class="classifier">str (optional)</span></dt><dd><p>Stream Stats datapreptool version number.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>facGlobal</strong><span class="classifier">raster</span></dt><dd><p>Adjusted flow accumulation raster created in the same directory as fac.</p>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<p>adjust_accum(“./01010001/fac”, 2, [“./01010002/fac”, “./01010003/fac”])</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.adjust_accum_simple">
-<code class="descclassname">make_hydrodem.</code><code class="descname">adjust_accum_simple</code><span class="sig-paren">(</span><em>ptin</em>, <em>fdrin</em>, <em>facin</em>, <em>filin</em>, <em>facout</em>, <em>incrval</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.adjust_accum_simple" title="Permalink to this definition">¶</a></dt>
-<dd><p>Simple drainage adjust method.</p>
-<p>Original coding by Al Rea (2010) <a class="reference external" href="mailto:ahrea&#37;&#52;&#48;usgs&#46;gov">ahrea<span>&#64;</span>usgs<span>&#46;</span>gov</a>
-Updated to arcPy by Theodore Barnhart (2019) <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a></p>
-<p>Adds a value to the flow accumulation grid given an input point using a least-cost-path to coascalde down through the flow direction grid.</p>
+<code class="descclassname">make_hydrodem.</code><code class="descname">adjust_accum_simple</code><span class="sig-paren">(</span><em><span class="n">ptin</span></em>, <em><span class="n">fdrin</span></em>, <em><span class="n">facin</span></em>, <em><span class="n">filin</span></em>, <em><span class="n">facout</span></em>, <em><span class="n">incrval</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.adjust_accum_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple flow accumulation grid adjustment.</p>
+<p>Adds a value to the flow accumulation grid given an input point using a least-cost-path to cascade down through the flow direction grid.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>ptin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (feature class)</span></dt>
-<dd><p class="first last">Point feature class representing one inlet to the downstream DEM.</p>
+<dt><strong>ptin</strong><span class="classifier">str (feature class)</span></dt><dd><p>Point feature class representing one inlet to the downstream DEM.</p>
 </dd>
-<dt><strong>fdrin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (raster)</span></dt>
-<dd><p class="first last">Flow direction raster</p>
+<dt><strong>fdrin</strong><span class="classifier">str (raster)</span></dt><dd><p>Flow direction raster</p>
 </dd>
-<dt><strong>facin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (raster)</span></dt>
-<dd><p class="first last">Name of the flow accumulation raster</p>
+<dt><strong>facin</strong><span class="classifier">str (raster)</span></dt><dd><p>Name of the flow accumulation raster</p>
 </dd>
-<dt><strong>filin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (raster)</span></dt>
-<dd><p class="first last">Burned DEM to use as cost surface.</p>
+<dt><strong>filin</strong><span class="classifier">str (raster)</span></dt><dd><p>Burned DEM to use as cost surface.</p>
 </dd>
-<dt><strong>facout</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (raster)</span></dt>
-<dd><p class="first last">Output name of adjusted FAC grid.</p>
+<dt><strong>facout</strong><span class="classifier">str (raster)</span></dt><dd><p>Output name of adjusted FAC grid.</p>
 </dd>
-<dt><strong>incrval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Value to adjust the downstream FAC grid by.</p>
+<dt><strong>incrval</strong><span class="classifier">int</span></dt><dd><p>Value to adjust the downstream FAC grid by.</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Stream Stats version number</p>
+<dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Stream Stats version number</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt>
-<dd></dd>
+<dt><strong>hydrodemfac_global</strong><span class="classifier">raster</span></dt><dd><p>Adjusted FAC grid written to facout.</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -270,235 +263,175 @@ Updated to arcPy by Theodore Barnhart (2019) <a class="reference external" href=
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.agree">
-<code class="descclassname">make_hydrodem.</code><code class="descname">agree</code><span class="sig-paren">(</span><em>origdem</em>, <em>dendrite</em>, <em>agreebuf</em>, <em>agreesmooth</em>, <em>agreesharp</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.agree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Agree function from AGREE.aml</p>
+<code class="descclassname">make_hydrodem.</code><code class="descname">agree</code><span class="sig-paren">(</span><em><span class="n">origdem</span></em>, <em><span class="n">dendrite</span></em>, <em><span class="n">agreebuf</span></em>, <em><span class="n">agreesmooth</span></em>, <em><span class="n">agreesharp</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.agree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to adjust a DEM to match a vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>origdem</strong><span class="classifier">Raster Object</span></dt><dd><p>Original DEM with the desired cell size.</p>
+</dd>
+<dt><strong>dendrite</strong><span class="classifier">Raster Object</span></dt><dd><p>Dendrite feature layer to adjust the DEM.</p>
+</dd>
+<dt><strong>agreebuf</strong><span class="classifier">float</span></dt><dd><p>Buffer smoothing distance (same units as horizontal map units).</p>
+</dd>
+<dt><strong>agreesmooth</strong><span class="classifier">float</span></dt><dd><p>Smoothing distance (same units as the vertical map units).</p>
+</dd>
+<dt><strong>agreesharp</strong><span class="classifier">float</span></dt><dd><p>Distance for sharp feature (same units as the vertical map units).</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>elevgrid</strong><span class="classifier">Raster Object</span></dt><dd><p>Conditioned elevation grid.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
 <p>Original function by Ferdi Hellweger, <a class="reference external" href="http://www.ce.utexas.edu/prof/maidment/gishydro/ferdi/research/agree/agree.html">http://www.ce.utexas.edu/prof/maidment/gishydro/ferdi/research/agree/agree.html</a></p>
-<p>recoded by Theodore Barnhart, <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a>, 20190225</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>origdem</strong> <span class="classifier-delimiter">:</span> <span class="classifier">arcpy.sa Raster</span></dt>
-<dd><p class="first last">Original DEM with the desired cell size, oelevgrid in original script</p>
-</dd>
-<dt><strong>dendrite</strong> <span class="classifier-delimiter">:</span> <span class="classifier">arcpy.sa Raster</span></dt>
-<dd><p class="first last">Dendrite feature layer to adjust the DEM, vectcov in the original script</p>
-</dd>
-<dt><strong>agreebuf</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Buffer smoothing distance (same units as the horizontal), buffer in original script</p>
-</dd>
-<dt><strong>agreesmooth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Smoothing distance (same units as the vertical), smoothdist in the original script</p>
-</dd>
-<dt><strong>agreesharp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Distance for sharp feature (same units as the vertical), sharpdist in the original script</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>elevgrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">arcpy.sa Raster</span></dt>
-<dd><p class="first last">conditioned elevation grid returned as a arcpy.sa Raster object</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.bathymetricGradient">
-<code class="descclassname">make_hydrodem.</code><code class="descname">bathymetricGradient</code><span class="sig-paren">(</span><em>workspace</em>, <em>snapGrid</em>, <em>hucPoly</em>, <em>hydrographyArea</em>, <em>hydrographyFlowline</em>, <em>hydrographyWaterbody</em>, <em>cellsize</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.bathymetricGradient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates the input datasets for enforcing a bathymetic gradient in hydroDEM (bowling).</p>
-<dl class="docutils">
-<dt>Originally:</dt>
-<dd>ssbowling.py
-Created on: Wed Jan 31 2007 01:16:48 PM
-Author:  Martyn Smith
-USGS New York Water Science Center Troy, NY</dd>
-</dl>
-<p>Updated to Arcpy, 20190222, Theodore Barnhart, <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a></p>
-<p>This script takes a set of NHD Hydrography Datasets, extracts the appropriate
-features and converts them to rasters for the Bathymetric Gradient (bowling) inputs to HydroDEM</p>
+<code class="descclassname">make_hydrodem.</code><code class="descname">bathymetricGradient</code><span class="sig-paren">(</span><em><span class="n">workspace</span></em>, <em><span class="n">snapGrid</span></em>, <em><span class="n">hucPoly</span></em>, <em><span class="n">hydrographyArea</span></em>, <em><span class="n">hydrographyFlowline</span></em>, <em><span class="n">hydrographyWaterbody</span></em>, <em><span class="n">cellsize</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.bathymetricGradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the input datasets from hydrography features for enforcing a bathymetic gradient in hydroDEM (bowling).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>snapGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>hucPoly</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>hydrographyArea</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>hydrographyFlowline</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>hydrographyWaterbody</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>cellsize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Package version number</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the geodatabase workspace.</p>
+</dd>
+<dt><strong>snapGrid</strong><span class="classifier">str</span></dt><dd><p>Path to the raster snap grid used for the project.</p>
+</dd>
+<dt><strong>hucPoly</strong><span class="classifier">str</span></dt><dd><p>Path to the bounding polygon for the local folder inputs are being generated for.</p>
+</dd>
+<dt><strong>hydrographyArea</strong><span class="classifier">str</span></dt><dd><p>Path to the double line stream features.</p>
+</dd>
+<dt><strong>hydrographyFlowline</strong><span class="classifier">str</span></dt><dd><p>Path to the flowline features.</p>
+</dd>
+<dt><strong>hydrographyWaterbody</strong><span class="classifier">str</span></dt><dd><p>Path to the waterbody features.</p>
+</dd>
+<dt><strong>cellsize</strong><span class="classifier">str</span></dt><dd><p>Output cell size to use for rasterization.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str (optional)</span></dt><dd><p>Package version number</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>hydro_flowlines</strong><span class="classifier">raster</span></dt><dd><p>Grid representation of flowlines.</p>
+</dd>
+<dt><strong>hydro_areas</strong><span class="classifier">raster</span></dt><dd><p>Grid representation of double line streams and flowlines.</p>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Outputs are written to the workspace.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.coastaldem">
-<code class="descclassname">make_hydrodem.</code><code class="descname">coastaldem</code><span class="sig-paren">(</span><em>Input_Workspace</em>, <em>grdNamePth</em>, <em>InFeatureClass</em>, <em>OutRaster</em>, <em>seaLevel</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.coastaldem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets elevations for water and other areas in DEM</p>
-<dl class="docutils">
-<dt>Originally:</dt>
-<dd>Al Rea, <a class="reference external" href="mailto:ahrea&#37;&#52;&#48;usgs&#46;gov">ahrea<span>&#64;</span>usgs<span>&#46;</span>gov</a>, 05/01/2010, original coding
-ahrea, 10/30/2010 updated with more detailed comments
-Theodore Barnhart, 20190225, <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a>, updated to arcpy</dd>
-</dl>
+<code class="descclassname">make_hydrodem.</code><code class="descname">coastaldem</code><span class="sig-paren">(</span><em><span class="n">Input_Workspace</span></em>, <em><span class="n">grdNamePth</span></em>, <em><span class="n">InFeatureClass</span></em>, <em><span class="n">OutRaster</span></em>, <em><span class="n">seaLevel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.coastaldem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets elevations for water and other areas in digital elevation model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Input_Workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Input workspace, output raster will be written here.</p>
+<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Input workspace, output raster will be written here.</p>
 </dd>
-<dt><strong>grdNamePth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Input DEM grid.</p>
+<dt><strong>grdNamePth</strong><span class="classifier">str</span></dt><dd><p>Path to the input DEM grid.</p>
 </dd>
-<dt><strong>InFeatureClass</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">LandSea feature class.</p>
+<dt><strong>InFeatureClass</strong><span class="classifier">str</span></dt><dd><p>Path to the LandSea feature class.</p>
 </dd>
-<dt><strong>OutRaster</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Output DEM grid name.</p>
+<dt><strong>OutRaster</strong><span class="classifier">str</span></dt><dd><p>Output DEM grid name.</p>
 </dd>
-<dt><strong>seaLevel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Elevation at which to make the sea</p>
+<dt><strong>seaLevel</strong><span class="classifier">float</span></dt><dd><p>Elevation at which to make the sea.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>OutRaster</strong> <span class="classifier-delimiter">:</span> <span class="classifier">raster</span></dt>
-<dd><p class="first last">Output raster written to the workspace.</p>
+<dt><strong>OutRaster</strong><span class="classifier">raster</span></dt><dd><p>Output raster with coastal areas corrected.</p>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Outputs are written to the workspace.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.hydrodem">
-<code class="descclassname">make_hydrodem.</code><code class="descname">hydrodem</code><span class="sig-paren">(</span><em>outdir</em>, <em>huc8cov</em>, <em>origdemPth</em>, <em>dendrite</em>, <em>snap_grid</em>, <em>bowl_polys</em>, <em>bowl_lines</em>, <em>inwall</em>, <em>drainplug</em>, <em>buffdist</em>, <em>inwallbuffdist</em>, <em>inwallht</em>, <em>outwallht</em>, <em>agreebuf</em>, <em>agreesmooth</em>, <em>agreesharp</em>, <em>bowldepth</em>, <em>cellsz</em>, <em>scratchWorkspace</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.hydrodem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hydro-enforce a DEM</p>
-<p>This aml is used by the National StreamStats Team as the optimal
-approach for preparing a state’s physiographic datasets for watershed delineations.
-It takes as input, a 10-meter (or 30-foot) DEM, and enforces this data to recognize
-NHD hydrography as truth.  WBD can also be recognized as truth if avaialable for a
-given state/region. This aml assumes that the DEM has first been projected to a
-state’s projection of choice. This aml prepares data to be used in the Archydro
-data model (the GIS database environment for National StreamStats).</p>
-<p>The specified &lt;8-digit HUC&gt; should have a path associated with it in the variable 
-settings section near the top of this aml.  The value entered will create a workspace
-with this HUC id as it’s name, and copy all output datasets into the new workspace.
-If the workspace already Exists, it should be empty before running this aml.</p>
-<p>The snap_grid is used to orient the origin coordinate of the output grids to align 
-with neighboring HUC grids that have already been processed.  
-Typically, this value is rounded to the nearest value
-divisible by 10 (in cases where datsets are in units meters) or 30 (in cases where
-datasets are in units feet).  The snap grid could be your input dem, if that grid
-has already been rounded out (if topogrid was used and steps were followed on the 
-nhd web page referenced above, then the input dem could be used).</p>
+<code class="descclassname">make_hydrodem.</code><code class="descname">hydrodem</code><span class="sig-paren">(</span><em><span class="n">outdir</span></em>, <em><span class="n">huc8cov</span></em>, <em><span class="n">origdemPth</span></em>, <em><span class="n">dendrite</span></em>, <em><span class="n">snap_grid</span></em>, <em><span class="n">bowl_polys</span></em>, <em><span class="n">bowl_lines</span></em>, <em><span class="n">inwall</span></em>, <em><span class="n">drainplug</span></em>, <em><span class="n">buffdist</span></em>, <em><span class="n">inwallbuffdist</span></em>, <em><span class="n">inwallht</span></em>, <em><span class="n">outwallht</span></em>, <em><span class="n">agreebuf</span></em>, <em><span class="n">agreesmooth</span></em>, <em><span class="n">agreesharp</span></em>, <em><span class="n">bowldepth</span></em>, <em><span class="n">cellsz</span></em>, <em><span class="n">scratchWorkspace</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.hydrodem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hydro-enforce a DEM using hydrography data sets.</p>
+<p>This function is used by the National StreamStats Team as the optimal approach for preparing a state’s physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as truth. Supplied watershed boundaries can also be recognized as truth if avaialable for a given state/region. This function assumes that the DEM has first been projected to a state’s projection of choice. This function prepares data to be used in the Archydro data model (the GIS database environment for National StreamStats).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>outdir</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DEworkspace</span></dt>
-<dd><p class="first last">Working directory</p>
+<dt><strong>outdir</strong><span class="classifier">DEworkspace</span></dt><dd><p>Working directory.</p>
 </dd>
-<dt><strong>huc8cov</strong> <span class="classifier-delimiter">:</span> <span class="classifier">DEFeatureClass</span></dt>
-<dd><p class="first last">Local division feature class, often HUC8, this will be the outer wall of the hydroDEM.</p>
+<dt><strong>huc8cov</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Local division feature class, often HUC8, this will be the outer wall of the hydroDEM.</p>
 </dd>
-<dt><strong>origdemPth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the orignial, projected DEM.</p>
+<dt><strong>origdemPth</strong><span class="classifier">str</span></dt><dd><p>Path to the orignial, projected DEM.</p>
 </dd>
-<dt><strong>dendrite</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the dendrite feature class to be used.</p>
+<dt><strong>dendrite</strong><span class="classifier">str</span></dt><dd><p>Path to the dendrite feature class to be used.</p>
 </dd>
-<dt><strong>snap_grid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to a raster dataset to use as a snap_grid to align all the watersheds, often the same as the DEM.</p>
+<dt><strong>snap_grid</strong><span class="classifier">str</span></dt><dd><p>Path to a raster dataset to use as a snap_grid to align all the watersheds, often the same as the DEM.</p>
 </dd>
-<dt><strong>bowl_polys</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the bowling area raster generated from the bathymetric gradient tool.</p>
+<dt><strong>bowl_polys</strong><span class="classifier">str</span></dt><dd><p>Path to the bowling area raster generated from the bathymetric gradient tool.</p>
 </dd>
-<dt><strong>bowl_lines</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the bowling line raster generated from the bathymetric gradient tool.</p>
+<dt><strong>bowl_lines</strong><span class="classifier">str</span></dt><dd><p>Path to the bowling line raster generated from the bathymetric gradient tool.</p>
 </dd>
-<dt><strong>inwall</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the feature class to be used for inwalling</p>
+<dt><strong>inwall</strong><span class="classifier">str</span></dt><dd><p>Path to the feature class to be used for inwalling.</p>
 </dd>
-<dt><strong>drainplug :</strong></dt>
-<dd><p class="first last">Path to the feature class used for inserting sinks into the dataset</p>
+<dt><strong>drainplug :</strong></dt><dd><p>Path to the feature class used for inserting sinks into the dataset.</p>
 </dd>
-<dt><strong>buffdist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Distance to buffer the outer wall, same units as the projection.</p>
+<dt><strong>buffdist</strong><span class="classifier">float</span></dt><dd><p>Distance to buffer the outer wall, same units as the projection.</p>
 </dd>
-<dt><strong>inwallbuffdist :</strong></dt>
-<dd><p class="first last">Distance to buffer the inner walls, same units as the projection.</p>
+<dt><strong>inwallbuffdist :</strong></dt><dd><p>Distance to buffer the inner walls, same units as the projection.</p>
 </dd>
-<dt><strong>inwallht :</strong></dt>
-<dd><p class="first last">Inwall height, same units as the projection.</p>
+<dt><strong>inwallht :</strong></dt><dd><p>Inwall height, same units as the projection.</p>
 </dd>
-<dt><strong>outwallht :</strong></dt>
-<dd><p class="first last">Inwall height, same units as the projection.</p>
+<dt><strong>outwallht :</strong></dt><dd><p>Inwall height, same units as the projection.</p>
 </dd>
-<dt><strong>agreebuf :</strong></dt>
-<dd><p class="first last">AGREE function buffer distance, same units as the projection.</p>
+<dt><strong>agreebuf :</strong></dt><dd><p>AGREE function buffer distance, same units as the projection.</p>
 </dd>
-<dt><strong>agreesmooth :</strong></dt>
-<dd><p class="first last">AGREE function smoothing distance, same units as the projection.</p>
+<dt><strong>agreesmooth :</strong></dt><dd><p>AGREE function smoothing distance, same units as the projection.</p>
 </dd>
-<dt><strong>agreesharp :</strong></dt>
-<dd><p class="first last">AGREE function sharp distance, same units as the projection.</p>
+<dt><strong>agreesharp :</strong></dt><dd><p>AGREE function sharp distance, same units as the projection.</p>
 </dd>
-<dt><strong>bowldepth :</strong></dt>
-<dd><p class="first last">Bowling depth, same units as the projection.</p>
+<dt><strong>bowldepth :</strong></dt><dd><p>Bowling depth, same units as the projection.</p>
 </dd>
-<dt><strong>cellsz :</strong></dt>
-<dd><p class="first last">Cell size, same units as the projection.</p>
+<dt><strong>cellsz :</strong></dt><dd><p>Cell size, same units as the projection.</p>
 </dd>
-<dt><strong>scratchWorkspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to scratch workspace</p>
+<dt><strong>scratchWorkspace</strong><span class="classifier">str</span></dt><dd><p>Path to scratch workspace.</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Package version number</p>
+<dt><strong>version</strong><span class="classifier">str (optional)</span></dt><dd><p>Package version number.</p>
 </dd>
-<dt><strong>Returns (saved to outDIR)</strong></dt>
-<dd></dd>
-<dt><strong>——-</strong></dt>
-<dd></dd>
-<dt><strong>filldem</strong> <span class="classifier-delimiter">:</span> <span class="classifier">raster</span></dt>
-<dd><p class="first last">hydro-enforced DEM raster grid saved to outDir</p>
+<dt><strong>Returns (saved to outDIR)</strong></dt><dd></dd>
+<dt><strong>——-</strong></dt><dd></dd>
+<dt><strong>filldem</strong><span class="classifier">raster</span></dt><dd><p>hydro-enforced DEM raster grid saved to outDir.</p>
 </dd>
-<dt><strong>fdirg</strong> <span class="classifier-delimiter">:</span> <span class="classifier">raster</span></dt>
-<dd><p class="first last">HydroDEM FDR raster grid saved to outDir</p>
+<dt><strong>fdirg</strong><span class="classifier">raster</span></dt><dd><p>HydroDEM FDR raster grid saved to outDir.</p>
 </dd>
-<dt><strong>faccg</strong> <span class="classifier-delimiter">:</span> <span class="classifier">raster</span></dt>
-<dd><p class="first last">HydroDEM FAC raster grid saved to outDir</p>
+<dt><strong>faccg</strong><span class="classifier">raster</span></dt><dd><p>HydroDEM FAC raster grid saved to outDir.</p>
 </dd>
-<dt><strong>sink_path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">feature class</span></dt>
-<dd><p class="first last">Sink feature class saved to outDir</p>
+<dt><strong>sink_path</strong><span class="classifier">feature class</span></dt><dd><p>Sink feature class saved to outDir.</p>
 </dd>
 </dl>
 </td>
@@ -507,53 +440,87 @@ nhd web page referenced above, then the input dem could be used).</p>
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="make_hydrodem.moveRasters">
-<code class="descclassname">make_hydrodem.</code><code class="descname">moveRasters</code><span class="sig-paren">(</span><em>source</em>, <em>dest</em>, <em>rasters</em>, <em>fmt=None</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.moveRasters" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">make_hydrodem.</code><code class="descname">moveRasters</code><span class="sig-paren">(</span><em><span class="n">source</span></em>, <em><span class="n">dest</span></em>, <em><span class="n">rasters</span></em>, <em><span class="n">fmt</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.moveRasters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move raster out of a working geodatabase to a destination folder.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="make_hydrodem.postHydroDEM">
-<code class="descclassname">make_hydrodem.</code><code class="descname">postHydroDEM</code><span class="sig-paren">(</span><em>workspace</em>, <em>facPth</em>, <em>fdrPth</em>, <em>thresh1</em>, <em>thresh2</em>, <em>sinksPth=None</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.postHydroDEM" title="Permalink to this definition">¶</a></dt>
-<dd><p>generate stream reaches, adjoint catchments, and drainage points</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">database-type workspace to output rasters and feature classes.</p>
+<dt><strong>source</strong><span class="classifier">str</span></dt><dd><p>Path to geodatabase containing the rasters.</p>
 </dd>
-<dt><strong>facPth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the flow accumulation grid produced by hydroDEM.</p>
+<dt><strong>dest</strong><span class="classifier">str</span></dt><dd><p>Path to destination location.</p>
 </dd>
-<dt><strong>fdrPth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the flow direction grid produced by hydroDEM.</p>
+<dt><strong>rasters</strong><span class="classifier">list</span></dt><dd><p>List of rasters to move from source to dest.</p>
 </dd>
-<dt><strong>thresh1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 m$^2$.</p>
-</dd>
-<dt><strong>thresh2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 m$^2$.</p>
-</dd>
-<dt><strong>sinksPth</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (optional)</span></dt>
-<dd><p class="first last">Path to the snklnk grid, optional.</p>
-</dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str (optional)</span></dt>
-<dd><p class="first last">StreamStats DataPrepTools version to be printed.</p>
+<dt><strong>fmt</strong><span class="classifier">str (optional)</span></dt><dd><p>Extension indicating the raster format the output without the leading period, e.g. “tif”.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt>
-<dd></dd>
+<dt>None</dt><dd></dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="make_hydrodem.postHydroDEM">
+<code class="descclassname">make_hydrodem.</code><code class="descname">postHydroDEM</code><span class="sig-paren">(</span><em><span class="n">workspace</span></em>, <em><span class="n">facPth</span></em>, <em><span class="n">fdrPth</span></em>, <em><span class="n">thresh1</span></em>, <em><span class="n">thresh2</span></em>, <em><span class="n">sinksPth</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.postHydroDEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate stream reaches, adjoint catchments, and drainage points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>database-type workspace to output rasters and feature classes.</p>
+</dd>
+<dt><strong>facPth</strong><span class="classifier">str</span></dt><dd><p>Path to the flow accumulation grid produced by hydroDEM.</p>
+</dd>
+<dt><strong>fdrPth</strong><span class="classifier">str</span></dt><dd><p>Path to the flow direction grid produced by hydroDEM.</p>
+</dd>
+<dt><strong>thresh1</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 m$^2$.</p>
+</dd>
+<dt><strong>thresh2</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 m$^2$.</p>
+</dd>
+<dt><strong>sinksPth</strong><span class="classifier">str (optional)</span></dt><dd><p>Path to the snklnk grid, optional.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str (optional)</span></dt><dd><p>StreamStats DataPrepTools version to be printed.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>str</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 15,000,000 m$^2$.</p>
+</dd>
+<dt><strong>str900</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 810,000 m$^2$.</p>
+</dd>
+<dt><strong>strlnk</strong><span class="classifier">raster</span></dt><dd><p>Raster with streams labeld with index values.</p>
+</dd>
+<dt><strong>lnk</strong><span class="classifier">raster</span></dt><dd><p>Merged stream and sink raster.</p>
+</dd>
+<dt><strong>cat</strong><span class="classifier">raster</span></dt><dd><p>Catchment raster.</p>
+</dd>
+<dt><strong>drainageLine</strong><span class="classifier">feature class</span></dt><dd><p>Vectorized streams.</p>
+</dd>
+<dt><strong>catchment</strong><span class="classifier">feature class</span></dt><dd><p>Vectorized catchments.</p>
+</dd>
+<dt><strong>adjointCatchment</strong><span class="classifier">feature class</span></dt><dd><p>Vectorized catchments for use in delineation.</p>
+</dd>
+<dt><strong>drainagePoint</strong><span class="classifier">feature class</span></dt><dd><p>Point located at the greatest flow accumulation value in each catchment.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This tool requires archydro to be installed and currently only works with Python 2.</p>
 </dd></dl>
 
 </div>

@@ -22,6 +22,7 @@ copyright = '2019, Theodore Barnhart'
 author = 'Theodore Barnhart'
 
 # The full version, including alpha/beta/rc tags
+version = '4.0'
 release = '4.0beta'
 master_doc = 'index'
 

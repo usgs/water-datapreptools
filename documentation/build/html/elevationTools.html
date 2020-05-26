@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -58,6 +58,10 @@
 
           
             
+            
+              <div class="version">
+                4.0
+              </div>
             
           
 
@@ -159,34 +163,30 @@
             
   <div class="section" id="module-elevationTools">
 <span id="elevationtools-module"></span><h1>elevationTools Module<a class="headerlink" href="#module-elevationTools" title="Permalink to this headline">¶</a></h1>
-<p>This library is a collection of functions to create an seamless mosaic of digital elevation models for an area of interest, extracts a hydrologic unit (local folder) from this mosaic, checks for and fills no data values in the digital elevation model, projects the digital elevation model to the target projection, and scales the elevation values for better data storage.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.checkNoData">
-<code class="descclassname">elevationTools.</code><code class="descname">checkNoData</code><span class="sig-paren">(</span><em>InGrid</em>, <em>tmpLoc</em>, <em>OutPolys_shp</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.checkNoData" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">elevationTools.</code><code class="descname">checkNoData</code><span class="sig-paren">(</span><em><span class="n">InGrid</span></em>, <em><span class="n">tmpLoc</span></em>, <em><span class="n">OutPolys_shp</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.checkNoData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a feature class of no data values.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>InGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Raster</span></dt>
-<dd><p class="first last">Input DEM grid to search for no data values</p>
+<dt><strong>InGrid</strong><span class="classifier">Raster</span></dt><dd><p>Input DEM grid to search for no data values</p>
 </dd>
-<dt><strong>tmpLoc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to workspace</p>
+<dt><strong>tmpLoc</strong><span class="classifier">str</span></dt><dd><p>Path to workspace</p>
 </dd>
-<dt><strong>OutPoly_shp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name for output feature class</p>
+<dt><strong>OutPoly_shp</strong><span class="classifier">str</span></dt><dd><p>Name for output feature class</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd><p class="first last">StreamStats DataPrepTools version</p>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>featCount</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Count of no data features generated.</p>
+<dt><strong>featCount</strong><span class="classifier">int</span></dt><dd><p>Count of no data features generated.</p>
+</dd>
+<dt><strong>OutPoly_shp</strong><span class="classifier">feature class</span></dt><dd><p>No data feature class written to tmpLoc.</p>
 </dd>
 </dl>
 </td>
@@ -195,27 +195,24 @@
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.check_projection">
-<code class="descclassname">elevationTools.</code><code class="descname">check_projection</code><span class="sig-paren">(</span><em>ds1</em>, <em>ds2</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.check_projection" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">elevationTools.</code><code class="descname">check_projection</code><span class="sig-paren">(</span><em><span class="n">ds1</span></em>, <em><span class="n">ds2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.check_projection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the projections of the two files are the same.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>ds1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to first geospatial file.</p>
+<dt><strong>ds1</strong><span class="classifier">str</span></dt><dd><p>Path to first geospatial file.</p>
 </dd>
-<dt><strong>ds2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to second geospatial file.</p>
+<dt><strong>ds2</strong><span class="classifier">str</span></dt><dd><p>Path to second geospatial file.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>same</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Boolean indicating if the projections are the same or not.</p>
+<dt><strong>same</strong><span class="classifier">bool</span></dt><dd><p>Boolean indicating if the projections are the same or not.</p>
 </dd>
 </dl>
 </td>
@@ -226,24 +223,22 @@
 <p>Slightly modified from Chris Wills’ post: <a class="reference external" href="https://gis.stackexchange.com/questions/170088/checking-if-two-feature-classes-have-same-spatial-reference-using-arcpy">https://gis.stackexchange.com/questions/170088/checking-if-two-feature-classes-have-same-spatial-reference-using-arcpy</a></p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.compareSpatialRefUnits">
-<code class="descclassname">elevationTools.</code><code class="descname">compareSpatialRefUnits</code><span class="sig-paren">(</span><em>grd</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.compareSpatialRefUnits" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">elevationTools.</code><code class="descname">compareSpatialRefUnits</code><span class="sig-paren">(</span><em><span class="n">grd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.compareSpatialRefUnits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compare horizontal and vertical units from a raster dataset. Returns True if units are the same, returns False if they are different.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>grd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to raster dataset.</p>
+<dt><strong>grd</strong><span class="classifier">str</span></dt><dd><p>Path to raster dataset.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>sameUnits</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">True if units are the same, False if not.</p>
+<dt><strong>sameUnits</strong><span class="classifier">bool</span></dt><dd><p>True if units are the same, False if not.</p>
 </dd>
 </dl>
 </td>
@@ -252,36 +247,31 @@
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.elevIndex">
-<code class="descclassname">elevationTools.</code><code class="descname">elevIndex</code><span class="sig-paren">(</span><em>OutLoc</em>, <em>rcName</em>, <em>coordsysRaster</em>, <em>InputELEVDATAws</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.elevIndex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a raster mosaic dataset of the digital elevation models found in <em>InputELEVDATAws</em>.</p>
+<code class="descclassname">elevationTools.</code><code class="descname">elevIndex</code><span class="sig-paren">(</span><em><span class="n">OutLoc</span></em>, <em><span class="n">rcName</span></em>, <em><span class="n">coordsysRaster</span></em>, <em><span class="n">InputELEVDATAws</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.elevIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a raster mosaic dataset of the digital elevation model geospatial tiles supplied to the function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>OutLoc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to output location for the raster catalog.</p>
+<dt><strong>OutLoc</strong><span class="classifier">str</span></dt><dd><p>Path to output location for the raster catalog.</p>
 </dd>
-<dt><strong>rcName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the output mosaic raster dataset.</p>
+<dt><strong>rcName</strong><span class="classifier">str</span></dt><dd><p>Name of the output mosaic raster dataset.</p>
 </dd>
-<dt><strong>coordsysRaster</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to raster from which to base the mosaic dataset’s coordinate system.</p>
+<dt><strong>coordsysRaster</strong><span class="classifier">str</span></dt><dd><p>Path to raster from which to base the mosaic dataset’s coordinate system.</p>
 </dd>
-<dt><strong>InputELEVDATAws</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to workspace containing the elevation data to be included in the mosaic raster dataset. Rasters in this workspace should be either geoTiffs or ESRI grids. Rasters must be unzipped, but they can be in subfolders.</p>
+<dt><strong>InputELEVDATAws</strong><span class="classifier">str</span></dt><dd><p>Path to workspace containing the elevation data to be included in the mosaic raster dataset. Rasters in this workspace should be either geoTiffs or ESRI grids. Rasters must be unzipped, but they may be in subfolders.</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd><p class="first last">StreamStats DataPrepTools version number.</p>
+<dt><strong>version</strong><span class="classifier">str (optional)</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt>
-<dd></dd>
+<dt><strong>OutFC</strong><span class="classifier">feature class</span></dt><dd><p>Output feature class of polygons with an attribute describing the full path to the elevation data tiles.</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -289,36 +279,31 @@
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.extractPoly">
-<code class="descclassname">elevationTools.</code><code class="descname">extractPoly</code><span class="sig-paren">(</span><em>Input_Workspace</em>, <em>nedindx</em>, <em>clpfeat</em>, <em>OutGrd</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.extractPoly" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extracts watershed DEM from a raster catalogue of tiles based on a watershed feature.</p>
+<code class="descclassname">elevationTools.</code><code class="descname">extractPoly</code><span class="sig-paren">(</span><em><span class="n">Input_Workspace</span></em>, <em><span class="n">nedindx</span></em>, <em><span class="n">clpfeat</span></em>, <em><span class="n">OutGrd</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.extractPoly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts watershed DEM from a raster mosaic dataset of tiles based on a watershed polygon feature.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Input_Workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the workspace to work in.</p>
+<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
 </dd>
-<dt><strong>nedindx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the elevation data mosaic dataset.</p>
+<dt><strong>nedindx</strong><span class="classifier">str</span></dt><dd><p>Path to the elevation data mosaic dataset.</p>
 </dd>
-<dt><strong>clpfeat</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the clipping feature.</p>
+<dt><strong>clpfeat</strong><span class="classifier">str</span></dt><dd><p>Path to the clipping feature.</p>
 </dd>
-<dt><strong>OutGrd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the output grid to be generated in Input_Workspace.</p>
+<dt><strong>OutGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid to be generated in Input_Workspace.</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd><p class="first last">StreamStats DataPrepTools version number.</p>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt>
-<dd></dd>
+<dt><strong>OutGrd</strong><span class="classifier">raster</span></dt><dd><p>Output extracted raster to Input_Workspace.</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -326,82 +311,69 @@
 </table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.fillNoData">
-<code class="descclassname">elevationTools.</code><code class="descname">fillNoData</code><span class="sig-paren">(</span><em>workspace</em>, <em>InGrid</em>, <em>OutGrid</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.fillNoData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replaces NODATA values in a grid with mean values within 3x3 window.</p>
+<code class="descclassname">elevationTools.</code><code class="descname">fillNoData</code><span class="sig-paren">(</span><em><span class="n">workspace</span></em>, <em><span class="n">InGrid</span></em>, <em><span class="n">OutGrid</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.fillNoData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces NODATA values in a grid with mean values within 3x3 window around each NODATA value.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the workspace to work in.</p>
+<dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
 </dd>
-<dt><strong>InGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the input grid to be filled.</p>
+<dt><strong>InGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the input grid to be filled.</p>
 </dd>
-<dt><strong>OutGrid</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the output grid.</p>
+<dt><strong>OutGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid.</p>
 </dd>
-<dt><strong>Version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
-<dd><p class="first last">Code version</p>
+<dt><strong>Version</strong><span class="classifier">str (optional)</span></dt><dd><p>Code version.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt>
-<dd></dd>
+<dt><strong>OutGrid</strong><span class="classifier">raster</span></dt><dd><p>Filled raster grid output to workspace.</p>
+</dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>May be run repeatedly to fill in areas wider than 2 cells. Note the output is floating point, even if the input is integer. Note this will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid.</p>
-<p>Converted from model builder to arcpy, Theodore Barnhart, <a class="reference external" href="mailto:tbarnhart&#37;&#52;&#48;usgs&#46;gov">tbarnhart<span>&#64;</span>usgs<span>&#46;</span>gov</a>, 20190222</p>
+<p>May be run repeatedly to fill in areas wider than 2 cells. Note that the output is floating point, even if the input is integer. This function will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="elevationTools.projScale">
-<code class="descclassname">elevationTools.</code><code class="descname">projScale</code><span class="sig-paren">(</span><em>Input_Workspace</em>, <em>InGrd</em>, <em>OutGrd</em>, <em>OutCoordsys</em>, <em>OutCellSize</em>, <em>RegistrationPoint</em>, <em>scaleFact=100</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Projects a NED grid to a user-specified coordinate system, handling cell registration. Converts</dt>
-<dd>output grid to centimeters (multiplies by 100 and rounds).</dd>
-</dl>
+<code class="descclassname">elevationTools.</code><code class="descname">projScale</code><span class="sig-paren">(</span><em><span class="n">Input_Workspace</span></em>, <em><span class="n">InGrd</span></em>, <em><span class="n">OutGrd</span></em>, <em><span class="n">OutCoordsys</span></em>, <em><span class="n">OutCellSize</span></em>, <em><span class="n">RegistrationPoint</span></em>, <em><span class="n">scaleFact</span><span class="o">=</span><span class="default_value">100</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Projects a DEM grid to a user-specified coordinate system, handling cell registration and converts the output grid to integers using a scale factor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Input_Workspace</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to input workspace.</p>
+<dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to input workspace.</p>
 </dd>
-<dt><strong>InGrd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the grid to be projected and scaled.</p>
+<dt><strong>InGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the grid to be projected and scaled.</p>
 </dd>
-<dt><strong>OutGrd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the output grid.</p>
+<dt><strong>OutGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the output grid.</p>
 </dd>
-<dt><strong>OutCoordsys</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the dataset to base the projection off of.</p>
+<dt><strong>OutCoordsys</strong><span class="classifier">str</span></dt><dd><p>Path to the dataset to base the projection off of.</p>
 </dd>
-<dt><strong>OutCellSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int or float</span></dt>
-<dd><p class="first last">Cell size for output grid.</p>
+<dt><strong>OutCellSize</strong><span class="classifier">int or float</span></dt><dd><p>Cell size for output grid.</p>
 </dd>
-<dt><strong>RegistrationPoint</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Registration point for output grid so all grids snap correctly. In the format “0 0” where the zeros are the x and y of the registration point.</p>
+<dt><strong>RegistrationPoint</strong><span class="classifier">str</span></dt><dd><p>Registration point for output grid so all grids snap correctly. In the format “0 0” where the zeros are the x and y of the registration point.</p>
 </dd>
-<dt><strong>version</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Stream Stats version number.</p>
+<dt><strong>scaleFact</strong><span class="classifier">int</span></dt><dd><p>Scale factor to convert grid values to integers.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Stream Stats version number.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>None</dt>
-<dd></dd>
+<dt><strong>OutGrd</strong><span class="classifier">raster</span></dt><dd><p>Rescaled and projected raster file in the input workspace.</p>
+</dd>
 </dl>
 </td>
 </tr>

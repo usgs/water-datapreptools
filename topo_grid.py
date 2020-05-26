@@ -6,42 +6,39 @@ from arcpy.sa import *
 import time
 
 def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = None ,huc12=None):
-	'''
-	Notes
-	-----
-	See https://support.esri.com/en/technical-article/000004588
-
-
+	'''Regenerate a DEM based on supplied hydrography features.
+	
 	Parameters
 	----------
 	workspace : str
-		Path to geodatabase
+		Path to geodatabase workspace.
 	huc8 : str
-		Path to huc8 feature class
+		Path to local watershed feature class.
 	buffdist : int
-		Distance to buffer huc8 in horizontal map units
+		Distance to buffer huc8 in horizontal map units.
 	dendrite : str
-		Path to flowline dendrite feature class
+		Path to flowline dendrite feature class.
 	dem : str
-		Path to buffered, scalled, and projected DEM
+		Path to buffered, scaled, and projected DEM.
 	cellSize : int
-		Output cell size
+		Output cell size.
 	vipPer : int
-		VIP thining value
+		VIP thining value.
 	snapgrid : str (optional)
 		Path to snapgrid to use instead of input DEM.
-	huc12 : list
-		List of paths to HUC12 values if the huc8 doesn't work
+	huc12 : list (optional)
+		List of paths to HUC12 values if the huc8 is too large to process in one pass.
 
 	Returns
 	-------
-	None
-
-	Outputs
-	-------
 	topodem : raster
 		DEM generated from topo to raster.
+
+	Notes
+	-----
+	See https://support.esri.com/en/technical-article/000004588
 	'''
+
 	strt = time.time()
 	arcpy.AddMessage("Running TopoGrid")
 	arcpy.env.workspace = workspace
@@ -203,6 +200,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	endtime = time.time() - strt
 	arcpy.AddMessage("TopoGrid complete! %0.3f minutes"%(endtime/60.))
 	
+	return None
 
 
 

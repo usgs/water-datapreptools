@@ -1,18 +1,11 @@
-"""
-This library creates the folder structure and does not data management to facilitate preparing data for use in StreamStats.
-"""
 import arcpy
 import sys
 import os
 
 def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template, alt_buff, version = None):
-	"""Set up the local folders and copy hydrography data.
+	"""Set up the local folders and copy hydrography data into input geodatabases.
 
-	This tool creates folder cooresponding to each local hydrologic unit and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.
-
-	Notes
-	-----
-	As this tool moves through each local hydrologic unit it searches the *nhd_path* for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized in the same way that NHD hydrography is.
+	This tool creates folder cooresponding to each local hydrologic unit, usually a HUC8, and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.
 	
 	Parameters
 	----------
@@ -40,29 +33,10 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	Returns
 	-------
 	None
-	"""
-	
-	"""
-	Old Notes
-	---------
-    HUC_process.py
-    ==============
-    This script setup up an archydro workspace for the StreamStats process
-    The script takes the WBD, NHD and creates a new folder in a new workspace
-    for each huc and creates a master filegdb that sits in the archydro root
-    and holds the huc8index.  It also dissolves by 12 digit and 8 digit polygons
-    and line feature classes, creates the inner walls feature class, creates a
-    50m and 2000m buffer of the HUC and creats a 2000m huc buffer in the DEM
-    projection (to use with your Elevation tools)
-    
-    Changes
-    =======
-    Created on: April 20 2010 by Martyn Smith, USGS
-    Updated on: May 26, 2015 by Kitty Kolb, USGS
-    Modified to remove M-values from shapefile creations.
-    Updated on: April 11, 2019 by Kitty Kolb, USGS
-    Modified to reflect ArcPy and new data naming conventions, wrote new cursor search
-    April 22, 2019 - Theodore Barnhart: moved to python toolbox.
+
+	Notes
+	-----
+	As this tool moves through each local hydrologic unit it searches the *nhd_path* for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized in the same way that NHD hydrography is.
 	"""
 
 	if version:

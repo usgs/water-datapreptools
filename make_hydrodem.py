@@ -1,11 +1,3 @@
-'''
-Code to replicate the hydroDEM_work_mod.aml, agree.aml, and fill.aml scripts
-
-Theodore Barnhart, tbarnhart@usgs.gov, 20190225
-
-Reference: agree.aml
-	
-'''
 import numpy as np
 import arcpy
 arcpy.CheckOutExtension("Spatial")
@@ -46,41 +38,37 @@ def SnapExtent(lExtent, lRaster):
 	return extent
 
 def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody,cellsize, version = None):
-	'''Generates the input datasets for enforcing a bathymetic gradient in hydroDEM (bowling).
-	
-	Originally:
-		ssbowling.py
-		Created on: Wed Jan 31 2007 01:16:48 PM
-		Author:  Martyn Smith
-		USGS New York Water Science Center Troy, NY
-	
-	Updated to Arcpy, 20190222, Theodore Barnhart, tbarnhart@usgs.gov
-
-	This script takes a set of NHD Hydrography Datasets, extracts the appropriate
-	features and converts them to rasters for the Bathymetric Gradient (bowling) inputs to HydroDEM
+	'''Generates the input datasets from hydrography features for enforcing a bathymetic gradient in hydroDEM (bowling).
 	
 	Parameters
 	----------
 	workspace : str
-
+		Path to the geodatabase workspace.
 	snapGrid : str
-
+		Path to the raster snap grid used for the project.
 	hucPoly : str
-
+		Path to the bounding polygon for the local folder inputs are being generated for.
 	hydrographyArea : str
-
+		Path to the double line stream features.
 	hydrographyFlowline : str
-
+		Path to the flowline features.
 	hydrographyWaterbody : str
-
+		Path to the waterbody features.
 	cellsize : str
-
-	version : str
+		Output cell size to use for rasterization.
+	version : str (optional)
 		Package version number
 
 	Returns
 	-------
-	
+	hydro_flowlines : raster
+		Grid representation of flowlines.
+	hydro_areas : raster
+		Grid representation of double line streams and flowlines.
+
+	Notes
+	-----
+	Outputs are written to the workspace.
 	'''
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
@@ -117,8 +105,8 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	wbtempraster = os.path.join(arcpy.env.workspace,"nhdwb_tmp")
 	areatempraster = os.path.join(arcpy.env.workspace,"nhdarea_tmp")
 	mosaiclist = wbtempraster + ";" + areatempraster
-	outraster1 = "wb_srcg"
-	outraster2 = "nhd_wbg"
+	outraster1 = "hydro_flowlines"
+	outraster2 = "hydro_areas"
 
 	#convert to temporary shapefiles
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
@@ -196,30 +184,29 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	arcpy.AddMessage("Done!")
 
 def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel):
-	'''Sets elevations for water and other areas in DEM
-
-	Originally:
-		Al Rea, ahrea@usgs.gov, 05/01/2010, original coding
-		ahrea, 10/30/2010 updated with more detailed comments
-		Theodore Barnhart, 20190225, tbarnhart@usgs.gov, updated to arcpy
+	'''Sets elevations for water and other areas in digital elevation model.
 
 	Parameters
 	----------
 	Input_Workspace : str
 		Input workspace, output raster will be written here.
 	grdNamePth : str
-		Input DEM grid.
+		Path to the input DEM grid.
 	InFeatureClass : str
-		LandSea feature class.
+		Path to the LandSea feature class.
 	OutRaster : str
 		Output DEM grid name.
 	seaLevel : float
-		Elevation at which to make the sea
+		Elevation at which to make the sea.
 	
 	Returns
 	-------
 	OutRaster : raster
-		Output raster written to the workspace.
+		Output raster with coastal areas corrected.
+
+	Notes
+	-----
+	Outputs are written to the workspace.
 	'''
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
@@ -256,33 +243,14 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 	return None
 
 def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWorkspace, version = None):
-	'''Hydro-enforce a DEM
+	'''Hydro-enforce a DEM using hydrography data sets.
 
-	This aml is used by the National StreamStats Team as the optimal
-	approach for preparing a state's physiographic datasets for watershed delineations.
-	It takes as input, a 10-meter (or 30-foot) DEM, and enforces this data to recognize
-	NHD hydrography as truth.  WBD can also be recognized as truth if avaialable for a
-	given state/region. This aml assumes that the DEM has first been projected to a
-	state's projection of choice. This aml prepares data to be used in the Archydro
-	data model (the GIS database environment for National StreamStats).
-
-	The specified <8-digit HUC> should have a path associated with it in the variable 
-	settings section near the top of this aml.  The value entered will create a workspace
-	with this HUC id as it's name, and copy all output datasets into the new workspace.
-	If the workspace already Exists, it should be empty before running this aml.
-	
-	The snap_grid is used to orient the origin coordinate of the output grids to align 
-	with neighboring HUC grids that have already been processed.  
-	Typically, this value is rounded to the nearest value
-	divisible by 10 (in cases where datsets are in units meters) or 30 (in cases where
-	datasets are in units feet).  The snap grid could be your input dem, if that grid
-	has already been rounded out (if topogrid was used and steps were followed on the 
-	nhd web page referenced above, then the input dem could be used).
+	This function is used by the National StreamStats Team as the optimal approach for preparing a state's physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as truth. Supplied watershed boundaries can also be recognized as truth if avaialable for a given state/region. This function assumes that the DEM has first been projected to a state's projection of choice. This function prepares data to be used in the Archydro data model (the GIS database environment for National StreamStats).
 
 	Parameters
 	----------
 	outdir : DEworkspace
-		Working directory
+		Working directory.
 	huc8cov : DEFeatureClass
 		Local division feature class, often HUC8, this will be the outer wall of the hydroDEM.
 	origdemPth : str
@@ -296,9 +264,9 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	bowl_lines : str
 		Path to the bowling line raster generated from the bathymetric gradient tool.
 	inwall : str
-		Path to the feature class to be used for inwalling
+		Path to the feature class to be used for inwalling.
 	drainplug : 
-		Path to the feature class used for inserting sinks into the dataset
+		Path to the feature class used for inserting sinks into the dataset.
 	buffdist : float
 		Distance to buffer the outer wall, same units as the projection.
 	inwallbuffdist :
@@ -318,20 +286,20 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	cellsz :
 		Cell size, same units as the projection.
 	scratchWorkspace : str
-		Path to scratch workspace
-	version : str
-		Package version number
+		Path to scratch workspace.
+	version : str (optional)
+		Package version number.
 
 	Returns (saved to outDIR)
 	-------
 	filldem : raster
-		hydro-enforced DEM raster grid saved to outDir
+		hydro-enforced DEM raster grid saved to outDir.
 	fdirg : raster
-		HydroDEM FDR raster grid saved to outDir
+		HydroDEM FDR raster grid saved to outDir.
 	faccg : raster
-		HydroDEM FAC raster grid saved to outDir
+		HydroDEM FAC raster grid saved to outDir.
 	sink_path : feature class
-		Sink feature class saved to outDir
+		Sink feature class saved to outDir.
 	'''
 	strtTime = time.time()
 	if version:
@@ -570,48 +538,29 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	return None
 
 def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
-	'''Agree function from AGREE.aml
-
-	Original function by Ferdi Hellweger, http://www.ce.utexas.edu/prof/maidment/gishydro/ferdi/research/agree/agree.html
-
-	recoded by Theodore Barnhart, tbarnhart@usgs.gov, 20190225
-
+	'''Function to adjust a DEM to match a vector.
 	
-	AGREE
-	-----
-	--- Creation Information ---
-	
-	Name: agree.aml
-	Version: 1.1
-	Date: 10/13/96
-	Author: Ferdi Hellweger
-			Center for Research in Water Resources
-			The University of Texas at Austin
-			ferdi@crwr.utexas.edu
-	
-	--- Purpose/Description ---
-	
-	AGREE is a surface reconditioning system for Digital Elevation Models (DEMs).
-	The system adjusts the surface elevation of the DEM to be consistent with a
-	vector coverage.  The vecor coverage can be a stream or ridge line coverage. 
-
 	Parameters
 	----------
-	origdem : arcpy.sa Raster
-		Original DEM with the desired cell size, oelevgrid in original script
-	dendrite : arcpy.sa Raster
-		Dendrite feature layer to adjust the DEM, vectcov in the original script
+	origdem : Raster Object
+		Original DEM with the desired cell size.
+	dendrite : Raster Object
+		Dendrite feature layer to adjust the DEM.
 	agreebuf : float 
-		Buffer smoothing distance (same units as the horizontal), buffer in original script
+		Buffer smoothing distance (same units as horizontal map units).
 	agreesmooth : float
-		Smoothing distance (same units as the vertical), smoothdist in the original script
+		Smoothing distance (same units as the vertical map units).
 	agreesharp : float
-		Distance for sharp feature (same units as the vertical), sharpdist in the original script
+		Distance for sharp feature (same units as the vertical map units).
 
 	Returns
 	-------
-	elevgrid : arcpy.sa Raster
-		conditioned elevation grid returned as a arcpy.sa Raster object
+	elevgrid : Raster Object
+		Conditioned elevation grid.
+
+	Notes
+	-----
+	Original function by Ferdi Hellweger, http://www.ce.utexas.edu/prof/maidment/gishydro/ferdi/research/agree/agree.html
 	'''
 	arcpy.AddMessage('	Starting AGREE')
 
@@ -668,281 +617,10 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 
 	return elevgrid 
 
-	#############################################################
-	# AGREE.aml
-	#
-	#
-	# /*
-	# /*-------------
-	# /*--- AGREE ---
-	# /*-------------
-	# /*
-	# /*--- Creation Information ---
-	# /*
-	# /*Name: agree.aml
-	# /*Version: 1.1
-	# /*Date: 10/13/96
-	# /*Author: Ferdi Hellweger
-	# /*        Center for Research in Water Resources
-	# /*        The University of Texas at Austin
-	# /*        ferdi@crwr.utexas.edu
-	# /*
-	# /*--- Purpose/Description ---
-	# /*
-	# /*AGREE is a surface reconditioning system for Digital Elevation Models (DEMs).
-	# /*The system adjusts the surface elevation of the DEM to be consistent with a
-	# /*vector coverage.  The vecor coverage can be a stream or ridge line coverage. 
-	# /*
-	# /*--- Get Input Data ---
-	# /*
-	# &args oelevgrid vectcov buffer smoothdist sharpdist
-
-	# /*
-	# &if ( [ length %oelevgrid% ] = 0 ) &then &do
-	#   /*-ls001
-	#   &type AGREE:
-	#   &type AGREE: INPUT REQUIRED
-	#   /*
-	#   &label a
-	#   &type AGREE:
-	#   &sv oelevgrid = [ response 'AGREE: Elevation Grid']
-	#   &if ( [ length %oelevgrid% ] = 0 ) &then  &do
-	#     /*-ls002
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Elevation Grid has to be specified
-	#     &goto a
-	#     /*-le002
-	#   &end
-	#   &if ( not [ exists %oelevgrid% -grid ] ) &then  &do
-	#     /*-ls003
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Grid does not exist
-	#     &goto a
-	#     /*-le003
-	#   &end
-	#   /*
-	#   &label b
-	#   &type AGREE:
-	#   &sv vectcov = [ response 'AGREE: Vector Coverage']
-	#   &if ( [ length %vectcov% ] = 0 ) &then  &do
-	#     /*-ls004
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Vector Coverage has to be specified.
-	#     &goto b
-	#     /*-le004
-	#   &end
-	#   &if ( not [ exists %vectcov% -cover ] ) &then &do
-	#     /*-ls006
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Coverage does not exist
-	#     &goto b
-	#     /*-le006
-	#   &end
-	#   /*
-	#   &label c
-	#   &type AGREE:
-	#   &sv buffer = [ response 'AGREE: Buffer Distance']
-	#   &if ( [ length %buffer% ] = 0 ) &then &do
-	#     /*-ls008
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Buffer Distance has to be specified
-	#     &goto c
-	#     /*-le008
-	#   &end
-	#   /*
-	#   &type AGREE:
-	#   &type AGREE: Note that for the upcoming smooth and sharp drop/raise
-	#   &type AGREE: distance positive is up and negative is down.
-	#   /*
-	#   &label d
-	#   &type AGREE:
-	#   &sv smoothdist = [ response 'AGREE: Smooth Drop/Raise Distance']
-	#   &if ( [ length %smoothdist% ] = 0 ) &then &do
-	#     /*ls009
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Smooth Drop/Raise Distance has to be specified
-	#     &goto d
-	#     /*-le009
-	#   &end
-	#   /*
-	#   &label e
-	#   &type AGREE:
-	#   &sv sharpdist = [ response 'AGREE: Sharp Drop/Raise Distance']
-	#   &if ( [ length %sharpdist% ] = 0 ) &then &do
-	#     /*-ls010
-	#     &type AGREE:
-	#     &type AGREE: INPUT ERROR - Sharp Drop/Raise Distance has to be specified
-	#     &goto e
-	#     /*-le010
-	#   &end
-	#   /*-le001
-	# &end
-	# /*
-	# &type AGREE:
-	# &type AGREE: Starting...
-	# /*
-	# /*--- General Set Up ---
-	# /*
-	# &type AGREE:
-	# &type AGREE: Extracting original elevation grid parameters...
-	# &describe %oelevgrid%
-	# &sv cellsize = %GRD$DX%
-	# /*
-	# /*&if [extract 1 [show display]] ne 9999 &then
-	# /*display 9999
-	# /*
-	# &type AGREE:
-	# &type AGREE: Displaying original elevation grid...
-	# /*mape %oelevgrid%
-	# /*gridpaint %oelevgrid% value linear nowrap gray
-	# /*
-	# /*set analysis environment
-	# /*
-	# &type AGREE:
-	# &type AGREE: Setting the analysis environment...
-	# setwindow %oelevgrid%
-	# setcell %oelevgrid%
-	# /*
-	# /*--- Agree Method ---
-	# /*
-	# /*compute vectgrid
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing vector grid...
-	# &type AGREE:
-	# &if [exists vectgrid -grid] &then
-	# arc kill vectgrid all
-	# vectgrid = linegrid ( %vectcov% )
-	# &type AGREE:
-	# &type AGREE: Displaying vector grid...
-	# /*gridpaint vectgrid
-	# /*
-	# /*compute smogrid
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing smooth drop/raise grid...
-	# &type AGREE:
-	# &if [exists smogrid -grid] &then
-	# arc kill smogrid all
-	# smogrid = int ( setnull ( isnull ( vectgrid ), ( %oelevgrid% + %smoothdist% ) ) )
-	# &type AGREE:
-	# &type AGREE: Displaying smooth drop/raise grid...
-	# /*gridpaint smogrid value linear nowrap gray
-	# /*
-	# /*compute vectdist and vectallo
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing vector distance grids...
-	# &type AGREE:
-	# &if [exists vectdist -grid] &then
-	#   arc kill vectdist all
-	# &if [exists vectallo -grid] &then
-	#   arc kill vectallo all
-	# vectdist = eucdistance( smogrid, #, vectallo, #, # )
-	# &type AGREE:
-	# &type AGREE: Displaying vector distance grid...
-	# /*gridpaint vectdist value linear nowrap gray
-	# /*
-	# /*compute bufgrid1 and bufgrid2
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing buffer grid...
-	# &type AGREE:
-	# &if [exists bufgrid1 -grid] &then
-	#   arc kill bufgrid1 all
-	# &if [exists bufgrid2 -grid] &then
-	#   arc kill bufgrid2 all
-	# bufgrid1 = con ( ( vectdist > ( %buffer% - ( %cellsize% / 2 ) ) ), 1, 0)
-	# bufgrid2 = int ( setnull ( bufgrid1 == 0, %oelevgrid% ) ) 
-	# &type AGREE:
-	# &type AGREE: Displaying buffer grid...
-	# /*gridpaint bufgrid2 value linear nowrap gray
-	# /*
-	# /*compute bufdist and bufballo
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing buffer distance grids...
-	# &type AGREE:
-	# &if [exists bufdist -grid] &then
-	#   arc kill bufdist all
-	# &if [exists bufallo -grid] &then
-	#   arc kill bufallo all
-	# bufdist = eucdistance( bufgrid2, #, bufallo, #, # )
-	# &type AGREE:
-	# &type AGREE: Displaying buffer distance grid...
-	# /*gridpaint bufdist value linear nowrap gray
-	# /*
-	# /*compute smoelev
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing smooth modified elevation grid...
-	# &type AGREE:
-	# &if [exists smoelev -grid] &then
-	#   arc kill smoelev all
-	# smoelev =  vectallo + ( ( bufallo - vectallo ) / ( bufdist + vectdist ) ) * vectdist
-	# &type AGREE:
-	# &type AGREE: Displaying smooth modified elevation grid...
-	# &type AGREE:
-	# /*gridpaint smoelev value linear nowrap gray
-	# /*
-	# /*compute shagrid
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing sharp drop/raise grid...
-	# &type AGREE:
-	# &if [exists shagrid -grid] &then
-	#   arc kill shagrid all
-	# shagrid = int ( setnull ( isnull ( vectgrid ), ( smoelev + %sharpdist% ) ) )
-	# &type AGREE:
-	# &type AGREE: Displaying sharp drop/raise grid...
-	# /*gridpaint shagrid value linear nowrap gray
-	# /*
-	# /*compute elevgrid
-	# /*
-	# &type AGREE:
-	# &type AGREE: Computing modified elevation grid...
-	# &type AGREE:
-	# &if [exists elevgrid -grid] &then
-	#   arc kill elevgrid all
-	# elevgrid = con ( isnull ( vectgrid ), smoelev, shagrid )
-	# &type AGREE:
-	# &type AGREE: Displaying modified elevation grid...
-	# /*gridpaint elevgrid value linear nowrap gray
-	# /*
-	# /*clean up
-	# /*
-	# &type AGREE:
-	# &type AGREE: Cleaning up...
-	# &type AGREE:
-	# arc kill vectgrid all
-	# arc kill smogrid all
-	# arc kill vectdist all
-	# arc kill vectallo all
-	# arc kill bufgrid1 all
-	# arc kill bufgrid2 all
-	# arc kill bufdist all
-	# arc kill bufallo all
-	# arc kill smoelev all
-	# arc kill shagrid all
-	# /*
-	# /*close up
-	# /*
-	# &type AGREE:
-	# &type AGREE: Normal end.
-	# &type AGREE:
-	# &type AGREE: NOTE: Modified elevation grid is saved as elevgrid in current workspace.
-	# &type AGREE: 
-	# &return
-
 def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, version = None):
-	'''
-	Example
-	-------
-	adjust_accum("./01010001/fac",2,["./01010002/fac","./01010003/fac"])
+	'''Adjust a downnstream flow accumulation (FAC) raster based on upstream flow accumulation rasters.
 
-	Description
-	-----------
-	This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named "fac_global" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy.
+	This fucntion adjusts the FAC of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the original FAC grids intact and will create a grid named "fac_global" in the same directory as the original FAC raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy.
 
 	Parameters
 	----------
@@ -959,16 +637,14 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, ver
 	version : str (optional)
 		Stream Stats datapreptool version number.
 	
-	Outputs
+	Returns
 	-------
-	facGlobal : str
-		Path to fac_global raster created in the same directory as fac
+	facGlobal : raster
+		Adjusted flow accumulation raster created in the same directory as fac.
 
-	Attribution
-	-----------
-	accum_adjust2.aml - unknown
-	flow_accum_adjust.py - Martyn Smith, USGS
-	adjust_accum (function) - Theodore Barnhart, USGS
+	Examples
+	--------
+	adjust_accum("./01010001/fac", 2, ["./01010002/fac", "./01010003/fac"])
 	'''
 	if version:
 		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
@@ -1083,192 +759,10 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, ver
 
 	downstream.save("hydrodemfac_global")
 
-	# &args fac_grd num_inlets ingrds:REST
-	# &type [date -full]
-	# &echo &on
-
-	# &if [null %fac_grd%] &then &do
-	#   &call usage
-	#   &return
-	# &end 
-
-	# &severity &error &routine Bailout
-
-	# grid
-	# disp 9999
-
-	# &do i = 1 &to %num_inlets%
-	#   &s grd%i% = [extract %i% [unquote %ingrds%]]
-	#   &s i = %i% + 1
-	# &end
-
-	# &s start_path [show work]
-	# &do i = 1 &to %num_inlets%
-	#   &wo [dir [value grd%i%]]
-	#   /*determine max FAC value
-	#   &des [value grd%i%]
-	#   &if [exists grd_t1 -grid] &then
-	#     arc kill grd_t1
-	#   setmask off
-	#   setcell %grd$dx%
-	#   setwindow [value grd%i%]
-	#   grd_t1 = con([entryname [value grd%i%]] == %grd$zmax%,0)
-	#   setmask grd_t1
-	#   /*determine x,y of max FAC cell
-	#   &if [exists pnt_t%i% -cover] &then
-	#     arc kill pnt_t%i%
-	#   pnt_t%i% = gridpoint(grd_t1,value)
-	#   &des pnt_t%i%
-	#   &s outlet_x%i% = %dsc$xmax%
-	#   &s outlet_y%i% = %dsc$ymax%
-	#   &s adjust_num%i%val = %grd$zmax%
-	#   &type %i%, [value grd%i%], [value outlet_x%i%], [value outlet_y%i%]
-	  
-	#   /*determine FDR value of max FAC cell
-	#   &s fdr%i% = [show cellvalue [dir [value grd%i%]]/fdr [value outlet_x%i%], [value outlet_y%i%]]
-	  
-	#   /*calc  x,y offset
-	#   &select [value fdr%i%]
-	#     &when 1
-	#       &do
-	#         &s adjust_num%i%x = [calc [value outlet_x%i%] + %grd$dx%]
-	#         &s adjust_num%i%y = [value outlet_y%i%]
-	#       &end
-	#     &when 2
-	#       &do
-	#         &s adjust_num%i%x = [calc [value outlet_x%i%] + %grd$dx%]
-	#         &s adjust_num%i%y = [calc [value outlet_y%i%] - %grd$dy%]
-	#       &end
-	#     &when 4
-	#       &do
-	#         &s adjust_num%i%x = [value outlet_x%i%]
-	#         &s adjust_num%i%y = [calc [value outlet_y%i%] - %grd$dx%]
-	#       &end
-	#     &when 8
-	#       &do
-	#         &s adjust_num%i%x = [calc [value outlet_x%i%] - %grd$dx%]
-	#         &s adjust_num%i%y = [calc [value outlet_y%i%] - %grd$dy%]
-	#       &end
-	#     &when 16
-	#       &do
-	#         &s adjust_num%i%x = [calc [value outlet_x%i%] - %grd$dx%]
-	#         &s adjust_num%i%y = [value outlet_y%i%]
-	#       &end
-	#     &when 32
-	#       &do
-	#         &s adjust_num%i%x = [calc [value outlet_x%i%] - %grd$dx%]
-	#         &s adjust_num%i%y = [calc [value outlet_y%i%] + %grd$dy%]
-	#       &end
-	#     &when 64
-	#       &do
-	#         &s adjust_num%i%x = [value outlet_x%i%]
-	#         &s adjust_num%i%y = [calc [value outlet_y%i%] + %grd$dx%]
-	#       &end
-	#     &when 128
-	#       &do
-	#         &s adjust_num%i%x = [calc [value outlet_x%i%] + %grd$dx%]
-	#         &s adjust_num%i%y = [calc [value outlet_y%i%] + %grd$dy%]
-	#       &end
-	#   &end
-	#   &wo %start_path%
-	# &end
-
-	# &wo [dir %fac_grd%]
-	#  setmask off
-	# setwindow maxof
-	# mape %fac_grd%
-	# units map
-	# &if [exists fac1 -grid] &then
-	#   arc kill fac1
-	# arc copy [entryname %fac_grd%] fac1
-
-	# &do i = 1 &to %num_inlets%
-	#   coord keyboard xy
-	#   &if [exists pathgrd%i% -grid] &then
-	#     arc kill pathgrd%i%
-	#     pathgrd%i% = costpath(*,fil,fdr)
-	#        1,[value adjust_num%i%x],[value adjust_num%i%y]
-	#        3
-	#        ~
-	       
-	#   &if [exists fac_adj%i% -grid] &then
-	#     arc kill fac_adj%i%
-	#   fac_adj%i% = con(pathgrd%i%,fac%i% + [value adjust_num%i%val],fac%i%)
-	#   &s val = %i% + 1
-	#   &if [exists fac%val% -grid] &then
-	#     arc kill fac%val%
-	#   fac%val% = merge(fac_adj%i%,fac%i%)
-	# &end
-
-
-	# &if [exists fac_global.rrd -file] &then
-	#   &s xx [delete fac_global.rrd -file]
-	# &if [exists fac_global.aux -file] &then
-	#   &s xx [delete fac_global.aux -file]
-
-	# &if [exists fac_global -grid] &then
-	#   arc kill fac_global
-
-	# rename fac%val% fac_global
-
-
-	# /*&if [exists str%thresh2% -grid] &then
-	# /*  arc kill str%thresh2%
-
-	# /*str%thresh2% = con ( fac_global ge %thresh2%, 1)
-	  
-	# /*cleanup
-	# &do i = 1 &to %num_inlets%
-	#   &if [exists grd_t1 -grid] &then
-	#     arc kill grd_t1
-	#   &if [exists fac_adj%i% -grid] &then
-	#     arc kill fac_adj%i% all
-	#   &if [exists pathgrd%i% -grid] &then
-	#     arc kill pathgrd%i% all
-	#   &if [exists fac%i% -grid] &then
-	#     arc kill fac%i%
-	# &end 
-	  
-	# coord mouse  
-
-	# quit
-
-	# &return
-
-	# &ROUTINE BAILOUT
-	# &severity &error &ignore
-	# coord mouse
-	# &wo %start_path%
-	# &lv
-	# &return &error Bailing out of Accum_Adjust2.aml
-
-	# &routine usage
-	# &type  
-	# &type  USAGE: &r accum_adjust2 <fac_grd> <num_inlets> 
-	# &type                <space separated list of full paths to upstream fac grids>
-	# &type   
-	# &type  ex: &r d:\sstoolbox\accum_adjust2 3 D:\streamstats\DataPrepWorkshop10\ex1\1111\fac D:\streamstats\DataPrepWorkshop10\ex1\2222\fac D:\streamstats\DataPrepWorkshop10\ex1\3333\fac 
-	# &type 
-	# &type This AML adjusts the fac of a downstream HUC to include flow accumulations from
-	# &type upstream HUC's. Run this from the downstream HUC workspace. The AML will leave 
-	# &type the fac grid intact and will create agrid named "fac_global". To get true 
-	# &type accumulation values in HUCs downstream of other non-headwater HUCs, proceed 
-	# &type from upstream HUCs to downstream HUCs in order, and specify the fac_global grid 
-	# &type for any upstream HUC that has one. (It is not essential that the fac_global
-	# &type contain true global fac values, and in some cases it is not possible since the 
-	# &type values get too large. In practice, as long as the receiving cells have 
-	# &type accumulation values larger than the stream definition threshold 
-	# &type (150,000 cells for 10-m grids), then it will be OK. 
-	# &type  
-	# &return  /* end of usage routine
-
 def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None):
-	'''Simple drainage adjust method.
+	'''Simple flow accumulation grid adjustment.
 
-	Original coding by Al Rea (2010) ahrea@usgs.gov
-	Updated to arcPy by Theodore Barnhart (2019) tbarnhart@usgs.gov
-
-	Adds a value to the flow accumulation grid given an input point using a least-cost-path to coascalde down through the flow direction grid.
+	Adds a value to the flow accumulation grid given an input point using a least-cost-path to cascade down through the flow direction grid.
 	
 	Parameters
 	----------
@@ -1289,12 +783,9 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 
 	Returns
 	-------
-	None
-
-	Outputs
-	-------
 	hydrodemfac_global : raster
-		Adjusted FAC grid.
+		Adjusted FAC grid written to facout.
+	
 	'''
 
 	if version:
@@ -1325,11 +816,7 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 	return None
 
 def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, version = None):
-	'''generate stream reaches, adjoint catchments, and drainage points
-	
-	Note
-	----
-	This tool requires archydro
+	'''Generate stream reaches, adjoint catchments, and drainage points
 
 	Parameters
 	----------
@@ -1350,21 +837,28 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 
 	Returns
 	-------
-	None
-
-	Outputs
-	-------
 	str : raster
 		Stream raster where fac > 15,000,000 m$^2$.
 	str900 : raster
 		Stream raster where fac > 810,000 m$^2$.
 	strlnk : raster
+		Raster with streams labeld with index values.
 	lnk : raster
+		Merged stream and sink raster.
 	cat : raster
+		Catchment raster.
 	drainageLine : feature class
+		Vectorized streams.
 	catchment : feature class
+		Vectorized catchments.
 	adjointCatchment : feature class
+		Vectorized catchments for use in delineation.
 	drainagePoint : feature class
+		Point located at the greatest flow accumulation value in each catchment.
+		
+	Notes
+	-----
+	This tool requires archydro to be installed and currently only works with Python 2.
 	'''
 
 	if version:
@@ -1463,7 +957,24 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	moveRasters(workspace,finalSpace,rasters)
 
 def moveRasters(source, dest, rasters, fmt = None):
-	''' Move raster out of a working geodatabase to a destination folder.'''
+	''' Move raster out of a working geodatabase to a destination folder.
+
+	Parameters
+	----------
+	source : str
+		Path to geodatabase containing the rasters.
+	dest : str
+		Path to destination location.
+	rasters : list
+		List of rasters to move from source to dest.
+	fmt : str (optional)
+		Extension indicating the raster format the output without the leading period, e.g. "tif".
+
+	Returns
+	-------
+	None
+	'''
+	
 	arcpy.AddMessage("		Moving %s rasters from:"%(len(rasters)))
 	arcpy.AddMessage("\n")
 	arcpy.AddMessage("		%s"%source)

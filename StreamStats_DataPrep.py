@@ -1,13 +1,12 @@
 """
-An ESRI toolbox to prepare data for use in the StreamStats application.
+An ESRI toolbox to prepare data for use in the USGS StreamStats application.
 
-Tools in this toolbox are describes as classes and rely on the underlying databaseSetup, elevationTools, make_hydrodem, and topo_grid libraries. The functions in the aformentioned libraries can also be used outside of these tools in a Python session with access to ArcPy. All tools are Python 2/3 compatable with the exception of posthydrodem, which must be run using Python 2 / ArcMap.
-
+Tools in this toolbox are describes as classes and rely on the underlying databaseSetup, elevationTools, make_hydrodem, and topo_grid libraries. The functions in the aformentioned libraries can also be used outside of these tools in a Python session with access to ArcPy. All tools are Python 2/3 compatable with the exception of posthydrodem, which must be run using Python 2 / ArcMap at this time.
 """
+
 import arcpy
 import sys
 import os
-#from make_hydrodem import *
 
 version = "4.0beta"
 
@@ -17,6 +16,7 @@ class Toolbox(object):
 	"""
 	ESRI Arc Toolbox for preparing data for USGS StreamStats.
 	"""
+
 	def __init__(self):
 		self.label = "StreamStats Data Preparation Tools"
 		self.alias = "StreamStatsDataPrep"
@@ -30,10 +30,11 @@ class Toolbox(object):
 		]
 
 class databaseSetup(object):
-	"""Set up the workspace needed to process elevation and hydrography data.
+	"""Set up the workspaces needed to process elevation and hydrography data.
 	
 	This tool is a wrapper on :func:`databaseSetup.databaseSetup`.
 	"""
+
 	def __init__(self):
 		self.label = 'A. Database Setup'
 		self.description = 'This script sets up an archydro data model workspace for the StreamStats process. The script takes watershed boundaries and hydrography to create a new folder in a new workspace for each hydrologic unit. The tool creates a master filegdb that sits in the root workspace and holds the hydrologic unit polygons (hucpolys). The tool also dissolves by 12 digit and 8 digit polygons and line feature classes, creates the inner walls feature class, creates two buffered HUC feature classes.'
@@ -69,6 +70,7 @@ class databaseSetup(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "output_workspace",
@@ -165,6 +167,11 @@ class databaseSetup(object):
 		databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template,alt_buff, version=version)
 
 class checkWalls(object):
+	"""Check for intersections between the flowline dendrite and watershed outer walls and/or watershed inner walls.
+
+	This is a wrapper on :func:`databaseSetup.check_walls`.
+	"""
+
 	def __init__(self):
 		self.label = 'B. Check Walls'
 		self.description = 'Check inwall and outwall features for intersections with '
@@ -172,7 +179,7 @@ class checkWalls(object):
 		self.canRunInBackground = False
 
 	def getParameterInfo(self):
-		'''Make Check Walls inputs.
+		'''CheckWalls inputs.
 		
 		Parameters
 		----------
@@ -243,6 +250,7 @@ class makeELEVDATAIndex(object):
 
 	This tool is a wrapper on :func:`elevationTools.elevIndex`.
 	"""
+
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "A. Make ELEVDATA Index"
@@ -269,6 +277,7 @@ class makeELEVDATAIndex(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Output Geodatabase",
 			name = "OutLoc",
@@ -324,6 +333,7 @@ class ExtractPoly(object):
 
 	This tool is a wrapper on :func:`elevationTools.extractPoly`.
 	"""
+
 	def __init__(self):
 		self.label = "B. Extract Polygons"
 		self.description = "Extract polygon area from ELEVDATA."
@@ -349,6 +359,7 @@ class ExtractPoly(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Input_Workspace",
@@ -400,6 +411,7 @@ class CheckNoData(object):
 
 	This tool is a wrapper on :func:`elevationTools.checkNoData`.
 	"""
+
 	def __init__(self):
 		self.description = "Finds NODATA values in a grid and makes a polygon feature class with value 1 if it is NODATA, and 0 if it contains data values."
 		self.category = "2 - Elevation Tools"
@@ -472,6 +484,7 @@ class FillNoData(object):
 	-----
 	This tool can be run iteratively to fully fill no data areas that are larger than one cell.
 	"""
+
 	def __init__(self):
 		self.label = "D. Fill NoData Cells"
 		self.description = "Replaces NODATA values in a grid with mean values within 3x3 window. May be run repeatedly to fill in areas wider than 2 cells. Note the output is floating point, even if the input is integer. Note this will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid."
@@ -495,6 +508,7 @@ class FillNoData(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "workspace",
@@ -546,7 +560,7 @@ class ProjScale(object):
 
 	Notes
 	-----
-	After scaling, this tool attempts to set the correct z-units; however, if you vertical units are different from your horizontal units it is advized to check the z-units manually.
+	After scaling, this tool attempts to set the correct z-units; however, if your vertical units are different from your horizontal units it is advised to check the z-units manually.
 	"""
 	def __init__(self):
 		self.label = "E. Project and Scale Elevation Data"
@@ -671,6 +685,7 @@ class TopoGrid(object):
 
 	This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.
 	"""
+
 	def __init__(self):
 		self.label = "TopoGrid"
 		self.description = "This script runs topo to raster as a prelimary burning and walling process before HydroDEM is run. It takes a buffered DEM dataset and runs raster to multipoint with VIP filtering based on the percentage set in the tool. The output of the script is a new DEM to be used by HydroDEM."
@@ -706,6 +721,7 @@ class TopoGrid(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Workspace",
@@ -740,7 +756,6 @@ class TopoGrid(object):
 			direction = "Input",
 			multiValue = True
 			)
-
 
 		param4 = arcpy.Parameter(
 			displayName = "Dendritic Flowline Features",
@@ -816,6 +831,7 @@ class SetupBathyGrad(object):
 	-----
 	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.
 	"""
+
 	def __init__(self):
 		self.label = "B. Bathymetric Gradient Setup"
 		self.description = "This script creates a set of NHD Hydrography Datasets, extracts the appropriate features and converts them to rasters for input into HydroDEM."
@@ -851,6 +867,7 @@ class SetupBathyGrad(object):
 		-----
 		This tool expect that the NHD Dendrite and NHD Area features have an attribute column with the name "FType" populated with feature type codes. In the newer NHD High-Resolution data sets this attribute is called "FTYPE." Unfortunately, the query used to select features is case sensitive so this attribute needs to be renamed to "FType" for NHD High-Resolution data.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Workspace",
@@ -928,6 +945,7 @@ class CoastalDEM(object):
 
 	This tool is a wrapper on :func:`make_hydrodem.coastaldem`.
 	"""
+
 	def __init__(self):
 		self.label = "A. Coastal DEM Processing (Optional)"
 		self.description = "Lowers the level of the sea to ensure it is always below land level. Also raises any land cells to 1 cm unless they are within a polygon with Land attribute of 0. The input polygons (LandSea) needs to identify the sea with a Land attribute of -1. Land is identified with a Land value of 1. No change polygons should have Land value of 0."
@@ -955,6 +973,7 @@ class CoastalDEM(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "Input_Workspace",
@@ -1021,6 +1040,7 @@ class HydroDEM(object):
 	-----
 	We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).
 	"""
+
 	def __init__(self):
 		"""Define the tool (tool name is the name of the class)."""
 		self.label = "C. Hydro-Enforce DEM"
@@ -1075,6 +1095,7 @@ class HydroDEM(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Output Workspace",
 			name = "Workspace",
@@ -1268,6 +1289,7 @@ class AdjustAccum(object):
 
 	This tool is a wrapper on :func:`make_hydrodem.adjust_accum`.
 	"""
+
 	def __init__(self):
 		self.label = "D.1 Adjust Accumulation"
 		self.description = "This fucntion adjusts the fac of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the fac grid intact and will create a grid named \"hydrodemfac_global\" in the same directory as the original fac raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the hydrodemfac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy."
@@ -1295,6 +1317,7 @@ class AdjustAccum(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Downstream Accumulation Grid",
 			name = "facPth",
@@ -1355,6 +1378,7 @@ class AdjustAccumSimp(object):
 
 	This tool is a wrapper on :func:`make_hydrodem.adjust_accum_simple`.
 	"""
+
 	def __init__(self):
 		self.label = "D.2 Adjust Accumulation (Simple)"
 		self.description = "Simplified flow accumulation adjustment tool. Takes a single point feature class as input, and adjusts fac downstream of that point. Use this when the more automated Flow Accum Adjust tool fails. First make a point at the inlet. Make a separate point feature class and run this separately for each inlet."
@@ -1384,6 +1408,7 @@ class AdjustAccumSimp(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+
 		param0 = arcpy.Parameter(
 			displayName = "Inlet Point",
 			name = "inletpoint",
@@ -1456,6 +1481,7 @@ class posthydrodem(object):
 	-----
 	This tool only functions with ArcMap / Python 2, ArcPro / Python 3 are currently not supported.
 	"""
+
 	def __init__(self):
 		self.label = "E. Post Hydrodem"
 		self.description = "This fucntion uses ArcHydroTools to generate the following rasters: str, str900, cat, and lnk. Feature classes of drainageLine, catchment, adjointCatchment, and drainagePoint are also created. This tool only runs using Python 2 as ArcHydro tools are not fully implemented with Python 3."
@@ -1485,6 +1511,7 @@ class posthydrodem(object):
 		parameters : list
 			List of input parameters passed to the execute method.
 		"""
+		
 		param0 = arcpy.Parameter(
 			displayName = "Workspace",
 			name = "workspace",
