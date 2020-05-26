@@ -1,7 +1,7 @@
 Welcome to StreamStats Data Preparation Tools Documentation!
 ==============================================================
 
-A Python toolbox to pre-process and hydro-enforce digital elevation models and hydrography features for use in the USGS StreamStats Project.
+A Python toolbox to pre-process and hydro-enforce digital elevation models using hydrography features for use in the USGS StreamStats Project.
 
 Version 3.10 tools can be accessed `here <https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip>`_.
 
@@ -17,16 +17,16 @@ Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P. (202
 
 Dependencies
 ------------
-This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro or via a Python executable that is aware of ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing larger domains. 
+This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro or via a Python executable that is aware of ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains. 
 
-ArcHydro: Use version 10.6.0.51 of ArcHydro 64-bit, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
+The post-hydrodem function requires ArcHydro. Please use version 10.6.0.51 of ArcHydro 64-bit, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
 
 Structure
 ---------
 This toolbox is contained in several Python files, which will need to be installed correctly to function (see below). 
 
 - root
-	- **documentation:** Documentation of the tools and functions. Open :code:`documentation/build/html/index.html` to access.
+	- **documentation:** Documentation of the tools and functions. Open ``documentation/build/html/index.html`` to access.
     - **StreamStats_DataPrep.pyt:** ArcPy Toolbox wrapper file.
     - **StreamStats_DataPrep.py:** ArcPy Toolbox definition file.
     - **databaseSetup.py:** Python module for setting up the local folders for a processing domain.
