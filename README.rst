@@ -68,3 +68,4 @@ This software has been approved for release by the U.S. Geological Survey (USGS)
 License
 =======
 .. include:: ../../LICENSE
+.. include:: LICENSE
