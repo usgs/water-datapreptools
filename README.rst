@@ -17,7 +17,7 @@ Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P. (202
 
 Dependencies
 ------------
-This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro or via a Python executable that is aware of ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains. 
+This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro (need to specify versions of the software these tools will work with.  I usually explicitly state the version that I used to develop) or via a Python executable that is aware of ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains. 
 
 The post-hydrodem function requires ArcHydro. Please use version 10.6.0.51 of ArcHydro 64-bit, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
 
@@ -40,7 +40,7 @@ Installation
 ------------
 Clone these tools onto your machine using the :code:`git clone` commands. Or download the the repository using the link in the upper right of the repository page here: https://code.usgs.gov/StreamStats/datapreptools
 
-Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step, which relies on ArcHydro and only works with ArcMap (Python 2) at this time.
+Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step (specify this step), which relies on ArcHydro and only works with ArcMap (Python 2) at this time (need reason? I'm assuming because of archydro).
 
 The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the :ref:`modules-label` and :ref:`examples_label` for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2.
 
