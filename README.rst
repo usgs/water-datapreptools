@@ -40,9 +40,9 @@ Installation
 ------------
 Clone these tools onto your machine using the :code:`git clone` commands. Or download the the repository using the link in the upper right of the repository page here: https://code.usgs.gov/StreamStats/datapreptools
 
-Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step (specify this step), which relies on ArcHydro and only works with ArcMap (Python 2) at this time (need reason? I'm assuming because of archydro).
+Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step, Post Hydrodem, which relies on ArcHydro and only works with ArcMap (Python 2) at this time due to ArcHydro compatability issues with ArcPro (Python 3).
 
-The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the :ref:`modules-label` and :ref:`examples_label` for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2.
+The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the :ref:`modules-label` and :ref:`examples_label` for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2 (see caveat above).
 
 Documentation
 -------------
@@ -50,23 +50,27 @@ Tool and function library documentation can be found by opening :code:`./documen
 
 Reporting Issues and Problems with the Tools
 --------------------------------------------
-Please log problems with the tools or function libraries in the issues portion of this repository. **Please do not email me.** Logging problems in this way allows other users to see the discussion and (hopefully) solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
+Please log problems with the tools or function libraries in the issues portion of this repository. **Please do not email me.** Logging problems in this way allows other users to see the discussion and, hopefully, the solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
 
 Known Issues
 ------------
 - **Networked storage drives:** When working on ArcGIS projects stored on NAS devices, additional configuration may be required. See:
 	- https://community.spiceworks.com/topic/1389064-performance-and-locking-issues-with-synology-nas-and-arcgis
-	- https://support.esri.com/en/technical-article/000012722 
+	- https://support.esri.com/en/technical-article/000012722
+
+Aknowledgements
+--------------- 
+The authors thank Moon Kim (USGS) for his comments on an early version of this code.
 
 Disclaimers
-===========
+-----------
 
 Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
 
 This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.
 
 License
-=======
+-------
 
 This work is published with the MIT Open Source License:
 
