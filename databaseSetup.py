@@ -10,7 +10,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	Parameters
 	----------
 	output_workspace : str
-		Output directory for processing to occure in.
+		Output directory for processing to occur in.
 	output_gdb_name : str
 		Global file geodatabase to be created.
 	hu_dataset : str
