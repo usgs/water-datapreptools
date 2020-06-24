@@ -57,9 +57,9 @@ class databaseSetup(object):
 		Inwall Field : Field
 			Field in "Hydrologic Unit Boundary Dataset" used to determine inwalls.
 		Hydrologic Unit Buffer Distance (m) : GPString
-			Distance to buffer local folder polygons by.
+			Distance to buffer local folder polygons.
 		Input Hydrography Workspace : DEWorkspace
-			Path to folder type workspace with geodatabases of NHD hydrography.
+			Path to folder type workspace with National Hydrography Dataset geodatabases.
 		Elevation Dataset Template : DERasterBand
 			Raster dataset to pull projection information from, works best as an ESRI grid.
 		Alternative Outwall Buffer : GPString (optional)
@@ -266,7 +266,7 @@ class makeELEVDATAIndex(object):
 		Output Geodatabase : DEWorkspace (Geodatabase)
 			Path to the geodatabase that will hold the output raster mosaic dataset.
 		Output Raster Mosaic Dataset Name : GPString
-			Name of raster mosaic dataset to output, defaults to IndexRMD.
+			Name of raster mosaic dataset (RMD) to output, defaults to IndexRMD.
 		Coordinate System : GPCoordinateSystem
 			Coordinate system of input grids and raster mosaic dataset.
 		Input Elevation Data workspace : DEWorkspace (Folder)
@@ -574,13 +574,13 @@ class ProjScale(object):
 		Parameters
 		----------
 		InWorkSpace : DEWorkspace (Folder)
-			Path to the folder to work in.
+			Path to the workspace folder.
 		InGrid : DERasterBand
 			Path to the raster dataset to project and scale.
 		OutGrid : GPString
 			Name for the projected and scaled raster, defaults to dem_raw.
 		OutCoordSys : GPCoordinateSystem
-			Coordinate system to project the input raster to.
+			Coordinate system with which to project or preproject the input raster.
 		OutCellSize : analysis_cell_size
 			Output cell size to project the input raster to, defaults to 10 horizontal map units.
 		RegPt : GPString
@@ -829,7 +829,7 @@ class SetupBathyGrad(object):
 
 	Notes
 	-----
-	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.
+	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the landscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.
 	"""
 
 	def __init__(self):
@@ -847,7 +847,7 @@ class SetupBathyGrad(object):
 			Path to a geodatabase to work in.
 		Digital Elevation Model (used for snapping) : DERasterBand
 			Path to a digital elevation model to use for aligning output grids to the rest of the project.
-		Dissolved HUC8 Dataset : DEFeatureClass
+		Dissolved Eight-Digit Hydrologic Unit Code (HUC8) Dataset : DEFeatureClass
 			Feature class of the local folder boundary.
 		NHD Area : DEFeatureClass
 			Feature class of NHD double line streams.
@@ -865,7 +865,7 @@ class SetupBathyGrad(object):
 
 		Notes
 		-----
-		This tool expect that the NHD Dendrite and NHD Area features have an attribute column with the name "FType" populated with feature type codes. In the newer NHD High-Resolution data sets this attribute is called "FTYPE." Unfortunately, the query used to select features is case sensitive so this attribute needs to be renamed to "FType" for NHD High-Resolution data.
+		This tool expects that the NHD Dendrite and NHD Area features have an attribute column with the name "FType" populated with feature type codes. In the newer NHD High-Resolution data-sets this attribute is called "FTYPE." The query used to select features is case sensitive; as such, this attribute needs to be renamed to "FType" for NHD High-Resolution data.
 		"""
 
 		param0 = arcpy.Parameter(
@@ -885,7 +885,7 @@ class SetupBathyGrad(object):
 			direction = "Input") 
 
 		param2 = arcpy.Parameter(
-			displayName = "Dissolved HUC8 Dataset",
+			displayName = "Dissolved Eight-Digit Hydrologic Unit Code (HUC8) Dataset",
 			name = "hucpoly",
 			datatype = "DEFeatureClass",
 			parameterType = "Required",
@@ -1038,7 +1038,7 @@ class HydroDEM(object):
 
 	Notes
 	-----
-	We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).
+	AGREE defaults should not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).
 	"""
 
 	def __init__(self):
@@ -1071,24 +1071,25 @@ class HydroDEM(object):
 		Inner Walls : DEFeatureClass (optional)
 			Polyline feature class used to inforce internal drainage.
 		Cell Size : GPString
-			Output cell size, defaults to 10.
+			Output cell size, defaults to 10 horizontal map units.
 		Drain Plugs : DEFeatureClass (optional)
+			Point feature class representing sink locations.
 		HUC buffer : GPDouble (optional)
-			Distance to buffer the HUC layer, dfaults to 50.
+			Distance to buffer the HUC layer, defaults to 50 horizontal map units.
 		Inner Wall Buffer : GPDouble (optional)
-			Distance to buffer the inwall, defaults to 15.
+			Distance to buffer the inwall, defaults to 15 horizontal map units.
 		Inner Wall Height : GPDouble (optional)
-			Inwall height, defaults to 150000.
+			Inwall height, defaults to 150000 vertical map units.
 		Outer Wall Height : GPDouble (optional)
-			Outer wall height, defaults to 300000.
+			Outer wall height, defaults to 300000 vertical map units.
 		AGREE buffer : GPDouble (optional)
-			Defaults to 60.
+			Defaults to 60 horizontal map units.
 		AGREE Smooth Drop : GPDouble (optional)
-			Defaults to -500.
+			Defaults to -500 vertical map units.
 		AGREE Sharp Drop : GPDouble (optional)
-			Defaults to -50000.
+			Defaults to -50000 vertical map units.
 		Bowl Depth : GPDouble (optional)
-			Defaults to 2000.
+			Defaults to 2000 vertical map units.
 
 		Returns
 		-------
@@ -1395,11 +1396,11 @@ class AdjustAccumSimp(object):
 		Flow Direction Grid : DERasterBand
 			Flow direction grid of the downstream hydrologic unit.
 		Flow Accumulation Grid : DERasterBand
-			Flow accumuation grid of the downstream hydrologic unit.
+			Flow accumulation grid of the downstream hydrologic unit.
 		HydroDEM : DERasterBand
 			Downstream hydrologic unit hydro-enforced digital elevation model.
 		Output FAC : GPRasterDataLayer
-			Corrected flow accumuation grid.
+			Corrected flow accumulation grid.
 		Adjustment Value : GPString
 			Upstream flow accumulation value to correct the downstream hydrologic unit with, defaults to 150000 grid cells.
 
@@ -1473,7 +1474,7 @@ class AdjustAccumSimp(object):
 		return None
 
 class posthydrodem(object):
-	"""ArcHydro processing using the hydro-enforced digital elevation model and resultant flow direction and flow accumulation grids.
+	"""ArcHydro processing using the hydro-enforced DEM and resultant flow direction and flow accumulation grids.
 
 	This tool is a wrapper on :func:`make_hydrodem.postHydroDEM`.
 

@@ -1,25 +1,25 @@
 Welcome to StreamStats Data Preparation Tools Documentation!
 ==============================================================
 
-A Python toolbox to pre-process and hydro-enforce digital elevation models using hydrography features for use in the USGS StreamStats Project.
+A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats Project.
 
 Version 3.10 tools can be accessed `here <https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip>`_.
 
 About
 -----
-The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEM) and hydrography data for ingestion into the US Geological Survey's StreamStats project and web-application. The tools and associated work flow examples can be used to prepare DEM and hydrography subsets for local StreamStats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ArcHydro data model.
+The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEM) and hydrography data for ingestion into the USGS's StreamStats project and web-application. The tools and associated work flow examples can be used to prepare DEM and hydrography subsets for local StreamStats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ArcHydro data model.
 
 Citation
 --------
 Please cite these tools and documentation as:
 
-Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P. (2020). StreamStats Data Preparation Tools, version 4, USGS Software Release, https://doi.org/10.5066/P9UM2NUL.
+Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P., 2020, StreamStats Data Preparation Tools, version 4: USGS Software Release, https://doi.org/10.5066/P9UM2NUL.
 
 Dependencies
 ------------
-This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro (need to specify versions of the software these tools will work with.  I usually explicitly state the version that I used to develop) or via a Python executable that is aware of ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains. 
+This toolbox has few dependencies; however, it must either be started through ESRI ArcMap 10.6.1 or ESRI ArcPro 2.5.1 or via a Python 2 or 3 executable that is aware of ESRI ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains. 
 
-The post-hydrodem function requires ArcHydro. Please use version 10.6.0.51 of ArcHydro 64-bit, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
+The post-hydrodem function requires ESRI ArcHydro. Please use version 10.6.0.51 of ESRI ArcHydro 64-bit, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
 
 Structure
 ---------
@@ -38,11 +38,11 @@ This toolbox is contained in several Python files, which will need to be install
 
 Installation
 ------------
-Clone these tools onto your machine using the :code:`git clone` commands. Or download the the repository using the link in the upper right of the repository page here: https://code.usgs.gov/StreamStats/datapreptools
+Clone these tools onto your machine using the :code:`git clone` commands. Or download the repository using the link in the upper right of the repository page here: https://code.usgs.gov/StreamStats/datapreptools
 
-Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step, Post Hydrodem, which relies on ArcHydro and only works with ArcMap (Python 2) at this time due to ArcHydro compatability issues with ArcPro (Python 3).
+Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ArcHydro and only works with ArcMap (Python 2) at this time (2020) due to ArcHydro compatibility issues with ArcPro (i.e. Python 3).
 
-The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the :ref:`modules-label` and :ref:`examples_label` for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2 (see caveat above).
+The ESRI ArcGIS toolbox is built from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the :ref:`modules-label` and :ref:`examples_label` for information and examples on the usage of the tools on the command line. The tools run fastest via ESRI ArcPro or Python 3, but can still be used with ESRI ArcMap and Python 2 (see caveat above).
 
 Documentation
 -------------
@@ -54,11 +54,11 @@ Please log problems with the tools or function libraries in the issues portion o
 
 Known Issues
 ------------
-- **Networked storage drives:** When working on ArcGIS projects stored on NAS devices, additional configuration may be required. See:
+- **Networked storage drives:** When working on ArcGIS projects stored on network Attached Storage (NAS) devices, additional configuration may be required. See:
 	- https://community.spiceworks.com/topic/1389064-performance-and-locking-issues-with-synology-nas-and-arcgis
 	- https://support.esri.com/en/technical-article/000012722
 
-Aknowledgements
+Acknowledgments
 --------------- 
 The authors thank Moon Kim (USGS) for his comments on an early version of this code.
 
@@ -74,7 +74,7 @@ License
 
 This work is published with the MIT Open Source License:
 
-Copyright 2020 Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy. 
+Copyright 2020 Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey. 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
