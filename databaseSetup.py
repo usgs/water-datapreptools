@@ -5,12 +5,12 @@ import os
 def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12_field, hucbuffer, nhd_path,elevation_projection_template, alt_buff, version = None):
 	"""Set up the local folders and copy hydrography data into input geodatabases.
 
-	This tool creates folder cooresponding to each local hydrologic unit, usually a HUC8, and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.
+	This tool creates folder corresponding to each local hydrologic unit, usually a HUC8, and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.
 	
 	Parameters
 	----------
 	output_workspace : str
-		Output directory for processing to occur in.
+		Output directory where processing will occur.
 	output_gdb_name : str
 		Global file geodatabase to be created.
 	hu_dataset : str
@@ -18,7 +18,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 	hu8_field : str
 		Field name in "hu_dataset" to dissolve boundaries to local folder extents.
 	hu12_field : str
-		Field name in "hu_dataset" to generate inwalls from.
+		Field name in "hu_dataset" from which inwalls are generated.
 	hucbuffer : str
 		Distance to buffer local folder bounds in map units.
 	nhd_path : str
@@ -36,7 +36,7 @@ def databaseSetup(output_workspace, output_gdb_name, hu_dataset, hu8_field, hu12
 
 	Notes
 	-----
-	As this tool moves through each local hydrologic unit it searches the *nhd_path* for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized in the same way that NHD hydrography is.
+	As this tool moves through each local hydrologic unit it searches the *nhd_path* for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized exactly as the NHD hydrography.
 	"""
 
 	if version:

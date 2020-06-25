@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="elevationTools Module" href="elevationTools.html" />
@@ -60,7 +61,7 @@
             
             
               <div class="version">
-                4.0
+                4.0.0
               </div>
             
           
@@ -197,13 +198,13 @@
 <dt id="databaseSetup.databaseSetup">
 <code class="descclassname">databaseSetup.</code><code class="descname">databaseSetup</code><span class="sig-paren">(</span><em><span class="n">output_workspace</span></em>, <em><span class="n">output_gdb_name</span></em>, <em><span class="n">hu_dataset</span></em>, <em><span class="n">hu8_field</span></em>, <em><span class="n">hu12_field</span></em>, <em><span class="n">hucbuffer</span></em>, <em><span class="n">nhd_path</span></em>, <em><span class="n">elevation_projection_template</span></em>, <em><span class="n">alt_buff</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#databaseSetup.databaseSetup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up the local folders and copy hydrography data into input geodatabases.</p>
-<p>This tool creates folder cooresponding to each local hydrologic unit, usually a HUC8, and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.</p>
+<p>This tool creates folder corresponding to each local hydrologic unit, usually a HUC8, and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>output_workspace</strong><span class="classifier">str</span></dt><dd><p>Output directory for processing to occure in.</p>
+<dt><strong>output_workspace</strong><span class="classifier">str</span></dt><dd><p>Output directory where processing will occur.</p>
 </dd>
 <dt><strong>output_gdb_name</strong><span class="classifier">str</span></dt><dd><p>Global file geodatabase to be created.</p>
 </dd>
@@ -211,7 +212,7 @@
 </dd>
 <dt><strong>hu8_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” to dissolve boundaries to local folder extents.</p>
 </dd>
-<dt><strong>hu12_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” to generate inwalls from.</p>
+<dt><strong>hu12_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” from which inwalls are generated.</p>
 </dd>
 <dt><strong>hucbuffer</strong><span class="classifier">str</span></dt><dd><p>Distance to buffer local folder bounds in map units.</p>
 </dd>
@@ -234,7 +235,7 @@
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>As this tool moves through each local hydrologic unit it searches the <em>nhd_path</em> for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized in the same way that NHD hydrography is.</p>
+<p>As this tool moves through each local hydrologic unit it searches the <em>nhd_path</em> for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized exactly as the NHD hydrography.</p>
 </dd></dl>
 
 </div>
@@ -259,7 +260,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Theodore Barnhart
+        &copy; Copyright 2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.
 
     </p>
   </div>

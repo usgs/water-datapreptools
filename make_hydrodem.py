@@ -12,15 +12,15 @@ def SnapExtent(lExtent, lRaster):
 	Parameters
 	----------
 	lExtent : str
-		ESRI Arcpy extent string
+		ESRI Arcpy extent string.
 
 	lRaster : str
-		Path to raster dataset
+		Path to raster dataset.
 
 	Returns
 	-------
 	extent : str
-		ESRI ArcPy extent string
+		ESRI ArcPy extent string.
 	'''
 	pExtent = lExtent.split()
 	extent = lExtent
@@ -47,7 +47,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	snapGrid : str
 		Path to the raster snap grid used for the project.
 	hucPoly : str
-		Path to the bounding polygon for the local folder inputs are being generated for.
+		Path to the bounding polygon for the local folder for which inputs are generated.
 	hydrographyArea : str
 		Path to the double line stream features.
 	hydrographyFlowline : str
@@ -57,7 +57,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	cellsize : str
 		Output cell size to use for rasterization.
 	version : str (optional)
-		Package version number
+		Package version number.
 
 	Returns
 	-------
@@ -189,7 +189,7 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 	Parameters
 	----------
 	Input_Workspace : str
-		Input workspace, output raster will be written here.
+		Input workspace, output raster will be written to this location.
 	grdNamePth : str
 		Path to the input DEM grid.
 	InFeatureClass : str
@@ -245,7 +245,7 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWorkspace, version = None):
 	'''Hydro-enforce a DEM using hydrography data sets.
 
-	This function is used by the National StreamStats Team as the optimal approach for preparing a state's physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as truth. Supplied watershed boundaries can also be recognized as truth if avaialable for a given state/region. This function assumes that the DEM has first been projected to a state's projection of choice. This function prepares data to be used in the Archydro data model (the GIS database environment for National StreamStats).
+	This function is used by the National StreamStats Team as the optimal approach for preparing a state's physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as correct. Supplied watershed boundaries can also be recognized as correct if avaialable for a given state/region. This function assumes that the DEM has first been projected to a state's projection of choice. This function prepares data to be used in the ESRI ArcHydro data model (the GIS database environment for National StreamStats).
 
 	Parameters
 	----------
@@ -618,20 +618,20 @@ def agree(origdem, dendrite, agreebuf, agreesmooth, agreesharp):
 	return elevgrid 
 
 def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, version = None):
-	'''Adjust a downnstream flow accumulation (FAC) raster based on upstream flow accumulation rasters.
+	'''Adjust a downstream flow accumulation (FAC) raster based on upstream flow accumulation rasters.
 
-	This fucntion adjusts the FAC of a downstream HUC to include flow accumulations from upstream HUC's. Run this from the downstream HUC workspace. The function will leave the original FAC grids intact and will create a grid named "fac_global" in the same directory as the original FAC raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then it will be OK. Not sure if this caveat applies with arcPy.
+	This function adjusts the FAC of a downstream HUC to include flow accumulations from upstream HUCs. Run this from the downstream HUC workspace. The function will leave the original FAC grids intact and will create a grid named "fac_global" in the same directory as the original FAC raster. To get true accumulation values in HUCs downstream of other non-headwater HUCs, proceed from upstream HUCs to downstream HUCs in order, and specify the fac_global grid for any upstream HUC that has one. (It is not essential that the fac_global contain true global fac values, and in some cases it is not possible since the values get too large to be stored in a raster file. In practice, as long as the receiving cells have accumulation values larger than the stream definition threshold (150,000 cells for 10-m grids), then the ESRI ArcHydro data model will still function.
 
 	Parameters
 	----------
 	facPth : str
-		Path to downstream flow accumulation grid
+		Path to downstream flow accumulation grid.
 	fdrPth : str
-		Path to downstream flow direction grid
+		Path to downstream flow direction grid.
 	upstreamFACpths : list
-		List of paths to upstream flow accumulation grids
+		List of paths to upstream flow accumulation grids.
 	upstreamFDRpths : list
-		List of paths to upstream flow direction grids
+		List of paths to upstream flow direction grids.
 	workspace : str
 		local geodatabase to work in.
 	version : str (optional)
@@ -769,9 +769,9 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 	ptin : str (feature class)
 		Point feature class representing one inlet to the downstream DEM.
 	fdrin : str (raster)
-		Flow direction raster
+		Flow direction raster.
 	facin : str (raster)
-		Name of the flow accumulation raster
+		Name of the flow accumulation raster.
 	filin : str (raster)
 		Burned DEM to use as cost surface.
 	facout : str (raster)
@@ -779,7 +779,7 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 	incrval : int
 		Value to adjust the downstream FAC grid by.
 	version : str
-		Stream Stats version number
+		Stream Stats version number.
 
 	Returns
 	-------

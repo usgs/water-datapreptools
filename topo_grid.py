@@ -15,7 +15,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	huc8 : str
 		Path to local watershed feature class.
 	buffdist : int
-		Distance to buffer huc8 in horizontal map units.
+		Distance to buffer HUC8 in horizontal map units.
 	dendrite : str
 		Path to flowline dendrite feature class.
 	dem : str
@@ -27,7 +27,7 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	snapgrid : str (optional)
 		Path to snapgrid to use instead of input DEM.
 	huc12 : list (optional)
-		List of paths to HUC12 values if the huc8 is too large to process in one pass.
+		List of paths to HUC12 values if the HUC8 is too large to process in one pass.
 
 	Returns
 	-------

@@ -18,8 +18,8 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'StreamStats Data Preparation Tools'
-copyright = '2019, Theodore Barnhart'
-author = 'Theodore Barnhart'
+copyright = '2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.'
+author = 'Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy'
 
 # The full version, including alpha/beta/rc tags
 version = '4.0.0'
@@ -77,3 +77,6 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 html4_writer = True
+
+def setup(app):
+    app.add_stylesheet("basic.css")

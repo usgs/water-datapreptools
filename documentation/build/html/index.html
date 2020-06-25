@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="StreamStats_DataPrep ESRI Toolbox" href="StreamStats_DataPrep.html" /> 
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                4.0
+                4.0.0
               </div>
             
           
@@ -154,25 +155,25 @@
             
   <div class="section" id="welcome-to-streamstats-data-preparation-tools-documentation">
 <h1>Welcome to StreamStats Data Preparation Tools Documentation!<a class="headerlink" href="#welcome-to-streamstats-data-preparation-tools-documentation" title="Permalink to this headline">¶</a></h1>
-<p>A Python toolbox to pre-process and hydro-enforce digital elevation models using hydrography features for use in the USGS StreamStats Project.</p>
-<p>Version 3.10 tools can be accessed <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip">here</a>.</p>
+<p>A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats project.</p>
+<p>Version 3.10 tools can be accessed <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip">here</a>. See below for installation instructions for Version 4 tools.</p>
 <div class="section" id="about">
 <h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
-<p>The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEM) and hydrography data for ingestion into the US Geological Survey’s StreamStats project and web-application. The tools and associated work flow examples can be used to prepare DEM and hydrography subsets for local StreamStats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ArcHydro data model.</p>
+<p>The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEMs) and hydrography data for ingestion into the USGS StreamStats project and web-application. The tools and associated work flow examples can be used to prepare DEM and hydrography subsets for local StreamStats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ESRI ArcHydro data model.</p>
 </div>
 <div class="section" id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
 <p>Please cite these tools and documentation as:</p>
-<p>Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P. (2020). StreamStats Data Preparation Tools, version 4, USGS Software Release, <a class="reference external" href="https://doi.org/10.5066/P9UM2NUL">https://doi.org/10.5066/P9UM2NUL</a>.</p>
+<p>Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P., 2020, StreamStats Data Preparation Tools, version 4: USGS Software Release, <a class="reference external" href="https://doi.org/10.5066/P9UM2NUL">https://doi.org/10.5066/P9UM2NUL</a>.</p>
 </div>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>This toolbox has few dependencies; however, it must either be started through ArcMap or ArcPro or via a Python executable that is aware of ArcPy. These tools can be run either via their ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains.</p>
-<p>The post-hydrodem function requires ArcHydro. Please use version 10.6.0.51 of ArcHydro 64-bit, available here: <a class="reference external" href="http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/">http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/</a></p>
+<p>This toolbox has few dependencies; however, it must either be started through ESRI ArcMap 10.6.1 or ESRI ArcPro 2.5.1 or via a Python 2 or 3 executable that is aware of ESRI ArcPy. These tools can be run either via their ESRI ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains.</p>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">post-hydrodem()</span></code> function requires ESRI ArcHydro. Please use version 10.6.0.51 of ESRI ArcHydro 64-bit, available here: <a class="reference external" href="http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/">http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/</a></p>
 </div>
 <div class="section" id="structure">
 <h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
-<p>This toolbox is contained in several Python files, which will need to be installed correctly to function (see below).</p>
+<p>This package is contained in several Python files, which will need to be installed correctly to function (see below).</p>
 <ul>
 <li><dl class="first docutils">
 <dt>root</dt><dd><blockquote>
@@ -181,8 +182,8 @@
 </ul>
 </div></blockquote>
 <ul class="simple">
-<li><strong>StreamStats_DataPrep.pyt:</strong> ArcPy Toolbox wrapper file.</li>
-<li><strong>StreamStats_DataPrep.py:</strong> ArcPy Toolbox definition file.</li>
+<li><strong>StreamStats_DataPrep.pyt:</strong> ESRI ArcPy Toolbox wrapper file.</li>
+<li><strong>StreamStats_DataPrep.py:</strong> ESRI ArcPy Toolbox definition file.</li>
 <li><strong>databaseSetup.py:</strong> Python module for setting up the local folders for a processing domain.</li>
 <li><strong>elevationTools.py:</strong> Python module for inspecting DEMs, reprojection, and scaling values to integers.</li>
 <li><strong>make_hydrodem.py:</strong> Python module for DEM hydro-enforcement.</li>
@@ -197,9 +198,9 @@
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Clone these tools onto your machine using the <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> commands. Or download the the repository using the link in the upper right of the repository page here: <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools">https://code.usgs.gov/StreamStats/datapreptools</a></p>
-<p>Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ArcMap or navigated to in ArcPro. The toolbox is compatible with both ArcMap (Python 2) and ArcPro (Python 3), except for the final processing step, which relies on ArcHydro and only works with ArcMap (Python 2) at this time.</p>
-<p>The ArcGIS toolbox is build from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the <a class="reference internal" href="modules.html#modules-label"><span class="std std-ref">StreamStats DataPrep Library</span></a> and <a class="reference internal" href="example_scripts.html#examples-label"><span class="std std-ref">Example Scripts</span></a> for information and examples on the usage of the tools on the command line. The tools run fastest via ArcPro or Python 3, but can still be used with ArcMap and Python 2.</p>
+<p>Clone these tools onto your machine using the <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> commands. Or download the repository using the link in the upper right of the repository page here: <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools">https://code.usgs.gov/StreamStats/datapreptools</a></p>
+<p>Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ESRI ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ESRI ArcHydro and only works with ESRI ArcMap (Python 2) at this time (2020) due to ESRI ArcHydro compatibility issues with ESRI ArcPro (i.e. Python 3).</p>
+<p>The ESRI ArcGIS toolbox is built from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the <a class="reference internal" href="modules.html#modules-label"><span class="std std-ref">StreamStats DataPrep Library</span></a> and <a class="reference internal" href="example_scripts.html#examples-label"><span class="std std-ref">Example Scripts</span></a> for information and examples on the usage of the tools on the command line. The tools run fastest via ESRI ArcPro or Python 3 (see caveat above), but can still be used with ESRI ArcMap and Python 2.</p>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
@@ -207,13 +208,13 @@
 </div>
 <div class="section" id="reporting-issues-and-problems-with-the-tools">
 <h2>Reporting Issues and Problems with the Tools<a class="headerlink" href="#reporting-issues-and-problems-with-the-tools" title="Permalink to this headline">¶</a></h2>
-<p>Please log problems with the tools or function libraries in the issues portion of this repository. <strong>Please do not email me.</strong> Logging problems in this way allows other users to see the discussion and (hopefully) solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.</p>
+<p>Please log problems with the tools or function libraries in the issues portion of this repository. <strong>Please do not email me.</strong> Logging problems in this way allows other users to see the discussion and, hopefully, the solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.</p>
 </div>
 <div class="section" id="known-issues">
 <h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><dl class="first docutils">
-<dt><strong>Networked storage drives:</strong> When working on ArcGIS projects stored on NAS devices, additional configuration may be required. See:</dt><dd><ul>
+<dt><strong>Networked storage drives:</strong> When working on ESRI ArcGIS projects stored on network Attached Storage (NAS) devices, additional configuration may be required. See:</dt><dd><ul>
 <li><a class="reference external" href="https://community.spiceworks.com/topic/1389064-performance-and-locking-issues-with-synology-nas-and-arcgis">https://community.spiceworks.com/topic/1389064-performance-and-locking-issues-with-synology-nas-and-arcgis</a></li>
 <li><a class="reference external" href="https://support.esri.com/en/technical-article/000012722">https://support.esri.com/en/technical-article/000012722</a></li>
 </ul>
@@ -222,16 +223,19 @@
 </li>
 </ul>
 </div>
+<div class="section" id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
+<p>The authors thank Moon Kim (USGS) for his comments on an early version of this code.</p>
 </div>
 <div class="section" id="disclaimers">
-<h1>Disclaimers<a class="headerlink" href="#disclaimers" title="Permalink to this headline">¶</a></h1>
+<h2>Disclaimers<a class="headerlink" href="#disclaimers" title="Permalink to this headline">¶</a></h2>
 <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
 <p>This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.</p>
 </div>
 <div class="section" id="license">
-<h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>This work is published with the MIT Open Source License:</p>
-<p>Copyright 2020 Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy.</p>
+<p>Copyright 2020 Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 <p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
@@ -280,6 +284,7 @@
 </ul>
 </div>
 </div>
+</div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
@@ -307,7 +312,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Theodore Barnhart
+        &copy; Copyright 2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.
 
     </p>
   </div>

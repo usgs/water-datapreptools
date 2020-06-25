@@ -1,7 +1,7 @@
 """
 An ESRI toolbox to prepare data for use in the USGS StreamStats application.
 
-Tools in this toolbox are describes as classes and rely on the underlying databaseSetup, elevationTools, make_hydrodem, and topo_grid libraries. The functions in the aformentioned libraries can also be used outside of these tools in a Python session with access to ArcPy. All tools are Python 2/3 compatable with the exception of posthydrodem, which must be run using Python 2 / ArcMap at this time.
+Tools in this toolbox are describes as classes and rely on the underlying databaseSetup, elevationTools, make_hydrodem, and topo_grid libraries. The functions in the aformentioned libraries can also be used outside of these tools in a Python session with access to ESRI ArcPy. All tools are Python 2/3 compatable with the exception of posthydrodem, which must be run using Python 2 / ESRI ArcMap at this time.
 """
 
 import arcpy
@@ -14,7 +14,7 @@ arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 class Toolbox(object):
 	"""
-	ESRI Arc Toolbox for preparing data for USGS StreamStats.
+	ESRI ArcToolbox for preparing data for USGS StreamStats.
 	"""
 
 	def __init__(self):
@@ -425,7 +425,7 @@ class CheckNoData(object):
 		InputGrid : DERasterBand
 			Path to raster dataset to examine.
 		Workspace : DEWorkspace (Geodatabase)
-			Geodatabase-type workspace to work in.
+			Geodatabase-type workspace.
 		Output Feature Layer : GPString
 			Name of output feature class, defaults to DEM_NoDataSinks.
 
@@ -497,7 +497,7 @@ class FillNoData(object):
 		Parameters
 		----------
 		Workspace : DEWorkspace (Folder)
-			Path to folder to work in.
+			Path to workspace folder.
 		Input Grid : DERasterBand
 			Path to raster dataset with no data values to be filled, defaults to DEM_NoDataSinks.
 		Output Grid : GPString
@@ -683,7 +683,7 @@ class TopoGrid(object):
 	-----
 	This function turns the input DEM into a 3D point cloud, thinned using the VIP algorithm so that not all points are retained from the original DEM. The point cloud is used in conjunction with the supplied flowlines to re-interpolate a DEM that is aware of the location of the flowlines and their flow direction.
 
-	This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.
+	This is a computationally intensive function. Running it via ESRI ArcPro or Python 3 will be faster than using ESRI ArcMap or Python 2.
 	"""
 
 	def __init__(self):
@@ -698,7 +698,7 @@ class TopoGrid(object):
 		Parameters
 		----------
 		Output Workspace : DEWorkspace (Geodatabase)
-			Path to a geodatabase to work in.
+			Path to a geodatabase workspace.
 		Dissolved HUC8 boundary : DEFeatureClass or DEShapefile
 			Feature class to use in bounding the topogrid conditioning process.
 		Topogrid Buffer Distance : GPDouble
@@ -712,7 +712,7 @@ class TopoGrid(object):
 		Output Cell Size : GPString
 			Cell size for output digital elevation model, defualts to 10 horizontal map units.
 		VIP Percentage : GPString
-				Thinning value used in the Very Important Points algorithm to decide how many points from the original raster are retained, defaults to 5 percent.
+				Thinning value used in the Very Important Points (VIP) algorithm to decide how many points from the original raster are retained, defaults to 5 percent.
 		SnapGrid : DERasterBand (Optional)
 			Raster to snap output grid to.
 
@@ -844,7 +844,7 @@ class SetupBathyGrad(object):
 		Parameters
 		----------
 		Output Workspace : DEWorkspace (Geodatabase)
-			Path to a geodatabase to work in.
+			Path to a geodatabase workspace.
 		Digital Elevation Model (used for snapping) : DERasterBand
 			Path to a digital elevation model to use for aligning output grids to the rest of the project.
 		Dissolved Eight-Digit Hydrologic Unit Code (HUC8) Dataset : DEFeatureClass
@@ -958,7 +958,7 @@ class CoastalDEM(object):
 		Parameters
 		----------
 		Workspace : DEWorkspace (Folder)
-			Path to folder to work in. 
+			Path to a folder-type workspace. 
 		Input raw DEM : DERasterBand
 			Original digital elevation model to be corrected for coastal areas, defaults to dem_raw.
 		Input LandSea polygon feature class : DEFeatureClass
@@ -1474,18 +1474,18 @@ class AdjustAccumSimp(object):
 		return None
 
 class posthydrodem(object):
-	"""ArcHydro processing using the hydro-enforced DEM and resultant flow direction and flow accumulation grids.
+	"""ESRI ArcHydro processing using the hydro-enforced DEM and resultant flow direction and flow accumulation grids.
 
 	This tool is a wrapper on :func:`make_hydrodem.postHydroDEM`.
 
 	Notes
 	-----
-	This tool only functions with ArcMap / Python 2, ArcPro / Python 3 are currently not supported.
+	This tool only functions with ESRI ArcMap / Python 2, ESRI ArcPro / Python 3 are currently not supported.
 	"""
 
 	def __init__(self):
 		self.label = "E. Post Hydrodem"
-		self.description = "This fucntion uses ArcHydroTools to generate the following rasters: str, str900, cat, and lnk. Feature classes of drainageLine, catchment, adjointCatchment, and drainagePoint are also created. This tool only runs using Python 2 as ArcHydro tools are not fully implemented with Python 3."
+		self.description = "This fucntion uses ESRI ArcHydroTools to generate the following rasters: str, str900, cat, and lnk. Feature classes of drainageLine, catchment, adjointCatchment, and drainagePoint are also created. This tool only runs using Python 2 as ESRI ArcHydro tools are not fully implemented with Python 3."
 		self.canRunInBackground = False
 		self.category = "4 - HydroDEM"
 
@@ -1495,7 +1495,7 @@ class posthydrodem(object):
 		Parameters
 		----------
 		Workspace : DEWorkspace (Geodatabase)
-			Geodatabase to work in.
+			Path to a geodatabase-type workspace.
 		hydrodemfac : DERasterDataset
 			Hydro-enforced flow accumulation grid.
 		hydrodemfdr : DERasterDataset

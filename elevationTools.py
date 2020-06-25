@@ -1,7 +1,6 @@
 import arcpy
 import sys
 import os
-#import re
 
 arcpy.CheckOutExtension("Spatial")
 
@@ -116,13 +115,13 @@ def checkNoData(InGrid, tmpLoc, OutPolys_shp, version = None):
 	Parameters
 	----------
 	InGrid : Raster
-		Input DEM grid to search for no data values
+		Input DEM grid to search for no data values.
 	tmpLoc : str
-		Path to workspace
+		Path to workspace.
 	OutPoly_shp : str
-		Name for output feature class
+		Name for output feature class.
 	version : str, optional
-		StreamStats DataPrepTools version
+		StreamStats DataPrepTools version.
 
 	Returns
 	-------
@@ -220,7 +219,7 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 	scaleFact : int
 		Scale factor to convert grid values to integers.
 	version : str
-		Stream Stats version number.
+		StreamStats version number.
 	
 	Returns
 	-------

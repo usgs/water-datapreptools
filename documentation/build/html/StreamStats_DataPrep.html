@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="StreamStats DataPrep Library" href="modules.html" />
@@ -60,7 +61,7 @@
             
             
               <div class="version">
-                4.0
+                4.0.0
               </div>
             
           
@@ -208,9 +209,9 @@
 </dd>
 <dt><strong>Inwall Field</strong><span class="classifier">Field</span></dt><dd><p>Field in “Hydrologic Unit Boundary Dataset” used to determine inwalls.</p>
 </dd>
-<dt><strong>Hydrologic Unit Buffer Distance (m)</strong><span class="classifier">GPString</span></dt><dd><p>Distance to buffer local folder polygons by.</p>
+<dt><strong>Hydrologic Unit Buffer Distance (m)</strong><span class="classifier">GPString</span></dt><dd><p>Distance to buffer local folder polygons.</p>
 </dd>
-<dt><strong>Input Hydrography Workspace</strong><span class="classifier">DEWorkspace</span></dt><dd><p>Path to folder type workspace with geodatabases of NHD hydrography.</p>
+<dt><strong>Input Hydrography Workspace</strong><span class="classifier">DEWorkspace</span></dt><dd><p>Path to folder type workspace with National Hydrography Dataset geodatabases.</p>
 </dd>
 <dt><strong>Elevation Dataset Template</strong><span class="classifier">DERasterBand</span></dt><dd><p>Raster dataset to pull projection information from, works best as an ESRI grid.</p>
 </dd>
@@ -262,7 +263,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
 <dt><strong>Output Geodatabase</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to the geodatabase that will hold the output raster mosaic dataset.</p>
 </dd>
-<dt><strong>Output Raster Mosaic Dataset Name</strong><span class="classifier">GPString</span></dt><dd><p>Name of raster mosaic dataset to output, defaults to IndexRMD.</p>
+<dt><strong>Output Raster Mosaic Dataset Name</strong><span class="classifier">GPString</span></dt><dd><p>Name of raster mosaic dataset (RMD) to output, defaults to IndexRMD.</p>
 </dd>
 <dt><strong>Coordinate System</strong><span class="classifier">GPCoordinateSystem</span></dt><dd><p>Coordinate system of input grids and raster mosaic dataset.</p>
 </dd>
@@ -366,7 +367,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
 <dt><strong>InputGrid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to raster dataset to examine.</p>
 </dd>
-<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Geodatabase-type workspace to work in.</p>
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Geodatabase-type workspace.</p>
 </dd>
 <dt><strong>Output Feature Layer</strong><span class="classifier">GPString</span></dt><dd><p>Name of output feature class, defaults to DEM_NoDataSinks.</p>
 </dd>
@@ -416,7 +417,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to folder to work in.</p>
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to workspace folder.</p>
 </dd>
 <dt><strong>Input Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to raster dataset with no data values to be filled, defaults to DEM_NoDataSinks.</p>
 </dd>
@@ -468,13 +469,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>InWorkSpace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to the folder to work in.</p>
+<dt><strong>InWorkSpace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to the workspace folder.</p>
 </dd>
 <dt><strong>InGrid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to the raster dataset to project and scale.</p>
 </dd>
 <dt><strong>OutGrid</strong><span class="classifier">GPString</span></dt><dd><p>Name for the projected and scaled raster, defaults to dem_raw.</p>
 </dd>
-<dt><strong>OutCoordSys</strong><span class="classifier">GPCoordinateSystem</span></dt><dd><p>Coordinate system to project the input raster to.</p>
+<dt><strong>OutCoordSys</strong><span class="classifier">GPCoordinateSystem</span></dt><dd><p>Coordinate system with which to project or preproject the input raster.</p>
 </dd>
 <dt><strong>OutCellSize</strong><span class="classifier">analysis_cell_size</span></dt><dd><p>Output cell size to project the input raster to, defaults to 10 horizontal map units.</p>
 </dd>
@@ -507,7 +508,7 @@
 <p>This tool is a wrapper on <a class="reference internal" href="topo_grid.html#topo_grid.topogrid" title="topo_grid.topogrid"><code class="xref py py-func docutils literal notranslate"><span class="pre">topo_grid.topogrid()</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>This function turns the input DEM into a 3D point cloud, thinned using the VIP algorithm so that not all points are retained from the original DEM. The point cloud is used in conjunction with the supplied flowlines to re-interpolate a DEM that is aware of the location of the flowlines and their flow direction.</p>
-<p>This is a computationally intensive function. Running it via ArcPro or Python 3 will be faster than using ArcMap or Python 2.</p>
+<p>This is a computationally intensive function. Running it via ESRI ArcPro or Python 3 will be faster than using ESRI ArcMap or Python 2.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
@@ -529,7 +530,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase to work in.</p>
+<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase workspace.</p>
 </dd>
 <dt><strong>Dissolved HUC8 boundary</strong><span class="classifier">DEFeatureClass or DEShapefile</span></dt><dd><p>Feature class to use in bounding the topogrid conditioning process.</p>
 </dd>
@@ -543,7 +544,7 @@
 </dd>
 <dt><strong>Output Cell Size</strong><span class="classifier">GPString</span></dt><dd><p>Cell size for output digital elevation model, defualts to 10 horizontal map units.</p>
 </dd>
-<dt><strong>VIP Percentage</strong><span class="classifier">GPString</span></dt><dd><p>Thinning value used in the Very Important Points algorithm to decide how many points from the original raster are retained, defaults to 5 percent.</p>
+<dt><strong>VIP Percentage</strong><span class="classifier">GPString</span></dt><dd><p>Thinning value used in the Very Important Points (VIP) algorithm to decide how many points from the original raster are retained, defaults to 5 percent.</p>
 </dd>
 <dt><strong>SnapGrid</strong><span class="classifier">DERasterBand (Optional)</span></dt><dd><p>Raster to snap output grid to.</p>
 </dd>
@@ -571,7 +572,7 @@
 <dd><p>Prepare bathymetric gradient inputs for use in hydro-enforcement.</p>
 <p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.bathymetricGradient" title="make_hydrodem.bathymetricGradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.bathymetricGradient()</span></code></a>.</p>
 <p class="rubric">Notes</p>
-<p>The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the lanscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.</p>
+<p>The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the landscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
@@ -593,11 +594,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase to work in.</p>
+<dt><strong>Output Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase workspace.</p>
 </dd>
 <dt><strong>Digital Elevation Model (used for snapping)</strong><span class="classifier">DERasterBand</span></dt><dd><p>Path to a digital elevation model to use for aligning output grids to the rest of the project.</p>
 </dd>
-<dt><strong>Dissolved HUC8 Dataset</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of the local folder boundary.</p>
+<dt><strong>Dissolved Eight-Digit Hydrologic Unit Code (HUC8) Dataset</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of the local folder boundary.</p>
 </dd>
 <dt><strong>NHD Area</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Feature class of NHD double line streams.</p>
 </dd>
@@ -619,7 +620,7 @@
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This tool expect that the NHD Dendrite and NHD Area features have an attribute column with the name “FType” populated with feature type codes. In the newer NHD High-Resolution data sets this attribute is called “FTYPE.” Unfortunately, the query used to select features is case sensitive so this attribute needs to be renamed to “FType” for NHD High-Resolution data.</p>
+<p>This tool expects that the NHD Dendrite and NHD Area features have an attribute column with the name “FType” populated with feature type codes. In the newer NHD High-Resolution data-sets this attribute is called “FTYPE.” The query used to select features is case sensitive; as such, this attribute needs to be renamed to “FType” for NHD High-Resolution data.</p>
 </dd></dl>
 
 </dd></dl>
@@ -653,7 +654,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to folder to work in.</p>
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Folder)</span></dt><dd><p>Path to a folder-type workspace.</p>
 </dd>
 <dt><strong>Input raw DEM</strong><span class="classifier">DERasterBand</span></dt><dd><p>Original digital elevation model to be corrected for coastal areas, defaults to dem_raw.</p>
 </dd>
@@ -687,7 +688,7 @@
 <dd><p>Hydro-Enforce a DEM.</p>
 <p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.hydrodem" title="make_hydrodem.hydrodem"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.hydrodem()</span></code></a>.</p>
 <p class="rubric">Notes</p>
-<p>We suggest that AGREE defaults not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).</p>
+<p>AGREE defaults should not be changed as this can lead to alignment issues between the flowlines and the resultant hydro-enforced DEM and subsequent products (FDR and FAC).</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
@@ -734,24 +735,25 @@
 </dd>
 <dt><strong>Inner Walls</strong><span class="classifier">DEFeatureClass (optional)</span></dt><dd><p>Polyline feature class used to inforce internal drainage.</p>
 </dd>
-<dt><strong>Cell Size</strong><span class="classifier">GPString</span></dt><dd><p>Output cell size, defaults to 10.</p>
+<dt><strong>Cell Size</strong><span class="classifier">GPString</span></dt><dd><p>Output cell size, defaults to 10 horizontal map units.</p>
 </dd>
-<dt><strong>Drain Plugs</strong><span class="classifier">DEFeatureClass (optional)</span></dt><dd></dd>
-<dt><strong>HUC buffer</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Distance to buffer the HUC layer, dfaults to 50.</p>
+<dt><strong>Drain Plugs</strong><span class="classifier">DEFeatureClass (optional)</span></dt><dd><p>Point feature class representing sink locations.</p>
 </dd>
-<dt><strong>Inner Wall Buffer</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Distance to buffer the inwall, defaults to 15.</p>
+<dt><strong>HUC buffer</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Distance to buffer the HUC layer, defaults to 50 horizontal map units.</p>
 </dd>
-<dt><strong>Inner Wall Height</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Inwall height, defaults to 150000.</p>
+<dt><strong>Inner Wall Buffer</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Distance to buffer the inwall, defaults to 15 horizontal map units.</p>
 </dd>
-<dt><strong>Outer Wall Height</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Outer wall height, defaults to 300000.</p>
+<dt><strong>Inner Wall Height</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Inwall height, defaults to 150000 vertical map units.</p>
 </dd>
-<dt><strong>AGREE buffer</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to 60.</p>
+<dt><strong>Outer Wall Height</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Outer wall height, defaults to 300000 vertical map units.</p>
 </dd>
-<dt><strong>AGREE Smooth Drop</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to -500.</p>
+<dt><strong>AGREE buffer</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to 60 horizontal map units.</p>
 </dd>
-<dt><strong>AGREE Sharp Drop</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to -50000.</p>
+<dt><strong>AGREE Smooth Drop</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to -500 vertical map units.</p>
 </dd>
-<dt><strong>Bowl Depth</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to 2000.</p>
+<dt><strong>AGREE Sharp Drop</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to -50000 vertical map units.</p>
+</dd>
+<dt><strong>Bowl Depth</strong><span class="classifier">GPDouble (optional)</span></dt><dd><p>Defaults to 2000 vertical map units.</p>
 </dd>
 </dl>
 </td>
@@ -855,11 +857,11 @@
 </dd>
 <dt><strong>Flow Direction Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Flow direction grid of the downstream hydrologic unit.</p>
 </dd>
-<dt><strong>Flow Accumulation Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Flow accumuation grid of the downstream hydrologic unit.</p>
+<dt><strong>Flow Accumulation Grid</strong><span class="classifier">DERasterBand</span></dt><dd><p>Flow accumulation grid of the downstream hydrologic unit.</p>
 </dd>
 <dt><strong>HydroDEM</strong><span class="classifier">DERasterBand</span></dt><dd><p>Downstream hydrologic unit hydro-enforced digital elevation model.</p>
 </dd>
-<dt><strong>Output FAC</strong><span class="classifier">GPRasterDataLayer</span></dt><dd><p>Corrected flow accumuation grid.</p>
+<dt><strong>Output FAC</strong><span class="classifier">GPRasterDataLayer</span></dt><dd><p>Corrected flow accumulation grid.</p>
 </dd>
 <dt><strong>Adjustment Value</strong><span class="classifier">GPString</span></dt><dd><p>Upstream flow accumulation value to correct the downstream hydrologic unit with, defaults to 150000 grid cells.</p>
 </dd>
@@ -884,10 +886,10 @@
 <dl class="py class">
 <dt id="StreamStats_DataPrep.posthydrodem">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">posthydrodem</code><a class="headerlink" href="#StreamStats_DataPrep.posthydrodem" title="Permalink to this definition">¶</a></dt>
-<dd><p>ArcHydro processing using the hydro-enforced digital elevation model and resultant flow direction and flow accumulation grids.</p>
+<dd><p>ESRI ArcHydro processing using the hydro-enforced DEM and resultant flow direction and flow accumulation grids.</p>
 <p>This tool is a wrapper on <a class="reference internal" href="make_hydrodem.html#make_hydrodem.postHydroDEM" title="make_hydrodem.postHydroDEM"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_hydrodem.postHydroDEM()</span></code></a>.</p>
 <p class="rubric">Notes</p>
-<p>This tool only functions with ArcMap / Python 2, ArcPro / Python 3 are currently not supported.</p>
+<p>This tool only functions with ESRI ArcMap / Python 2, ESRI ArcPro / Python 3 are currently not supported.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils align-default">
 <colgroup>
@@ -909,7 +911,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Geodatabase to work in.</p>
+<dt><strong>Workspace</strong><span class="classifier">DEWorkspace (Geodatabase)</span></dt><dd><p>Path to a geodatabase-type workspace.</p>
 </dd>
 <dt><strong>hydrodemfac</strong><span class="classifier">DERasterDataset</span></dt><dd><p>Hydro-enforced flow accumulation grid.</p>
 </dd>
@@ -959,7 +961,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Theodore Barnhart
+        &copy; Copyright 2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.
 
     </p>
   </div>
