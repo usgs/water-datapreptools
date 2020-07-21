@@ -802,17 +802,26 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 	arcpy.env.extent = fdrin
 	arcpy.env.overwriteOutput = True
 
-	costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL") # compute least cost path downstream from inlet point.
-
+	if sys.version_info[0] >= 3:
+		arcpy.AddMessage("\tComputing least-cost-path.")
+		costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL", force_flow_direction_convention = "FLOW_DIRECTION", destination_field = "OBJECTID") # compute least cost path downstream from inlet point.
+	else:
+		arcpy.AddMessage("\tComputing least-cost-path.")
+		costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL", destination_field = "OBJECTID")
+	
 	c = Con(costPth, incrval) # convert the cost path to the increase value
+	#c.save('costPath')
 	c1 = Con(IsNull(c),0,incrval) # fill with zeros
+	arcpy.AddMessage("\tComputing correction raster.")
+
 	FAC = Raster(facin) # load the FAC raster to be corrected
 	correction = Con(IsNull(FAC),FAC,c1) # fill the edges with NoData
 	#correction.save('corr')
+	arcpy.AddMessage("\tApplying corretion raster.")
 	corrFAC = FAC + correction # add the correction, hopefully this doesn't overwrite no data values on the FAC grid.
 
 	corrFAC.save(facout) # save the output raster
-
+	arcpy.AddMessage("\tDone!")
 	return None
 
 def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, version = None):
