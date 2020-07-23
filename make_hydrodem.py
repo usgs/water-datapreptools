@@ -810,13 +810,13 @@ def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None
 		costPth = CostPath(ptin,filin,fdrin,path_type = "EACH_CELL", destination_field = "OBJECTID")
 	
 	c = Con(costPth, incrval) # convert the cost path to the increase value
-	#c.save('costPath')
+	c.save('costPath')
 	c1 = Con(IsNull(c),0,incrval) # fill with zeros
 	arcpy.AddMessage("\tComputing correction raster.")
 
 	FAC = Raster(facin) # load the FAC raster to be corrected
 	correction = Con(IsNull(FAC),FAC,c1) # fill the edges with NoData
-	#correction.save('corr')
+	correction.save('corr')
 	arcpy.AddMessage("\tApplying corretion raster.")
 	corrFAC = FAC + correction # add the correction, hopefully this doesn't overwrite no data values on the FAC grid.
 
