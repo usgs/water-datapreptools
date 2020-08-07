@@ -1181,6 +1181,8 @@ class HydroDEM(object):
 			parameterType = "Optional",
 			direction = "Input")
 
+		param9.value = None
+
 		param10 = arcpy.Parameter(
 			displayName = "HUC buffer",
 			name = "buffdist",
