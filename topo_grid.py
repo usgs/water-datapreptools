@@ -51,6 +51,10 @@ def topogrid(workspace,huc8,buffdist,dendrite,dem,cellSize,vipPer,snapgrid = Non
 	else:
 		arcpy.env.snapRaster = snapgrid
 
+	# check snapgrid to make sure it works with HydroDEM later...
+	dsc = arcpy.Describe(arcpy.env.snapRaster) 
+	assert dsc.extent.XMin % 1 == 0, "Snap Grid origin not divisible by 1."
+
 	tmpPaths = []
 	tmpPtsPath = os.path.join(workspace,'vipPoints')
 	tmpPaths.append(tmpPtsPath)

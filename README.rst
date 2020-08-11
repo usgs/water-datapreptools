@@ -19,7 +19,7 @@ Dependencies
 ------------
 This toolbox has few dependencies; however, it must either be started through ESRI ArcMap 10.6.1 or ESRI ArcPro 2.5.1 or via a Python 2 or 3 executable that is aware of ESRI ArcPy. These tools can be run either via their ESRI ArcToolbox wrappers or as functions via Python scripts to facilitate processing of larger domains. 
 
-The :py:func:`post-hydrodem` function requires ESRI ArcHydro. Please use version 10.6.0.51 of ESRI ArcHydro 64-bit, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
+The :py:func:`post-hydrodem` function requires ESRI ArcHydro. Please use version 10.6.0.51 of ESRI ArcHydro 64-bit or greater, available here: http://downloads.esri.com/archydro/ArcHydro/Setup/10.6/
 
 Structure
 ---------
@@ -33,7 +33,7 @@ This package is contained in several Python files, which will need to be install
     - **elevationTools.py:** Python module for inspecting DEMs, reprojection, and scaling values to integers.
     - **make_hydrodem.py:** Python module for DEM hydro-enforcement. 
     - ***.xml:** ESRI ArcPy Toolbox documentation files.
-    - **examples:** Folder of Python script examples of work flows.
+    - **examples:** Folder of Python script examples of workflows.
     - **source:** Folder containing documentation source files.
 
 Installation
@@ -60,7 +60,7 @@ Known Issues
 
 Acknowledgments
 --------------- 
-The authors thank Moon Kim (USGS) for his comments on an early version of this code.
+The authors thank Moon Kim (USGS) for his comments on an early version of this code and Tara Gross (USGS) for her software release reviews.
 
 Disclaimers
 -----------

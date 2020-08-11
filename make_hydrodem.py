@@ -12,7 +12,7 @@ def SnapExtent(lExtent, lRaster):
 	Parameters
 	----------
 	lExtent : str
-		ESRI Arcpy extent string.
+		ESRI ArcPy extent string.
 
 	lRaster : str
 		Path to raster dataset.
@@ -245,7 +245,7 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_lines, inwall, drainplug, buffdist, inwallbuffdist, inwallht, outwallht, agreebuf, agreesmooth, agreesharp, bowldepth, cellsz, scratchWorkspace, version = None):
 	'''Hydro-enforce a DEM using hydrography data sets.
 
-	This function is used by the National StreamStats Team as the optimal approach for preparing a state's physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as correct. Supplied watershed boundaries can also be recognized as correct if avaialable for a given state/region. This function assumes that the DEM has first been projected to a state's projection of choice. This function prepares data to be used in the ESRI ArcHydro data model (the GIS database environment for National StreamStats).
+	This function is used by the National StreamStats Team as the optimal approach for preparing a state's physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as correct. Supplied watershed boundaries can also be recognized as correct if available for a given state/region. This function assumes that the DEM has first been projected to a state's projection of choice. This function prepares data to be used in the ESRI ArcHydro data model (the GIS database environment for National StreamStats).
 
 	Parameters
 	----------
@@ -254,7 +254,7 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	huc8cov : DEFeatureClass
 		Local division feature class, often HUC8, this will be the outer wall of the hydroDEM.
 	origdemPth : str
-		Path to the orignial, projected DEM.
+		Path to the original, projected DEM.
 	dendrite : str
 		Path to the dendrite feature class to be used.
 	snap_grid : str
@@ -836,9 +836,9 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	fdrPth : str
 		Path to the flow direction grid produced by hydroDEM.
 	thresh1 : int
-		Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 m$^2$.
+		Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 :math:`m^2`.
 	thresh2 : int
-		Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 m$^2$.
+		Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 :math:`m^2`.
 	sinksPth : str (optional)
 		Path to the snklnk grid, optional.
 	version : str (optional)
@@ -847,11 +847,11 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	Returns
 	-------
 	str : raster
-		Stream raster where fac > 15,000,000 m$^2$.
+		Stream raster where fac > 15,000,000 :math:`m^2`.
 	str900 : raster
-		Stream raster where fac > 810,000 m$^2$.
+		Stream raster where fac > 810,000 :math:`m^2`.
 	strlnk : raster
-		Raster with streams labeld with index values.
+		Raster with streams labeled with index values.
 	lnk : raster
 		Merged stream and sink raster.
 	cat : raster
@@ -867,7 +867,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 		
 	Notes
 	-----
-	This tool requires archydro to be installed and currently only works with Python 2.
+	This tool requires ESRI ArcHydro to be installed and currently only works with Python 2.
 	'''
 
 	if version:

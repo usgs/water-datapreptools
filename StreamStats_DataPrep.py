@@ -24,7 +24,7 @@ class Toolbox(object):
 		# List of tool classes associated with this toolbox
 		self.tools = [
 		databaseSetup, checkWalls,
-		makeELEVDATAIndex, ExtractPoly, CheckNoData, FillNoData, ProjScale,
+		makeELEVDATAIndex, ExtractPoly, CheckNoData, CheckNoData, FillNoData, ProjScale,
 		TopoGrid,
 		CoastalDEM, SetupBathyGrad, HydroDEM, AdjustAccum, AdjustAccumSimp, posthydrodem
 		]
@@ -413,6 +413,7 @@ class CheckNoData(object):
 	"""
 
 	def __init__(self):
+		self.label = "C. Check No Data"
 		self.description = "Finds NODATA values in a grid and makes a polygon feature class with value 1 if it is NODATA, and 0 if it contains data values."
 		self.category = "2 - Elevation Tools"
 		self.canRunInBackground = False
@@ -710,7 +711,7 @@ class TopoGrid(object):
 		Buffered and Projected Elevation Data : DERasterBand or DERasterDataset
 			Input digital elevation model to be conditioned using topogrid.
 		Output Cell Size : GPString
-			Cell size for output digital elevation model, defualts to 10 horizontal map units.
+			Cell size for output digital elevation model, defaults to 10 horizontal map units.
 		VIP Percentage : GPString
 				Thinning value used in the Very Important Points (VIP) algorithm to decide how many points from the original raster are retained, defaults to 5 percent.
 		SnapGrid : DERasterBand (Optional)
@@ -748,6 +749,8 @@ class TopoGrid(object):
 			direction = "Input"
 			)
 
+		param2.value = "50" # default value in horizontal map units.
+
 		param3 = arcpy.Parameter(
 			displayName = "12 Digit Hydrologic Unit Datasets if dissolved HUC8 boundary failed.",
 			name = "huc12",
@@ -769,7 +772,7 @@ class TopoGrid(object):
 			displayName = "Buffered and Projected Elevation Data",
 			name = "dem",
 			datatype = ["DERasterBand","DERasterDataset"],
-			parameterType = "Required",
+		 	parameterType = "Required",
 			direction = "Input"
 			)
 
@@ -829,7 +832,7 @@ class SetupBathyGrad(object):
 
 	Notes
 	-----
-	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the landscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help insure proper drainage after hydro-enforcement.
+	The bathymetric gradient refers to generating a sloping area around the flowline dendrite that ensures the landscape around the dendrite flows to the stream. This also adds a sloping surface to double-line streams and waterbodies to help ensure proper drainage after hydro-enforcement.
 	"""
 
 	def __init__(self):
@@ -1069,7 +1072,7 @@ class HydroDEM(object):
 		NHD Flowline Grid : DERasterDataset (optional)
 			Grid representing flowlines from the bathymetric gradient step.
 		Inner Walls : DEFeatureClass (optional)
-			Polyline feature class used to inforce internal drainage.
+			Polyline feature class used to enforce internal drainage.
 		Cell Size : GPString
 			Output cell size, defaults to 10 horizontal map units.
 		Drain Plugs : DEFeatureClass (optional)
@@ -1150,6 +1153,7 @@ class HydroDEM(object):
 			datatype = "DERasterDataset",
 			parameterType = "Optional",
 			direction = "Input")
+		param5.value = None
 
 		param6 = arcpy.Parameter(
 			displayName = "NHD Flowline Grid",
@@ -1157,6 +1161,7 @@ class HydroDEM(object):
 			datatype = "DERasterDataset",
 			parameterType = "Optional",
 			direction = "Input")
+		param6.value = None
 
 		param7 = arcpy.Parameter(
 			displayName = "Inner Walls",
@@ -1164,6 +1169,7 @@ class HydroDEM(object):
 			datatype = "DEFeatureClass", # maybe should be raster
 			parameterType = "Optional",
 			direction = "Input")
+		param7.value = None
 
 		param8 = arcpy.Parameter(
 			displayName = "Cell Size",

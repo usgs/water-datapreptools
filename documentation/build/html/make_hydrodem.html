@@ -25,6 +25,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -485,9 +486,9 @@
 </dd>
 <dt><strong>fdrPth</strong><span class="classifier">str</span></dt><dd><p>Path to the flow direction grid produced by hydroDEM.</p>
 </dd>
-<dt><strong>thresh1</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 m$^2$.</p>
+<dt><strong>thresh1</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
-<dt><strong>thresh2</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 m$^2$.</p>
+<dt><strong>thresh2</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
 <dt><strong>sinksPth</strong><span class="classifier">str (optional)</span></dt><dd><p>Path to the snklnk grid, optional.</p>
 </dd>
@@ -497,9 +498,9 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>str</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 15,000,000 m$^2$.</p>
+<dt><strong>str</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 15,000,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
-<dt><strong>str900</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 810,000 m$^2$.</p>
+<dt><strong>str900</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
 <dt><strong>strlnk</strong><span class="classifier">raster</span></dt><dd><p>Raster with streams labeld with index values.</p>
 </dd>
@@ -521,7 +522,7 @@
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>This tool requires archydro to be installed and currently only works with Python 2.</p>
+<p>This tool requires ESRI ArcHydro to be installed and currently only works with Python 2.</p>
 </dd></dl>
 
 </div>
