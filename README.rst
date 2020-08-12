@@ -3,7 +3,7 @@ Welcome to StreamStats Data Preparation Tools Documentation!
 
 A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats project.
 
-Version 3.10 tools can be accessed `here <https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip>`_. See below for installation instructions for Version 4 tools.
+Legacy version 3.10 tools can be accessed `here <https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip>`_. See below for installation instructions for version 4 tools.
 
 About
 -----

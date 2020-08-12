@@ -174,7 +174,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>lExtent</strong><span class="classifier">str</span></dt><dd><p>ESRI Arcpy extent string.</p>
+<dt><strong>lExtent</strong><span class="classifier">str</span></dt><dd><p>ESRI ArcPy extent string.</p>
 </dd>
 <dt><strong>lRaster</strong><span class="classifier">str</span></dt><dd><p>Path to raster dataset.</p>
 </dd>
@@ -379,7 +379,7 @@
 <dt id="make_hydrodem.hydrodem">
 <code class="descclassname">make_hydrodem.</code><code class="descname">hydrodem</code><span class="sig-paren">(</span><em><span class="n">outdir</span></em>, <em><span class="n">huc8cov</span></em>, <em><span class="n">origdemPth</span></em>, <em><span class="n">dendrite</span></em>, <em><span class="n">snap_grid</span></em>, <em><span class="n">bowl_polys</span></em>, <em><span class="n">bowl_lines</span></em>, <em><span class="n">inwall</span></em>, <em><span class="n">drainplug</span></em>, <em><span class="n">buffdist</span></em>, <em><span class="n">inwallbuffdist</span></em>, <em><span class="n">inwallht</span></em>, <em><span class="n">outwallht</span></em>, <em><span class="n">agreebuf</span></em>, <em><span class="n">agreesmooth</span></em>, <em><span class="n">agreesharp</span></em>, <em><span class="n">bowldepth</span></em>, <em><span class="n">cellsz</span></em>, <em><span class="n">scratchWorkspace</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#make_hydrodem.hydrodem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hydro-enforce a DEM using hydrography data sets.</p>
-<p>This function is used by the National StreamStats Team as the optimal approach for preparing a state’s physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as correct. Supplied watershed boundaries can also be recognized as correct if avaialable for a given state/region. This function assumes that the DEM has first been projected to a state’s projection of choice. This function prepares data to be used in the ESRI ArcHydro data model (the GIS database environment for National StreamStats).</p>
+<p>This function is used by the National StreamStats Team as the optimal approach for preparing a state’s physiographic datasets for watershed delineations. It takes as input, a digital elevation model (DEM), and enforces this data to recognize the supplied hydrography as correct. Supplied watershed boundaries can also be recognized as correct if available for a given state/region. This function assumes that the DEM has first been projected to a state’s projection of choice. This function prepares data to be used in the ESRI ArcHydro data model (the GIS database environment for National StreamStats).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -389,7 +389,7 @@
 </dd>
 <dt><strong>huc8cov</strong><span class="classifier">DEFeatureClass</span></dt><dd><p>Local division feature class, often HUC8, this will be the outer wall of the hydroDEM.</p>
 </dd>
-<dt><strong>origdemPth</strong><span class="classifier">str</span></dt><dd><p>Path to the orignial, projected DEM.</p>
+<dt><strong>origdemPth</strong><span class="classifier">str</span></dt><dd><p>Path to the original, projected DEM.</p>
 </dd>
 <dt><strong>dendrite</strong><span class="classifier">str</span></dt><dd><p>Path to the dendrite feature class to be used.</p>
 </dd>
@@ -502,7 +502,7 @@
 </dd>
 <dt><strong>str900</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
-<dt><strong>strlnk</strong><span class="classifier">raster</span></dt><dd><p>Raster with streams labeld with index values.</p>
+<dt><strong>strlnk</strong><span class="classifier">raster</span></dt><dd><p>Raster with streams labeled with index values.</p>
 </dd>
 <dt><strong>lnk</strong><span class="classifier">raster</span></dt><dd><p>Merged stream and sink raster.</p>
 </dd>
