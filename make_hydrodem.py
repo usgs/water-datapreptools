@@ -183,7 +183,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	arcpy.AddMessage("Done!")
 
-def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel):
+def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel, version = None):
 	'''Sets elevations for water and other areas in digital elevation model.
 
 	Parameters
@@ -198,6 +198,8 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel)
 		Output DEM grid name.
 	seaLevel : float
 		Elevation at which to make the sea.
+	version : str (optional)
+		StreamStats Data Preparation Tools version number
 	
 	Returns
 	-------
