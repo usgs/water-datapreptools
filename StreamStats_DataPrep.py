@@ -1030,7 +1030,7 @@ class CoastalDEM(object):
 		OutRaster = parameters[3].valueAsText          # output DEM grid name (type String)
 		seaLevel = parameters[4].valueAsText           # Elevation to make the sea
 
-		coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel)
+		coastaldem(Input_Workspace, grdName, InFeatureClass, OutRaster, seaLevel, version = version)
 
 		return None
 
