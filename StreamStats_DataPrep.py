@@ -1005,7 +1005,7 @@ class CoastalDEM(object):
 			name = "OutRaster",
 			datatype = "DERasterDataSet",
 			parameterType = "Required",
-			direction = "Input")
+			direction = "Output")
 
 		param3.value = "dem_sea"
 
