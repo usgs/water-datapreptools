@@ -1003,9 +1003,9 @@ class CoastalDEM(object):
 		param3 = arcpy.Parameter(
 			displayName = "Output DEM",
 			name = "OutRaster",
-			datatype = "DERasterBand",
+			datatype = "DERasterDataSet",
 			parameterType = "Required",
-			direction = "Output")
+			direction = "Input")
 
 		param3.value = "dem_sea"
 

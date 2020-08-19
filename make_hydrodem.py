@@ -216,7 +216,7 @@ def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel,
 	try:
 		# set working folder
 		arcpy.env.workspace = Input_Workspace
-		arcpy.env.scratchWorkspace = arcpy.env.Workspace
+		arcpy.env.scratchWorkspace = arcpy.env.workspace
 
 		arcpy.env.extent = grdNamePth
 		arcpy.env.snapRaster = grdNamePth
