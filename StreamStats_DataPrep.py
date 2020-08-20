@@ -1003,7 +1003,7 @@ class CoastalDEM(object):
 		param3 = arcpy.Parameter(
 			displayName = "Output DEM",
 			name = "OutRaster",
-			datatype = "DERasterDataSet",
+			datatype = "GPString",
 			parameterType = "Required",
 			direction = "Output")
 
