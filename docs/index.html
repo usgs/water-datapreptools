@@ -157,7 +157,7 @@
   <div class="section" id="welcome-to-streamstats-data-preparation-tools-documentation">
 <h1>Welcome to StreamStats Data Preparation Tools Documentation!<a class="headerlink" href="#welcome-to-streamstats-data-preparation-tools-documentation" title="Permalink to this headline">¶</a></h1>
 <p>A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats project.</p>
-<p>Legacy version 3.10 tools can be accessed <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip">here</a>. See below for installation instructions for version 4 tools.</p>
+<p>Legacy version 3.10 tools can be accessed <a class="reference external" href="https://github.com/usgs/water-datapreptools/archive/v3.10.zip">here</a>. See below for installation instructions for version 4 tools.</p>
 <div class="section" id="about">
 <h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
 <p>The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEMs) and hydrography data for ingestion into the USGS StreamStats project and web-application. The tools and associated work flow examples can be used to prepare DEM and hydrography subsets for local StreamStats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ESRI ArcHydro data model.</p>
@@ -166,6 +166,7 @@
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
 <p>Please cite these tools and documentation as:</p>
 <p>Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P., 2020, StreamStats Data Preparation Tools, version 4: USGS Software Release, <a class="reference external" href="https://doi.org/10.5066/P9UM2NUL">https://doi.org/10.5066/P9UM2NUL</a>.</p>
+<p>Version 4 (IP-112997) was approved on September 3, 2020.</p>
 </div>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
@@ -199,13 +200,13 @@
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Clone these tools onto your machine using the <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> commands. Or download the repository using the link in the upper right of the repository page here: <a class="reference external" href="https://code.usgs.gov/StreamStats/datapreptools">https://code.usgs.gov/StreamStats/datapreptools</a></p>
+<p>Clone these tools onto your machine using the <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/usgs/water-datapreptools.git</span></code> command. Or download the repository using the link in the upper right of the repository page here: <a class="reference external" href="https://github.com/usgs/water-datapreptools">https://github.com/usgs/water-datapreptools</a></p>
 <p>Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ESRI ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ESRI ArcHydro and only works with ESRI ArcMap (Python 2) at this time (2020) due to ESRI ArcHydro compatibility issues with ESRI ArcPro (i.e. Python 3).</p>
 <p>The ESRI ArcGIS toolbox is built from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the <a class="reference internal" href="modules.html#modules-label"><span class="std std-ref">StreamStats DataPrep Library</span></a> and <a class="reference internal" href="example_scripts.html#examples-label"><span class="std std-ref">Example Scripts</span></a> for information and examples on the usage of the tools on the command line. The tools run fastest via ESRI ArcPro or Python 3 (see caveat above), but can still be used with ESRI ArcMap and Python 2.</p>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>Tool and function library documentation can be found by opening <code class="code docutils literal notranslate"><span class="pre">./documentation/build/html/index.html</span></code> with a web browser after the tools have been cloned/downloaded to your local machine.</p>
+<p>Tool and function library documentation can be found by opening <a class="reference external" href="https://usgs.github.io/water-datapreptools/">https://usgs.github.io/water-datapreptools/</a>.</p>
 </div>
 <div class="section" id="reporting-issues-and-problems-with-the-tools">
 <h2>Reporting Issues and Problems with the Tools<a class="headerlink" href="#reporting-issues-and-problems-with-the-tools" title="Permalink to this headline">¶</a></h2>

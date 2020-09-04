@@ -3,7 +3,7 @@ Welcome to StreamStats Data Preparation Tools Documentation!
 
 A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats project.
 
-Legacy version 3.10 tools can be accessed `here <https://code.usgs.gov/StreamStats/datapreptools/-/archive/v3.10/datapreptools-v3.10.zip>`_. See below for installation instructions for version 4 tools.
+Legacy version 3.10 tools can be accessed `here <https://github.com/usgs/water-datapreptools/archive/v3.10.zip>`_. See below for installation instructions for version 4 tools.
 
 About
 -----
@@ -14,6 +14,8 @@ Citation
 Please cite these tools and documentation as:
 
 Barnhart, T.B., Smith, M., Rea, A., Kolb, K., Steeves, P., and McCarthy, P., 2020, StreamStats Data Preparation Tools, version 4: USGS Software Release, https://doi.org/10.5066/P9UM2NUL.
+
+Version 4 (IP-112997) was approved on September 3, 2020.
 
 Dependencies
 ------------
@@ -38,7 +40,7 @@ This package is contained in several Python files, which will need to be install
 
 Installation
 ------------
-Clone these tools onto your machine using the :code:`git clone` commands. Or download the repository using the link in the upper right of the repository page here: https://code.usgs.gov/StreamStats/datapreptools
+Clone these tools onto your machine using the :code:`git clone https://github.com/usgs/water-datapreptools.git` command. Or download the repository using the link in the upper right of the repository page here: https://github.com/usgs/water-datapreptools
 
 Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ESRI ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ESRI ArcHydro and only works with ESRI ArcMap (Python 2) at this time (2020) due to ESRI ArcHydro compatibility issues with ESRI ArcPro (i.e. Python 3).
 
@@ -46,7 +48,7 @@ The ESRI ArcGIS toolbox is built from a set of Python libraries that can be call
 
 Documentation
 -------------
-Tool and function library documentation can be found by opening :code:`./documentation/build/html/index.html` with a web browser after the tools have been cloned/downloaded to your local machine.
+Tool and function library documentation can be found by opening https://usgs.github.io/water-datapreptools/.
 
 Reporting Issues and Problems with the Tools
 --------------------------------------------
