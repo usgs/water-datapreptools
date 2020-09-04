@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>databaseSetup Module &mdash; StreamStats Data Preparation Tools 4.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="elevationTools Module" href="elevationTools.html" />
+    <link rel="prev" title="StreamStats DataPrep Library" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> StreamStats Data Preparation Tools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                4.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">databaseSetup Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elevationTools.html">elevationTools Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topo_grid.html">topo_grid Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example_scripts.html">Example Scripts</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">StreamStats Data Preparation Tools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">StreamStats DataPrep Library</a> &raquo;</li>
+        
+      <li>databaseSetup Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/databaseSetup.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-databaseSetup">
+<span id="databasesetup-module"></span><h1>databaseSetup Module<a class="headerlink" href="#module-databaseSetup" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="databaseSetup.check_walls">
+<code class="descclassname">databaseSetup.</code><code class="descname">check_walls</code><span class="sig-paren">(</span><em><span class="n">dendrite</span></em>, <em><span class="n">inwall</span></em>, <em><span class="n">points</span></em>, <em><span class="n">outwall</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#databaseSetup.check_walls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersect dendrite with inwall and outwall to check for errors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>dendrite</strong><span class="classifier">str</span></dt><dd><p>File path to stream dendrite.</p>
+</dd>
+<dt><strong>inwall</strong><span class="classifier">str</span></dt><dd><p>File path to inwall polygons.</p>
+</dd>
+<dt><strong>points</strong><span class="classifier">str</span></dt><dd><p>File path to output intersection points.</p>
+</dd>
+<dt><strong>outwall</strong><span class="classifier">str (optional)</span></dt><dd><p>File path to outwall polygons.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>points</strong><span class="classifier">Feature class or shapefile</span></dt><dd><p>Intersection points between the dendrite, inwall, and outwall.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="databaseSetup.databaseSetup">
+<code class="descclassname">databaseSetup.</code><code class="descname">databaseSetup</code><span class="sig-paren">(</span><em><span class="n">output_workspace</span></em>, <em><span class="n">output_gdb_name</span></em>, <em><span class="n">hu_dataset</span></em>, <em><span class="n">hu8_field</span></em>, <em><span class="n">hu12_field</span></em>, <em><span class="n">hucbuffer</span></em>, <em><span class="n">nhd_path</span></em>, <em><span class="n">elevation_projection_template</span></em>, <em><span class="n">alt_buff</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#databaseSetup.databaseSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the local folders and copy hydrography data into input geodatabases.</p>
+<p>This tool creates folder corresponding to each local hydrologic unit, usually a HUC8, and fills those folders with the flowlines, inwalls, and outwalls that will be used later to hydro-enforce the digital elevation model for each hydrologic unit. This tool also creates a global geodatabase with a feature class for the whole domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>output_workspace</strong><span class="classifier">str</span></dt><dd><p>Output directory where processing will occur.</p>
+</dd>
+<dt><strong>output_gdb_name</strong><span class="classifier">str</span></dt><dd><p>Global file geodatabase to be created.</p>
+</dd>
+<dt><strong>hu_dataset</strong><span class="classifier">str</span></dt><dd><p>Feature class that defines local folder geographic boundaries.</p>
+</dd>
+<dt><strong>hu8_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” to dissolve boundaries to local folder extents.</p>
+</dd>
+<dt><strong>hu12_field</strong><span class="classifier">str</span></dt><dd><p>Field name in “hu_dataset” from which inwalls are generated.</p>
+</dd>
+<dt><strong>hucbuffer</strong><span class="classifier">str</span></dt><dd><p>Distance to buffer local folder bounds in map units.</p>
+</dd>
+<dt><strong>nhd_path</strong><span class="classifier">str</span></dt><dd><p>Path to workspace containing NHD geodatabases.</p>
+</dd>
+<dt><strong>elevation_projection_template</strong><span class="classifier">str</span></dt><dd><p>Path to DEM file to use as a projection template.</p>
+</dd>
+<dt><strong>alt_buff</strong><span class="classifier">str</span></dt><dd><p>Alternative buffer to use on local folder boundaries.</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>Package version number.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>None</dt><dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>As this tool moves through each local hydrologic unit it searches the <em>nhd_path</em> for a geodatabase with hydrography data with the same HUC-4 as the local hydrologic unit. If this cannot be found the tool will skip that local hydrologic unit. Non-NHD hydrography data can be used with this tool, but it must be named and organized exactly as the NHD hydrography.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="elevationTools.html" class="btn btn-neutral float-right" title="elevationTools Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="StreamStats DataPrep Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -50,7 +50,7 @@ Tool and function library documentation can be found by opening :code:`./documen
 
 Reporting Issues and Problems with the Tools
 --------------------------------------------
-Please log problems with the tools or function libraries in the issues portion of this repository. **Please do not email me.** Logging problems in this way allows other users to see the discussion and, hopefully, the solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
+Please log problems with the tools or function libraries in the `issues portion <https://code.usgs.gov/StreamStats/datapreptools/-/issues>`_ of this repository. **Please do not email me.** Logging problems in this way allows other users to see the discussion and, hopefully, the solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
 
 Known Issues
 ------------
@@ -67,17 +67,9 @@ Disclaimers
 
 Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
 
-This software has been approved for release by the U.S. Geological Survey (USGS). Although the software has been subjected to rigorous review, the USGS reserves the right to update the software as needed pursuant to further analysis and review. No warranty, expressed or implied, is made by the USGS or the U.S. Government as to the functionality of the software and related material nor shall the fact of release constitute any such warranty. Furthermore, the software is released on condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from its authorized or unauthorized use.
+Please see DISCLAIMER.md in this repository.
 
 License
 -------
 
-This work is published with the MIT Open Source License:
-
-Copyright 2020 Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey. 
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Please see LICENSE.md in this repository.
