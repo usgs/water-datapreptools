@@ -3,21 +3,21 @@
     "name": "DataPrepTools",
     "organization": "U.S. Geological Survey",
     "description": "Tools to prepare terrain data for inclusion in USGS StreamStatas.",
-    "version": "1.0",
-    "status": "APPROVED",
+    "version": "4.0",
+    "status": "Production",
 
     "permissions": {
       "usageType": "openSource",
       "licenses": [
         {
           "name": "Public Domain, CC0-1.0",
-          "URL": "https://code.usgs.gov/StreamStats/FCPGtools/raw/master/LICENSE.md"
+          "URL": "https://code.usgs.gov/StreamStats/datapreptools/raw/master/LICENSE.md"
         }
       ]
     },
 
     "homepageURL": "https://code.usgs.gov/StreamStats/datapreptools",
-    "downloadURL": "https://code.usgs.gov/StreamStats/datapreptools/-/archive/master/FCPGtools.zip",
+    "downloadURL": "https://code.usgs.gov/StreamStats/datapreptools/-/archive/master/datapreptools-master.zip",
     "disclaimerURL": "https://code.usgs.gov/StreamStats/datapreptools/raw/master/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/StreamStats/datapreptools.git",
     "vcs": "git",
