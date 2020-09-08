@@ -9,6 +9,10 @@ About
 -----
 The StreamStats Data Preparation Tools aid in the processing of digital elevation models (DEMs) and hydrography data for ingestion into the USGS StreamStats project and web-application. The tools and associated work flow examples can be used to prepare DEM and hydrography subsets for local StreamStats folders, prepare those data for use in hydro-enforcement, hydro-enforce the digital elevation model, and process the resulting flow accumulation and flow direction grids for use in the ESRI ArcHydro data model.
 
+Documentation
+-------------
+Tool and function library documentation can be found by opening https://usgs.github.io/water-datapreptools/.
+
 Citation
 --------
 Please cite these tools and documentation as:
@@ -45,10 +49,6 @@ Clone these tools onto your machine using the :code:`git clone https://github.co
 Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ESRI ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ESRI ArcHydro and only works with ESRI ArcMap (Python 2) at this time (2020) due to ESRI ArcHydro compatibility issues with ESRI ArcPro (i.e. Python 3).
 
 The ESRI ArcGIS toolbox is built from a set of Python libraries that can be called from the command line or a scripting environment to facilitate processing large volumes of data. Please refer to the documentation of the :ref:`modules-label` and :ref:`examples_label` for information and examples on the usage of the tools on the command line. The tools run fastest via ESRI ArcPro or Python 3 (see caveat above), but can still be used with ESRI ArcMap and Python 2.
-
-Documentation
--------------
-Tool and function library documentation can be found by opening https://usgs.github.io/water-datapreptools/.
 
 Reporting Issues and Problems with the Tools
 --------------------------------------------
