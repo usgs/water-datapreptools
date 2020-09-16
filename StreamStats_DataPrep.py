@@ -8,7 +8,7 @@ import arcpy
 import sys
 import os
 
-version = "4.0.0"
+version = "4.0.1"
 
 arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
