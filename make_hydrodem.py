@@ -521,9 +521,9 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 	filldem.save(os.path.join(arcpy.env.workspace,"hydrodem"))
 	del filldem
 
-	fdirg.save(os.path.join(arcpy.env.workspace,"hydrodemfdr"))
+	fdirg.save(os.path.join(arcpy.env.workspace,"fdr"))
 	del fdirg
-	faccg.save(os.path.join(arcpy.env.workspace,"hydrodemfac"))
+	faccg.save(os.path.join(arcpy.env.workspace,"fac"))
 	del faccg
 
 	# clean the environment of temp files
@@ -759,7 +759,7 @@ def adjust_accum(facPth, fdrPth, upstreamFACpths,upstreamFDRpths, workspace, ver
 	for pth in costPaths:
 		downstream += pth
 
-	downstream.save("hydrodemfac_global")
+	downstream.save("fac_global")
 
 def adjust_accum_simple(ptin, fdrin, facin, filin, facout, incrval, version=None):
 	'''Simple flow accumulation grid adjustment.
@@ -963,7 +963,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	arcpy.AddMessage("	drainagePoint features created.")
 
 	#arcpy.AddMessage("	Moving rasters out of\n\n%s\n\nto\n\n%s"%(workspace,finalSpace))
-	rasters = ['hydrodem','hydrodemfac','hydrodemfdr', 'hydrodemfac_global']
+	rasters = ['hydrodem','fac','fdr', 'hydrodemfac_global']
 
 	moveRasters(workspace,finalSpace,rasters)
 
