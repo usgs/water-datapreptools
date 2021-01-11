@@ -18,7 +18,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'StreamStats Data Preparation Tools'
-copyright = '2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.'
+copyright = '2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katharine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.'
 author = 'Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy'
 
 # The full version, including alpha/beta/rc tags
