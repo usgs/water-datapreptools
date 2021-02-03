@@ -473,8 +473,8 @@ def hydrodem(outdir, huc8cov, origdemPth, dendrite, snap_grid, bowl_polys, bowl_
 		dem_enforced = demRidge8wb + Con((IsNull(tmpGrd) == 0) & (IsNull(dendriteGrid)), inwallht, 0) #(L226 in hydroDEM_work_mod.aml) 
 		arcpy.AddMessage('	Inwalling Complete')
 	else:
-		if arcpy.Exists(dem_enforced):
-			del dem_enforced
+		#if arcpy.Exists(dem_enforced):
+		#	del dem_enforced
 		dem_enforced = demRidge8wb
 		arcpy.AddMessage('	Inwalling Skipped')
 
