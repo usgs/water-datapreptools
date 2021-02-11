@@ -37,7 +37,7 @@ def SnapExtent(lExtent, lRaster):
 
 	return extent
 
-def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody,cellsize, version = None):
+def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody,cellsize,scratchWorkspace, version = None):
 	'''Generates the input datasets from hydrography features for enforcing a bathymetic gradient in hydroDEM (bowling).
 	
 	Parameters
@@ -56,6 +56,8 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 		Path to the waterbody features.
 	cellsize : str
 		Output cell size to use for rasterization.
+	scratchWorkspace : str
+		Path to folder-type workspace for writing temporary files.
 	version : str (optional)
 		Package version number.
 
@@ -77,7 +79,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	arcpy.AddMessage("Starting Bathymetric Gradient Preparations....")
 
 	# Set the Geoprocessing environment...
-	arcpy.env.scratchWorkspace = workspace
+	arcpy.env.scratchWorkspace = scratchWorkspace
 	arcpy.env.workspace = workspace
 
 	# test if input files are present
@@ -101,12 +103,20 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	nhd_wb_feat = "nhd_wb"
 	nhd_wb_Layer = "nhd_wb_Layer"
 
-	#Output rastsers
-	wbtempraster = os.path.join(arcpy.env.workspace,"nhdwb_tmp")
-	areatempraster = os.path.join(arcpy.env.workspace,"nhdarea_tmp")
+	#Output rastsers ##############
+
+	# to scratch space
+	wbtempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdwb_tmp")
+	areatempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdarea_tmp")
 	mosaiclist = wbtempraster + ";" + areatempraster
-	outraster1 = "hydro_flowlines"
-	outraster2 = "hydro_areas"
+	outraster1 = os.path.join(arcpy.env.scratchWorkspace,"hydro_flowlines")
+	outraster2 = os.path.join(arcpy.env.scratchWorkspace,"hydro_areas")
+	
+	# output grids will be copeid to here
+	outraster1final = os.path.join(arcpy.env.workspace,"hydro_flowlines") 
+	outraster2final = os.path.join(arcpy.env.workspace,"hydro_areas")
+
+	tmpfiles = [wbtempraster,areatempraster,outraster1, outraster2] # list for cleaning up later
 
 	#convert to temporary shapefiles
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
@@ -176,9 +186,16 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	except:
 		arcpy.AddMessage(arcpy.GetMessages())
 
+	# moving rasters
+	arcpy.AddMessage(f"\tCopying temporary rasters to {workspace}.")
+	arcpy.CopyRaster_management(outraster1,outraster1final)
+	arcpy.CopyRaster_management(outraster2, outraster2final)
+
+
 	#Delete temp files and rasters
 	arcpy.AddMessage("Cleaning up...")
-	for fl in [areatempraster,wbtempraster,nhd_wb_feat,nhd_flow_feat,nhd_area_feat]:
+	tmpfiles.extend([nhd_wb_feat, nhd_flow_feat, nhd_area_feat])
+	for fl in tmpfiles:
 		if arcpy.Exists(fl): arcpy.Delete_management(fl)
 
 	arcpy.AddMessage("Done!")

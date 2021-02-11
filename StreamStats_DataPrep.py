@@ -860,6 +860,8 @@ class SetupBathyGrad(object):
 			Feature class of the NHD water bodies.
 		Cell Size : GPString
 			Output grid cell size, defaults to 10 horizontal map units.
+		Scratch Workspace : str
+			Path to folder-type workspace for writing temporary files.
 
 		Returns
 		-------
@@ -924,7 +926,16 @@ class SetupBathyGrad(object):
 
 		param6.value = "10"
 
-		params = [param0,param1,param2,param3,param4,param5,param6]
+		param7 = arcpy.Parameter(
+			displayName = "Scratch Workspace",
+			name = "scratchWorkspace",
+			datatype = "DEWorkspace",
+			parameterType = "Required",
+			direction = "Input") # maybe should be Output
+
+		param7.filter.list = ["File System"]
+
+		params = [param0,param1,param2,param3,param4,param5,param6,param7]
 		return params
 
 	def execute(self, parameters, messages):
@@ -938,8 +949,9 @@ class SetupBathyGrad(object):
 		NHDFlowline = parameters[4].valueAsText
 		NHDWaterbody = parameters[5].valueAsText
 		cellSize = parameters[6].valueAsText
+		scratchWorkspace = parameters[7].valueAsText
 
-		bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize, version = version)
+		bathymetricGradient(Workspace,SnapGrid, hucpoly, NHDArea, NHDFlowline, NHDWaterbody, cellSize, scratchWorkspace, version = version)
 
 		return None
 
