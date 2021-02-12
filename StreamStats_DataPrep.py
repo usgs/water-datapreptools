@@ -555,7 +555,7 @@ class FillNoData(object):
 		return
 
 class ProjScale(object):
-	"""Project and scale a digital elevation model.
+	"""Project and scale a digital elevation model. The default settings assume the digital elevation model uses meters (m) as the z-units.
 
 	This tool is a wrapper on :func:`elevationTools.projScale`.
 
@@ -587,7 +587,7 @@ class ProjScale(object):
 		RegPt : GPString
 			Registration point for the projected raster, defaults to "0 0".
 		scaleFact : GPString
-			Scale factor to use to convert the projected raster to integers, defaults to 100. Consider using a larger scale factor as cell-size decreases.
+			Scale factor to use to convert the projected raster to integers, defaults to 100, converting m to cm. Consider using a larger scale factor as cell-size decreases.
 
 		Returns
 		-------

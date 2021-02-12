@@ -200,7 +200,7 @@ def fillNoData(workspace, InGrid, OutGrid, version = None):
 	tmpRast.save(OutGridPth)
 
 def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, RegistrationPoint, scaleFact = 100, version = None):
-	""" Projects a DEM grid to a user-specified coordinate system, handling cell registration and converts the output grid to integers using a scale factor.
+	""" Projects a DEM grid to a user-specified coordinate system, handling cell registration and converts the output grid to integers using a scale factor. The default settings assume the digital elevation model uses meters (m) as the z-units.
 
 	Parameters
 	----------
@@ -217,7 +217,7 @@ def projScale(Input_Workspace, InGrd, OutGrd, OutCoordsys, OutCellSize, Registra
 	RegistrationPoint : str
 		Registration point for output grid so all grids snap correctly. In the format "0 0" where the zeros are the x and y of the registration point.
 	scaleFact : int
-		Scale factor to convert grid values to integers.
+		Scale factor to convert grid values to integers, defaults to 100, converting m to cm.
 	version : str
 		StreamStats version number.
 	

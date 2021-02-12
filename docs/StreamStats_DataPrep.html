@@ -445,7 +445,7 @@
 <dl class="py class">
 <dt id="StreamStats_DataPrep.ProjScale">
 <em class="property">class </em><code class="descclassname">StreamStats_DataPrep.</code><code class="descname">ProjScale</code><a class="headerlink" href="#StreamStats_DataPrep.ProjScale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Project and scale a digital elevation model.</p>
+<dd><p>Project and scale a digital elevation model. The default settings assume the digital elevation model uses meters (m) as the z-units.</p>
 <p>This tool is a wrapper on <a class="reference internal" href="elevationTools.html#elevationTools.projScale" title="elevationTools.projScale"><code class="xref py py-func docutils literal notranslate"><span class="pre">elevationTools.projScale()</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>After scaling, this tool attempts to set the correct z-units; however, if your vertical units are different from your horizontal units it is advised to check the z-units manually.</p>
@@ -482,7 +482,7 @@
 </dd>
 <dt><strong>RegPt</strong><span class="classifier">GPString</span></dt><dd><p>Registration point for the projected raster, defaults to “0 0”.</p>
 </dd>
-<dt><strong>scaleFact</strong><span class="classifier">GPString</span></dt><dd><p>Scale factor to use to convert the projected raster to integers, defaults to 100. Consider using a larger scale factor as cell-size decreases.</p>
+<dt><strong>scaleFact</strong><span class="classifier">GPString</span></dt><dd><p>Scale factor to use to convert the projected raster to integers, defaults to 100, converting m to cm. Consider using a larger scale factor as cell-size decreases.</p>
 </dd>
 </dl>
 </td>

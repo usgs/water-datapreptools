@@ -348,7 +348,7 @@
 <dl class="py function">
 <dt id="elevationTools.projScale">
 <code class="descclassname">elevationTools.</code><code class="descname">projScale</code><span class="sig-paren">(</span><em><span class="n">Input_Workspace</span></em>, <em><span class="n">InGrd</span></em>, <em><span class="n">OutGrd</span></em>, <em><span class="n">OutCoordsys</span></em>, <em><span class="n">OutCellSize</span></em>, <em><span class="n">RegistrationPoint</span></em>, <em><span class="n">scaleFact</span><span class="o">=</span><span class="default_value">100</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Projects a DEM grid to a user-specified coordinate system, handling cell registration and converts the output grid to integers using a scale factor.</p>
+<dd><p>Projects a DEM grid to a user-specified coordinate system, handling cell registration and converts the output grid to integers using a scale factor. The default settings assume the digital elevation model uses meters (m) as the z-units.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -366,7 +366,7 @@
 </dd>
 <dt><strong>RegistrationPoint</strong><span class="classifier">str</span></dt><dd><p>Registration point for output grid so all grids snap correctly. In the format “0 0” where the zeros are the x and y of the registration point.</p>
 </dd>
-<dt><strong>scaleFact</strong><span class="classifier">int</span></dt><dd><p>Scale factor to convert grid values to integers.</p>
+<dt><strong>scaleFact</strong><span class="classifier">int</span></dt><dd><p>Scale factor to convert grid values to integers, defaults to 100, converting m to cm.</p>
 </dd>
 <dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>StreamStats version number.</p>
 </dd>
