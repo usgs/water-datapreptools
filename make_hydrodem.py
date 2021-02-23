@@ -109,14 +109,38 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	wbtempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdwb_tmp")
 	areatempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdarea_tmp")
 	mosaiclist = wbtempraster + ";" + areatempraster
-	outraster1 = os.path.join(arcpy.env.scratchWorkspace,"hydro_flowlines")
-	outraster2 = os.path.join(arcpy.env.scratchWorkspace,"hydro_areas")
-	
+	outraster1 = os.path.join(arcpy.env.scratchWorkspace,"hydro_flowlines_tmp")
+	outraster2 = os.path.join(arcpy.env.scratchWorkspace,"hydro_areas_tmp")
+
 	# output grids will be copeid to here
 	outraster1final = os.path.join(arcpy.env.workspace,"hydro_flowlines") 
 	outraster2final = os.path.join(arcpy.env.workspace,"hydro_areas")
 
 	tmpfiles = [wbtempraster,areatempraster,outraster1, outraster2] # list for cleaning up later
+
+	arcpy.AddMessage('Temprary Grids')
+	for grd in tmpfiles:
+		arcpy.AddMessage('\t%s'%grd)
+
+	arcpy.AddMessage('Final Grids')
+	for grd in [outraster1final, outraster2final]:
+		arcpy.AddMessage('\t%s'%grd)
+
+	# check if these grids exist
+	checkfls = 0
+	for grd in tmpfiles:
+		if arcpy.Exists(grd):
+			arcpy.AddMessage('%s exists, please delete before proceeding.'%grd)
+			checkfls += 1
+
+	for grd in [outraster1final, outraster2final]:
+		if arcpy.Exists(grd):
+			arcpy.AddMessage('%s exists, please delete before proceeding.'%grd)
+			checkfls += 1
+
+	if checkfls > 0:
+		arcpy.AddMessage('quiting...')
+		sys.exit(0) # 
 
 	#convert to temporary shapefiles
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
@@ -188,9 +212,8 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	# moving rasters
 	arcpy.AddMessage(f"\tCopying temporary rasters to {workspace}.")
-	arcpy.CopyRaster_management(outraster1,outraster1final)
+	arcpy.CopyRaster_management(outraster1, outraster1final)
 	arcpy.CopyRaster_management(outraster2, outraster2final)
-
 
 	#Delete temp files and rasters
 	arcpy.AddMessage("Cleaning up...")
