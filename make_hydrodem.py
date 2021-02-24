@@ -87,8 +87,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	for fl in inputFiles:
 		if arcpy.Exists(fl) == False:
 			arcpy.AddMessage('%s missing.'%fl)
-			arcpy.AddMessage('Please supply required input. Stopping program.')
-			sys.exit(0)
+			arcpy.AddError('Please supply required input. Stopping program.')
 
 	# Setup local variables and temporary layer files
 	arcpy.AddMessage("Setting up variables...")
@@ -129,18 +128,19 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	# check if these grids exist
 	checkfls = 0
 	for grd in tmpfiles:
+		arcpy.AddMessage('Checking %s'%grd)
 		if arcpy.Exists(grd):
-			arcpy.AddMessage('%s exists, please delete before proceeding.'%grd)
+			arcpy.AddMessage('\t%s exists, please delete before proceeding.'%grd)
 			checkfls += 1
 
 	for grd in [outraster1final, outraster2final]:
+		arcpy.AddMessage('Checking %s'%grd)
 		if arcpy.Exists(grd):
-			arcpy.AddMessage('%s exists, please delete before proceeding.'%grd)
+			arcpy.AddMessage('\t%s exists, please delete before proceeding.'%grd)
 			checkfls += 1
 
 	if checkfls > 0:
-		arcpy.AddMessage('quiting...')
-		sys.exit(0) # 
+		arcpy.AddError('quiting...') 
 
 	#convert to temporary shapefiles
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
@@ -211,7 +211,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 		arcpy.AddMessage(arcpy.GetMessages())
 
 	# moving rasters
-	arcpy.AddMessage(f"\tCopying temporary rasters to {workspace}.")
+	arcpy.AddMessage("\tCopying temporary rasters to %s."%workspace)
 	arcpy.CopyRaster_management(outraster1, outraster1final)
 	arcpy.CopyRaster_management(outraster2, outraster2final)
 
