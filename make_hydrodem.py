@@ -122,12 +122,12 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	wbtempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdwb_tmp")
 	areatempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdarea_tmp")
 	mosaiclist = wbtempraster + ";" + areatempraster
-	outraster1 = os.path.join(arcpy.env.scratchWorkspace,"hydro_flowlines_tmp")
-	outraster2 = os.path.join(arcpy.env.scratchWorkspace,"hydro_areas_tmp")
+	outraster1 = os.path.join(arcpy.env.scratchWorkspace,"hydro_flowlines_tmp") # this is put in the scratch workspace, ESRI grid
+	outraster2 = os.path.join(arcpy.env.scratchWorkspace,"hydro_areas_tmp") # this is put in the scratch workspace, ESRI grid
 
 	# output grids will be copeid to here
-	outraster1final = os.path.join(arcpy.env.workspace,"hydro_flowlines") 
-	outraster2final = os.path.join(arcpy.env.workspace,"hydro_areas")
+	outraster1final = os.path.join(arcpy.env.workspace,"hydro_flowlines") # this gets copied at the end
+	outraster2final = os.path.join(arcpy.env.workspace,"hydro_areas") # this gets copied at the end
 
 	tmpfiles = [wbtempraster,areatempraster,outraster1, outraster2] # list for cleaning up later
 
@@ -989,7 +989,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	del stream
 
 	# Drainage Line
-	drainLinePth = os.path.join(workspace,'drainageLine')
+	drainLinePth = os.path.join(workspace,"Layers",'drainageLine')
 	DrainageLineProcessing(lnkPth,fdrPth,drainLinePth)
 	arcpy.AddMessage("	drainageLine features created.")
 
@@ -1003,16 +1003,16 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	CatchmentGridDelineation(fdrPth,lnkPth,catPth)
 	arcpy.AddMessage("	cat raster created.")
 
-	catchmentPth = os.path.join(workspace,'catchment')
+	catchmentPth = os.path.join(workspace,"Layers",'catchment')
 	CatchmentPolyProcessing(catPth,catchmentPth)
 	arcpy.AddMessage("	catchment features created.")
 
 
-	adjointPth = os.path.join(workspace,'adjointCatchment')
+	adjointPth = os.path.join(workspace,"Layers",'adjointCatchment')
 	AdjointCatchment(drainLinePth, catchmentPth,adjointPth)
 	arcpy.AddMessage("	adjointCatchment features created.")
 
-	dpPth = os.path.join(workspace,'drainagePoint')
+	dpPth = os.path.join(workspace,"Layers",'drainagePoint')
 	DrainagePointProcessing(facPth,catPth, catchmentPth,dpPth)
 	arcpy.AddMessage("	drainagePoint features created.")
 
