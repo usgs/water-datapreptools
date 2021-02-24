@@ -37,6 +37,20 @@ def SnapExtent(lExtent, lRaster):
 
 	return extent
 
+def printMessage(mess):
+	'''Helper function to print in terminal or geoprocessor.'''
+
+	arcpy.AddMessage(mess)
+	print(mess)
+	return None
+
+def printError(mess):
+	'''Helper function to print errors in terminal or geoprocessor.'''
+
+	arcpy.AddError(mess)
+	print(mess)
+	sys.exit(0)
+
 def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody,cellsize,scratchWorkspace, version = None):
 	'''Generates the input datasets from hydrography features for enforcing a bathymetic gradient in hydroDEM (bowling).
 	
@@ -73,10 +87,10 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	Outputs are written to the workspace.
 	'''
 	if version:
-		arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
+		printMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
 	arcpy.env.overwriteOutput = True # Set script to overwrite if files exist
-	arcpy.AddMessage("Starting Bathymetric Gradient Preparations....")
+	printMessage("Starting Bathymetric Gradient Preparations....")
 
 	# Set the Geoprocessing environment...
 	arcpy.env.scratchWorkspace = scratchWorkspace
@@ -86,11 +100,11 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	inputFiles = [snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody]
 	for fl in inputFiles:
 		if arcpy.Exists(fl) == False:
-			arcpy.AddMessage('%s missing.'%fl)
-			arcpy.AddError('Please supply required input. Stopping program.')
+			printMessage('%s missing.'%fl)
+			printError('Please supply required input. Stopping program.')
 
 	# Setup local variables and temporary layer files
-	arcpy.AddMessage("Setting up variables...")
+	printMessage("Setting up variables...")
 
 	#temporary features
 	nhd_flow_feat = "nhd_flow"
@@ -117,30 +131,30 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	tmpfiles = [wbtempraster,areatempraster,outraster1, outraster2] # list for cleaning up later
 
-	arcpy.AddMessage('Temprary Grids')
+	printMessage('Temprary Grids')
 	for grd in tmpfiles:
-		arcpy.AddMessage('\t%s'%grd)
+		printMessage('\t%s'%grd)
 
-	arcpy.AddMessage('Final Grids')
+	printMessage('Final Grids')
 	for grd in [outraster1final, outraster2final]:
-		arcpy.AddMessage('\t%s'%grd)
+		printMessage('\t%s'%grd)
 
 	# check if these grids exist
 	checkfls = 0
 	for grd in tmpfiles:
-		arcpy.AddMessage('Checking %s'%grd)
+		printMessage('Checking %s'%grd)
 		if arcpy.Exists(grd):
-			arcpy.AddMessage('\t%s exists, please delete before proceeding.'%grd)
+			printMessage('\t%s exists, please delete before proceeding.'%grd)
 			checkfls += 1
 
 	for grd in [outraster1final, outraster2final]:
-		arcpy.AddMessage('Checking %s'%grd)
+		printMessage('Checking %s'%grd)
 		if arcpy.Exists(grd):
-			arcpy.AddMessage('\t%s exists, please delete before proceeding.'%grd)
+			printMessage('\t%s exists, please delete before proceeding.'%grd)
 			checkfls += 1
 
 	if checkfls > 0:
-		arcpy.AddError('quiting...') 
+		printError('quiting...') 
 
 	#convert to temporary shapefiles
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
@@ -157,7 +171,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	try:
 		#hydrographyArea Processing
-		arcpy.AddMessage("Creating temporary selection layers...")
+		printMessage("Creating temporary selection layers...")
 		arcpy.MakeFeatureLayer_management(nhd_area_feat, nhd_area_Layer, "FType = 460", "", "")
 		
 		#hydrographyWaterbody Processing
@@ -168,14 +182,14 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 		arcpy.SelectLayerByLocation_management(nhd_flow_Layer, "WITHIN", nhd_wb_Layer, "", "NEW_SELECTION")
 		arcpy.SelectLayerByLocation_management(nhd_flow_Layer, "WITHIN", nhd_area_Layer, "", "ADD_TO_SELECTION")
 	except:
-		arcpy.AddMessage(arcpy.GetMessages())
+		printMessage(arcpy.GetMessages())
 
 	#get snap grid cell size
 	dsc_snap = arcpy.Describe(snapGrid)
 	snap_cellsize = dsc_snap.MeanCellWidth
 
 	# Set raster processing parameters
-	arcpy.AddMessage("Processing rasters...")
+	printMessage("Processing rasters...")
 	dsc = arcpy.Describe(hucPoly)
 	extent = str(dsc.extent)
 	arcpy.env.cellSize = snap_cellsize
@@ -188,7 +202,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 		arcpy.FeatureToRaster_conversion(nhd_area_Layer, "dummy", areatempraster, cellsize)      
 	except:
 		arcpy.CreateRasterDataset_management(arcpy.env.workspace,"nhdarea_tmp","10","8_BIT_UNSIGNED",snapGrid)
-		arcpy.AddMessage(arcpy.GetMessages())
+		printMessage(arcpy.GetMessages())
 		
 	# Process: Feature to Raster2 - NHD Waterbody...
 	try:
@@ -196,32 +210,32 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 		arcpy.FeatureToRaster_conversion(nhd_wb_Layer, "dummy", wbtempraster, cellsize)
 	except:
 		arcpy.CreateRasterDataset_management(arcpy.env.workspace,"nhdwb_tmp","10","8_BIT_UNSIGNED",snapGrid)
-		arcpy.AddMessage(arcpy.GetMessages())
+		printMessage(arcpy.GetMessages())
 
 	# Process: Feature to Raster3 - NHD Flowline.  This is the first output
 	try:
 		arcpy.FeatureToRaster_conversion(nhd_flow_Layer, "dummy", outraster1, cellsize)
 	except:
-		arcpy.AddMessage(arcpy.GetMessages())
+		printMessage(arcpy.GetMessages())
 
 	# Process: Mosaic NHD Area and NHD Waterbody rasters To New Raster.  This is the second output
 	try:
 		arcpy.MosaicToNewRaster_management(mosaiclist, workspace, outraster2, "", "8_BIT_UNSIGNED", "", "1", "BLEND", "FIRST")
 	except:
-		arcpy.AddMessage(arcpy.GetMessages())
+		printMessage(arcpy.GetMessages())
 
 	# moving rasters
-	arcpy.AddMessage("\tCopying temporary rasters to %s."%workspace)
+	printMessage("\tCopying temporary rasters to %s."%workspace)
 	arcpy.CopyRaster_management(outraster1, outraster1final)
 	arcpy.CopyRaster_management(outraster2, outraster2final)
 
 	#Delete temp files and rasters
-	arcpy.AddMessage("Cleaning up...")
+	printMessage("Cleaning up...")
 	tmpfiles.extend([nhd_wb_feat, nhd_flow_feat, nhd_area_feat])
 	for fl in tmpfiles:
 		if arcpy.Exists(fl): arcpy.Delete_management(fl)
 
-	arcpy.AddMessage("Done!")
+	printMessage("Done!")
 
 def coastaldem(Input_Workspace, grdNamePth, InFeatureClass, OutRaster, seaLevel, version = None):
 	'''Sets elevations for water and other areas in digital elevation model.
