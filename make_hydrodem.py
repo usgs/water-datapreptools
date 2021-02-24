@@ -119,15 +119,15 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	#Output rastsers ##############
 
 	# to scratch space
-	wbtempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdwb_tmp")
-	areatempraster = os.path.join(arcpy.env.scratchWorkspace,"nhdarea_tmp")
+	wbtempraster = os.path.join(scratchWorkspace,"nhdwb_tmp")
+	areatempraster = os.path.join(scratchWorkspace,"nhdarea_tmp")
 	mosaiclist = wbtempraster + ";" + areatempraster
-	outraster1 = os.path.join(arcpy.env.scratchWorkspace,"hydro_flowlines_tmp") # this is put in the scratch workspace, ESRI grid
-	outraster2 = os.path.join(arcpy.env.scratchWorkspace,"hydro_areas_tmp") # this is put in the scratch workspace, ESRI grid
+	outraster1 = os.path.join(scratchWorkspace,"hydro_flowlines_tmp") # this is put in the scratch workspace, ESRI grid
+	outraster2 = os.path.join(scratchWorkspace,"hydro_areas_tmp") # this is put in the scratch workspace, ESRI grid
 
 	# output grids will be copeid to here
-	outraster1final = os.path.join(arcpy.env.workspace,"hydro_flowlines") # this gets copied at the end
-	outraster2final = os.path.join(arcpy.env.workspace,"hydro_areas") # this gets copied at the end
+	outraster1final = os.path.join(workspace,"hydro_flowlines") # this gets copied at the end
+	outraster2final = os.path.join(workspace,"hydro_areas") # this gets copied at the end
 
 	tmpfiles = [wbtempraster,areatempraster,outraster1, outraster2] # list for cleaning up later
 
