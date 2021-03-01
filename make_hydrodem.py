@@ -95,83 +95,81 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	# Set the Geoprocessing environment...
 	arcpy.env.scratchWorkspace = scratchWorkspace
 	arcpy.env.workspace = workspace
+	arcpy.env.overwriteOutput = True
 
 	# test if input files are present
 	inputFiles = [snapGrid, hucPoly, hydrographyArea, hydrographyFlowline, hydrographyWaterbody]
+
 	for fl in inputFiles:
+		printMessage('\tChecking %s'%fl)
 		if arcpy.Exists(fl) == False:
 			printMessage('%s missing.'%fl)
 			printError('Please supply required input. Stopping program.')
 
 	# Setup local variables and temporary layer files
-	printMessage("Setting up variables...")
+	printMessage("\tSetting up variables...")
 
 	#temporary features
-	nhd_flow_feat = "nhd_flow"
+	nhd_flow_feat = "nhd_flow_tmp"
 	nhd_flow_Layer = "nhd_flow_Layer"
 
-	nhd_area_feat = "nhd_area"
+	nhd_area_feat = "nhd_area_tmp"
 	nhd_area_Layer = "nhd_area_Layer"
 
-	nhd_wb_feat = "nhd_wb"
+	nhd_wb_feat = "nhd_wb_tmp"
 	nhd_wb_Layer = "nhd_wb_Layer"
 
-	#Output rastsers ##############
-
 	# to scratch space
-	wbtempraster = os.path.join(scratchWorkspace,"nhdwb_tmp")
-	areatempraster = os.path.join(scratchWorkspace,"nhdarea_tmp")
-	mosaiclist = wbtempraster + ";" + areatempraster
-	outraster1 = os.path.join(scratchWorkspace,"hydro_flowlines_tmp") # this is put in the scratch workspace, ESRI grid
-	outraster2 = os.path.join(scratchWorkspace,"hydro_areas_tmp") # this is put in the scratch workspace, ESRI grid
+	wbtempName = "nhdwb_tmp.tif"
+	wbtempraster = os.path.join(scratchWorkspace,wbtempName)
+	areatempName = "nhdarea_tmp.tif"
+	areatempraster = os.path.join(scratchWorkspace,areatempName)
+	mosaiclist = wbtempName + ";" + areatempName
+	outraster1Name = "hyd_flwlns"
+	outraster1 = os.path.join(scratchWorkspace,outraster1Name) # this is put in the scratch workspace, ESRI grid
+	outraster2Name = "hyd_areas"
+	outraster2 = os.path.join(scratchWorkspace,outraster2Name) # this is put in the scratch workspace, ESRI grid
 
-	# output grids will be copeid to here
-	outraster1final = os.path.join(workspace,"hydro_flowlines") # this gets copied at the end
-	outraster2final = os.path.join(workspace,"hydro_areas") # this gets copied at the end
+	#Output rastsers ##############
+	# output grids will be copied to here
+	outraster1finalName = 'hyd_flwlns'
+	outraster1final = os.path.join(scratchWorkspace,outraster1finalName) # this gets copied at the end
+	outraster2finalName =  "hyd_areas"
+	outraster2final = os.path.join(scratchWorkspace, outraster2finalName) # this gets copied at the end
 
 	tmpfiles = [wbtempraster,areatempraster,outraster1, outraster2] # list for cleaning up later
 
-	printMessage('Temprary Grids')
+	printMessage('\tTemporary Grids')
 	for grd in tmpfiles:
-		printMessage('\t%s'%grd)
+		printMessage('\t\t%s'%grd)
 
-	printMessage('Final Grids')
+	printMessage('\tFinal Grids')
 	for grd in [outraster1final, outraster2final]:
-		printMessage('\t%s'%grd)
+		printMessage('\t\t%s'%grd)
 
-	# check if these grids exist
-	checkfls = 0
-	for grd in tmpfiles:
-		printMessage('Checking %s'%grd)
-		if arcpy.Exists(grd):
-			printMessage('\t%s exists, please delete before proceeding.'%grd)
-			checkfls += 1
-
-	for grd in [outraster1final, outraster2final]:
-		printMessage('Checking %s'%grd)
-		if arcpy.Exists(grd):
-			printMessage('\t%s exists, please delete before proceeding.'%grd)
-			checkfls += 1
-
-	if checkfls > 0:
-		printError('quiting...') 
-
-	#convert to temporary shapefiles
+	#convert to temporary feature classes
+	# NHD Area
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyArea, arcpy.env.workspace, nhd_area_feat)
-	arcpy.AddField_management(nhd_area_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(nhd_area_feat,"dummy","1", "PYTHON")
+	if "dummy" not in [f.name for f in arcpy.ListFields(nhd_area_feat)]:
+		arcpy.AddField_management(nhd_area_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+		arcpy.CalculateField_management(nhd_area_feat,"dummy","1", "PYTHON")
 
+	# NHD Water Bodies
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyWaterbody, arcpy.env.workspace, nhd_wb_feat)
-	arcpy.AddField_management(nhd_wb_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(nhd_wb_feat,"dummy","1", "PYTHON")
+	if "dummy" not in [f.name for f in arcpy.ListFields(nhd_wb_feat)]:
+		arcpy.AddField_management(nhd_wb_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+		arcpy.CalculateField_management(nhd_wb_feat,"dummy","1", "PYTHON")
 
+	# NHD Flowline
 	arcpy.FeatureClassToFeatureClass_conversion(hydrographyFlowline, arcpy.env.workspace, nhd_flow_feat)
-	arcpy.AddField_management(nhd_flow_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
-	arcpy.CalculateField_management(nhd_flow_feat,"dummy","1", "PYTHON")
+	if "dummy" not in [f.name for f in arcpy.ListFields(nhd_flow_feat)]:
+		arcpy.AddField_management(nhd_flow_feat,"dummy","SHORT",None,None,None,None,"NULLABLE","NON_REQUIRED",None)
+		arcpy.CalculateField_management(nhd_flow_feat,"dummy","1", "PYTHON")
 
+	printMessage("\tHydrography Processing")
 	try:
 		#hydrographyArea Processing
-		printMessage("Creating temporary selection layers...")
+		printMessage("\t\tCreating temporary selection layers...")
 		arcpy.MakeFeatureLayer_management(nhd_area_feat, nhd_area_Layer, "FType = 460", "", "")
 		
 		#hydrographyWaterbody Processing
@@ -189,7 +187,7 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 	snap_cellsize = dsc_snap.MeanCellWidth
 
 	# Set raster processing parameters
-	printMessage("Processing rasters...")
+	printMessage("\tProcessing rasters...")
 	dsc = arcpy.Describe(hucPoly)
 	extent = str(dsc.extent)
 	arcpy.env.cellSize = snap_cellsize
@@ -198,36 +196,46 @@ def bathymetricGradient(workspace, snapGrid, hucPoly, hydrographyArea, hydrograp
 
 	# Process: Feature to Raster1 - NHD Area...
 	try:
+		printMessage('\tRasterizing NHD Area.')
 		arcpy.SelectLayerByLocation_management(nhd_area_Layer, "INTERSECT", nhd_flow_Layer, "0", "NEW_SELECTION")
 		arcpy.FeatureToRaster_conversion(nhd_area_Layer, "dummy", areatempraster, cellsize)      
 	except:
-		arcpy.CreateRasterDataset_management(arcpy.env.workspace,"nhdarea_tmp","10","8_BIT_UNSIGNED",snapGrid)
+		arcpy.CreateRasterDataset_management(arcpy.env.workspace,areatempName,"10","8_BIT_UNSIGNED",snapGrid)
 		printMessage(arcpy.GetMessages())
 		
 	# Process: Feature to Raster2 - NHD Waterbody...
 	try:
+		printMessage('\tRasterizing NHD Waterbody.')
 		arcpy.SelectLayerByLocation_management(nhd_wb_Layer, "INTERSECT", nhd_flow_Layer, "0", "NEW_SELECTION")
 		arcpy.FeatureToRaster_conversion(nhd_wb_Layer, "dummy", wbtempraster, cellsize)
 	except:
-		arcpy.CreateRasterDataset_management(arcpy.env.workspace,"nhdwb_tmp","10","8_BIT_UNSIGNED",snapGrid)
+		arcpy.CreateRasterDataset_management(arcpy.env.workspace,wbtempName,"10","8_BIT_UNSIGNED",snapGrid)
 		printMessage(arcpy.GetMessages())
 
 	# Process: Feature to Raster3 - NHD Flowline.  This is the first output
 	try:
-		arcpy.FeatureToRaster_conversion(nhd_flow_Layer, "dummy", outraster1, cellsize)
+		printMessage('\tRasterizing NHD Flowline.')
+		arcpy.FeatureToRaster_conversion(nhd_flow_Layer, "dummy", outraster1Name, cellsize)
 	except:
 		printMessage(arcpy.GetMessages())
 
 	# Process: Mosaic NHD Area and NHD Waterbody rasters To New Raster.  This is the second output
 	try:
-		arcpy.MosaicToNewRaster_management(mosaiclist, workspace, outraster2, "", "8_BIT_UNSIGNED", "", "1", "BLEND", "FIRST")
+		printMessage('\tMosaicing Area Rasters.')
+
+		arcpy.env.workspace = scratchWorkspace
+
+		arcpy.MosaicToNewRaster_management(mosaiclist, workspace, outraster2Name, "", "8_BIT_UNSIGNED", cellsize, "1", "BLEND", "FIRST")
+		arcpy.env.workspace = workspace
 	except:
 		printMessage(arcpy.GetMessages())
 
 	# moving rasters
-	printMessage("\tCopying temporary rasters to %s."%workspace)
-	arcpy.CopyRaster_management(outraster1, outraster1final)
-	arcpy.CopyRaster_management(outraster2, outraster2final)
+	#printMessage("\tCopying temporary rasters to %s."%workspace)
+	#arcpy.CopyRaster_management(outraster1, outraster1final)
+	#arcpy.CopyRaster_management(outraster2, outraster2final)
+	#arcpy.RasterToGeodatabase_conversion(outraster1+';'+outraster2, workspace)
+
 
 	#Delete temp files and rasters
 	printMessage("Cleaning up...")
