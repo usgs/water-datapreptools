@@ -996,6 +996,10 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	del lnk
 	del stream
 
+	
+	sr = arcpy.Describe(facPth).spatialReference
+	arcpy.CreateFeatureDataset_managment(workspace,'Layers',sr) # create featureDataset
+
 	# Drainage Line
 	drainLinePth = os.path.join(workspace,"Layers",'drainageLine')
 	DrainageLineProcessing(lnkPth,fdrPth,drainLinePth)
