@@ -1001,8 +1001,10 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	arcpy.CreateFeatureDataset_management(workspace,'Layers',sr) # create featureDataset
 
 	# Drainage Line
-	drainLinePth = os.path.join(workspace,"Layers",'drainageLine')
+	drainLinePth = os.path.join(workspace,'drainageLine_tmp')
 	DrainageLineProcessing(lnkPth,fdrPth,drainLinePth)
+	arcpy.Copy_management(drainLinePth, os.path.join(workspace,'Layers','drainageLine')) # import drainage line into feature dataset
+	arcpy.Delete_management(drainLinePth) # clean up
 	arcpy.AddMessage("	drainageLine features created.")
 
 	if sinksPth != None: # combine sink link and stream link if sink link exists
@@ -1015,17 +1017,23 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	CatchmentGridDelineation(fdrPth,lnkPth,catPth)
 	arcpy.AddMessage("	cat raster created.")
 
-	catchmentPth = os.path.join(workspace,"Layers",'catchment')
+	catchmentPth = os.path.join(workspace,'catchment_tmp')
 	CatchmentPolyProcessing(catPth,catchmentPth)
+	arcpy.Copy_management(catchmentPth, os.path.join(workspace,'Layers',catchment))
+	arcpy.Delete_management(catchmentPth)
 	arcpy.AddMessage("	catchment features created.")
 
 
-	adjointPth = os.path.join(workspace,"Layers",'adjointCatchment')
+	adjointPth = os.path.join(workspace,'adjointCatchment_tmp')
 	AdjointCatchment(drainLinePth, catchmentPth,adjointPth)
+	arcpy.Copy_management(adjointPth,os.path.join(workspace,'Layers',adjointCatchment))
+	arcpy.Delete_management(adjointPth)
 	arcpy.AddMessage("	adjointCatchment features created.")
 
-	dpPth = os.path.join(workspace,"Layers",'drainagePoint')
+	dpPth = os.path.join(workspace,'drainagePoint_tmp')
 	DrainagePointProcessing(facPth,catPth, catchmentPth,dpPth)
+	arcpy.Copy_management(dpPth, os.path.join(workspace,'Layers','drainagePoint'))
+	arcpy.Delete_management(dpPth)
 	arcpy.AddMessage("	drainagePoint features created.")
 
 	#arcpy.AddMessage("	Moving rasters out of\n\n%s\n\nto\n\n%s"%(workspace,finalSpace))
