@@ -972,10 +972,10 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 
 	fac = Raster(facPth)
 	# generate the str900 grid
-	str900Pth = os.path.join(finalSpace,'str900')
+	str900Pth = os.path.join(finalSpace,'str'+str(thresh2))
 	str900 = Con(fac > thresh2,1,None)
 	str900.save(str900Pth)
-	arcpy.AddMessage("	str900 created.")
+	arcpy.AddMessage("	str%s created."%(str(thresh2)))
 
 	# generate the str grid
 	streamPth = os.path.join(finalSpace,'str')
@@ -998,7 +998,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 
 	
 	sr = arcpy.Describe(facPth).spatialReference
-	arcpy.CreateFeatureDataset_managment(workspace,'Layers',sr) # create featureDataset
+	arcpy.CreateFeatureDataset_management(workspace,'Layers',sr) # create featureDataset
 
 	# Drainage Line
 	drainLinePth = os.path.join(workspace,"Layers",'drainageLine')
