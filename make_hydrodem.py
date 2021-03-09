@@ -1019,14 +1019,14 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 
 	catchmentPth = os.path.join(workspace,'catchment_tmp')
 	CatchmentPolyProcessing(catPth,catchmentPth)
-	arcpy.Copy_management(catchmentPth, os.path.join(workspace,'Layers',catchment))
+	arcpy.Copy_management(catchmentPth, os.path.join(workspace,'Layers','catchment'))
 	arcpy.Delete_management(catchmentPth)
 	arcpy.AddMessage("	catchment features created.")
 
 
 	adjointPth = os.path.join(workspace,'adjointCatchment_tmp')
 	AdjointCatchment(drainLinePth, catchmentPth,adjointPth)
-	arcpy.Copy_management(adjointPth,os.path.join(workspace,'Layers',adjointCatchment))
+	arcpy.Copy_management(adjointPth,os.path.join(workspace,'Layers','adjointCatchment'))
 	arcpy.Delete_management(adjointPth)
 	arcpy.AddMessage("	adjointCatchment features created.")
 
