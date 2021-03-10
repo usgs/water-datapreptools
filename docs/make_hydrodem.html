@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>make_hydrodem Module &mdash; StreamStats Data Preparation Tools 4.0.2 documentation</title>
+  <title>make_hydrodem Module &mdash; StreamStats Data Preparation Tools 4.0.3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                4.0.2
+                4.0.3
               </div>
             
           
@@ -490,7 +490,7 @@
 </dd>
 <dt><strong>thresh1</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
-<dt><strong>thresh2</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
+<dt><strong>thresh2</strong><span class="classifier">int</span></dt><dd><p>Threshold used to produce the str900 grid or similar, in raster cells, usually equal to 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
 <dt><strong>sinksPth</strong><span class="classifier">str (optional)</span></dt><dd><p>Path to the snklnk grid, optional.</p>
 </dd>
@@ -502,7 +502,7 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>str</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 15,000,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
-<dt><strong>str900</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
+<dt><strong>str&lt;thresh2&gt;</strong><span class="classifier">raster</span></dt><dd><p>Stream raster where fac &gt; 810,000 <span class="math notranslate nohighlight">\(m^2\)</span>.</p>
 </dd>
 <dt><strong>strlnk</strong><span class="classifier">raster</span></dt><dd><p>Raster with streams labeled with index values.</p>
 </dd>

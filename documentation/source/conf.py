@@ -22,8 +22,8 @@ copyright = '2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katharine Kolb, Pe
 author = 'Theodore Barnhart, Martyn Smith, Alan Rea, Katherine Kolb, Peter Steeves, and Peter McCarthy'
 
 # The full version, including alpha/beta/rc tags
-version = '4.0.2'
-release = '4.0.2'
+version = '4.0.3'
+release = '4.0.3'
 master_doc = 'index'
 
 

@@ -8,7 +8,7 @@ import arcpy
 import sys
 import os
 
-version = "4.0.2"
+version = "4.0.3"
 
 arcpy.AddMessage('StreamStats Data Preparation Tools version: %s'%(version))
 
@@ -1511,7 +1511,7 @@ class posthydrodem(object):
 		str threshold : GPLong
 			Stream threshold in raster cells.
 		str900 threshold : GPLong
-			str900 grid threshold, in raster cells.
+			str900 grid or similar threshold, in raster cells.
 		Sink Link : DERasterBand
 			Sink link raster name.
 		

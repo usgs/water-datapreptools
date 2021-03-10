@@ -840,7 +840,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	thresh1 : int
 		Threshold used to produce the str grid, in raster cells, usually equal to 15,000,000 :math:`m^2`.
 	thresh2 : int
-		Threshold used to produce the str900 grid, in raster cells, usually equal to 810,000 :math:`m^2`.
+		Threshold used to produce the str900 grid or similar, in raster cells, usually equal to 810,000 :math:`m^2`.
 	sinksPth : str (optional)
 		Path to the snklnk grid, optional.
 	version : str (optional)
@@ -850,7 +850,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	-------
 	str : raster
 		Stream raster where fac > 15,000,000 :math:`m^2`.
-	str900 : raster
+	str<thresh2> : raster
 		Stream raster where fac > 810,000 :math:`m^2`.
 	strlnk : raster
 		Raster with streams labeled with index values.
@@ -910,10 +910,10 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 
 	fac = Raster(facPth)
 	# generate the str900 grid
-	str900Pth = os.path.join(finalSpace,'str900')
+	str900Pth = os.path.join(finalSpace,'str'+str(thresh2))
 	str900 = Con(fac > thresh2,1,None)
 	str900.save(str900Pth)
-	arcpy.AddMessage("	str900 created.")
+	arcpy.AddMessage("	str%s created."%(str(thresh2)))
 
 	# generate the str grid
 	streamPth = os.path.join(finalSpace,'str')
@@ -934,10 +934,15 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	del lnk
 	del stream
 
+	
+	sr = arcpy.Describe(facPth).spatialReference
+	arcpy.CreateFeatureDataset_management(workspace,'Layers',sr) # create featureDataset
+
 	# Drainage Line
-	drainLinePth = os.path.join(workspace,'drainageLine')
+	drainLinePth = os.path.join(workspace,'drainageLine_tmp')
 	DrainageLineProcessing(lnkPth,fdrPth,drainLinePth)
-	arcpy.AddMessage("	drainageLine features created.")
+	arcpy.Copy_management(drainLinePth, os.path.join(workspace,'Layers','drainageLine')) # import drainage line into feature dataset
+	arcpy.AddMessage("	DrainageLine features created.")
 
 	if sinksPth != None: # combine sink link and stream link if sink link exists
 			newlnkPth = os.path.join(finalSpace,'lnk')
@@ -947,25 +952,37 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 
 	catPth = os.path.join(finalSpace,'cat')
 	CatchmentGridDelineation(fdrPth,lnkPth,catPth)
-	arcpy.AddMessage("	cat raster created.")
+	arcpy.AddMessage("	Cat raster created.")
 
-	catchmentPth = os.path.join(workspace,'catchment')
+	catchmentPth = os.path.join(workspace,'catchment_tmp')
 	CatchmentPolyProcessing(catPth,catchmentPth)
-	arcpy.AddMessage("	catchment features created.")
+	arcpy.Copy_management(catchmentPth, os.path.join(workspace,'Layers','catchment'))
+	arcpy.AddMessage("	Catchment features created.")
 
 
-	adjointPth = os.path.join(workspace,'adjointCatchment')
+	adjointPth = os.path.join(workspace,'adjointCatchment_tmp')
 	AdjointCatchment(drainLinePth, catchmentPth,adjointPth)
-	arcpy.AddMessage("	adjointCatchment features created.")
+	arcpy.Copy_management(adjointPth,os.path.join(workspace,'Layers','adjointCatchment'))
+	arcpy.AddMessage("	AdjointCatchment features created.")
 
-	dpPth = os.path.join(workspace,'drainagePoint')
+	dpPth = os.path.join(workspace,'drainagePoint_tmp')
 	DrainagePointProcessing(facPth,catPth, catchmentPth,dpPth)
-	arcpy.AddMessage("	drainagePoint features created.")
+	arcpy.Copy_management(dpPth, os.path.join(workspace,'Layers','drainagePoint'))
+	arcpy.AddMessage("	DrainagePoint features created.")
+
+	arcpy.AddMessage("  Cleaning Up.")
+	arcpy.Delete_management(drainLinePth) # clean up
+	arcpy.Delete_management(adjointPth)
+	arcpy.Delete_management(catchmentPth)
+	arcpy.Delete_management(dpPth)
+
+	
 
 	#arcpy.AddMessage("	Moving rasters out of\n\n%s\n\nto\n\n%s"%(workspace,finalSpace))
 	rasters = ['hydrodem','fac','fdr', 'hydrodemfac_global']
 
 	moveRasters(workspace,finalSpace,rasters)
+
 
 def moveRasters(source, dest, rasters, fmt = None):
 	''' Move raster out of a working geodatabase to a destination folder.
