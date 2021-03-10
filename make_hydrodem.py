@@ -1004,7 +1004,6 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	drainLinePth = os.path.join(workspace,'drainageLine_tmp')
 	DrainageLineProcessing(lnkPth,fdrPth,drainLinePth)
 	arcpy.Copy_management(drainLinePth, os.path.join(workspace,'Layers','drainageLine')) # import drainage line into feature dataset
-	arcpy.Delete_management(drainLinePth) # clean up
 	arcpy.AddMessage("	DrainageLine features created.")
 
 	if sinksPth != None: # combine sink link and stream link if sink link exists
@@ -1034,6 +1033,7 @@ def postHydroDEM(workspace, facPth, fdrPth, thresh1, thresh2, sinksPth = None, v
 	arcpy.AddMessage("	DrainagePoint features created.")
 
 	arcpy.AddMessage("  Cleaning Up.")
+	arcpy.Delete_management(drainLinePth) # clean up
 	arcpy.Delete_management(adjointPth)
 	arcpy.Delete_management(catchmentPth)
 	arcpy.Delete_management(dpPth)
