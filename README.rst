@@ -1,4 +1,4 @@
-Welcome to StreamStats Data Preparation Tools Documentation!
+DEPRECATED Welcome to StreamStats Data Preparation Tools Documentation!
 ==============================================================
 
 A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats project.
