@@ -1,5 +1,5 @@
 DEPRECATED Welcome to StreamStats Data Preparation Tools Documentation!
-==============================================================
+=======================================================================
 **This version of the tools has been deprecated. Please go to https://streamstats.code-pages.usgs.gov/data-preparation/datapreptools/ for the most up to date documentation.**
 
 A Python package to pre-process and hydro-enforce digital elevation models using hydrography features for use in the U.S. Geological Survey (USGS) StreamStats project.

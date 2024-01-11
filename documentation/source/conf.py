@@ -76,7 +76,6 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html4_writer = True
 
 def setup(app):
-    app.add_stylesheet("basic.css")
+    app.add_css_file("basic.css")
