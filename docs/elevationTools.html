@@ -1,97 +1,66 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>elevationTools Module &mdash; StreamStats Data Preparation Tools 4.0.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=04fc738e"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="make_hydrodem Module" href="make_hydrodem.html" />
     <link rel="prev" title="databaseSetup Module" href="databaseSetup.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> StreamStats Data Preparation Tools
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            StreamStats Data Preparation Tools
           </a>
-
-          
-            
-            
               <div class="version">
                 4.0.3
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="StreamStats_DataPrep.html">StreamStats_DataPrep ESRI Toolbox</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">StreamStats DataPrep Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="databaseSetup.html">databaseSetup Module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">elevationTools Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">elevationTools Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.checkNoData"><code class="docutils literal notranslate"><span class="pre">checkNoData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.check_projection"><code class="docutils literal notranslate"><span class="pre">check_projection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.compareSpatialRefUnits"><code class="docutils literal notranslate"><span class="pre">compareSpatialRefUnits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.elevIndex"><code class="docutils literal notranslate"><span class="pre">elevIndex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.extractPoly"><code class="docutils literal notranslate"><span class="pre">extractPoly()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.fillNoData"><code class="docutils literal notranslate"><span class="pre">fillNoData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elevationTools.projScale"><code class="docutils literal notranslate"><span class="pre">projScale()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="make_hydrodem.html">make_hydrodem Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="topo_grid.html">topo_grid Module</a></li>
 </ul>
@@ -99,81 +68,40 @@
 <li class="toctree-l1"><a class="reference internal" href="example_scripts.html">Example Scripts</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">StreamStats Data Preparation Tools</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="modules.html">StreamStats DataPrep Library</a> &raquo;</li>
-        
-      <li>elevationTools Module</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">StreamStats DataPrep Library</a></li>
+      <li class="breadcrumb-item active">elevationTools Module</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/elevationTools.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-elevationTools">
-<span id="elevationtools-module"></span><h1>elevationTools Module<a class="headerlink" href="#module-elevationTools" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-elevationTools">
+<span id="elevationtools-module"></span><h1>elevationTools Module<a class="headerlink" href="#module-elevationTools" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt id="elevationTools.checkNoData">
-<code class="descclassname">elevationTools.</code><code class="descname">checkNoData</code><span class="sig-paren">(</span><em><span class="n">InGrid</span></em>, <em><span class="n">tmpLoc</span></em>, <em><span class="n">OutPolys_shp</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.checkNoData" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.checkNoData">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">checkNoData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">InGrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmpLoc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OutPolys_shp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.checkNoData" title="Link to this definition"></a></dt>
 <dd><p>Generates a feature class of no data values.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>InGrid</strong><span class="classifier">Raster</span></dt><dd><p>Input DEM grid to search for no data values.</p>
 </dd>
 <dt><strong>tmpLoc</strong><span class="classifier">str</span></dt><dd><p>Path to workspace.</p>
@@ -183,81 +111,69 @@
 <dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>featCount</strong><span class="classifier">int</span></dt><dd><p>Count of no data features generated.</p>
 </dd>
 <dt><strong>OutPoly_shp</strong><span class="classifier">feature class</span></dt><dd><p>No data feature class written to tmpLoc.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="elevationTools.check_projection">
-<code class="descclassname">elevationTools.</code><code class="descname">check_projection</code><span class="sig-paren">(</span><em><span class="n">ds1</span></em>, <em><span class="n">ds2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.check_projection" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.check_projection">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">check_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ds2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.check_projection" title="Link to this definition"></a></dt>
 <dd><p>Check if the projections of the two files are the same.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>ds1</strong><span class="classifier">str</span></dt><dd><p>Path to first geospatial file.</p>
 </dd>
 <dt><strong>ds2</strong><span class="classifier">str</span></dt><dd><p>Path to second geospatial file.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>same</strong><span class="classifier">bool</span></dt><dd><p>Boolean indicating if the projections are the same or not.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>Slightly modified from Chris Wills’ post: <a class="reference external" href="https://gis.stackexchange.com/questions/170088/checking-if-two-feature-classes-have-same-spatial-reference-using-arcpy">https://gis.stackexchange.com/questions/170088/checking-if-two-feature-classes-have-same-spatial-reference-using-arcpy</a></p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="elevationTools.compareSpatialRefUnits">
-<code class="descclassname">elevationTools.</code><code class="descname">compareSpatialRefUnits</code><span class="sig-paren">(</span><em><span class="n">grd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.compareSpatialRefUnits" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.compareSpatialRefUnits">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">compareSpatialRefUnits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.compareSpatialRefUnits" title="Link to this definition"></a></dt>
 <dd><p>Compare horizontal and vertical units from a raster dataset. Returns True if units are the same, returns False if they are different.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>grd</strong><span class="classifier">str</span></dt><dd><p>Path to raster dataset.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>sameUnits</strong><span class="classifier">bool</span></dt><dd><p>True if units are the same, False if not.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="elevationTools.elevIndex">
-<code class="descclassname">elevationTools.</code><code class="descname">elevIndex</code><span class="sig-paren">(</span><em><span class="n">OutLoc</span></em>, <em><span class="n">rcName</span></em>, <em><span class="n">coordsysRaster</span></em>, <em><span class="n">InputELEVDATAws</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.elevIndex" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.elevIndex">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">elevIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">OutLoc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rcName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordsysRaster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">InputELEVDATAws</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.elevIndex" title="Link to this definition"></a></dt>
 <dd><p>Make a raster mosaic dataset of the digital elevation model geospatial tiles supplied to the function.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>OutLoc</strong><span class="classifier">str</span></dt><dd><p>Path to output location for the raster catalog.</p>
 </dd>
 <dt><strong>rcName</strong><span class="classifier">str</span></dt><dd><p>Name of the output mosaic raster dataset.</p>
@@ -269,27 +185,23 @@
 <dt><strong>version</strong><span class="classifier">str (optional)</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>OutFC</strong><span class="classifier">feature class</span></dt><dd><p>Output feature class of polygons with an attribute describing the full path to the elevation data tiles.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="elevationTools.extractPoly">
-<code class="descclassname">elevationTools.</code><code class="descname">extractPoly</code><span class="sig-paren">(</span><em><span class="n">Input_Workspace</span></em>, <em><span class="n">nedindx</span></em>, <em><span class="n">clpfeat</span></em>, <em><span class="n">OutGrd</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.extractPoly" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.extractPoly">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">extractPoly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Input_Workspace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nedindx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clpfeat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OutGrd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.extractPoly" title="Link to this definition"></a></dt>
 <dd><p>Extracts watershed DEM from a raster mosaic dataset of tiles based on a watershed polygon feature.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
 </dd>
 <dt><strong>nedindx</strong><span class="classifier">str</span></dt><dd><p>Path to the elevation data mosaic dataset.</p>
@@ -301,27 +213,23 @@
 <dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>StreamStats DataPrepTools version number.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>OutGrd</strong><span class="classifier">raster</span></dt><dd><p>Output extracted raster to Input_Workspace.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="elevationTools.fillNoData">
-<code class="descclassname">elevationTools.</code><code class="descname">fillNoData</code><span class="sig-paren">(</span><em><span class="n">workspace</span></em>, <em><span class="n">InGrid</span></em>, <em><span class="n">OutGrid</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.fillNoData" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.fillNoData">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">fillNoData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">InGrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OutGrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.fillNoData" title="Link to this definition"></a></dt>
 <dd><p>Replaces NODATA values in a grid with mean values within 3x3 window around each NODATA value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>workspace</strong><span class="classifier">str</span></dt><dd><p>Path to the workspace to work in.</p>
 </dd>
 <dt><strong>InGrid</strong><span class="classifier">str</span></dt><dd><p>Name of the input grid to be filled.</p>
@@ -331,29 +239,25 @@
 <dt><strong>Version</strong><span class="classifier">str (optional)</span></dt><dd><p>Code version.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>OutGrid</strong><span class="classifier">raster</span></dt><dd><p>Filled raster grid output to workspace.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>May be run repeatedly to fill in areas wider than 2 cells. Note that the output is floating point, even if the input is integer. This function will expand the data area of the grid around the outer edges of data, in addition to filling in NODATA gaps in the interior of the grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="elevationTools.projScale">
-<code class="descclassname">elevationTools.</code><code class="descname">projScale</code><span class="sig-paren">(</span><em><span class="n">Input_Workspace</span></em>, <em><span class="n">InGrd</span></em>, <em><span class="n">OutGrd</span></em>, <em><span class="n">OutCoordsys</span></em>, <em><span class="n">OutCellSize</span></em>, <em><span class="n">RegistrationPoint</span></em>, <em><span class="n">scaleFact</span><span class="o">=</span><span class="default_value">100</span></em>, <em><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="elevationTools.projScale">
+<span class="sig-prename descclassname"><span class="pre">elevationTools.</span></span><span class="sig-name descname"><span class="pre">projScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Input_Workspace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">InGrd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OutGrd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OutCoordsys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OutCellSize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RegistrationPoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleFact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#elevationTools.projScale" title="Link to this definition"></a></dt>
 <dd><p>Projects a DEM grid to a user-specified coordinate system, handling cell registration and converts the output grid to integers using a scale factor. The default settings assume the digital elevation model uses meters (m) as the z-units.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>Input_Workspace</strong><span class="classifier">str</span></dt><dd><p>Path to input workspace.</p>
 </dd>
 <dt><strong>InGrd</strong><span class="classifier">str</span></dt><dd><p>Name of the grid to be projected and scaled.</p>
@@ -371,67 +275,47 @@
 <dt><strong>version</strong><span class="classifier">str</span></dt><dd><p>StreamStats version number.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>OutGrd</strong><span class="classifier">raster</span></dt><dd><p>Rescaled and projected raster file in the input workspace.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="make_hydrodem.html" class="btn btn-neutral float-right" title="make_hydrodem Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="databaseSetup.html" class="btn btn-neutral float-left" title="databaseSetup Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="databaseSetup.html" class="btn btn-neutral float-left" title="databaseSetup Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="make_hydrodem.html" class="btn btn-neutral float-right" title="make_hydrodem Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katharine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey.
-
-    </p>
+    <p>&#169; Copyright 2020, Theodore Barnhart, Martyn Smith, Alan Rea, Katharine Kolb, Peter Steeves, and Peter McCarthy, U.S. Geological Survey..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
