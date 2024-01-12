@@ -12,7 +12,7 @@ The StreamStats Data Preparation Tools aid in the processing of digital elevatio
 
 Documentation
 -------------
-Tool and function library documentation can be found by opening https://usgs.github.io/water-datapreptools/.
+Tool and function library documentation can be found by opening https://streamstats.code-pages.usgs.gov/data-preparation/datapreptools/.
 
 Citation
 --------
@@ -45,7 +45,7 @@ This package is contained in several Python files, which will need to be install
 
 Installation
 ------------
-Clone these tools onto your machine using the :code:`git clone https://github.com/usgs/water-datapreptools.git` command. Or download the repository using the link in the upper right of the repository page here: https://github.com/usgs/water-datapreptools
+Clone these tools onto your machine using the :code:`git clone https://code.usgs.gov/StreamStats/data-preparation/datapreptools.git` command. Or download the repository using the link in the upper right of the repository page here: https://github.com/usgs/water-datapreptools
 
 Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ESRI ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ESRI ArcHydro and only works with ESRI ArcMap (Python 2) at this time (2020) due to ESRI ArcHydro compatibility issues with ESRI ArcPro (i.e. Python 3).
 
@@ -53,7 +53,7 @@ The ESRI ArcGIS toolbox is built from a set of Python libraries that can be call
 
 Reporting Issues and Problems with the Tools
 --------------------------------------------
-Please log problems with the tools or function libraries in the `issues portion <https://code.usgs.gov/StreamStats/datapreptools/-/issues>`_ of this repository. **Please do not email me.** Logging problems in this way allows other users to see the discussion and, hopefully, the solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
+Please log problems with the tools or function libraries in the `issues portion <https://code.usgs.gov/StreamStats/data-preparation/datapreptools/-/issues>`_ of this repository. **Please do not email me.** Logging problems in this way allows other users to see the discussion and, hopefully, the solution to problems. Please be sure to check out the repository documentation as well before submitting an issue.
 
 Known Issues
 ------------
