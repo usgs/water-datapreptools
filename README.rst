@@ -45,7 +45,7 @@ This package is contained in several Python files, which will need to be install
 
 Installation
 ------------
-Clone these tools onto your machine using the :code:`git clone https://code.usgs.gov/StreamStats/data-preparation/datapreptools.git` command. Or download the repository using the link in the upper right of the repository page here: https://github.com/usgs/water-datapreptools
+Clone these tools onto your machine using the :code:`git clone https://code.usgs.gov/StreamStats/data-preparation/datapreptools.git` command. Or download the repository using the link in the upper right of the repository page here: https://code.usgs.gov/StreamStats/data-preparation/datapreptools
 
 Once downloaded, the data preparation ESRI ArcGIS toolbox can be accessed from the ArcCatalog pane in ESRI ArcMap or navigated to in ESRI ArcPro. The toolbox is compatible with both ESRI ArcMap (i.e. Python 2) and ESRI ArcPro (i.e. Python 3), except for the final processing step, Post Hydrodem, which relies on ESRI ArcHydro and only works with ESRI ArcMap (Python 2) at this time (2020) due to ESRI ArcHydro compatibility issues with ESRI ArcPro (i.e. Python 3).
 
